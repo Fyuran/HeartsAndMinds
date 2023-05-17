@@ -7,3 +7,8 @@ Fob Attack Event:
 	*Event should disable FOB respawn.
 	*Event should alert player of the incoming attack.
 	*If enemies can get into the FOB, the FOB is destroyed.
+	
+To-do
+	*drop event manager: link to:
+		fob created
+		city activated
