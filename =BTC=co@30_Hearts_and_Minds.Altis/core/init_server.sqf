@@ -66,3 +66,5 @@ if (
     };
     [btc_player_side, _tickets] call BIS_fnc_respawnTickets;
 };
+
+[] call btc_event_fnc_eventManager;

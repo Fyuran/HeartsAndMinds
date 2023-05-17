@@ -3,3 +3,4 @@ Fob Attack Event:
     *Scaling factor n/mapSize that scales up based on quantity of occupied(enemy) cities nearby.
     *High reputations allows to hire sentries that will alert you of incoming FOB attacks.
     *Suicide Bomber attacks will now attempt to engage FOBs.
+    *Random check and check on Creation of FOB to be attacked or not.

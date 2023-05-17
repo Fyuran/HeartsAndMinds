@@ -49,6 +49,14 @@ switch (_typeOf_patrol) do {
 
         _delay = [_group, _return_pos, _veh_type] call btc_mil_fnc_createVehicle;
     };
+    case 2 : { //Dedicated to FOB attacks
+        _group = createGroup btc_enemy_side;
+
+        if (_veh_type isEqualTo "") then {_veh_type = selectRandom (btc_type_motorized + btc_type_motorized_armed)};
+        private _return_pos = [_pos, 10, 500, 13, false] call btc_fnc_findsafepos;
+
+        _delay = [_group, _return_pos, _veh_type] call btc_mil_fnc_createVehicle;
+    };
 };
 _group setVariable ["no_cache", true];
 _group setVariable ["acex_headless_blacklist", true];
@@ -64,6 +72,10 @@ _group setVariable ["acex_headless_blacklist", true];
         case 1 : {
             [_group, _dest, -1, "MOVE", "AWARE", "RED", "NORMAL", "NO CHANGE", "(group this) call btc_data_fnc_add_group;", nil, 60] call CBA_fnc_addWaypoint;
         };
+        case 2 : { //Dedicated to FOB attacks
+            [_group, _dest, -1, "MOVE", "AWARE", "RED", "FULL", "NO CHANGE", "(group this) call btc_data_fnc_add_group;", nil, 60] call CBA_fnc_addWaypoint;
+    };
+
     };
 
     _group setVariable ["acex_headless_blacklist", false];

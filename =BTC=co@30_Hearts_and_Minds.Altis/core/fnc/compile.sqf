@@ -91,6 +91,10 @@ if (isServer) then {
     btc_eh_fnc_server = compileScript ["core\fnc\eh\server.sqf"];
     btc_eh_fnc_playerConnected = compileScript ["core\fnc\eh\playerConnected.sqf"];
 
+    //EVENT
+    btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
+    btc_event_fnc_attackFOB = compileScript ["core\fnc\event\attackFOB.sqf"];
+
     //IED
     btc_ied_fnc_boom = compileScript ["core\fnc\ied\boom.sqf"];
     btc_ied_fnc_check = compileScript ["core\fnc\ied\check.sqf"];
