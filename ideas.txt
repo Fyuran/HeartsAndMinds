@@ -1,6 +1,9 @@
 Fob Attack Event:
-    *Patrols can now spot FOBs and engage them during their patrol cycle.
+    *Patrols can now spot FOBs and engage them during their patrol cycle, calling reinforcement.
     *Scaling factor n/mapSize that scales up based on quantity of occupied(enemy) cities nearby.
     *High reputations allows to hire sentries that will alert you of incoming FOB attacks.
     *Suicide Bomber attacks will now attempt to engage FOBs.
     *Random check and check on Creation of FOB to be attacked or not.
+	*Event should disable FOB respawn.
+	*Event should alert player of the incoming attack.
+	*If enemies can get into the FOB, the FOB is destroyed.
