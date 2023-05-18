@@ -3,7 +3,8 @@
 Function: btc_mil_fnc_send
 
 Description:
-    Send a group of units to a location then call btc_data_fnc_add_group. If player is around, initiate patrol around the destination, ifnot save in database and delete units.
+    Send a group of units to a location then call btc_data_fnc_add_group. If player is around, 
+    initiate patrol around the destination, if not save in database and delete units unless it's a FOB type patrol.
 
 Parameters:
     _start - Starting point. [Object]
@@ -24,6 +25,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#define FOB_ATTACK_PATROL_TYPE 2
 
 params [
     ["_start", objNull, [objNull]],
@@ -72,8 +74,8 @@ _group setVariable ["acex_headless_blacklist", true];
         case 1 : {
             [_group, _dest, -1, "MOVE", "AWARE", "RED", "NORMAL", "NO CHANGE", "(group this) call btc_data_fnc_add_group;", nil, 60] call CBA_fnc_addWaypoint;
         };
-        case 2 : { //Dedicated to FOB attacks
-            [_group, _dest, -1, "MOVE", "AWARE", "RED", "FULL", "NO CHANGE", "(group this) call btc_data_fnc_add_group;", nil, 60] call CBA_fnc_addWaypoint;
+        case FOB_ATTACK_PATROL_TYPE : {
+            [_group, _dest, -1, "MOVE", "AWARE", "RED", "FULL", "NO CHANGE", "", nil, 60] call CBA_fnc_addWaypoint;
     };
 
     };

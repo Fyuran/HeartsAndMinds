@@ -1007,6 +1007,20 @@
                 <Czech>Aktivovat garáž pro správce:</Czech>
             </Key>
         </Container>
+        <Container name="Parameters: Event">
+            <Key ID="STR_BTC_HAM_PARAM_EVENT_TITLE">
+                <Original>&lt;&lt; Events &gt;&gt;</Original>
+                <Italian>&lt;&lt; Eventi &gt;&gt;</Italian>
+            </Key>
+            <Key ID="STR_BTC_HAM_PARAM_EVENT_FOBATTACK">
+                <Original>Enable FOB attacks</Original>
+                <Italian>Abilita attacchi alla FOB</Italian>
+            </Key>
+                <Key ID="STR_BTC_HAM_PARAM_EVENT_NUMBER">
+                <Original>Maximum number of active events</Original>
+                <Italian>Massimo numero di eventi attivi</Italian>
+            </Key>      
+        </Container>
         <Container name="Parameters: Other">
             <Key ID="STR_BTC_HAM_PARAM_OTHER_TITLE">
                 <Original>&lt;&lt; Other options &gt;&gt;</Original>

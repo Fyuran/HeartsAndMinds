@@ -443,6 +443,24 @@ class Params {
         texts[]={$STR_DISABLED,$STR_ENABLED};
         default = 0;
     };
+    class btc_p_event_title { //Event options
+        title = $STR_BTC_HAM_PARAM_EVENT_TITLE;
+        values[]={0};
+        texts[]={""};
+        default = 0;
+    };
+    class btc_p_event_maxEvents { //Event max quantity
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_EVENT_NUMBER"]);
+        values[]={1,2,3,4,5};
+        texts[]={1,2,3,4,5};
+        default = 1;
+    };
+    class btc_p_event_enable_fobAttack { //Enable FOB attacks
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_EVENT_FOBATTACK"]);
+        values[]={0,1};
+        texts[]={$STR_DISABLED,$STR_ENABLED};
+        default = 1;
+    };
     class btc_p_main_title { // << Other options >>
         title = $STR_BTC_HAM_PARAM_OTHER_TITLE;
         values[]={0};

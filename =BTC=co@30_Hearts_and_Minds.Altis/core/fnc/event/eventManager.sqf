@@ -11,25 +11,36 @@ Returns:
 
 Examples:
     (begin example)
+        [0] call btc_event_fnc_eventManager;
     (end)
 
 Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-private _en_cities = values btc_city_all select {_x getVariable ["occupied", false]};
-private _delay = 30; //toDo: delay should scale based on remaining _en_cities and btc_global_reputation
+#define EVENT_FOB_ATTACK 0
 
-[{
-    if(btc_event_activated) exitWith {
-        [] call btc_event_fnc_eventManager;
-        ["btc_event_fnc_eventManager event is already on... returning", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+params[
+    ["_event", -1, [0]],
+    ["_params", []]
+];
+
+if(btc_event_beingHandled) exitWith {false}; //avoid multiple event calls
+if(btc_event_activeEvents >= btc_p_event_maxEvents) exitWith { //compared to btc_p_event_maxEvents
+    ["Too many active events", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+};
+
+//private _en_cities = values btc_city_all select {_x getVariable ["occupied", false]};
+
+btc_event_beingHandled = true;
+btc_event_beingHandled = switch (_event) do {
+    case EVENT_FOB_ATTACK : {
+        if(btc_p_event_enable_fobAttack) then {_params call btc_event_fnc_attackFOB;}
+    }; 
+    default {
+        [format["event type %1 is not implemented or wrong", _event], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+        false
     };
-    switch (round random 0) do {
-        case 0 : {btc_event_activated = [] call btc_event_fnc_attackFOB;};
-    };
-    ["btc_event_fnc_eventManager delay over", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+};
 
-}, [], _delay] call CBA_fnc_waitAndExecute;
-
-["btc_event_fnc_eventManager called", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+btc_event_beingHandled

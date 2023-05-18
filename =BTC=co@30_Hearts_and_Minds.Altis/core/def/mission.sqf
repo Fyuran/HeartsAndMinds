@@ -93,6 +93,10 @@ btc_p_arsenal_Restrict = "btc_p_arsenal_Restrict" call BIS_fnc_getParamValue;
 btc_p_garage = ("btc_p_garage" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_autoloadout = "btc_p_autoloadout" call BIS_fnc_getParamValue;
 
+//<< Event options >>
+btc_p_event_maxEvents = "btc_p_event_maxEvents" call BIS_fnc_getParamValue;
+btc_p_event_enable_fobAttack = ("btc_p_event_enable_fobAttack" call BIS_fnc_getParamValue)  isEqualTo 1;
+
 //<< Other options >>
 btc_global_reputation = "btc_p_rep" call BIS_fnc_getParamValue;
 btc_p_rep_notify = "btc_p_rep_notify" call BIS_fnc_getParamValue;
@@ -154,8 +158,8 @@ if (isServer) then {
     btc_db_warningTimeAutoRestart = 5;
 
     //Event
-    btc_event_activated = false;
-    btc_event_fobAttack_scalingFactor = 3000; //toDo find formula
+    btc_event_activeEvents = 0;
+    btc_event_beingHandled = false;
 
     //Hideout
     btc_hideouts = []; publicVariable "btc_hideouts";

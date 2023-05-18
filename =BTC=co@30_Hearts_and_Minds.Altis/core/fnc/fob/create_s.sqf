@@ -25,6 +25,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#define EVENT_FOB_ATTACK 0
 
 params [
     ["_pos", [], [[]]],
@@ -37,8 +38,12 @@ params [
 
 private _flag = createVehicle [_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
 private _structure = createVehicle [_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
+private _loudspeaker = createVehicle ["Land_Loudspeakers_F", _pos, [], 0, "CAN_COLLIDE"];
 
 _structure setDir _direction;
+_structure setVariable["FOB_name", _FOB_name];
+_structure setVariable["FOB_flag", _flag];
+_structure setVariable["FOB_Loudspeaker", _loudspeaker];
 
 private _marker = createMarker [_FOB_name, _pos];
 _marker setMarkerSize [1, 1];
@@ -53,5 +58,8 @@ _marker setMarkerShape "ICON";
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition] call CBA_fnc_addBISEventHandler;
 
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
+
+//FOB attack event - #define EVENT_FOB_ATTACK 0 
+[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
 
 [_marker, _structure, _flag]

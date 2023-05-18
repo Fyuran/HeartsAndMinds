@@ -8,7 +8,7 @@ class EditorData
 	toggles=517;
 	class ItemIDProvider
 	{
-		nextID=252;
+		nextID=254;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=7;
+		nextID=9;
 	};
 	class Camera
 	{
-		pos[]={9238.9287,113.44534,10953.971};
-		dir[]={-0.59413832,-0.28148985,0.7535007};
-		up[]={-0.17429151,0.95956415,0.22104074};
-		aside[]={0.78525299,0,0.61917514};
+		pos[]={8320.4121,89.489128,10088.541};
+		dir[]={-0.71422696,-0.56487548,-0.41329229};
+		up[]={-0.48892617,0.82517326,-0.28291935};
+		aside[]={-0.50085217,-5.5180863e-008,0.86554343};
 	};
 };
 binarizationWanted=0;
@@ -253,6 +253,18 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnTemplates";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					singleType="ARRAY";
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnButton";
 			expression="true";
 			class Value
@@ -261,18 +273,6 @@ class CustomAttributes
 				{
 					singleType="SCALAR";
 					value=1;
-				};
-			};
-		};
-		class Attribute1
-		{
-			property="RespawnTemplates";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					singleType="ARRAY";
 				};
 			};
 		};
@@ -520,7 +520,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=47;
+		items=46;
 		class Item0
 		{
 			dataType="Marker";
@@ -2618,19 +2618,6 @@ class Mission
 			};
 			id=247;
 			atlOffset=-1.5446167;
-		};
-		class Item46
-		{
-			dataType="Trigger";
-			position[]={10400.375,24.751213,13120.75};
-			class Attributes
-			{
-				sizeA=585;
-				sizeB=585;
-			};
-			id=250;
-			type="EmptyDetector";
-			atlOffset=-1.9073486e-006;
 		};
 	};
 };
