@@ -8,7 +8,7 @@ class EditorData
 	toggles=517;
 	class ItemIDProvider
 	{
-		nextID=254;
+		nextID=248;
 	};
 	class MarkerIDProvider
 	{
@@ -16,18 +16,17 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=9;
+		nextID=5;
 	};
 	class Camera
 	{
-		pos[]={8320.4121,89.489128,10088.541};
-		dir[]={-0.71422696,-0.56487548,-0.41329229};
-		up[]={-0.48892617,0.82517326,-0.28291935};
-		aside[]={-0.50085217,-5.5180863e-008,0.86554343};
+		pos[]={8441.1865,179.74254,10200.943};
+		dir[]={-0.71679336,-0.51150566,-0.47391981};
+		up[]={-0.42668703,0.85927457,-0.28211212};
+		aside[]={-0.55152744,4.9441587e-007,0.83417183};
 	};
 };
 binarizationWanted=0;
-sourceName="=BTC=co@30_Hearts_and_Minds";
 addons[]=
 {
 	"A3_Ui_F",
@@ -84,7 +83,7 @@ class AddonsMetaData
 			className="ace_cargo";
 			name="ACE3 - Cargo";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item3
 		{
@@ -105,7 +104,7 @@ class AddonsMetaData
 			className="ace_explosives";
 			name="ACE3 - Explosives";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item6
 		{
@@ -168,21 +167,21 @@ class AddonsMetaData
 			className="ace_refuel";
 			name="ACE3 - Refuel";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item15
 		{
 			className="ace_repair";
 			name="ACE3 - Repair";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item16
 		{
 			className="ace_rearm";
 			name="ACE3 - Rearm";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item17
 		{
@@ -217,7 +216,7 @@ class AddonsMetaData
 			className="ace_vehicle_damage";
 			name="ACE3 - Vehicle Damage";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item22
 		{
@@ -227,13 +226,6 @@ class AddonsMetaData
 			url="https://www.arma3.com";
 		};
 	};
-};
-dlcs[]=
-{
-	"Enoch",
-	"Mark",
-	"Heli",
-	"Expansion"
 };
 randomSeed=2442963;
 class ScenarioData
@@ -526,6 +518,7 @@ class Mission
 			dataType="Marker";
 			position[]={8300.7275,76.093613,10061.531};
 			name="respawn_west";
+			text=$STR_BTC_HAM_INTRO_ARSENAL_REDEPLOY;
 			type="Empty";
 			id=0;
 		};
@@ -542,6 +535,7 @@ class Mission
 			dataType="Marker";
 			position[]={8323.1348,73.933266,10113.239};
 			name="btc_log_point";
+			text=$STR_BTC_HAM_MSQM_MRK_LOGPOINT;
 			type="mil_flag";
 			colorName="ColorGreen";
 			a=0.5;
@@ -756,7 +750,7 @@ class Mission
 					{
 						skill=0.60000002;
 						init="this setVariable [""side_mission"",true]";
-						description="Officer";
+						description=$STR_B_OFFICER_F0;
 						isPlayer=1;
 						isPlayable=1;
 					};
@@ -790,6 +784,7 @@ class Mission
 					{
 						skill=0.60000002;
 						init="this setVariable [""interpreter"",true]";
+						description=$STR_BTC_HAM_MSQM_INTERPRETER;
 						isPlayable=1;
 					};
 					id=29;
@@ -823,7 +818,7 @@ class Mission
 					class Attributes
 					{
 						skill=0.60000002;
-						description="Adv. Engineer";
+						description=$STR_ACE_Repair_AssignEngineerRole_role_advanced;
 						isPlayable=1;
 					};
 					id=31;
@@ -1850,7 +1845,7 @@ class Mission
 				class Attribute0
 				{
 					property="Decon_Shower_DisableUserActions";
-					expression="if(_value isEqualTo true)then{_this setVariable ['bin_deconshower_disableAction',true]}else{_this setVariable ['bin_deconshower_disableAction',false]};";
+					expression="if(_value)then{_this setVariable ['bin_deconshower_disableAction',true]};";
 					class Value
 					{
 						class data
@@ -1863,7 +1858,7 @@ class Mission
 				class Attribute1
 				{
 					property="Decon_Shower";
-					expression="if(_value isEqualTo true)then{[_this,5.4,4,2,true] spawn bin_fnc_deconShowerAnimLarge;}else{[_this] spawn bin_fnc_deconShowerAnimStop};";
+					expression="if(_value)then{[_this,5.4,4,2,true] spawn bin_fnc_deconShowerAnimLarge;};";
 					class Value
 					{
 						class data
@@ -2003,6 +1998,8 @@ class Mission
 						position[]={8346.75,73.839577,10064};
 						angles[]={0.12205668,0,5.9650393};
 					};
+					title=$STR_BTC_HAM_MSQM_MRK_HELO;
+					description=$STR_BTC_HAM_MSQM_MRK_HELODESC;
 					id=237;
 				};
 				class Item1
@@ -2040,6 +2037,8 @@ class Mission
 					{
 						position[]={8286.75,74,10104.75};
 					};
+					title=$STR_BTC_HAM_MSQM_MRK_VEH;
+					description=$STR_BTC_HAM_MSQM_MRK_VEHDESC;
 					id=233;
 					atlOffset=-1.3179169;
 				};
