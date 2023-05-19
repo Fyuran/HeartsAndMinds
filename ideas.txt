@@ -12,3 +12,5 @@ To-do
 	*drop event manager: link to:
 		fob created
 		city activated
+	*alert players on attack:
+		link to rep: high rep grants istant notice, low rep late notice (fob trigger)
