@@ -1007,6 +1007,16 @@
                 <Czech>Aktivovat garáž pro správce:</Czech>
             </Key>
         </Container>
+        <Container name="Event">
+            <Key ID="STR_BTC_HAM_EVENT_FOBATTACK_TITLE">
+                <Original>Defend your FOB</Original>
+                <Italian>Difendi la tua FOB</Italian>
+            </Key>
+            <Key ID="STR_BTC_HAM_EVENT_FOBATTACK_DESC">
+                <Original>Oplitas have discovered one of your fobs, their attack is imminent, so get ready!</Original>
+                <Italian>Le Oplitas hanno scoperto la posizione di una delle tue FOB, l'attacco è imminente quindi preparati!</Italian>
+            </Key>
+        </Container>
         <Container name="Parameters: Event">
             <Key ID="STR_BTC_HAM_PARAM_EVENT_TITLE">
                 <Original>&lt;&lt; Events &gt;&gt;</Original>
@@ -2621,10 +2631,15 @@
             </Key>
             <Key ID="STR_BTC_HAM_O_FOB_CANTREDEPLOY">
                 <Original>Can't redeploy,</Original>
+                <Italian>Impossibile rischierarsi,</Italian>
                 <German>Du kannst nicht neu einsteigen,</German>
                 <Chinesesimp>无法重新部署, </Chinesesimp>
                 <French>Impossible de redéployer,</French>
                 <Czech>Nelze znovu nasadit</Czech>
+            </Key>
+            <Key ID="STR_BTC_HAM_O_FOB_REDEPLOY_FOBUNDERATTACK">
+                <Original>FOB is under attack</Original>
+                <Italian>La FOB è sotto attacco</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_O_FOB_REDEPLOYNOTSTABLE">
                 <Original>you need to be stabilized</Original>

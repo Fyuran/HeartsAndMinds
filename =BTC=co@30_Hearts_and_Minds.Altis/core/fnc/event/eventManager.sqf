@@ -3,15 +3,14 @@
 Function: btc_event_fnc_eventManager
 
 Description:
-   Handles random events across the map, this fnc is first called in init_server.sqf
-   btc_event_activated is defined in mission.sqf;
+   Handles events
 Parameters:
 
 Returns:
 
 Examples:
     (begin example)
-        [0] call btc_event_fnc_eventManager;
+        [0, cursorObject] call btc_event_fnc_eventManager;
     (end)
 
 Author:

@@ -42,8 +42,10 @@ private _loudspeaker = createVehicle ["Land_Loudspeakers_F", _pos, [], 0, "CAN_C
 
 _structure setDir _direction;
 _structure setVariable["FOB_name", _FOB_name];
-_structure setVariable["FOB_flag", _flag];
 _structure setVariable["FOB_Loudspeaker", _loudspeaker];
+private _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition;
+_structure setVariable["FOB_Respawn_EH", _BISEH_return];
+
 
 private _marker = createMarker [_FOB_name, _pos];
 _marker setMarkerSize [1, 1];
@@ -55,7 +57,9 @@ _marker setMarkerShape "ICON";
 (_fobs select 0) pushBack _marker;
 (_fobs select 1) pushBack _structure;
 (_fobs select 2) pushBack _flag;
-[_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition] call CBA_fnc_addBISEventHandler;
+(_fobs select 3) pushBack _loudspeaker;
+
+[_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
 

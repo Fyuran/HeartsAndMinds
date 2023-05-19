@@ -1,16 +1,20 @@
 Fob Attack Event:
-    *Patrols can now spot FOBs and engage them during their patrol cycle, calling reinforcement.
-    *Scaling factor n/mapSize that scales up based on quantity of occupied(enemy) cities nearby.
-    *High reputations allows to hire sentries that will alert you of incoming FOB attacks.
-    *Suicide Bomber attacks will now attempt to engage FOBs.
-    *Random check and check on Creation of FOB to be attacked or not.
-	*Event should disable FOB respawn.
-	*Event should alert player of the incoming attack.
-	*If enemies can get into the FOB, the FOB is destroyed.
-	
-To-do
-	*drop event manager: link to:
-		fob created
-		city activated
-	*alert players on attack:
-		link to rep: high rep grants istant notice, low rep late notice (fob trigger)
+		
+	To-do
+		*Patrols can now spot FOBs and engage them during their patrol cycle, calling reinforcement.
+		*Event should alert player of the incoming attack:
+			-Linked to btc_rep_global: high rep grants istant notice, low rep late notice (fob trigger)
+		*If enemies can get into the FOB, the FOB is destroyed.
+		*Patrols can now spot FOBs and engage them during their patrol cycle, calling reinforcement.
+		*Random check and check on Creation of FOB to be attacked or not.
+		*High reputations allows to hire sentries that will alert you of incoming FOB attacks.
+		*Event should disable FOB respawn and FOB redeploy.
+		*Add progress bar for FOB conquest by enemy, once 100% destroy FOB
+
+	Completed Checklist:
+		*Scaling factor n/mapSize that scales up based on quantity of occupied(enemy) cities nearby.
+		*Suicide Bomber attacks will now attempt to engage FOBs.
+		*Event manager for Fob Attack Event is called on:
+			-FOB created
+			-City activated
+		*Transport units will disembark and start moving towards the FOB whereas other vehicles will patrol around the area

@@ -649,6 +649,8 @@ btc_type_motorized = _allclasse select 5;
 btc_type_motorized_armed = _allclasse select 6;
 btc_type_mg = _allclasse select 7;
 btc_type_gl = _allclasse select 8;
+btc_type_motorized_armed_ground = _allclasse select 9; //Grounded vehicles only, so "Air" and "Helicopter are excluded"
+btc_type_motorized_transport = _allclasse select 10; //Get vehicles that transport many troops
 
 //Sometimes you need to remove units: - ["Blabla","moreBlabla"];
 //Sometimes you need to add units: + ["Blabla","moreBlabla"];
@@ -665,6 +667,7 @@ switch (_p_en) do {
     case "OPF_G_F" : {
         btc_type_motorized = btc_type_motorized + ["I_Truck_02_transport_F", "I_Truck_02_covered_F"];
         btc_type_motorized_armed = btc_type_motorized_armed + ["I_Heli_light_03_F"];
+        btc_type_motorized_transport = btc_type_motorized_transport + ["I_Truck_02_transport_F", "I_Truck_02_covered_F"];
     };
     case "IND_C_F" : {
         btc_type_motorized = btc_type_motorized + ["I_G_Offroad_01_repair_F", "I_G_Offroad_01_F", "I_G_Quadbike_01_F", "I_G_Van_01_fuel_F", "I_Truck_02_transport_F", "I_Truck_02_covered_F"];

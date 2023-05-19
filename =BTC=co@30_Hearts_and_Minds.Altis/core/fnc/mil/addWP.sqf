@@ -61,6 +61,24 @@ switch (_wp) do {
         [_group] call CBA_fnc_clearWaypoints;
         [_group, _rpos, -1, "SENTRY", "AWARE", "RED", "UNCHANGED", "WEDGE", "(group this) call btc_data_fnc_add_group;", [18000, 36000, 54000]] call CBA_fnc_addWaypoint;
     };
+    case ("FOB") : {
+        private _houses = ([_city, _area] call btc_fnc_getHouses) select 0;
+        if (_houses isNotEqualTo [] && 
+            {(typeOf vehicle leader _group) in btc_type_motorized_transport}
+        ) then {
+            _group leaveVehicle objectParent leader _group;
+            private _house = selectRandom _houses;
+            [_group, _house] call btc_fnc_house_addWP;
+            _group setVariable ["btc_inHouse", typeOf _house];
+        } else {
+            [
+                _group, _rpos,
+                _area, 2 + floor (random 4), "MOVE", "SAFE", "RED",
+                ["LIMITED", "NORMAL"] select ((vehicle leader _group) isKindOf "Air"),
+                "STAG COLUMN", "", [5, 10, 20]
+            ] remoteExecCall ["CBA_fnc_taskPatrol", groupOwner _group];
+        };
+    };
 };
 
 true

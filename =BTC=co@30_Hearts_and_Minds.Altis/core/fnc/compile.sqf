@@ -94,6 +94,7 @@ if (isServer) then {
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
     btc_event_fnc_attackFOB = compileScript ["core\fnc\event\attackFOB.sqf"];
+    btc_event_fnc_attackFOB_alarmTrg = compileScript ["core\fnc\event\attackFOB_alarmTrg.sqf"];
 
     //IED
     btc_ied_fnc_boom = compileScript ["core\fnc\ied\boom.sqf"];

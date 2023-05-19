@@ -46,6 +46,8 @@ private _type_crewmen = "";
 private _type_boats = [];
 private _type_motorized = [];
 private _type_motorized_armed = [];
+private _type_motorized_armed_ground = [];
+private _type_motorized_transport = [];
 private _type_mg = [];
 private _type_gl = [];
 
@@ -100,7 +102,17 @@ if (_enemy_side isEqualTo btc_player_side) exitWith {
             {_x call BIS_fnc_allTurrets isNotEqualTo []}
         }
     );
-
+    _type_motorized_armed_ground append (
+        _allclass_f select {
+            ((_x isKindOf "Tank") || (_x isKindOf "Car")) &&
+            {_x call BIS_fnc_allTurrets isNotEqualTo []}
+        }
+    );
+    _type_motorized_transport append (
+        _allclass_f select {
+           (count getArray (_cfgVehicles >> _x >> "cargoProxyIndexes")) > 0; 
+        }
+    );
     //Static
     _type_mg append (_allclass_f select {_x isKindOf "StaticMGWeapon"});
     _type_gl append (_allclass_f select {_x isKindOf "StaticGrenadeLauncher"});
@@ -140,5 +152,7 @@ _type_units = _type_units select {
 _type_crewmen = _type_units select 0;
 _type_motorized = _type_motorized select {getNumber (_cfgVehicles >> _x >> "isUav") isNotEqualTo 1};
 _type_motorized_armed = _type_motorized_armed select {getNumber (_cfgVehicles >> _x >> "isUav") isNotEqualTo 1};
+_type_motorized_armed_ground = _type_motorized_armed_ground select {getNumber (_cfgVehicles >> _x >> "isUav") isNotEqualTo 1};
+_type_motorized_transport = _type_motorized_transport select {getNumber (_cfgVehicles >> _x >> "isUav") isNotEqualTo 1};
 
-[_enemy_side, _type_units, _type_divers, _type_crewmen, _type_boats, _type_motorized, _type_motorized_armed, _type_mg, _type_gl]
+[_enemy_side, _type_units, _type_divers, _type_crewmen, _type_boats, _type_motorized, _type_motorized_armed,  _type_mg, _type_gl, _type_motorized_armed_ground, _type_motorized_transport]
