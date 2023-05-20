@@ -59,6 +59,25 @@ _marker setMarkerShape "ICON";
 (_fobs select 2) pushBack _flag;
 (_fobs select 3) pushBack _loudspeaker;
 
+if (btc_fob_showAlert) then {
+	private _trigger = createTrigger ["EmptyDetector", getPosASL _structure, false];
+	_trigger setTriggerArea [btc_fob_alertRadius, btc_fob_alertRadius, 0, false];
+	_trigger setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", false]; //arma 3 triggers are miserable
+	private _trgStatementOn = "
+		thisTrigger call btc_event_fnc_attackFOB_alarmTrg;
+	";
+	_trigger setTriggerStatements ["this", _trgStatementOn, ""];
+};
+
+private _trigger = createTrigger ["EmptyDetector", getPosASL _structure, false];
+_trigger setTriggerArea [30, 30, 0, false];
+_trigger setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", false]; //arma 3 triggers are miserable
+private _trgStatementOn = "
+	thisTrigger call btc_event_fnc_attackFOB_alarmTrg;
+";//TO-DO DESTROYFOB 
+_trigger setTriggerStatements ["this", _trgStatementOn, ""];
+
+
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
