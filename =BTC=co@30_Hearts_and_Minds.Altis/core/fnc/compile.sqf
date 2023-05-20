@@ -94,7 +94,6 @@ if (isServer) then {
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
     btc_event_fnc_attackFOB = compileScript ["core\fnc\event\attackFOB.sqf"];
-    btc_event_fnc_attackFOB_alarmTrg = compileScript ["core\fnc\event\attackFOB_alarmTrg.sqf"];
 
     //IED
     btc_ied_fnc_boom = compileScript ["core\fnc\ied\boom.sqf"];
@@ -128,6 +127,7 @@ if (isServer) then {
     btc_fob_fnc_dismantle_s = compileScript ["core\fnc\fob\dismantle_s.sqf"];
     btc_fob_fnc_killed = compileScript ["core\fnc\fob\killed.sqf"];
     btc_fob_fnc_rallypointTimer = compileScript ["core\fnc\fob\rallypointTimer.sqf"];
+    btc_fob_fnc_alarmTrg = compileScript ["core\fnc\fob\alarmTrg.sqf"];
 
     //MIL
     btc_mil_fnc_addWP = compileScript ["core\fnc\mil\addWP.sqf"];
@@ -219,6 +219,7 @@ if (isServer) then {
     //TASK
     btc_task_fnc_create = compileScript ["core\fnc\task\create.sqf"];
     btc_task_fnc_setState = compileScript ["core\fnc\task\setState.sqf"];
+    btc_task_fnc_showNotification = compileScript ["core\fnc\task\showNotification.sqf"]; 
 
     //TOW
     btc_tow_fnc_ropeBreak = compileScript ["core\fnc\tow\ropeBreak.sqf"];

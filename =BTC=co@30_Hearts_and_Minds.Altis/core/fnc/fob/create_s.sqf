@@ -26,6 +26,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 #define EVENT_FOB_ATTACK 0
+#define FOB_CONQUEST_RANGE 30
 
 params [
     ["_pos", [], [[]]],
@@ -59,24 +60,63 @@ _marker setMarkerShape "ICON";
 (_fobs select 2) pushBack _flag;
 (_fobs select 3) pushBack _loudspeaker;
 
+//Alarm FOB Trigger
 if (btc_fob_showAlert) then {
-	private _trigger = createTrigger ["EmptyDetector", getPosASL _structure, false];
-	_trigger setTriggerArea [btc_fob_alertRadius, btc_fob_alertRadius, 0, false];
-	_trigger setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", false]; //arma 3 triggers are miserable
-	private _trgStatementOn = "
-		thisTrigger call btc_event_fnc_attackFOB_alarmTrg;
+	private _alarmTrg = createTrigger ["EmptyDetector", _pos, false];
+    _alarmTrg setVariable["btc_fob_structure", _structure];
+	_alarmTrg setTriggerArea [btc_fob_alertRadius, btc_fob_alertRadius, 0, false];
+	_alarmTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", true]; //arma 3 triggers are miserable
+	private _alarmTrgStatementOn = "
+		thisTrigger call btc_fob_fnc_alarmTrg;
 	";
-	_trigger setTriggerStatements ["this", _trgStatementOn, ""];
+	_alarmTrg setTriggerStatements ["this", _alarmTrgStatementOn, ""];
+
+    if (btc_debug) then {
+        private _marker = createMarker [format ["fob_%1", _FOB_name],_alarmTrg];
+        _marker setMarkerShape "ELLIPSE";
+        _marker setMarkerBrush "SolidBorder";
+        _marker setMarkerSize [btc_fob_alertRadius, btc_fob_alertRadius];
+        _marker setMarkerAlpha 0.3;
+        _marker setMarkerColor "ColorBlue";
+
+        _pos params ["_posx", "_posy"];
+        private _marke = createMarker [format ["fobn_%1",  _FOB_name], [_posx+10, _posy+10, 0]];
+        _marke setMarkerType "Contact_dot1";
+        _marke setMarkerColor "ColorBlue";
+        private _spaces = "";
+        for "_i" from 0 to count _FOB_name -1 do {
+            _spaces = _spaces + " ";
+        };
+        _marke setMarkerText format [_spaces + "%1: alarm trigger range", _FOB_name];
+    };
 };
 
-private _trigger = createTrigger ["EmptyDetector", getPosASL _structure, false];
-_trigger setTriggerArea [30, 30, 0, false];
-_trigger setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", false]; //arma 3 triggers are miserable
-private _trgStatementOn = "
-	thisTrigger call btc_event_fnc_attackFOB_alarmTrg;
-";//TO-DO DESTROYFOB 
-_trigger setTriggerStatements ["this", _trgStatementOn, ""];
+//Destroy FOB Trigger
+private _destroyTrg = createTrigger ["EmptyDetector", _pos, false];
+_destroyTrg setTriggerArea [30, 30, 0, false];
+_destroyTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", false]; //arma 3 triggers are miserable
+private _destroyTrgStatementOn = "
+	
+";
+_destroyTrg setTriggerStatements ["this", _destroyTrgStatementOn, ""];
+if (btc_debug) then {
+    private _marker = createMarker [format ["fob_c%1", _FOB_name],_destroyTrg];
+    _marker setMarkerShape "ELLIPSE";
+    _marker setMarkerBrush "SolidBorder";
+    _marker setMarkerSize [FOB_CONQUEST_RANGE, FOB_CONQUEST_RANGE];
+    _marker setMarkerAlpha 0.4;
+    _marker setMarkerColor "ColorPink";
 
+    _pos params ["_posx", "_posy"];
+    private _marke = createMarker [format ["fobn_c%1",  _FOB_name], [_posx-10, _posy-10, 0]];
+    _marke setMarkerType "Contact_dot1";
+    _marke setMarkerColor "ColorPink";
+    private _spaces = "";
+    for "_i" from 0 to count _FOB_name -1 do {
+        _spaces = _spaces + " ";
+    };
+    _marke setMarkerText format [_spaces + "%1: conquest range", _FOB_name];
+};
 
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 

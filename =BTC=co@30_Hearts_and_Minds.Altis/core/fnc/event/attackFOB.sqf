@@ -60,16 +60,6 @@ for "_i" from 0 to _maxGrps do {
     [format["%1 is being sent to %2, distance: %3", _grp, _structure getVariable["FOB_name", ""], _city distance2D _structure] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
-private _trigger = createTrigger ["EmptyDetector", getPosASL _structure, false];
-_trigger setVariable["btc_event_fob_structure", _structure];
-private _triggerArea = _scale/TRIGGER_SCALE;
-_trigger setTriggerArea [_triggerArea, _triggerArea, 0, false];
-_trigger setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", false]; //arma 3 triggers are miserable
-private _trgStatementOn = "
-    thisTrigger call btc_event_fnc_attackFOB_alarmTrg;
-";
-_trigger setTriggerStatements ["this", _trgStatementOn, ""];
-
 //Disable Respawn and Redeploy
 _structure setVariable ["FOB_underAttack", true, true];
 _BIS_respawn_EH = _structure getVariable["FOB_Respawn_EH", []];
@@ -81,26 +71,6 @@ if (_target getVariable["FOB_underAttack", false]) exitWith {
     false
 };
 */
-
-
-if (btc_debug) then {
-    private _name = _structure getVariable["FOB_name", ""];
-    (getPosASL _structure) params ["_posx", "_posy"];
-    private _marker = createMarker [format ["fob_%1", _name],_trigger];
-    _marker setMarkerShape "ELLIPSE";
-    _marker setMarkerBrush "SolidBorder";
-    _marker setMarkerSize [_triggerArea, _triggerArea];
-    _marker setMarkerAlpha 0.3;
-    _marker setMarkerColor "ColorBlue";
-
-    private _marke = createMarker [format ["fobn_%1",  _name], [_posx+10, _posy+10, 0]];
-    _marke setMarkerType "Contact_dot1";
-    private _spaces = "";
-    for "_i" from 0 to count _name -1 do {
-        _spaces = _spaces + " ";
-    };
-    _marke setMarkerText format [_spaces + "%1: alarm trigger range ", _name];
-};
 
 btc_event_activeEvents = btc_event_activeEvents + 1;
 false

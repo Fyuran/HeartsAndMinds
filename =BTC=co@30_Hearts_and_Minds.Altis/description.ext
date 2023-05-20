@@ -27,6 +27,8 @@ class RscTitles {
 
 #include "core\fnc\task\taskTypes.hpp"
 
+#include "core\fnc\task\cfgNotifications.hpp"
+
 class CfgFunctions {
     // add your own functions below
 };
