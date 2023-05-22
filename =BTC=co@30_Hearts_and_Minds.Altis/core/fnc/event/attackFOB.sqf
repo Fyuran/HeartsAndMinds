@@ -9,11 +9,10 @@ Parameters:
     _activator - who activated this event [ObjNull]
 
 Returns:
-    _array - returns false when it's not being handled anymore
+    [BOOLEAN] - returns false when it's not being handled anymore
 
 Examples:
     (begin example)
-        [cursorObject] call btc_event_fnc_attackFOB;
     (end)
 
 Author:
@@ -23,6 +22,7 @@ Author:
 #define SCALE 6
 #define TRIGGER_SCALE 4
 #define FOB_ATTACK_PATROL_TYPE 2
+#define FOB_ATTACK_TASK_TYPE 42
 
 if(!params[
 	["_activator", ObjNull, [ObjNull]]
@@ -30,10 +30,10 @@ if(!params[
 
 if (_activator inArea [getMarkerPos "btc_base", btc_fob_minDistance, btc_fob_minDistance, 0, false]) exitWith {
     [format["%1 is too close to btc_base, aborting", getPosASL _activator], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    false
 };
 
-
-private _fobs = btc_fobs param [1, [], [[]]]; //btc_fobs syntax is [[markers],[fob_structures],[fob_flags],[fob_loudspeakers]]
+private _fobs = btc_fobs param [1, [], [[]]]; //btc_fobs syntax is [[markers...],[fob_structures..],[fob_flags...],[fob_loudspeakers...], [[triggers...]]]
 if(_fobs isEqualTo []) exitWith {
     ["_fobs is empty, are there any fobs yet?", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
     false
@@ -60,14 +60,14 @@ for "_i" from 0 to _maxGrps do {
     [format["%1 is being sent to %2, distance: %3", _grp, _structure getVariable["FOB_name", ""], _city distance2D _structure] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
-//Disable Respawn and Redeploy
+//Disable Respawn, Redeploy and add Task
 _structure setVariable ["FOB_underAttack", true, true];
 _BIS_respawn_EH = _structure getVariable["FOB_Respawn_EH", []];
 _BIS_respawn_EH call BIS_fnc_removeRespawnPosition;
-
+["btc_fob", FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
 /*
 if (_target getVariable["FOB_underAttack", false]) exitWith {
-    [[localize "STR_BTC_HAM_O_FOB_CANTREDEPLOY"], [localize "STR_BTC_HAM_O_FOB_REDEPLOY_FOBUNDERATTACK"]] call CBA_fnc_notify;
+    [[localize "STR_BTC_HAM_O_FOB_CANTREDEPLOY"], [localize "STR_BTC_HAM_EVENT_FOBUNDERATTACK"]] call CBA_fnc_notify;
     false
 };
 */

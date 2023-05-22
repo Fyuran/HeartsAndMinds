@@ -28,7 +28,7 @@ if (_task_id isEqualTo "") exitWith {
     localize "STR_BTC_HAM_O_TASK_NOSIDE" call CBA_fnc_notify;
 };
 
-if (_task_id in ["btc_m", "btc_dty", "btc_dft"]) exitWith {
+if (_task_id in ["btc_m", "btc_dty", "btc_dft", "btc_fob"]) exitWith {
     localize "STR_BTC_HAM_O_TASK_NOTASIDE" call CBA_fnc_notify;
 };
 

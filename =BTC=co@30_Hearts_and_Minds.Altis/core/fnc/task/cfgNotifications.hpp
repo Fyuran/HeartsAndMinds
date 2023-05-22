@@ -18,7 +18,12 @@ class CfgNotifications {
         color[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
         iconPicture = "\a3\Ui_f\data\Map\Markers\Military\warning_ca.paa";
         sound = "Alarm";
-        soundClose = "defaultNotificationClose";
+        description = "%2";
+        title = "Warning";
+    };
+    class Warning2Description {
+        color[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
+        iconPicture = "\a3\Ui_f\data\Map\Markers\Military\warning_ca.paa";
         description = "%2";
         title = "Warning";
     };

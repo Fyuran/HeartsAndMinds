@@ -901,6 +901,10 @@
                 <French>Cycle de mission secondaire:</French>
                 <Czech>Cyklus vedlejší mise:</Czech>
             </Key>
+            <Key ID="STR_BTC_HAM_PARAM_GAMEPLAY_FOBCAP">
+                <Original>Time before FOB is destroyed during capture:</Original>
+                <Italian>Tempo prima che la FOB venga distrutta durante la cattura:</Italian>
+            </Key>
         </Container>
         <Container name="Parameters: Arsenal">
             <Key ID="STR_BTC_HAM_PARAM_ARSENAL_TITLE">
@@ -1015,6 +1019,14 @@
             <Key ID="STR_BTC_HAM_EVENT_FOBATTACK_DESC">
                 <Original>Oplitas have discovered one of your fobs, their attack is imminent, so get ready!</Original>
                 <Italian>Le Oplitas hanno scoperto la posizione di una delle tue FOB, l'attacco è imminente quindi preparati!</Italian>
+            </Key>
+            <Key ID="STR_BTC_HAM_EVENT_FOBUNDERATTACK">
+                <Original>Enemies in proximity of %1 have been spotted!</Original>
+                <Italian>L'allarme di prossimità della %1 è stata attivata!</Italian>
+            </Key>
+            <Key ID="STR_BTC_HAM_EVENT_FOBBEINGCAPPED">
+                <Original>%1 is being captured!</Original>
+                <Italian>%1 sta venendo catturata!</Italian>
             </Key>
         </Container>
         <Container name="Parameters: Event">
@@ -2636,10 +2648,6 @@
                 <Chinesesimp>无法重新部署, </Chinesesimp>
                 <French>Impossible de redéployer,</French>
                 <Czech>Nelze znovu nasadit</Czech>
-            </Key>
-            <Key ID="STR_BTC_HAM_O_FOB_REDEPLOY_FOBUNDERATTACK">
-                <Original>%1 alarm has been triggered!</Original>
-                <Italian>L'allarme della %1 è stata attivata!</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_O_FOB_REDEPLOYNOTSTABLE">
                 <Original>you need to be stabilized</Original>

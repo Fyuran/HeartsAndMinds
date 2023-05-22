@@ -413,6 +413,12 @@ class Params {
         texts[] = {$STR_DISABLED,1,2,3,4};
         default = 0;
     };
+    class btc_p_fob_cap_time { // FOB cap time:
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_GAMEPLAY_FOBCAP"]);
+        values[] = {10, 20, 30, 40, 50, 60};
+        texts[] = {10,20,30,40,50,60};
+        default = 20;
+    }; 
     class btc_p_arsenal_title { // << Arsenal options >>
         title = $STR_BTC_HAM_PARAM_ARSENAL_TITLE;
         values[]={0};

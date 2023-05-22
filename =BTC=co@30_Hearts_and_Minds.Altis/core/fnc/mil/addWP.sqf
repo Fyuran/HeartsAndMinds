@@ -66,6 +66,7 @@ switch (_wp) do {
         if (_houses isNotEqualTo [] && 
             {(typeOf vehicle leader _group) in btc_type_motorized_transport}
         ) then {
+            [_group] call CBA_fnc_clearWaypoints;
             _group leaveVehicle objectParent leader _group;
             private _house = selectRandom _houses;
             [_group, _house] call btc_fnc_house_addWP;

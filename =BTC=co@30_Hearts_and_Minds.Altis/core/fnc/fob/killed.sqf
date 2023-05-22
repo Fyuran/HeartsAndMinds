@@ -41,10 +41,16 @@ if (btc_debug || btc_debug_log) then {
     [format ["named %1", (_fobs select 0) select _fob_index], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
 };
 
-deleteMarker ((_fobs select 0) deleteAt _fob_index);
-private _fob = (_fobs select 1) deleteAt _fob_index;
-deleteVehicle ((_fobs select 2) deleteAt _fob_index);
-deleteVehicle ((_fobs select 3) deleteAt _fob_index);
+deleteMarker ((_fobs select 0) deleteAt _fob_index); //Markers
+private _fob = (_fobs select 1) deleteAt _fob_index; //FOB_structure
+deleteVehicle ((_fobs select 2) deleteAt _fob_index); //Flags
+deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
+((_fobs select 4) deleteAt _fob_index) apply {deleteVehicle _x}; //Triggers
+
+if(_fob getVariable ["FOB_underAttack", false]) then {
+   ["btc_fob", "FAILED"] call btc_task_fnc_setState;
+   btc_event_activeEvents = btc_event_activeEvents - 1;
+};
 
 if (_delete) then {
     deleteVehicle _fob;
