@@ -123,12 +123,13 @@ if (btc_p_event_enable_fobAttack) then {
     _structure setVariable["FOB_Triggers", [_alarmTrg, _destroyTrg]];
 
     (_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
+
+	//FOB attack event - #define EVENT_FOB_ATTACK 0 
+	[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
 };
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
 
-//FOB attack event - #define EVENT_FOB_ATTACK 0 
-[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
 
 [_marker, _structure, _flag, _loudspeaker]
