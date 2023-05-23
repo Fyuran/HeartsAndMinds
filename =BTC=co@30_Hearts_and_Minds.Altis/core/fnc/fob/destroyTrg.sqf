@@ -32,40 +32,44 @@ if (isNull _structure) exitWith {
 };
 
 //Handle client GUI
-private _fob_conquest_time = _structure getVariable["fob_conquest_time", -1];
-if(_fob_conquest_time < 0) then {
+private _fob_conquest_time = round(_structure getVariable["fob_conquest_time", -1]);
+if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run this code block once
 
     ["WarningDescription", ["", format[
         localize "$STR_BTC_HAM_EVENT_FOBBEINGCAPPED",
         _structure getVariable["FOB_name", "UNKNOWN"]
     ]]] call btc_task_fnc_showNotification_s;
 
-    _structure setVariable["fob_conquest_time", 0]; //setting flag for GUIs
+    _structure setVariable["fob_conquest_time", 0, true]; //unsetting the -1 flag
     [_structure] remoteExecCall ["btc_fob_fnc_destroyProgress", [0,-2] select isDedicated];
 
     _handle = [
     {
         _args params["_fob_trg", "_structure"];
-        diag_log format["inside destroy trigger: %1", list _fob_trg];
 
         _fob_conquest_time = _structure getVariable["fob_conquest_time", -1];
-        if(list _fob_trg isNotEqualTo []) then {
+        if(list _fob_trg isNotEqualTo []) then { //increase cap time
             _structure setVariable["fob_conquest_time", _fob_conquest_time + (triggerInterval _fob_trg), true];
         } else {
-            if (_fob_conquest_time > -1) then {
-                _structure setVariable["fob_conquest_time", _fob_conquest_time - (triggerInterval _fob_trg), true];
+            if (round _fob_conquest_time > 0) then { //decrease cap time
+                    _structure setVariable["fob_conquest_time", _fob_conquest_time - (triggerInterval _fob_trg), true];
+            };
+            if (round _fob_conquest_time == 0) then { //reset the -1 flag
+                _structure setVariable["fob_conquest_time", -1, true]; 
+                [_handle] call CBA_fnc_removePerFrameHandler;
             };
         };
 
-        if(_fob_conquest_time >= btc_p_fob_cap_time) then {
-            _structure setDamage 1;
-            [_handle] call CBA_fnc_removePerFrameHandler;
+        if(round _fob_conquest_time >= btc_p_fob_cap_time) then {
+            _structure setDamage 1; //CBA PFH will removed in Killed EH
         };
+
+        //[format["%1 PFH on %2 is firing on %3", _handle, _structure getVariable ["FOB_name", "UNKNOWN"], CBA_missionTime], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 
     }, triggerInterval _fob_trg, 
     [
         _fob_trg, _structure
     ]] call CBA_fnc_addPerFrameHandler;
 
-    _fob_trg setVariable ["CBAperFrameHandle", _handle];
+    _structure setVariable ["CBAperFrameHandle", _handle];
 };
