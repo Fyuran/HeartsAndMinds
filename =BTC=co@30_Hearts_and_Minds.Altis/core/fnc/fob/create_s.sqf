@@ -124,8 +124,16 @@ if (btc_p_event_enable_fobAttack) then {
 
     (_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
-	//FOB attack event - #define EVENT_FOB_ATTACK 0 
-	[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
+	_scale = 3000; //To-do create definition in mission.sqf
+	private _nearCities = values btc_city_all select {
+    (_x distance2D _structure) <= _scale && 
+        {_x getVariable ["occupied", false]}
+	}; 
+	
+	if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
+		//FOB attack event - #define EVENT_FOB_ATTACK 0 
+		[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
+	};
 };
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 
