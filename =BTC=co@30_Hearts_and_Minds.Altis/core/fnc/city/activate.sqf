@@ -362,8 +362,11 @@ if (_HCs isNotEqualTo []) then {
     };
 };
 
-//FOB attack event - #define EVENT_FOB_ATTACK 0 
-[EVENT_FOB_ATTACK, _city] call btc_event_fnc_eventManager; //toDo: decide if only enemy occupied cities should trigger this
+//FOB attack event - #define EVENT_FOB_ATTACK 0
+if(_has_en) then {
+    [EVENT_FOB_ATTACK, _city] call btc_event_fnc_eventManager;
+};
+
 
 if (btc_debug || btc_debug_log) then {
     private _id = _city getVariable "id";

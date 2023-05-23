@@ -187,6 +187,7 @@ if (isServer) then {
     btc_body_deadPlayers  = [];
 	btc_fob_showAlert = true;
 	btc_fob_alertRadius = 600;
+    btc_fob_attackRadius = worldSize / 6 + btc_city_radiusOffset;
 
     //Patrol
     btc_patrol_active = [];

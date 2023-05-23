@@ -29,8 +29,6 @@ if(btc_event_activeEvents >= btc_p_event_maxEvents) exitWith { //compared to btc
     ["Too many active events", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
-//private _en_cities = values btc_city_all select {_x getVariable ["occupied", false]};
-
 btc_event_beingHandled = true;
 btc_event_beingHandled = switch (_event) do {
     case EVENT_FOB_ATTACK : {

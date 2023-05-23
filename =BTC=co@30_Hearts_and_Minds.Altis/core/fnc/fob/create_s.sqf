@@ -97,7 +97,7 @@ if (btc_p_event_enable_fobAttack) then {
         [thisTrigger] call btc_fob_fnc_destroyTrg;
     ";
     _destroyTrg setTriggerStatements ["this && {round (CBA_missionTime % 1) == 0}", _destroyTrgStatementOn, ""];
-    _destroyTrg setTriggerInterval 0.1;
+    _destroyTrg setTriggerInterval 0.2;
 
     if (btc_debug) then {
         private _marker = createMarker [format ["fob_c%1", _FOB_name],_destroyTrg];
@@ -124,9 +124,8 @@ if (btc_p_event_enable_fobAttack) then {
 
     (_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
-	_scale = 3000; //To-do create definition in mission.sqf
 	private _nearCities = values btc_city_all select {
-    (_x distance2D _structure) <= _scale && 
+        (_x distance2D _structure) <= btc_fob_attackRadius && 
         {_x getVariable ["occupied", false]}
 	}; 
 	
