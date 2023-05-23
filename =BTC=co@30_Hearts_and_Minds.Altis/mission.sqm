@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=5;
+	toggles=517;
 	class ItemIDProvider
 	{
-		nextID=274;
+		nextID=248;
 	};
 	class MarkerIDProvider
 	{
@@ -16,18 +16,17 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=23;
+		nextID=5;
 	};
 	class Camera
 	{
-		pos[]={11389.416,126.65454,18588.688};
-		dir[]={-0.86576355,-0.48238197,-0.13327079};
-		up[]={-0.47676638,0.87596095,-0.073390737};
-		aside[]={-0.15214238,0,0.98835856};
+		pos[]={8441.1865,179.74254,10200.943};
+		dir[]={-0.71679336,-0.51150566,-0.47391981};
+		up[]={-0.42668703,0.85927457,-0.28211212};
+		aside[]={-0.55152744,4.9441587e-007,0.83417183};
 	};
 };
 binarizationWanted=0;
-sourceName="=BTC=co@30_Hearts_and_Minds";
 addons[]=
 {
 	"A3_Ui_F",
@@ -58,15 +57,13 @@ addons[]=
 	"A3_Air_F_Beta_Heli_Attack_01",
 	"A3_Soft_F_Offroad_01",
 	"A3_Air_F_Beta_Heli_Transport_01",
-	"A3_Armor_F_Beta_APC_Wheeled_01",
-	"A3_Props_F_Exp_Commercial_Market",
-	"ace_dragging"
+	"A3_Armor_F_Beta_APC_Wheeled_01"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=25;
+		items=23;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -86,7 +83,7 @@ class AddonsMetaData
 			className="ace_cargo";
 			name="ACE3 - Cargo";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item3
 		{
@@ -107,7 +104,7 @@ class AddonsMetaData
 			className="ace_explosives";
 			name="ACE3 - Explosives";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item6
 		{
@@ -170,21 +167,21 @@ class AddonsMetaData
 			className="ace_refuel";
 			name="ACE3 - Refuel";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item15
 		{
 			className="ace_repair";
 			name="ACE3 - Repair";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item16
 		{
 			className="ace_rearm";
 			name="ACE3 - Rearm";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item17
 		{
@@ -219,7 +216,7 @@ class AddonsMetaData
 			className="ace_vehicle_damage";
 			name="ACE3 - Vehicle Damage";
 			author="ACE-Team";
-			url="https://ace3.acemod.org/";
+			url="http://ace3mod.com/";
 		};
 		class Item22
 		{
@@ -228,28 +225,7 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item23
-		{
-			className="A3_Props_F_Exp";
-			name="Arma 3 Apex - Decorative and Mission Objects";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
-		};
-		class Item24
-		{
-			className="ace_dragging";
-			name="ACE3 - Dragging";
-			author="ACE-Team";
-			url="https://ace3.acemod.org/";
-		};
 	};
-};
-dlcs[]=
-{
-	"Enoch",
-	"Mark",
-	"Heli",
-	"Expansion"
 };
 randomSeed=2442963;
 class ScenarioData
@@ -269,6 +245,18 @@ class CustomAttributes
 		name="Multiplayer";
 		class Attribute0
 		{
+			property="RespawnTemplates";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					singleType="ARRAY";
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="RespawnButton";
 			expression="true";
 			class Value
@@ -280,37 +268,12 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute1
-		{
-			property="RespawnTemplates";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					singleType="ARRAY";
-				};
-			};
-		};
 		nAttributes=2;
 	};
 	class Category1
 	{
 		name="Scenario";
 		class Attribute0
-		{
-			property="EnableTargetDebug";
-			expression="true";
-			class Value
-			{
-				class data
-				{
-					singleType="SCALAR";
-					value=1;
-				};
-			};
-		};
-		class Attribute1
 		{
 			property="cba_settings_hash";
 			expression="false";
@@ -504,7 +467,7 @@ class CustomAttributes
 				};
 			};
 		};
-		class Attribute2
+		class Attribute1
 		{
 			property="EnableDebugConsole";
 			expression="true";
@@ -513,11 +476,11 @@ class CustomAttributes
 				class data
 				{
 					singleType="SCALAR";
-					value=1;
+					value=0;
 				};
 			};
 		};
-		nAttributes=3;
+		nAttributes=2;
 	};
 };
 class Mission
@@ -549,12 +512,13 @@ class Mission
 	};
 	class Entities
 	{
-		items=47;
+		items=46;
 		class Item0
 		{
 			dataType="Marker";
 			position[]={8300.7275,76.093613,10061.531};
 			name="respawn_west";
+			text=$STR_BTC_HAM_INTRO_ARSENAL_REDEPLOY;
 			type="Empty";
 			id=0;
 		};
@@ -571,6 +535,7 @@ class Mission
 			dataType="Marker";
 			position[]={8323.1348,73.933266,10113.239};
 			name="btc_log_point";
+			text=$STR_BTC_HAM_MSQM_MRK_LOGPOINT;
 			type="mil_flag";
 			colorName="ColorGreen";
 			a=0.5;
@@ -785,7 +750,7 @@ class Mission
 					{
 						skill=0.60000002;
 						init="this setVariable [""side_mission"",true]";
-						description="Officer";
+						description=$STR_B_OFFICER_F0;
 						isPlayer=1;
 						isPlayable=1;
 					};
@@ -819,6 +784,7 @@ class Mission
 					{
 						skill=0.60000002;
 						init="this setVariable [""interpreter"",true]";
+						description=$STR_BTC_HAM_MSQM_INTERPRETER;
 						isPlayable=1;
 					};
 					id=29;
@@ -852,7 +818,7 @@ class Mission
 					class Attributes
 					{
 						skill=0.60000002;
-						description="Adv. Engineer";
+						description=$STR_ACE_Repair_AssignEngineerRole_role_advanced;
 						isPlayable=1;
 					};
 					id=31;
@@ -1879,7 +1845,7 @@ class Mission
 				class Attribute0
 				{
 					property="Decon_Shower_DisableUserActions";
-					expression="if(_value isEqualTo true)then{_this setVariable ['bin_deconshower_disableAction',true]}else{_this setVariable ['bin_deconshower_disableAction',false]};";
+					expression="if(_value)then{_this setVariable ['bin_deconshower_disableAction',true]};";
 					class Value
 					{
 						class data
@@ -1892,7 +1858,7 @@ class Mission
 				class Attribute1
 				{
 					property="Decon_Shower";
-					expression="if(_value isEqualTo true)then{[_this,5.4,4,2,true] spawn bin_fnc_deconShowerAnimLarge;}else{[_this] spawn bin_fnc_deconShowerAnimStop};";
+					expression="if(_value)then{[_this,5.4,4,2,true] spawn bin_fnc_deconShowerAnimLarge;};";
 					class Value
 					{
 						class data
@@ -2032,6 +1998,8 @@ class Mission
 						position[]={8346.75,73.839577,10064};
 						angles[]={0.12205668,0,5.9650393};
 					};
+					title=$STR_BTC_HAM_MSQM_MRK_HELO;
+					description=$STR_BTC_HAM_MSQM_MRK_HELODESC;
 					id=237;
 				};
 				class Item1
@@ -2069,6 +2037,8 @@ class Mission
 					{
 						position[]={8286.75,74,10104.75};
 					};
+					title=$STR_BTC_HAM_MSQM_MRK_VEH;
+					description=$STR_BTC_HAM_MSQM_MRK_VEHDESC;
 					id=233;
 					atlOffset=-1.3179169;
 				};
@@ -2647,24 +2617,6 @@ class Mission
 			};
 			id=247;
 			atlOffset=-1.5446167;
-		};
-		class Item46
-		{
-			dataType="Object";
-			class PositionInfo
-			{
-				position[]={11333.501,102.9186,18585.518};
-				angles[]={0.069219761,0,6.1690235};
-			};
-			side="Empty";
-			flags=4;
-			class Attributes
-			{
-				name="test_fob_object";
-			};
-			id=248;
-			type="Land_WoodenCrate_01_F";
-			atlOffset=-0.0019989014;
 		};
 	};
 };
