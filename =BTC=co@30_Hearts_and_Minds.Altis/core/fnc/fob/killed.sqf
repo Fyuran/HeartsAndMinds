@@ -47,6 +47,7 @@ deleteVehicle ((_fobs select 2) deleteAt _fob_index); //Flags
 deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
 ((_fobs select 4) deleteAt _fob_index) apply {deleteVehicle _x}; //Triggers
 [_fob getVariable ["CBAperFrameHandle", -1]] call CBA_fnc_removePerFrameHandler; //CBA PFH
+_fob setVariable["fob_conquest_time", -1, true]; //Make sure all GUIs are closed
 
 if(_fob getVariable ["FOB_underAttack", false]) then {
    ["btc_fob", "FAILED"] call btc_task_fnc_setState;
