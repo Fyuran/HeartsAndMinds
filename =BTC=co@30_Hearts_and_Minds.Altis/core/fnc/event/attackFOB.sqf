@@ -47,7 +47,7 @@ if(_isUnderAttack) exitWith { //avoid multiple FOB attacks
 
 private _nearCities = values btc_city_all select {
     (_x distance2D _structure) <= btc_fob_attackRadius && 
-    {_x getVariable ["occupied", false]}
+    {_x getVariable ["occupied", false] && !(_x getVariable ["active", false])}
 }; 
 if (_nearCities isEqualTo []) exitWith {
     [format["_nearCities is empty, skipping FOB: %1", _structure getVariable["FOB_name", ""]] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
