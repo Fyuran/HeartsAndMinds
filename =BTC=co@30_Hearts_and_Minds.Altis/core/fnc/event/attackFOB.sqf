@@ -55,7 +55,7 @@ if (_nearCities isEqualTo []) exitWith {
 };
 _nearCities = [_nearCities, [_structure], { _input0 distance2D _x }, "ASCEND"] call BIS_fnc_sortBy;
 
-private _maxGrps = 1; //toDo: scale amount of groups on formula btc_global_reputation and occupied(enemy) cities
+private _maxGrps = ceil (1 + ((count _nearCities) * btc_p_mil_group_ratio)); //toDo: scale amount of groups on formula btc_global_reputation and occupied(enemy) cities
 for "_i" from 0 to _maxGrps do { 
     private _city = _nearCities select (_i % count _nearCities); //modulo % forbids from selecting out of range elements by looping back when it exceeds count _nearCities
     _grp = [_city, _structure, FOB_ATTACK_PATROL_TYPE] call btc_mil_fnc_send;
