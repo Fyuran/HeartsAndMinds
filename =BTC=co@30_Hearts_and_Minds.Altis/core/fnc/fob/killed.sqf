@@ -25,6 +25,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#define FOB_REP -100
 
 params [
     ["_struc", objNull, [objNull]],
@@ -49,10 +50,18 @@ deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
 [_fob getVariable ["CBAperFrameHandle", -1]] call CBA_fnc_removePerFrameHandler; //CBA PFH
 _fob setVariable["fob_conquest_time", -1, true]; //Make sure all GUIs are closed
 
-if(_fob getVariable ["FOB_underAttack", false]) then {
-   ["btc_fob", "FAILED"] call btc_task_fnc_setState;
+if(_fob getVariable ["FOB_Event", false]) then {
+    _fob_task_name = format["btc_task_%1", _fob getVariable ["FOB_name", ""]];
+    if(_fob_task_name call BIS_fnc_taskExists) then {
+        [_fob_task_name, "FAILED"] call btc_task_fnc_setState;
+    };
+
+    _groups = _fob getVariable["FOB_Event_grps", []];
+    _groups apply {_x call btc_data_fnc_add_group;};
+    
    btc_event_activeEvents = btc_event_activeEvents - 1;
 };
+[FOB_REP, objNull] call btc_rep_fnc_change;
 
 if (_delete) then {
     deleteVehicle _fob;

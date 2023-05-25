@@ -56,7 +56,7 @@ switch (_typeOf_patrol) do {
 
         private _return_pos = [_pos, 10, 500, 13, false] call btc_fnc_findsafepos;
 
-        _delay = [_group, _return_pos, selectRandom (btc_type_motorized_transport)] call btc_mil_fnc_createVehicle;
+        _delay = [_group, _return_pos, selectRandom (btc_type_motorized_transport + btc_type_motorized_armed_ground)] call btc_mil_fnc_createVehicle;
         //btc_type_motorized_armed_ground, still not sure if it should be a troop only attack
     };
 };

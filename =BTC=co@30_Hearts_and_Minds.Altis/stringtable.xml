@@ -1028,6 +1028,14 @@
                 <Original>%1 is being captured!</Original>
                 <Italian>%1 sta venendo catturata!</Italian>
             </Key>
+            <Key ID="STR_BTC_HAM_EVENT_CANNOTDEPLOY">
+                <Original>Something is jamming the link with the FOB</Original>
+                <Italian>Qualcosa sta disturbando il collegamento con la FOB</Italian>
+            </Key>
+            <Key ID="STR_BTC_HAM_EVENT_EASTWIND">
+                <Original>An East Wind is blowing towards %1...</Original>
+                <Italian>Un vento da Est soffia verso %1...</Italian>
+            </Key>
         </Container>
         <Container name="Parameters: Event">
             <Key ID="STR_BTC_HAM_PARAM_EVENT_TITLE">

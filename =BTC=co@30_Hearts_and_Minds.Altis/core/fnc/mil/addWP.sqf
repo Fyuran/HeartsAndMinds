@@ -74,7 +74,7 @@ switch (_wp) do {
         } else {
             [
                 _group, _rpos,
-                _area, 2 + floor (random 4), "MOVE", "SAFE", "RED",
+                _area/2, 2 + floor (random 4), "MOVE", "SAFE", "RED",
                 ["LIMITED", "NORMAL"] select ((vehicle leader _group) isKindOf "Air"),
                 "STAG COLUMN", "", [5, 10, 20]
             ] remoteExecCall ["CBA_fnc_taskPatrol", groupOwner _group];

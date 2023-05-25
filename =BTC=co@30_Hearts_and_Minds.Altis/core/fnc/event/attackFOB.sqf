@@ -19,47 +19,106 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define SCALE 6
-#define TRIGGER_SCALE 4
 #define FOB_ATTACK_TASK_TYPE 42
 
 if(!params[
 	["_activator", ObjNull, [ObjNull]]
 ]) exitWith {["Attempted to pass ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message; false};
+private _return = false; //used to tell eventmanager event is not being handled anymore
 
 if (_activator inArea [getMarkerPos "btc_base", btc_fob_minDistance, btc_fob_minDistance, 0, false]) exitWith {
     [format["%1 is too close to btc_base, aborting", getPosASL _activator], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    false
+    _return
 };
 
 private _fobs = btc_fobs param [1, [], [[]]]; //btc_fobs syntax is [[markers...],[fob_structures..],[fob_flags...],[fob_loudspeakers...], [[triggers...]]]
 if(_fobs isEqualTo []) exitWith {
     ["_fobs is empty, are there any fobs yet?", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    false
+    _return
 };
 private _structure = [_fobs, _activator] call BIS_fnc_nearestPosition;
-private _isUnderAttack = _structure getVariable ["FOB_underAttack", false];
-if(_isUnderAttack) exitWith { //avoid multiple FOB attacks
+private _isUnderAttack = _structure getVariable ["FOB_Event", false];
+if(_isUnderAttack) exitWith { //avoids multiple FOB events
     [format["event fob attack already active on %1", _structure getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    _return
+};
+
+private _nearCities = values btc_city_all select {
+    (_x distance2D _structure) <= btc_fob_attackRadius && 
+    {_x getVariable ["occupied", false] && !(_x getVariable ["active", false])}
+}; 
+if (_nearCities isEqualTo []) exitWith {
+    [format["_nearCities is empty, skipping FOB: %1", _structure getVariable["FOB_name", ""]] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
     false
 };
 
-[_structure] call btc_event_fnc_attackFOBspawn;
-
-//Add second wave?
-
-
-//Disable Respawn, Redeploy and add Task
-_structure setVariable ["FOB_underAttack", true, true];
+//Disables Respawn and Redeploy
+private _flag = _structure getVariable["FOB_Flag", objNull];
+_flag setVariable["FOB_Event", true, true]; //publicVariable for clients to handle ace interaction menu condition check
+_structure setVariable ["FOB_Event", true];
 _BIS_respawn_EH = _structure getVariable["FOB_Respawn_EH", []];
 _BIS_respawn_EH call BIS_fnc_removeRespawnPosition;
-["btc_fob", FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
-/*
-if (_target getVariable["FOB_underAttack", false]) exitWith {
-    [[localize "STR_BTC_HAM_O_FOB_CANTREDEPLOY"], [localize "STR_BTC_HAM_EVENT_FOBUNDERATTACK"]] call CBA_fnc_notify;
-    false
+
+//Notifications or task based on reputation
+if (btc_global_reputation >= btc_rep_level_high) then {
+    ["WarningDescription", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
+    _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
+    if(!(_fob_task_name call BIS_fnc_taskExists)) then {
+        [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
+    };
+} else { 
+    ["FOBlowRepWarningDescription", ["", format[
+        localize "$STR_BTC_HAM_EVENT_EASTWIND",
+        _structure getVariable ["FOB_name", ""]
+    ]]] call btc_task_fnc_showNotification_s;
 };
+
+//Group spawning and prep for CBA_fnc_waitUntilAndExecute's condition statement
+private _groups = [_structure, _nearCities] call btc_event_fnc_attackFOBspawn;
+_structure setVariable["FOB_Event_grps", _groups];
+
+/*
+    Manages TASK_SUCCEEDED and end of event when only a part of troops are remaining
+
+    I hate this clusterfuck but all groups are spawned after a set delay 
+    and it would result in an empty units array therefore the condition would be true before they even spawned
 */
+[{
+    [format["%1 victory manager is on", (_this select 0) getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    
+    params["_structure", "_flag", "_groups"];
+    _units = [];
+    _groups apply {_units append units _x};
+
+    _statement = {
+        params["_structure", "_flag", "_groups"];
+        _flag setVariable["FOB_Event", false, true]; //publicVariable for clients to handle ace interaction menu condition check
+        _structure setVariable ["FOB_Event", false];
+        
+        _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
+        if(_fob_task_name call BIS_fnc_taskExists) then {
+            [_fob_task_name, "SUCCEEDED"] call btc_task_fnc_setState;
+        };
+        
+        _groups apply {_x call btc_data_fnc_add_group;};
+
+        _FOB_name = _structure getVariable["FOB_name", ""];
+        _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition;
+        _structure setVariable["FOB_Respawn_EH", _BISEH_return];
+
+        btc_event_activeEvents = btc_event_activeEvents - 1;
+
+    };
+
+    [{//half an hour timeout that will run the same code as if the condition were to be satisfied
+        ({alive _x} count (_this select 3)) <= (_this select 4)
+    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 1800, _statement
+    ] call CBA_fnc_waitUntilAndExecute;
+
+}, [_structure, _flag, _groups], 2*(count _groups)] call CBA_fnc_waitAndExecute;
+
+
 
 btc_event_activeEvents = btc_event_activeEvents + 1;
-false
+
+_return

@@ -46,6 +46,7 @@ _structure setVariable["FOB_name", _FOB_name, true];
 _structure setVariable["FOB_Loudspeaker", _loudspeaker];
 private _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition;
 _structure setVariable["FOB_Respawn_EH", _BISEH_return];
+_structure setVariable["FOB_Flag", _flag];
 
 
 private _marker = createMarker [_FOB_name, _pos];
@@ -66,7 +67,7 @@ if (btc_p_event_enable_fobAttack) then {
 	_alarmTrg setTriggerArea [btc_fob_alertRadius, btc_fob_alertRadius, 0, false];
 	_alarmTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", true];
 	private _alarmTrgStatementOn = "
-		thisTrigger call btc_fob_fnc_alarmTrg;
+		[thisTrigger, thisList] call btc_fob_fnc_alarmTrg;
 	";
 	_alarmTrg setTriggerStatements ["this", _alarmTrgStatementOn, ""];
 
@@ -130,7 +131,6 @@ if (btc_p_event_enable_fobAttack) then {
 	}; 
 	
 	if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
-		//FOB attack event - #define EVENT_FOB_ATTACK 0 
 		[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
 	};
 };
