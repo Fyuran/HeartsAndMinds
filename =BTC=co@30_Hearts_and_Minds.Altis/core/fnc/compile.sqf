@@ -155,6 +155,7 @@ if (isServer) then {
     btc_patrol_fnc_playersInAreaCityGroup = compileScript ["core\fnc\patrol\playersInAreaCityGroup.sqf"];
     btc_patrol_fnc_usefulCity = compileScript ["core\fnc\patrol\usefulCity.sqf"];
     btc_patrol_fnc_WPCheck = compileScript ["core\fnc\patrol\WPCheck.sqf"];
+    btc_patrol_fnc_WPFOBCheck = compileScript ["core\fnc\patrol\WPFOBCheck.sqf"];
     btc_patrol_fnc_init = compileScript ["core\fnc\patrol\init.sqf"];
     btc_patrol_fnc_addWP = compileScript ["core\fnc\patrol\addWP.sqf"];
     btc_patrol_fnc_eh = compileScript ["core\fnc\patrol\eh.sqf"];

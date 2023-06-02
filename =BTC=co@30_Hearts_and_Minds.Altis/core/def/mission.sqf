@@ -192,6 +192,7 @@ if (isServer) then {
     //Patrol
     btc_patrol_active = [];
     btc_patrol_area = 2500;
+    btc_patrols_pos = createHashMap; //Patrols debug markers
 
     //Rep
     btc_rep_militia_call_time = 600;

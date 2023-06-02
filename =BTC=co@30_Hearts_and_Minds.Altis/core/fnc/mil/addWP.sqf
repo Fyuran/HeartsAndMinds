@@ -63,10 +63,10 @@ switch (_wp) do {
     };
     case ("FOB") : {
         private _houses = ([_city, _area] call btc_fnc_getHouses) select 0;
+        [_group] call CBA_fnc_clearWaypoints;
         if (_houses isNotEqualTo [] && 
             {(typeOf vehicle leader _group) in btc_type_motorized_transport}
         ) then {
-            [_group] call CBA_fnc_clearWaypoints;
             _group leaveVehicle objectParent leader _group;
             private _house = selectRandom _houses;
             [_group, _house] call btc_fnc_house_addWP;
