@@ -63,9 +63,7 @@ _BIS_respawn_EH call BIS_fnc_removeRespawnPosition;
 if (btc_global_reputation >= btc_rep_level_high) then {
     ["WarningDescription", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
     _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
-    if(!(_fob_task_name call BIS_fnc_taskExists)) then {
-        [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
-    };
+    [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
 } else { 
     ["FOBlowRepWarningDescription", ["", format[
         localize "$STR_BTC_HAM_EVENT_EASTWIND",
@@ -96,9 +94,7 @@ _structure setVariable["FOB_Event_grps", _groups];
         _structure setVariable ["FOB_Event", false];
         
         _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
-        if(_fob_task_name call BIS_fnc_taskExists) then {
-            [_fob_task_name, "SUCCEEDED"] call btc_task_fnc_setState;
-        };
+        [_fob_task_name, "SUCCEEDED"] call btc_task_fnc_setState;
         
         _groups apply {_x call btc_data_fnc_add_group;};
 

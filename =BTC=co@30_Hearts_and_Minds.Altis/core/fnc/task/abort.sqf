@@ -24,6 +24,8 @@ params [
     ["_task_id", "btc_dft", [""]]
 ];
 
+if(!(_task_id call BIS_fnc_taskExists)) exitWith {};
+
 if (_task_id isEqualTo "") exitWith {
     localize "STR_BTC_HAM_O_TASK_NOSIDE" call CBA_fnc_notify;
 };
