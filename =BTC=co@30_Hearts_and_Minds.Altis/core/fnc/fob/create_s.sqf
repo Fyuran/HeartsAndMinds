@@ -55,11 +55,8 @@ _marker setMarkerType "b_hq";
 _marker setMarkerText _FOB_name;
 _marker setMarkerColor "ColorBlue";
 _marker setMarkerShape "ICON";
-
-(_fobs select 0) pushBack _marker;
-(_fobs select 1) pushBack _structure;
-(_fobs select 2) pushBack _flag;
-(_fobs select 3) pushBack _loudspeaker;
+private _markersArr = [];
+_markersArr pushBack _marker;
 
 //Alarm FOB Trigger
 if (btc_p_event_enable_fobAttack) then {
@@ -78,6 +75,7 @@ if (btc_p_event_enable_fobAttack) then {
         _marker setMarkerSize [btc_fob_alertRadius, btc_fob_alertRadius];
         _marker setMarkerAlpha 0.3;
         _marker setMarkerColor "ColorBlue";
+        _markersArr pushBack _marker;
 
         _pos params ["_posx", "_posy"];
         private _marke = createMarker [format ["fobn_%1",  _FOB_name], [_posx+10, _posy+10, 0]];
@@ -88,6 +86,7 @@ if (btc_p_event_enable_fobAttack) then {
             _spaces = _spaces + " ";
         };
         _marke setMarkerText format [_spaces + "%1: alarm trigger range", _FOB_name];
+        _markersArr pushBack _marke;
     };
 
     //Destroy FOB Trigger
@@ -107,6 +106,7 @@ if (btc_p_event_enable_fobAttack) then {
         _marker setMarkerSize [FOB_CONQUEST_RANGE, FOB_CONQUEST_RANGE];
         _marker setMarkerAlpha 0.4;
         _marker setMarkerColor "ColorPink";
+        _markersArr pushBack _marker;
 
         _pos params ["_posx", "_posy"];
         private _marke = createMarker [format ["fobn_c%1",  _FOB_name], [_posx-10, _posy-10, 0]];
@@ -117,6 +117,7 @@ if (btc_p_event_enable_fobAttack) then {
             _spaces = _spaces + " ";
         };
         _marke setMarkerText format [_spaces + "%1: conquest range", _FOB_name];
+        _markersArr pushBack _marke;
     };
 
     _alarmTrg setVariable["btc_fob_structure", _structure];
@@ -138,5 +139,9 @@ if (btc_p_event_enable_fobAttack) then {
 
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
 
+(_fobs select 0) pushBack _markersArr;
+(_fobs select 1) pushBack _structure;
+(_fobs select 2) pushBack _flag;
+(_fobs select 3) pushBack _loudspeaker;
 
 [_marker, _structure, _flag, _loudspeaker]

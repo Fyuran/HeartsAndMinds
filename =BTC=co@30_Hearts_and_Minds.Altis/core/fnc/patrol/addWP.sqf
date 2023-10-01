@@ -65,7 +65,7 @@ if (_vehicle isKindOf "Air") then {
                 private _patrol_id = _group getVariable ["btc_patrol_id", 0];
                 private _marker = createMarker [format ["Patrol_fant_%1_%2", _patrol_id, _i], _vec];
                 _marker setMarkerType "mil_dot";
-                _marker setMarkerText format ["P:%1/%2", _patrol_id, _i];
+                _marker setMarkerText format ["FOB?:%1/%2", _patrol_id, _i];
                 _marker setMarkerColor "ColorGrey";
                 _marker setMarkerSize [0.2, 0.2];
                 _marker setMarkerAlpha 0.5;
