@@ -59,25 +59,33 @@ _structure setVariable ["FOB_Event", true];
 _BIS_respawn_EH = _structure getVariable["FOB_Respawn_EH", []];
 _BIS_respawn_EH call BIS_fnc_removeRespawnPosition;
 
-//Notifications or task based on reputation
-if (btc_global_reputation >= btc_rep_level_high) then {
-    ["WarningDescription", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
-    _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
-    [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
-} else { 
-    ["FOBlowRepWarningDescription", ["", format[
-        localize "$STR_BTC_HAM_EVENT_EASTWIND",
-        _structure getVariable ["FOB_name", ""]
-    ]]] call btc_task_fnc_showNotification_s;
+/*
+Notifications or task based on reputation(default values)
+    btc_rep_level_veryLow = 0;
+    btc_rep_level_low = 200;
+    btc_rep_level_normal = 500;
+    btc_rep_level_high = 750;
+*/
+switch true do {
+    case (btc_global_reputation >= btc_rep_level_high): {
+        ["WarningDescription", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
+        _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
+        [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
+    };
+    case (btc_global_reputation < btc_rep_level_high && {btc_global_reputation >= btc_rep_level_low}): {
+        ["FOBlowRepWarningDescription", ["", format[
+            localize "$STR_BTC_HAM_EVENT_EASTWIND",
+            _structure getVariable ["FOB_name", ""]
+        ]]] call btc_task_fnc_showNotification_s;
+    };
 };
+
 
 //Group spawning and prep for CBA_fnc_waitUntilAndExecute's condition statement
 private _groups = [_structure, _nearCities] call btc_event_fnc_attackFOBspawn;
 _structure setVariable["FOB_Event_grps", _groups];
 
 /*
-    Manages TASK_SUCCEEDED and end of event when only a part of troops are remaining
-
     I hate this clusterfuck but all groups are spawned after a set delay 
     and it would result in an empty units array therefore the condition would be true before they even spawned
 */
@@ -95,6 +103,7 @@ _structure setVariable["FOB_Event_grps", _groups];
         
         _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
         [_fob_task_name, "SUCCEEDED"] call btc_task_fnc_setState;
+        [_fob_task_name, btc_player_side, true] call BIS_fnc_deleteTask;
         
         _groups apply {_x call btc_data_fnc_add_group;};
 
@@ -106,9 +115,10 @@ _structure setVariable["FOB_Event_grps", _groups];
 
     };
 
-    [{//half an hour timeout that will run the same code as if the condition were to be satisfied
+    // TASK_SUCCEEDED when only a part of enemy troops are remaining
+    [{// also has timeout in case of Arma's AI fuckery
         ({alive _x} count (_this select 3)) <= (_this select 4)
-    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 1800, _statement
+    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 1800*(count _groups), _statement
     ] call CBA_fnc_waitUntilAndExecute;
 
 }, [_structure, _flag, _groups], 2*(count _groups)] call CBA_fnc_waitAndExecute;

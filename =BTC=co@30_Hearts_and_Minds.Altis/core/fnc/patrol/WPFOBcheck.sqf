@@ -51,6 +51,7 @@ if(_fobIndex isNotEqualTo -1) then {
         (_this select 0) inArea (((_this select 1) getVariable["FOB_Triggers", []]) select 0)
     }, {
         [EVENT_FOB_ATTACK, (_this select 1)] call btc_event_fnc_eventManager;
+        _fob setVariable ["FOB_Event", true];
     }, [leader _group, _fob]] call CBA_fnc_waitUntilAndExecute;
     
     

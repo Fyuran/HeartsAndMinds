@@ -39,10 +39,10 @@ params [
 private _fob_index = (_fobs select 1) find _struc;
 
 if (btc_debug || btc_debug_log) then {
-    [format ["named %1", (_fobs select 0) select _fob_index], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
+    [format ["named %1", ((_fobs select 0) select _fob_index) select 0], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
 };
 
-deleteMarker ((_fobs select 0) deleteAt _fob_index); //Markers
+((_fobs select 0) select _fob_index) apply {deleteMarker _x}; //Markers
 private _fob = (_fobs select 1) deleteAt _fob_index; //FOB_structure
 deleteVehicle ((_fobs select 2) deleteAt _fob_index); //Flags
 deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
@@ -54,6 +54,7 @@ if(_fob getVariable ["FOB_Event", false]) then {
     _fob_task_name = format["btc_task_%1", _fob getVariable ["FOB_name", ""]];
     if(_fob_task_name call BIS_fnc_taskExists) then {
         [_fob_task_name, "FAILED"] call btc_task_fnc_setState;
+        [_fob_task_name, btc_player_side, true] call BIS_fnc_deleteTask;
     };
 
     _groups = _fob getVariable["FOB_Event_grps", []];
