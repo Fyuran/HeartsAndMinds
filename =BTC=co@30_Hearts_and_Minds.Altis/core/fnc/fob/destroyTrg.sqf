@@ -31,6 +31,10 @@ if (isNull _structure) exitWith {
 	["_structure is ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
+//If all units inside are ACE_isUnconscious, abort check
+private _unconsciousUnits = (list _fob_trg) select {(_x getVariable ["ACE_isUnconscious", false])}; 
+if(_unconsciousUnits isEqualTo list _fob_trg) exitWith {};
+
 //Handle client GUI
 private _fob_conquest_time = round(_structure getVariable["fob_conquest_time", -1]);
 if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run this code block once
@@ -48,7 +52,9 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
         _args params["_fob_trg", "_structure"];
 
         _fob_conquest_time = _structure getVariable["fob_conquest_time", -1];
-        if(list _fob_trg isNotEqualTo []) then { //increase cap time
+        _awakeUnits = (list _fob_trg) select {!(_x getVariable ["ACE_isUnconscious", false])}; //ACE_isUnconscious units should never update cap timer
+
+        if(_awakeUnits isNotEqualTo []) then { //increase cap time
             _structure setVariable["fob_conquest_time", _fob_conquest_time + (triggerInterval _fob_trg), true];
         } else {
             if (round _fob_conquest_time > 0) then { //decrease cap time
