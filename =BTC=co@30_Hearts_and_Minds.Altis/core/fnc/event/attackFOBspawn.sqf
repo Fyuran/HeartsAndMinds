@@ -39,4 +39,11 @@ for "_i" from 0 to _maxGrps do {
     if(count _groups >= FOB_MAX_GROUPS) then {break;};
 };
 
+if (random (btc_rep_level_high + 250) > btc_global_reputation) then {
+    private _city = selectRandom _nearCities;
+    _grp = [_city, _structure] call btc_ied_fnc_suicider_fob_create;
+    _groups pushBack _grp;
+    [format["%1 SUICIDER is being sent to %2, distance: %3", _grp, _structure getVariable["FOB_name", ""], _city distance2D _structure] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+};
+
 _groups
