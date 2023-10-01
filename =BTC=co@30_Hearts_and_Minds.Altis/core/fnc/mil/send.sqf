@@ -75,7 +75,7 @@ _group setVariable ["acex_headless_blacklist", true];
             [_group, _dest, -1, "MOVE", "AWARE", "RED", "NORMAL", "NO CHANGE", "(group this) call btc_data_fnc_add_group;", nil, 60] call CBA_fnc_addWaypoint;
         };
         case FOB_ATTACK_PATROL_TYPE : {
-            [_group, _dest, -1, "MOVE", "AWARE", "RED", "FULL", "NO CHANGE", "[group this, [leader group this, btc_fobs select 1, false] call btc_fnc_find_closecity, 100, ""FOB""] call btc_mil_fnc_addWP;", nil, 300] call CBA_fnc_addWaypoint;
+            [_group, _dest, -1, "MOVE", "AWARE", "RED", "FULL", "NO CHANGE", "[group this, [this, btc_fobs select 1, false] call btc_fnc_find_closecity, 100, ""FOB""] call btc_mil_fnc_addWP;", nil, 300] call CBA_fnc_addWaypoint;
     };
 
     };

@@ -41,6 +41,10 @@ private _flag = createVehicle [_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
 private _structure = createVehicle [_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
 private _loudspeaker = createVehicle ["Land_Loudspeakers_F", _pos, [], 0, "CAN_COLLIDE"];
 
+(_fobs select 1) pushBack _structure;
+(_fobs select 2) pushBack _flag;
+(_fobs select 3) pushBack _loudspeaker;
+
 _structure setDir _direction;
 _structure setVariable["FOB_name", _FOB_name, true];
 _structure setVariable["FOB_Loudspeaker", _loudspeaker];
@@ -140,8 +144,5 @@ if (btc_p_event_enable_fobAttack) then {
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
 
 (_fobs select 0) pushBack _markersArr;
-(_fobs select 1) pushBack _structure;
-(_fobs select 2) pushBack _flag;
-(_fobs select 3) pushBack _loudspeaker;
 
-[_marker, _structure, _flag, _loudspeaker]
+[_markersArr, _structure, _flag, _loudspeaker]
