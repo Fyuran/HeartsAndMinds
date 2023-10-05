@@ -108,7 +108,7 @@ if (isServer) then {
     btc_ied_fnc_suicider_create = compileScript ["core\fnc\ied\suicider_create.sqf"];
     btc_ied_fnc_suiciderLoop = compileScript ["core\fnc\ied\suiciderLoop.sqf"];
     btc_ied_fnc_suicider_fob_create = compileScript ["core\fnc\ied\suicider_fob_create.sqf"];
-    btc_ied_fnc_suicider_fobCountdown = compileScript ["core\fnc\ied\suicider_fobCountdown.sqf"];
+    btc_ied_fnc_suicider_fobLoop = compileScript ["core\fnc\ied\suicider_fobLoop.sqf"];
     btc_ied_fnc_allahu_akbar = compileScript ["core\fnc\ied\allahu_akbar.sqf"];
     btc_ied_fnc_drone_active = compileScript ["core\fnc\ied\drone_active.sqf"];
     btc_ied_fnc_drone_create = compileScript ["core\fnc\ied\drone_create.sqf"];
