@@ -55,7 +55,7 @@ private _active_cityID = _active_city getVariable ["id", 0];
 private _end_cityID = _end_city getVariable ["id", 0];
 private _waypointStatements = format ["[group this, %1, %2, %3, %4] call btc_patrol_fnc_WPCheck;", _area, _pos, [_start_cityID, _active_cityID, _end_cityID], _isBoat];
 
-[_group, _pos, _waypointStatements] call btc_patrol_fnc_addWP;
+[_group, _pos, _waypointStatements, _isBoat] call btc_patrol_fnc_addWP;
 
 if (btc_debug_log) then {
     if (!isNil {_group getVariable "btc_patrol_id"}) then {

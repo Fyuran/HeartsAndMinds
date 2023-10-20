@@ -26,6 +26,7 @@ params [
 
 private _units = btc_units_owners apply {_x select 0};
 private _owners = btc_units_owners apply {_x select 1};
+private _patrols = missionNamespace getVariable ["btc_patrols_pos", []];
 
 private _cfgVehicles = configFile >> "CfgVehicles";
 {
@@ -85,3 +86,13 @@ private _cfgVehicles = configFile >> "CfgVehicles";
         ];
     };
 } forEach agents;
+
+if(_patrols isNotEqualTo []) then {
+    {
+        _display drawLine [
+            _y select 0,
+            _y select 1,
+            [1,0,0,1]
+        ];
+    } forEach _patrols;
+};

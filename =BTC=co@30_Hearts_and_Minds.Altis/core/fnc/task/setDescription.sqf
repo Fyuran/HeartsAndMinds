@@ -393,6 +393,14 @@ switch (_description) do {
         ];
         _type = "search";
     };
+    case 42 : { // FOB_attack defend task
+            _description = [
+            (localize "STR_BTC_HAM_EVENT_FOBATTACK_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_EVENT_FOBATTACK_TITLE",
+            localize "STR_BTC_HAM_EVENT_FOBATTACK_TITLE"
+        ];
+        _type = "defend";
+    };
 };
 
 [

@@ -5,10 +5,10 @@ onLoadName = $STR_BTC_HAM_DESCR_NAME;
 onLoadMission = $STR_BTC_HAM_DESCR_MISSION;
 enabledebugconsole = 1;
 
+#include "core\fnc\debug\defines.hpp"
 #include "core\fnc\common\dlg.hpp"
 #include "core\fnc\fob\dlg.hpp"
 #include "core\fnc\log\dlg.hpp"
-#include "core\fnc\debug\defines.hpp"
 
 class RscTitles {
     class Default {
@@ -26,6 +26,8 @@ class RscTitles {
 #include "core\fnc\mil\aiskill.hpp"
 
 #include "core\fnc\task\taskTypes.hpp"
+
+#include "core\fnc\task\cfgNotifications.hpp"
 
 class CfgFunctions {
     // add your own functions below

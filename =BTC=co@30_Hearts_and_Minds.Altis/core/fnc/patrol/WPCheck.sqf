@@ -39,7 +39,13 @@ _citiesID params [
 
 if (btc_debug) then {
     if (!isNil {_group getVariable "btc_patrol_id"}) then {
-        deleteMarker format ["Patrol_fant_%1", _group getVariable ["btc_patrol_id", 0]];
+        private _patrol_id = _group getVariable ["btc_patrol_id", -1];
+        deleteMarker format ["Patrol_fant_begin_%1", _patrol_id];
+        deleteMarker format ["Patrol_fant_end_%1", _patrol_id];
+        for "_i" from 0 to 1 step 0.2 do {
+            deleteMarker format ["Patrol_fant_%1_%2", _patrol_id, _i];
+        };
+        btc_patrols_pos deleteAt _patrol_id;
     };
 };
 

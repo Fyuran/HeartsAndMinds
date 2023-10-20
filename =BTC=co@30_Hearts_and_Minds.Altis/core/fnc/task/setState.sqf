@@ -27,6 +27,8 @@ params [
     ["_state", "CANCELED", [""]]
 ];
 
+if(!(_task call BIS_fnc_taskExists)) exitWith {};
+
 private _subTasks = _task call BIS_fnc_taskChildren;
 if (_subTasks isEqualTo []) then {
     private _taskParent = _task call BIS_fnc_taskParent;

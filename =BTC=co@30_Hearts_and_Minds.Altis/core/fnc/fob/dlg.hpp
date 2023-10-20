@@ -44,3 +44,35 @@ class btc_fob_create {
         };
     };
 };
+
+import RscPicture;
+class RscProgressFOB: RscProgress
+{
+    x = 0.903625 * safezoneW + safezoneX;
+    y = 0.236 * safezoneH + safezoneY;
+    w = 0.088 * safezoneW;
+    h = 0.015 * safezoneH;
+    colorBar[] =
+    {
+        "(profilenamespace getvariable ['Map_BLUFOR_R',0])",
+        "(profilenamespace getvariable ['Map_BLUFOR_G',1])",
+        "(profilenamespace getvariable ['Map_BLUFOR_B',1])",
+        "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"
+    };
+};
+class RscPicture_FOB_icon: RscPicture
+{
+    text = "a3\ui_f\data\Map\Markers\Flags\nato_ca.paa";
+    x = 0.891875 * safezoneW + safezoneX;
+    y = 0.236 * safezoneH + safezoneY;
+    w = 0.0103125 * safezoneW;
+    h = 0.015 * safezoneH;
+};
+class RscText_FOB_text: RscText
+{
+    text = "FOB %1"; //--- ToDo: Localize;
+    x = 0.903625 * safezoneW + safezoneX;
+    y = 0.236 * safezoneH + safezoneY;
+    w = 0.04125 * safezoneW;
+    h = 0.015 * safezoneH;
+};

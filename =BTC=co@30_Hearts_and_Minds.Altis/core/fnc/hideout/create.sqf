@@ -64,12 +64,12 @@ if (_pos isEqualTo []) then {
     _pos = [_random_pos, 0, 100, 2, false] call btc_fnc_findsafepos;
 
     _id = _city getVariable ["id", 0];
-    _city setVariable ["occupied", true];
-    _city setVariable ["has_ho", true];
-    _city setVariable ["ho_units_spawned", false];
 } else {
     _city = btc_city_all get _id;
 };
+_city setVariable ["occupied", true];
+_city setVariable ["has_ho", true];
+_city setVariable ["ho_units_spawned", false];
 
 _city setVariable ["city_realPos", getPos _city];
 _city setPos _pos;

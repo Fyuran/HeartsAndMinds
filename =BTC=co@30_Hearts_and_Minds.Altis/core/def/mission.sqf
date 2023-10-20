@@ -86,12 +86,17 @@ btc_p_sea = ("btc_p_sea" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_chem = ("btc_p_chem" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_spect = ("btc_p_spect" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_side_mission_cycle = "btc_p_side_mission_cycle" call BIS_fnc_getParamValue;
+btc_p_fob_cap_time = "btc_p_fob_cap_time" call BIS_fnc_getParamValue;
 
 //<< Arsenal options >>
 btc_p_arsenal_Type = "btc_p_arsenal_Type" call BIS_fnc_getParamValue;
 btc_p_arsenal_Restrict = "btc_p_arsenal_Restrict" call BIS_fnc_getParamValue;
 btc_p_garage = ("btc_p_garage" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_autoloadout = "btc_p_autoloadout" call BIS_fnc_getParamValue;
+
+//<< Event options >>
+btc_p_event_maxEvents = "btc_p_event_maxEvents" call BIS_fnc_getParamValue;
+btc_p_event_enable_fobAttack = ("btc_p_event_enable_fobAttack" call BIS_fnc_getParamValue)  isEqualTo 1;
 
 //<< Other options >>
 btc_global_reputation = "btc_p_rep" call BIS_fnc_getParamValue;
@@ -153,6 +158,10 @@ if (isServer) then {
     btc_db_serverCommandPassword = "btc_password"; //Define the same password in server.cfg like this: serverCommandPassword = "btc_password";
     btc_db_warningTimeAutoRestart = 5;
 
+    //Event
+    btc_event_activeEvents = 0;
+    btc_event_beingHandled = false;
+
     //Hideout
     btc_hideouts = []; publicVariable "btc_hideouts";
     btc_hideouts_radius = 800;
@@ -173,13 +182,17 @@ if (isServer) then {
     btc_ied_power = ["Bo_GBU12_LGB_MI10", "R_MRAAWS_HE_F"] select btc_p_ied_power;
 
     //FOB
-    btc_fobs = [[], [], []];
+    btc_fobs = [[], [], [], [], []];
     btc_fob_rallypointTimer = 60 * btc_p_rallypointTimer;
     btc_body_deadPlayers  = [];
+	btc_fob_showAlert = true;
+	btc_fob_alertRadius = 600;
+    btc_fob_attackRadius = worldSize / 8 + btc_city_radiusOffset;
 
     //Patrol
     btc_patrol_active = [];
     btc_patrol_area = 2500;
+    btc_patrols_pos = createHashMap; //Patrols debug markers
 
     //Rep
     btc_rep_militia_call_time = 600;
@@ -641,6 +654,8 @@ btc_type_motorized = _allclasse select 5;
 btc_type_motorized_armed = _allclasse select 6;
 btc_type_mg = _allclasse select 7;
 btc_type_gl = _allclasse select 8;
+btc_type_motorized_armed_ground = _allclasse select 9; //Grounded vehicles only, so "Air" and "Helicopter are excluded"
+btc_type_motorized_transport = _allclasse select 10; //Get vehicles that transport many troops
 
 //Sometimes you need to remove units: - ["Blabla","moreBlabla"];
 //Sometimes you need to add units: + ["Blabla","moreBlabla"];
@@ -657,6 +672,7 @@ switch (_p_en) do {
     case "OPF_G_F" : {
         btc_type_motorized = btc_type_motorized + ["I_Truck_02_transport_F", "I_Truck_02_covered_F"];
         btc_type_motorized_armed = btc_type_motorized_armed + ["I_Heli_light_03_F"];
+        btc_type_motorized_transport = btc_type_motorized_transport + ["I_Truck_02_transport_F", "I_Truck_02_covered_F"];
     };
     case "IND_C_F" : {
         btc_type_motorized = btc_type_motorized + ["I_G_Offroad_01_repair_F", "I_G_Offroad_01_F", "I_G_Quadbike_01_F", "I_G_Van_01_fuel_F", "I_Truck_02_transport_F", "I_Truck_02_covered_F"];
