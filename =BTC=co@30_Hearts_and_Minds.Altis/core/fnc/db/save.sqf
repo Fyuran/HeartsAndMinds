@@ -41,6 +41,10 @@ profileNamespace setVariable [format ["btc_hm_%1_date", _name], date];
 //City status
 private _cities_status = [];
 {
+    if (_y getVariable ["active", false]) then {
+        [_city] call btc_db_fnc_enabled_city_save; //activated cities won't record any new data until deactivation.
+    };
+
     private _city_status = [];
     _city_status pushBack _x;
 
