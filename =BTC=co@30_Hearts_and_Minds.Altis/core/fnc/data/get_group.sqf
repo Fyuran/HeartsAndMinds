@@ -57,7 +57,7 @@ private _array_wp = (waypoints _group) apply {[
     };
 
     _array_type pushBack typeOf _x;
-    _array_dam pushBack getDammage _x;
+    _array_dam pushBack damage _x;
 } forEach _units;
 
 if (_group getVariable ["btc_inHouse", ""] isNotEqualTo "") then {

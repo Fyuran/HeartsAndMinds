@@ -94,6 +94,7 @@ btc_p_garage = ("btc_p_garage" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_autoloadout = "btc_p_autoloadout" call BIS_fnc_getParamValue;
 
 //<< Other options >>
+btc_p_json = ("btc_p_json" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_global_reputation = "btc_p_rep" call BIS_fnc_getParamValue;
 btc_p_rep_notify = "btc_p_rep_notify" call BIS_fnc_getParamValue;
 btc_city_radiusOffset = ("btc_p_city_radiusOffset" call BIS_fnc_getParamValue) * 100;

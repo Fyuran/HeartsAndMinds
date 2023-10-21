@@ -12,7 +12,7 @@ Returns:
 
 Examples:
     (begin example)
-        [cursorObject] call btc_fob_fnc_create;
+        [cursorObject] spawn btc_fob_fnc_create;
     (end)
 
 Author:

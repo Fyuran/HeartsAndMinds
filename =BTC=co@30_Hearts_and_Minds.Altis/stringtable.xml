@@ -2708,6 +2708,7 @@
                 <Chinesesimp>正在保存, 请稍后... </Chinesesimp>
                 <French>Enregistrement en cours... Veuillez patienter</French>
                 <Czech>Probíhá ukládání... Čekejte prosím</Czech>
+                <Italian>Salvataggio in corso... Prego attendere</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_O_COMMON_SHOWHINTS_9">
                 <Original>Game has been saved!</Original>
@@ -2717,6 +2718,16 @@
                 <Chinesesimp>游戏已保存!</Chinesesimp>
                 <French>La partie a été enregistrée !</French>
                 <Czech>Hra byla uložena!</Czech>
+            </Key>
+            <Key ID="STR_BTC_HAM_O_COMMON_SHOWHINTS_16">
+                <Original>Saving JSON in progress... Please wait</Original>
+                <Spanish>Guardando JSON... Por favor, espere</Spanish>
+                <German>Es wird gespeichert... Bitte warten</German>
+                <Portuguese>Salvando progresso JSON... Espere por favor</Portuguese>
+                <Chinesesimp>正在保存, 请稍后... </Chinesesimp>
+                <French>Enregistrement JSON en cours... Veuillez patienter</French>
+                <Czech>Probíhá ukládání... Čekejte prosím</Czech>
+                <Italian>Salvataggio JSON in corso... Prego attendere</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_O_COMMON_SHOWHINTS_10">
                 <Original>Database deleted!</Original>

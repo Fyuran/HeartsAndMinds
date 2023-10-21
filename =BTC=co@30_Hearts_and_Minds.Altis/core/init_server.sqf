@@ -7,11 +7,19 @@ setTimeMultiplier btc_p_acctime;
 [["btc_dft", "btc_m"], 0] call btc_task_fnc_create;
 [["btc_dty", "btc_m"], 1] call btc_task_fnc_create;
 
-if (btc_db_load && {profileNamespace getVariable [format ["btc_hm_%1_db", worldName], false]}) then {
-    if ((profileNamespace getVariable [format ["btc_hm_%1_version", worldName], 1.13]) in [btc_version select 1, 22.1]) then {
-        [] call compileScript ["core\fnc\db\load.sqf"];
-    } else {
-        [] call compileScript ["core\fnc\db\load_old.sqf"];
+[] call btc_eh_fnc_server;
+
+if(btc_db_load) then {
+    if(btc_p_json) then {
+        [] call btc_json_fnc_load;
+        } else {
+            if (profileNamespace getVariable [format ["btc_hm_%1_db", worldName], false]) then {
+            if ((profileNamespace getVariable [format ["btc_hm_%1_version", worldName], 1.13]) in [btc_version select 1, 22.1]) then {
+                [] call compileScript ["core\fnc\db\load.sqf"];
+            } else {
+                [] call compileScript ["core\fnc\db\load_old.sqf"];
+            };
+        };
     };
 } else {
     if (btc_hideout_n > 0) then {
@@ -31,7 +39,8 @@ if (btc_db_load && {profileNamespace getVariable [format ["btc_hm_%1_db", worldN
     if (isNil "btc_vehicles") then {btc_vehicles = [];};
 };
 
-[] call btc_eh_fnc_server;
+
+
 [btc_ied_list] call btc_ied_fnc_fired_near;
 [] call btc_chem_fnc_checkLoop;
 [] call btc_chem_fnc_handleShower;

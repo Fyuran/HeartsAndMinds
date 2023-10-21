@@ -76,6 +76,19 @@ if (isServer) then {
     btc_db_fnc_setTurretMagazines = compileScript ["core\fnc\db\setTurretMagazines.sqf"];
     btc_db_fnc_autoRestartLoop = compileScript ["core\fnc\db\autoRestartLoop.sqf"];
 
+    //JSON
+    btc_json_fnc_encodeJSON = compileScript ["core\fnc\json\encodeJSON.sqf"];
+    btc_json_fnc_addMEH = compileScript ["core\fnc\json\addMEH.sqf"];
+    btc_json_fnc_save = compileScript ["core\fnc\json\save.sqf"];
+    btc_json_fnc_load = compileScript ["core\fnc\json\load.sqf"];
+    btc_json_fnc_delete = compileScript ["core\fnc\json\delete.sqf"];
+    btc_json_fnc_get_group = compileScript ["core\fnc\json\get_group.sqf"];
+    btc_json_fnc_spawn_group = compileScript ["core\fnc\json\spawn_group.sqf"]; 
+    btc_json_fnc_add_group_wp = compileScript ["core\fnc\json\add_group_wp.sqf"]; 
+    btc_json_fnc_serialize_players = compileScript ["core\fnc\json\serialize_players.sqf"];
+    btc_json_fnc_serialize_medical_status = compileScript ["core\fnc\json\serialize_medical_status.sqf"];
+    btc_json_fnc_deserialize_medical_status = compileScript ["core\fnc\json\deserialize_medical_status.sqf"];
+
     //DELAY
     btc_delay_fnc_createUnit = compileScript ["core\fnc\delay\createUnit.sqf"];
     btc_delay_fnc_createVehicle = compileScript ["core\fnc\delay\createVehicle.sqf"];

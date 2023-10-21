@@ -39,7 +39,7 @@ class Params {
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_DB_LOAD"]);
         values[]={0,1};
         texts[]={$STR_DISABLED,$STR_ENABLED};
-        default = 1;
+        default = 0;
     };
     class btc_p_auto_db { // Auto savegame when all players disconnected
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_DB_ASAVE"]);
@@ -133,6 +133,12 @@ class Params {
     };
     class btc_p_slot_isShare { // Each slot is share between players
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_SLOT_ISSHARE"]);
+        values[]={0,1};
+        texts[]={$STR_DISABLED, $STR_ENABLED};
+        default = 0;
+    };
+    class btc_p_json { // Each slot is share between players
+        title = __EVAL(format ["      %1", "Enable JSON database file"]);
         values[]={0,1};
         texts[]={$STR_DISABLED, $STR_ENABLED};
         default = 1;

@@ -24,6 +24,10 @@ params [
     ["_name", worldName, [""]]
 ];
 
+if((profileNamespace getVariable [format ["btc_hm_%1_cities", _name], []]) isEqualTo []) exitWith {
+    ["No Database found to load.", 1, [1,0,0,1]] call CBA_fnc_notify;
+};
+
 setDate +(profileNamespace getVariable [format ["btc_hm_%1_date", _name], date]);
 
 //CITIES

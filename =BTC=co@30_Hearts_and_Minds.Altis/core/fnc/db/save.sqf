@@ -38,7 +38,7 @@ profileNamespace setVariable [format ["btc_hm_%1_version", _name], btc_version s
 //World Date
 profileNamespace setVariable [format ["btc_hm_%1_date", _name], date];
 
-//City status
+//City status 
 private _cities_status = [];
 {
     private _city_status = [];
@@ -58,6 +58,7 @@ private _cities_status = [];
     _city_status pushBack (_y getVariable ["data_animals", []]);
     _city_status pushBack (_y getVariable ["data_tags", []]);
     _city_status pushBack (_y getVariable ["btc_rep_civKilled", []]);
+    _city_status pushBack (_y getVariable ["name", "noName"]);
 
     _cities_status pushBack _city_status;
     if (btc_debug_log) then {
@@ -253,8 +254,10 @@ profileNamespace setVariable [format ["btc_hm_%1_markers", _name], +_markers_pro
 
 //End
 profileNamespace setVariable [format ["btc_hm_%1_db", _name], true];
+
 saveProfileNamespace;
 if (btc_debug) then {
     ["...3", __FILE__, [btc_debug, false, true]] call btc_debug_fnc_message;
 };
 [9] remoteExecCall ["btc_fnc_show_hint", 0];
+

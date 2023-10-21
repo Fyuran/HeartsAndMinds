@@ -150,3 +150,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
         [_obj, 50] call ace_cargo_fnc_setSpace;
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 } forEach ["CUP_MTVR_Base", "Truck_01_base_F"];
+
+if(btc_p_json) then {
+    [] call btc_json_fnc_addMEH;
+};
