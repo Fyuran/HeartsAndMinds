@@ -59,8 +59,7 @@ _marker setMarkerType "b_hq";
 _marker setMarkerText _FOB_name;
 _marker setMarkerColor "ColorBlue";
 _marker setMarkerShape "ICON";
-private _markersArr = [];
-_markersArr pushBack _marker;
+(_fobs select 0) pushBack _marker;
 
 //Alarm FOB Trigger
 if (btc_p_event_enable_fobAttack) then {
@@ -79,7 +78,6 @@ if (btc_p_event_enable_fobAttack) then {
         _marker setMarkerSize [btc_fob_alertRadius, btc_fob_alertRadius];
         _marker setMarkerAlpha 0.3;
         _marker setMarkerColor "ColorBlue";
-        _markersArr pushBack _marker;
 
         _pos params ["_posx", "_posy"];
         private _marke = createMarker [format ["fobn_%1",  _FOB_name], [_posx+10, _posy+10, 0]];
@@ -90,7 +88,6 @@ if (btc_p_event_enable_fobAttack) then {
             _spaces = _spaces + " ";
         };
         _marke setMarkerText format [_spaces + "%1: alarm trigger range", _FOB_name];
-        _markersArr pushBack _marke;
     };
 
     //Destroy FOB Trigger
@@ -135,14 +132,15 @@ if (btc_p_event_enable_fobAttack) then {
         {_x getVariable ["occupied", false]}
 	}; 
 	
-	if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
-		[EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
-	};
+    if(CBA_missionTime > 10) then { //Avoids fob attacks at mission startup
+        if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
+            [EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
+        };
+    };
+
 };
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 
 _structure addEventHandler ["Killed", btc_fob_fnc_killed];
 
-(_fobs select 0) pushBack _markersArr;
-
-[_markersArr, _structure, _flag, _loudspeaker]
+[_marker, _structure, _flag, _loudspeaker]

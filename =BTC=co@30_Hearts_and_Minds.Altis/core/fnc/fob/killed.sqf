@@ -42,7 +42,7 @@ if (btc_debug || btc_debug_log) then {
     [format ["named %1", ((_fobs select 0) select _fob_index) select 0], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
 };
 
-((_fobs select 0) select _fob_index) apply {deleteMarker _x}; //Markers
+deleteMarker ((_fobs select 0) deleteAt _fob_index); //Markers
 private _fob = (_fobs select 1) deleteAt _fob_index; //FOB_structure
 deleteVehicle ((_fobs select 2) deleteAt _fob_index); //Flags
 deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
