@@ -12,7 +12,7 @@ Returns:
 
 Examples:
     (begin example)
-        [cursorObject] call btc_fob_fnc_create;
+        [cursorObject] spawn btc_fob_fnc_create;
     (end)
 
 Author:
@@ -23,6 +23,13 @@ Author:
 params [
     ["_mat", objNull, [objNull]]
 ];
+
+if(!canSuspend) exitWith {
+    if(btc_debug) then {
+        ["%1 Called in a non suspended envinronment", __FILE__] call BIS_fnc_error;
+        ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
+};
 
 if (((position _mat) isFlatEmpty [1, 0, 0.9, 1, 0, false, _mat]) isEqualTo []) exitWith {(localize "STR_BTC_HAM_O_FOB_CREATE_H_AREA") call CBA_fnc_notify;};
 

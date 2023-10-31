@@ -39,7 +39,7 @@ params [
 private _fob_index = (_fobs select 1) find _struc;
 
 if (btc_debug || btc_debug_log) then {
-    [format ["named %1", ((_fobs select 0) select _fob_index) select 0], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
+    [format ["named %1", (_fobs select 0) select _fob_index], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
 };
 
 deleteMarker ((_fobs select 0) deleteAt _fob_index); //Markers
@@ -58,9 +58,8 @@ if(_fob getVariable ["FOB_Event", false]) then {
     };
 
     _groups = _fob getVariable["FOB_Event_grps", []];
-    _groups apply {_x call btc_data_fnc_add_group;};
     
-   btc_event_activeEvents = btc_event_activeEvents - 1;
+   btc_event_activeEvents = (0 max (btc_event_activeEvents - 1));
 };
 [FOB_REP, objNull] call btc_rep_fnc_change;
 

@@ -41,7 +41,10 @@ missionnamespace setvariable ["BIS_fnc_showNotification_queue",_queue];
 _process = missionnamespace getvariable ["BIS_fnc_showNotification_process",true];
 _processDone = if (typename _process == typename true) then {true} else {scriptdone _process};
 if (_processDone) then {
-	_process = [] spawn {
+	_process = [_data] spawn {
+		params[
+			["_data", [], [[]], 14]
+		];
 		scriptname "BIS_fnc_showNotification: queue";
 		_queue = missionnamespace getvariable ["BIS_fnc_showNotification_queue",[]];
 		_layers = [

@@ -24,6 +24,15 @@ params[
     ["_params", []]
 ];
 
+if(btc_event_cooldown > CBA_missionTime) exitWith {
+    if(btc_debug) then {
+        [format["Not ready yet: CD:%1, CBA_missionTime: %2, Remaining: %3", 
+            btc_event_cooldown, CBA_missionTime, btc_event_cooldown - CBA_missionTime],
+                 __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
+    false
+};
+
 if(btc_event_beingHandled) exitWith {false}; //avoid multiple event calls
 if(btc_event_activeEvents >= btc_p_event_maxEvents) exitWith { //compared to btc_p_event_maxEvents
     ["Too many active events", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;

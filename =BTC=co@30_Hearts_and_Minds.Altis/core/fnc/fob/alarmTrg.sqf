@@ -19,6 +19,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 #define FOB_ATTACK_TASK_TYPE 42
+#define COOLDOWN 300
 
 params[
     ["_fob_trg", ObjNull, [ObjNull]],
@@ -35,6 +36,15 @@ if (isNull _structure) exitWith {
     ["_structure is ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
+private _cooldown = _structure getVariable["btc_fob_cooldown", -1];
+if(_cooldown > CBA_missionTime) exitWith {
+    if(btc_debug) then {
+        [format["Not ready yet: CD:%1, CBA_missionTime: %2, Remaining: %3", 
+            _cooldown, CBA_missionTime, _cooldown - CBA_missionTime],
+                 __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
+};
+
 private _FOB_Event = _structure getVariable ["FOB_Event", false];
 private _FOB_Name = _structure getVariable["FOB_name",""];
 [format["%1: alarm triggered", _FOB_name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
@@ -48,6 +58,9 @@ private _FOB_Name = _structure getVariable["FOB_name",""];
 if(_FOB_Event) then {
     _structure spawn {
         params["_structure"];
+
+        _structure setVariable["btc_fob_cooldown", CBA_missionTime + COOLDOWN];
+
         _loudspeaker = _structure getVariable ["FOB_Loudspeaker", ObjNull];
         _pos = getPosASL _loudspeaker;
         playSound3d ["a3\data_f_curator\sound\cfgsounds\air_raid.wss", _loudspeaker, false, _pos, 5];

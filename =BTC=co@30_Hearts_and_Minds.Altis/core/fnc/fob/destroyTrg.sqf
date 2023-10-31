@@ -55,6 +55,7 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
         _awakeUnits = (list _fob_trg) select {!(_x getVariable ["ACE_isUnconscious", false])}; //ACE_isUnconscious units should never update cap timer
 
         if(_awakeUnits isNotEqualTo []) then { //increase cap time
+            _structure setVariable["btc_fob_cooldown", -1]; //reset cooldown, sounds the alarm!
             _structure setVariable["fob_conquest_time", _fob_conquest_time + (triggerInterval _fob_trg), true];
         } else {
             if (round _fob_conquest_time > 0) then { //decrease cap time
@@ -69,8 +70,6 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
         if(round _fob_conquest_time >= btc_p_fob_cap_time) then {
             _structure setDamage 1; //CBA PFH will removed in Killed EH
         };
-
-        //[format["%1 PFH on %2 is firing on %3", _handle, _structure getVariable ["FOB_name", "UNKNOWN"], CBA_missionTime], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 
     }, triggerInterval _fob_trg, 
     [

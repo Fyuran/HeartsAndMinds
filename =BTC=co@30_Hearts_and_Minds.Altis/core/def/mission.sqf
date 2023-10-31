@@ -161,6 +161,7 @@ if (isServer) then {
     //Event
     btc_event_activeEvents = 0;
     btc_event_beingHandled = false;
+    btc_event_cooldown = 10; //value is set to avoid mission startup or db load event from triggering
 
     //Hideout
     btc_hideouts = []; publicVariable "btc_hideouts";

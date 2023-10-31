@@ -20,6 +20,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 #define FOB_ATTACK_TASK_TYPE 42
+#define EVENT_COOLDOWN 600
 
 if(!params[
 	["_activator", ObjNull, [ObjNull]]
@@ -111,14 +112,14 @@ _structure setVariable["FOB_Event_grps", _groups];
         _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition;
         _structure setVariable["FOB_Respawn_EH", _BISEH_return];
 
-        btc_event_activeEvents = btc_event_activeEvents - 1;
+        btc_event_activeEvents = (0 max (btc_event_activeEvents - 1));
 
     };
 
     // TASK_SUCCEEDED when only a part of enemy troops are remaining
     [{// also has timeout in case of Arma's AI fuckery
         ({alive _x} count (_this select 3)) <= (_this select 4)
-    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 600*(count _groups), _statement
+    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 300*(count _groups), _statement
     ] call CBA_fnc_waitUntilAndExecute;
 
 }, [_structure, _flag, _groups], 2*(count _groups)] call CBA_fnc_waitAndExecute;
@@ -126,5 +127,7 @@ _structure setVariable["FOB_Event_grps", _groups];
 
 
 btc_event_activeEvents = btc_event_activeEvents + 1;
+btc_event_cooldown = CBA_missionTime + EVENT_COOLDOWN;
+
 
 _return

@@ -132,10 +132,8 @@ if (btc_p_event_enable_fobAttack) then {
         {_x getVariable ["occupied", false]}
 	}; 
 	
-    if(CBA_missionTime > 10) then { //Avoids fob attacks at mission startup
-        if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
-            [EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
-        };
+    if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
+        [EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
     };
 
 };
