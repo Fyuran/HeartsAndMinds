@@ -37,9 +37,9 @@ class Params {
     };
     class btc_p_load { // Load the savegame (if available)
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_DB_LOAD"]);
-        values[]={0,1};
-        texts[]={$STR_DISABLED,$STR_ENABLED};
-        default = 0;
+        values[]={0,1,2};
+        texts[]={$STR_DISABLED,"profileNamespace", "JSON"};
+        default = 2;
     };
     class btc_p_auto_db { // Auto savegame when all players disconnected
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_DB_ASAVE"]);
@@ -136,12 +136,6 @@ class Params {
         values[]={0,1};
         texts[]={$STR_DISABLED, $STR_ENABLED};
         default = 0;
-    };
-    class btc_p_json { // Each slot is share between players
-        title = __EVAL(format ["      %1", "Enable JSON database file"]);
-        values[]={0,1};
-        texts[]={$STR_DISABLED, $STR_ENABLED};
-        default = 1;
     };
     class btc_p_type_title { // << Faction options >>
         title = $STR_BTC_HAM_PARAM_FAC_TITLE;

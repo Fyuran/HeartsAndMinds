@@ -10,7 +10,7 @@ diag_log format (["=BTC= HEARTS AND MINDS VERSION %1.%2.%3"] + btc_version);
 //<< Time options >>
 btc_p_time = "btc_p_time" call BIS_fnc_getParamValue;
 btc_p_acctime = "btc_p_acctime" call BIS_fnc_getParamValue;
-btc_db_load = ("btc_p_load" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_db_load = "btc_p_load" call BIS_fnc_getParamValue;
 btc_p_auto_db = "btc_p_auto_db" call BIS_fnc_getParamValue isEqualTo 1;
 btc_p_db_autoRestartTime = "btc_p_db_autoRestartTime" call BIS_fnc_getParamValue;
 btc_p_db_autoRestartHour = [
@@ -94,7 +94,6 @@ btc_p_garage = ("btc_p_garage" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_autoloadout = "btc_p_autoloadout" call BIS_fnc_getParamValue;
 
 //<< Other options >>
-btc_p_json = ("btc_p_json" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_global_reputation = "btc_p_rep" call BIS_fnc_getParamValue;
 btc_p_rep_notify = "btc_p_rep_notify" call BIS_fnc_getParamValue;
 btc_city_radiusOffset = ("btc_p_city_radiusOffset" call BIS_fnc_getParamValue) * 100;
@@ -153,6 +152,7 @@ if (isServer) then {
     //Database
     btc_db_serverCommandPassword = "btc_password"; //Define the same password in server.cfg like this: serverCommandPassword = "btc_password";
     btc_db_warningTimeAutoRestart = 5;
+    btc_db_saveName = worldName; //change to customize save name;
 
     //Hideout
     btc_hideouts = []; publicVariable "btc_hideouts";

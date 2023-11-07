@@ -21,7 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_name", worldName, [""]]
+    ["_name", btc_db_worldName, [""]]
 ];
 
 if((profileNamespace getVariable [format ["btc_hm_%1_cities", _name], []]) isEqualTo []) exitWith {

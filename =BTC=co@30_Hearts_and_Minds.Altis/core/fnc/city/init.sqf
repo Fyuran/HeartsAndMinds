@@ -24,7 +24,7 @@ params [
     ["_density_of_occupiedCity", btc_p_density_of_occupiedCity, [0]]
 ];
 
-private _locations = configfile >> "cfgworlds" >> worldname >> "names";
+private _locations = configfile >> "cfgworlds" >> worldName >> "names";
 
 private _citiesType = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "Hill", "Airport", "StrongpointArea", "BorderCrossing", "VegetationFir"];
 if (btc_p_sea) then {_citiesType pushBack "NameMarine";};

@@ -365,6 +365,7 @@
                 <Chinesesimp>载入存档 (如果可用)</Chinesesimp>
                 <French>Chargez la sauvegarde (si disponible)</French>
                 <Czech>Načtěte uloženou hru (pokud je k dispozici)</Czech>
+                <Italian>Carica il salvataggio (se disponibile)</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_PARAM_DB_ASAVE">
                 <Original>Auto savegame when all players disconnected</Original>

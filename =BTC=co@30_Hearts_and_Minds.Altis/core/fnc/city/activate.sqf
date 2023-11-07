@@ -92,7 +92,7 @@ if (!(_city getVariable ["initialized", false])) then {
 private _delay = 0;
 if (_data_units isNotEqualTo []) then {
     {
-        _delay = _delay + ([_x, _city, _spawningRadius] call ([btc_data_fnc_spawn_group, btc_json_fnc_spawn_group] select btc_p_json));
+        _delay = _delay + ([_x, _city, _spawningRadius] call ([btc_data_fnc_spawn_group, btc_json_fnc_spawn_group] select (btc_db_load == 2)));
     } forEach _data_units;
 } else {
     // Maximum number of enemy group

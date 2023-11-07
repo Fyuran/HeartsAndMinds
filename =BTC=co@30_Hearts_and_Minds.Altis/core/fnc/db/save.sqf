@@ -21,7 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_name", worldName, [""]]
+    ["_name", btc_db_saveName, [""]]
 ];
 
 if (btc_debug) then {
@@ -58,7 +58,6 @@ private _cities_status = [];
     _city_status pushBack (_y getVariable ["data_animals", []]);
     _city_status pushBack (_y getVariable ["data_tags", []]);
     _city_status pushBack (_y getVariable ["btc_rep_civKilled", []]);
-    _city_status pushBack (_y getVariable ["name", "noName"]);
 
     _cities_status pushBack _city_status;
     if (btc_debug_log) then {

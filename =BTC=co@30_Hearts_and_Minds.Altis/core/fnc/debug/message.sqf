@@ -31,7 +31,7 @@ params [
 
 _type params[
     ["_useChat", false, [true]],
-    ["_useLog", true, [true]],
+    ["_useLog", btc_debug_log, [true]],
     ["_global", true, [true]]
 ];
 
@@ -44,7 +44,7 @@ _folder = _folder select [_startPosition, (_folder find ".sqf") - _startPosition
 if(!_isError) then {
     [_message, _folder, _type] call CBA_fnc_debug;
 } else {
-    ["%2: %1", _message, _folder] remoteExecCall ["BIS_fnc_error"];
-    [_message, _folder, [false, true, true]] call CBA_fnc_debug;
+    ["%2: %1", _message, _folder] remoteExecCall ["BIS_fnc_error", [clientOwner, 0] select _global];
+    [_message, _folder, _type] call CBA_fnc_debug;
 };
 

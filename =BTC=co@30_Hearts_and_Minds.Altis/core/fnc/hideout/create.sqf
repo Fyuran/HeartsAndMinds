@@ -71,6 +71,10 @@ if (_pos isEqualTo []) then {
     _city = btc_city_all get _id;
 };
 
+if(isNil "_city" || isNull _city) exitWith {
+    [format["no _city found, args: %1", _this], __FILE__, nil, true] call btc_debug_fnc_message;
+};
+
 _city setVariable ["city_realPos", getPos _city];
 _city setPos _pos;
 if (btc_debug) then {deleteMarker format ["loc_%1", _id];};
