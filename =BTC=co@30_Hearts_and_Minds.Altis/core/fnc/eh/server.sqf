@@ -68,6 +68,16 @@ addMissionEventHandler ["HandleDisconnect", {
         deleteVehicle _player;
     };
     if (alive _player) then {
+        if(btc_db_load isEqualTo 2) then { //JSON
+
+            private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
+            _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", btc_db_saveName], createHashMap];
+
+            private _hash = [_player] call btc_json_fnc_serialize_players;
+		    _slots_serialized set [_hash get "uid", _hash];
+
+        }; 
+
         _player call btc_slot_fnc_serializeState;
     };
     false
@@ -75,12 +85,22 @@ addMissionEventHandler ["HandleDisconnect", {
 ["ace_unconscious", btc_slot_fnc_serializeState] call CBA_fnc_addEventHandler;
 ["btc_playerConnected", { 
     params ["_player", "_ids"];
-    [_player, _player call btc_slot_fnc_createKey, _ids select 4] call btc_slot_fnc_deserializeState_s;
+
+    if(btc_db_load == 2) then { //JSON
+        private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
+        _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", btc_db_saveName], createHashMap];
+ 
+        private _hash = _slots_serialized getOrDefault [getPlayerUID _player , createHashMap];
+        if(_hash isEqualTo createHashMap) exitWith {};
+    }else {
+        [_player, _player call btc_slot_fnc_createKey, _ids select 4] call btc_slot_fnc_deserializeState_s;
+    };
+    
 }] call CBA_fnc_addEventHandler;
 if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {
         if ((allPlayers - entities "HeadlessClient_F") isEqualTo []) then {
-            [] call btc_db_fnc_save;
+            [] call [btc_db_fnc_save, btc_json_fnc_save] select (btc_db_load == 2);
         };
     }];
 };

@@ -45,7 +45,7 @@ if (surfaceIsWater _pos) then {
 private _array_type = [];
 private _side = side _group;
 private _array_veh = [];
-private _wp_type = _group getVariable ["wp_type", "SENTRY"];
+private _wp_type = _group getVariable ["wp_type", "PATROL"];
 
 {
 	_array_type pushBack typeOf _x;

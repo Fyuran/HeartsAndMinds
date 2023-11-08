@@ -23,8 +23,9 @@ params [
 	["_name", btc_db_saveName, [""]]
 ];
 
-[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [0,1,0,1]]] call btc_fnc_show_custom_hint;
+[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
 
+// METADATA
 private _simpleData = createHashMapFromArray[
 	[
 		"metadata",
@@ -37,7 +38,7 @@ private _simpleData = createHashMapFromArray[
 	]
 ];
 
-// City status 
+// CITIES
 private _cities_status = createHashMap;
 {
 	private _name = _y getVariable ["name", ""];
@@ -67,7 +68,7 @@ private _cities_status = createHashMap;
 	_cities_status set [_name, _hash];
 } forEach btc_city_all;
 
-// HIDEOUT
+// HIDEOUTS
 private _array_ho = createHashMap;
 {
 	(getPos _x) params ["_xx", "_yy"];
@@ -130,7 +131,26 @@ private _fobs = createHashMap;
 	};
 } forEach (btc_fobs select 0);
 
-// vehicles status
+// OBJECTS
+private _array_obj = createHashMap;
+{
+	if !(!alive _x || isNull _x) then {
+		private _data = [_x] call btc_db_fnc_saveObjectStatus;
+		private _hash =
+		["type", "pos", "direction", "", "cargo",
+			"inventory", "vectorPos", "isChem", "dogtagDataTaken",
+			"flagTexture", "turretMagazines", "customName", "tagTexture",
+			"properties"
+		] createHashMapFromArray _data;
+		_array_obj set [_forEachindex, _hash];
+	};
+} forEach (btc_log_obj_created select {
+	!(isObjectHidden _x) &&
+	isNull objectParent _x &&
+	isNull isVehicleCargo _x
+});
+
+// VEHICLES
 private _array_veh = createHashMap;
 private _vehicles = btc_vehicles - [objNull];
 private _vehiclesNotInCargo = _vehicles select {isNull isVehicleCargo _x && {isNull isVehicleCargo attachedTo _x}};
@@ -159,35 +179,18 @@ private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
 	_array_veh set [_forEachIndex, _hash];
 } forEach (_vehiclesNotInCargo + _vehiclesInCargo);
 
-// Objects status
-private _array_obj = createHashMap;
-{
-	if !(!alive _x || isNull _x) then {
-		private _data = [_x] call btc_db_fnc_saveObjectStatus;
-		private _hash =
-		["type", "pos", "direction", "", "cargo",
-			"inventory", "vectorPos", "isChem", "dogtagDataTaken",
-			"flagTexture", "turretMagazines", "customName", "tagTexture",
-			"properties"
-		] createHashMapFromArray _data;
-		_array_obj set [_forEachindex, _hash];
-	};
-} forEach (btc_log_obj_created select {
-	!(isObjectHidden _x) &&
-	isNull objectParent _x &&
-	isNull isVehicleCargo _x
-});
+// PLAYERS
+private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
+_slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", _name], createHashMap];
 
-// player slots
-private _slots_serialized = createHashMap;
 ((allPlayers - entities "HeadlessClient_F") apply {
 	if (alive _x) then {
-		_hash = [_x] call btc_json_fnc_serialize_players;
+		private _hash = [_x] call btc_json_fnc_serialize_players;
 		_slots_serialized set [_hash get "uid", _hash];
 	};
 });
 
-// player Markers
+// MARKERS
 private _player_markers = createHashMap;
 {
 	private _hash =

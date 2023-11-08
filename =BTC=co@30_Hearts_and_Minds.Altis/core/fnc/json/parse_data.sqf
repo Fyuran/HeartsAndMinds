@@ -16,13 +16,16 @@
 	Author:
 	
 ---------------------------------------------------------------------------- */
-params[ 
-	["_jsonData", btc_JSON, [[]]] 
-];
 
+if(isNil "btc_JSON") exitWith {
+	[format["Cannot parse a nil btc_JSON"], __FILE__, nil, true] call btc_debug_fnc_message;
+};
+if(isNil "btc_JSON_data") then {
+	btc_JSON_data = createHashMap;
+};
+btc_JSON_parsed = true;
 
-private _mainHash = createHashMap;
-
+_jsonData = +btc_JSON;
 _jsonData apply {
 	_x params [
 		["_function", [], ["",[]]], 
@@ -51,13 +54,12 @@ _jsonData apply {
 
 	//Assign or merge all hashes
 	
-	private _firstHash = _mainHash getOrDefault [_main_key, createHashMap];
+	private _firstHash = btc_JSON_data getOrDefault [_main_key, createHashMap];
 	private _secondHash = _firstHash getOrDefault [_secondary_key, createHashMap];
 
 	_secondHash merge _adjustedThirdHash;
 
 	_firstHash set [_secondary_key, _secondHash];
-	_mainHash set [_main_key, _firstHash];
+	btc_JSON_data set [_main_key, _firstHash];
 };
 
-btc_JSON_data = _mainHash;

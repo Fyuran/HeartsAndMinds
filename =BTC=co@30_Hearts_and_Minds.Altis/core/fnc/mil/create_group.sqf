@@ -100,7 +100,7 @@ for "_i" from 1 to _numberOfGroup do {
             }, [_group, _hashMapGroup], btc_delay_time] call CBA_fnc_waitAndExecute;            
         };
     };
-    _group setVariable ["wp_type", _wp];
+    _group setVariable ["wp_type", _wp, true];
     [_group, _hashMapGroup, _n, _pos_iswater] call btc_mil_fnc_createUnits;
 };
 

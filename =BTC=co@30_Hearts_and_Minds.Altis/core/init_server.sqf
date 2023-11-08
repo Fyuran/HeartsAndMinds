@@ -17,7 +17,6 @@ switch (btc_db_load) do {
 		if (_returnCode isEqualTo 200) then {
 			[] call btc_json_fnc_load;
 		} else {
-			[format["%1", _result], __FILE__, nil, true] call btc_debug_fnc_message;
 			[] call btc_db_fnc_initDefault;
 		};
 	};

@@ -25,7 +25,9 @@ btc_JSON_MEH = addMissionEventHandler ["ExtensionCallback", {
 	params ["_name", "_function", "_data"];
     
     if(_name isNotEqualTo "btc_ArmaToJSON") exitWith {};
-    if(!isNil "btc_JSON_data") exitWith {}; //avoid multiple reloads, preInit is fickle
+    if(btc_JSON_parsed) exitWith {
+        removeMissionEventHandler ["ExtensionCallback", _thisEventHandler];
+    }; //avoid multiple reloads, preInit is fickle
 
     if (btc_debug) then {
         [format["CallExtension returning data: %1", _this], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
