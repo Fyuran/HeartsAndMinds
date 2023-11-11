@@ -31,6 +31,10 @@ params[
 ];
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
+if (btc_debug) then {
+	[format ["Loading JSON data for %1", _name], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+};
+
 // METADATA
 private _metadata = ((MMAPGET) get "metadata");
 (values _metadata) params (keys _metadata);
@@ -58,9 +62,9 @@ if (_cities isNotEqualTo createHashMap) then {
 		if (btc_debug) then {
 			private _marker = _city getVariable ["marker", ""];
 			if (_city getVariable ["occupied", false]) then {
-				_marker setMarkerColor "colorRed";
+				_marker setMarkerColor (["colorRed", "ColorCIV"] select _initialized);
 			} else {
-				_marker setMarkerColor "colorGreen";
+				_marker setMarkerColor (["colorGreen", "ColorWhite"] select _initialized);
 			};
 			if (btc_debug_log) then {
 				[format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false]] call btc_debug_fnc_message;
@@ -194,18 +198,19 @@ if (_vehs isNotEqualTo createHashMap) then {
 private _players = (MAPGET("slotsSerialized"));
 if (_players isNotEqualTo createHashMap) then {
 	[{
-		_this apply {
-			(values _y) params (keys _y);
+		if(!isMultiplayer) then {
+			_this apply {
+				(values _y) params (keys _y);
 
-			[_pos, _direction, _loadout,
-				_ForcedFlagTexture, _chem_contaminated, _medical_status,
-					_acex_field_rations] remoteExecCall ["btc_json_fnc_deserialize_players", _uid call BIS_fnc_getUnitByUID];
+				[_pos, _direction, _loadout,
+					_ForcedFlagTexture, _chem_contaminated, _medical_status,
+						_acex_field_rations] remoteExecCall ["btc_json_fnc_deserialize_players", _uid call BIS_fnc_getUnitByUID];
 
-			if (btc_debug_log) then {
-				[format ["_player = %1 at %2", _uid, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+				if (btc_debug_log) then {
+					[format ["_player = %1 at %2", _uid, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+				};
 			};
 		};
-
 		//need to sanitize keys with '_' in front that were used by btc_json_fnc_load params
 		_this apply {
 			private _fixed_hash = ((keys _y) apply {_x trim["_", 1]}) createHashMapFromArray (values _y);

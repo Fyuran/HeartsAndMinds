@@ -32,9 +32,7 @@
 		["_field_rations", [], [[]]]
 	];
 	if (btc_p_autoloadout isEqualTo 0) then {
-		[{
-			[player, _this] call CBA_fnc_setLoadout;
-		}, _loadout] call CBA_fnc_execNextFrame;
+		player setUnitLoadout _loadout;
 	};
 	player setPosASL _pos;
 	player setDir _dir;

@@ -23,7 +23,12 @@ params [
 	["_name", btc_db_saveName, [""]]
 ];
 
+if (btc_debug) then {
+	[format ["Saving JSON data for %1", _name], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+};
+
 [[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
+
 
 // METADATA
 private _simpleData = createHashMapFromArray[
