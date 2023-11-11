@@ -2,7 +2,7 @@
 	Function: btc_json_fnc_load
 	
 	Description:
-	    load database from HEM.JSON
+	    load database from JSON
 	
 	Parameters:
 	    _name - name of the saved game. [String]

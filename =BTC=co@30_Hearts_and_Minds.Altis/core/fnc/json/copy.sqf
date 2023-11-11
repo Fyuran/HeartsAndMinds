@@ -1,8 +1,8 @@
 /* ----------------------------------------------------------------------------
-	Function: btc_json_fnc_delete
+	Function: btc_json_fnc_copy
 	
 	Description:
-	    Deletes JSON file.
+	    load database from HEM.JSON
 	
 	Parameters:
 	    _path - where the file is located. [String]
@@ -11,7 +11,7 @@
 	
 	Examples:
 	    (begin example)
-	        [] call btc_json_fnc_delete;
+	        [] call btc_json_fnc_copy;
 	    (end)
 	
 	Author:
@@ -23,7 +23,7 @@ params[
 	["_path", "", [""]]
 ];
 
-private _returnString = ("btc_ArmaToJSON" callExtension ["deleteData", [_path]]) select 0;
-[[_returnString, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+private _returnString = ("btc_ArmaToJSON" callExtension ["copyData", [_path]]) select 0;
+[[_returnString, 1, [0, 0.5, 0.5, 1]]] call btc_fnc_show_custom_hint;
 
 [] call btc_json_fnc_fileviewer_r_server;

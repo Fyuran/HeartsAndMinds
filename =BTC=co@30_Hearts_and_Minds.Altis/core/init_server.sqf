@@ -13,7 +13,7 @@ switch (btc_db_load) do {
 		};
 	};
 	case 2: {
-		("btc_ArmaToJSON" callExtension ["dataExists", [format["btc_hm_%1", btc_db_saveName]]]) params ["_result", "_returnCode"];
+		("btc_ArmaToJSON" callExtension ["dataExists", [format["btc_hm_%1.JSON", btc_db_saveName]]]) params ["_result", "_returnCode"];
 		if (_returnCode isEqualTo 200) then {
 			[] call btc_json_fnc_load;
 		} else {

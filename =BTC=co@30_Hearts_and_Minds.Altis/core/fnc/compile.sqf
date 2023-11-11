@@ -79,16 +79,19 @@ if (isServer) then {
     btc_db_fnc_autoRestartLoop = compileScript ["core\fnc\db\autoRestartLoop.sqf"];
 
     //JSON
-    btc_json_fnc_encodeJSON = compileScript ["core\fnc\json\encodeJSON.sqf"];
-    btc_json_fnc_addMEH = compileScript ["core\fnc\json\addMEH.sqf"];
-    btc_json_fnc_parse_data = compileScript ["core\fnc\json\parse_data.sqf"];
+    btc_json_fnc_encodeJSON = compileScript ["core\fnc\json\data\encodeJSON.sqf"];
+    btc_json_fnc_addMEH = compileScript ["core\fnc\json\data\addMEH.sqf"];
+    btc_json_fnc_parse_data = compileScript ["core\fnc\json\data\parse_data.sqf"];
     btc_json_fnc_save = compileScript ["core\fnc\json\save.sqf"];
     btc_json_fnc_load = compileScript ["core\fnc\json\load.sqf"];
     btc_json_fnc_delete = compileScript ["core\fnc\json\delete.sqf"];
-    btc_json_fnc_get_group_data = compileScript ["core\fnc\json\get_group_data.sqf"];
-    btc_json_fnc_spawn_group = compileScript ["core\fnc\json\spawn_group.sqf"]; 
-    btc_json_fnc_serialize_players = compileScript ["core\fnc\json\serialize_players.sqf"];
-    btc_json_fnc_createVehicle = compileScript ["core\fnc\json\createVehicle.sqf"];
+    btc_json_fnc_rename = compileScript ["core\fnc\json\rename.sqf"];
+    btc_json_fnc_copy = compileScript ["core\fnc\json\copy.sqf"];
+    btc_json_fnc_get_group_data = compileScript ["core\fnc\json\data\get_group_data.sqf"];
+    btc_json_fnc_spawn_group = compileScript ["core\fnc\json\data\spawn_group.sqf"]; 
+    btc_json_fnc_serialize_players = compileScript ["core\fnc\json\data\serialize_players.sqf"];
+    btc_json_fnc_createVehicle = compileScript ["core\fnc\json\data\createVehicle.sqf"];
+    btc_json_fnc_fileviewer_r_server = compileScript ["core\fnc\json\ui\fileviewer_r_server.sqf"];
 
     //DELAY
     btc_delay_fnc_createUnit = compileScript ["core\fnc\delay\createUnit.sqf"];
@@ -413,9 +416,11 @@ if (!isDedicated) then {
     btc_log_fnc_inventoryRestore = compileScript ["core\fnc\log\inventoryRestore.sqf"];
 
     //JSON
-    btc_json_fnc_deserialize_medical_status = compileScript ["core\fnc\json\deserialize_medical_status.sqf"];
-    btc_json_fnc_deserialize_players = compileScript ["core\fnc\json\deserialize_players.sqf"];
-    
+    btc_json_fnc_deserialize_medical_status = compileScript ["core\fnc\json\data\deserialize_medical_status.sqf"];
+    btc_json_fnc_deserialize_players = compileScript ["core\fnc\json\data\deserialize_players.sqf"];
+    btc_json_fnc_fileviewer = compileScript ["core\fnc\json\ui\fileviewer.sqf"];
+    btc_json_fnc_fileviewer_r_client = compileScript ["core\fnc\json\ui\fileviewer_r_client.sqf"];
+
     //REP
     btc_rep_fnc_treatment = compileScript ["core\fnc\rep\treatment.sqf"];
 

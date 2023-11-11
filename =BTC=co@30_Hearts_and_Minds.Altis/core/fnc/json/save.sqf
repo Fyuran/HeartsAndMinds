@@ -15,7 +15,7 @@
 	    (end)
 	
 	Author:
-	    Giallustio, Fyuran
+	    Fyuran
 	
 ---------------------------------------------------------------------------- */
 
@@ -232,3 +232,7 @@ format["btc_hm_%1", _name] + " " +// JSON fileName
 
 private _returnString = "btc_ArmaToJSON" callExtension _json;
 [[_returnString, 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
+
+[] call btc_json_fnc_fileviewer_r_server;
+
+_returnString
