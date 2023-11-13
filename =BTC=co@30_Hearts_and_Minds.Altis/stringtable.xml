@@ -1130,6 +1130,10 @@
                 <Czech>Na vozidle a hráčích</Czech>
                 <French>Sur les véhicules et les joueurs</French>
             </Key>
+            <Key ID="STR_BTC_HAM_PARAM_OTHER_INTRO">
+                <Original>Intro on spawn:</Original>
+                <Italian>Intro allo spawn:</Italian>
+            </Key>
             <Key ID="STR_BTC_HAM_PARAM_OTHER_DEBUG">
                 <Original>Debug:</Original>
                 <German>Debug:</German>

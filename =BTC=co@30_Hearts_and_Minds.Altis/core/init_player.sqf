@@ -6,7 +6,14 @@ if !(isNil "btc_custom_loc") then {
         _location setText _cityName;
     } forEach btc_custom_loc;
 };
-btc_intro_done = [] spawn btc_respawn_fnc_intro;
+
+btc_intro_done = false;
+if(btc_p_intro) then {
+    [] spawn btc_respawn_fnc_intro;
+} else {
+    btc_intro_done = true;
+};
+
 [] call btc_int_fnc_shortcuts;
 [] call btc_lift_fnc_shortcuts;
 

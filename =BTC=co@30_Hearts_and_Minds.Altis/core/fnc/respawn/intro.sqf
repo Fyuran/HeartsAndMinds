@@ -56,3 +56,4 @@ private _days = (_date vectorDiff _startingDate) vectorDotProduct [365, 30.5, 1]
 ] call BIS_fnc_establishingShot;
 
 enableSaving [false, false];
+btc_intro_done = true;

@@ -503,6 +503,12 @@ class Params {
         texts[]={$STR_DISABLED,"1","2","3"};
         default = 0;
     };
+    class btc_p_intro {//Show intro on Spawn
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_OTHER_INTRO"]);
+        values[]={0,1,};
+        texts[]={$STR_DISABLED,$STR_ENABLED};
+        default = 0;
+    };
     class btc_p_flag { // Allow the use of flag:
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_OTHER_ALLOWFLAG"]);
         values[]={0,1,2,3};

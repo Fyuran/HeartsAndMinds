@@ -23,7 +23,7 @@ if (btc_p_respawn_ticketsAtStart isEqualTo -1) exitWith {};
 
 if ([btc_player_side] call BIS_fnc_respawnTickets isEqualTo 0) then {
     [
-        {scriptDone btc_intro_done},
+        {btc_intro_done},
         btc_respawn_fnc_force
     ] call CBA_fnc_waitUntilAndExecute;
 };
@@ -38,7 +38,7 @@ if !(btc_p_respawn_ticketsShare) then {
 
             if ([player] call BIS_fnc_respawnTickets > 0) exitWith {};
             [
-                {scriptDone btc_intro_done},
+                {btc_intro_done},
                 btc_respawn_fnc_force
             ] call CBA_fnc_waitUntilAndExecute;
         }

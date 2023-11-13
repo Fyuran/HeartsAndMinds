@@ -96,7 +96,7 @@ btc_p_autoloadout = "btc_p_autoloadout" call BIS_fnc_getParamValue;
 
 //<< Event options >>
 btc_p_event_maxEvents = "btc_p_event_maxEvents" call BIS_fnc_getParamValue;
-btc_p_event_enable_fobAttack = ("btc_p_event_enable_fobAttack" call BIS_fnc_getParamValue)  isEqualTo 1;
+btc_p_event_enable_fobAttack = ("btc_p_event_enable_fobAttack" call BIS_fnc_getParamValue) isEqualTo 1;
 
 //<< Other options >>
 btc_global_reputation = "btc_p_rep" call BIS_fnc_getParamValue;
@@ -109,6 +109,7 @@ btc_p_trigger = if (("btc_p_trigger" call BIS_fnc_getParamValue) isEqualTo 1) th
 };
 private _p_city_free_trigger = "btc_p_city_free_trigger" call BIS_fnc_getParamValue;
 btc_p_flag = "btc_p_flag" call BIS_fnc_getParamValue;
+btc_p_intro = ("btc_p_intro" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_debug = "btc_p_debug" call BIS_fnc_getParamValue;
 
 switch (btc_p_debug) do {

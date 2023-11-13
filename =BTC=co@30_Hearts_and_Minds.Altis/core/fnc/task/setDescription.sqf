@@ -417,7 +417,7 @@ private _task_id = if (_task_ids isEqualType []) then {
     _task_ids
 };
 [
-    {!isNull player && {scriptDone btc_intro_done}},
+    {!isNull player && {btc_intro_done}},
     {
         params ["_task_id"];
 
