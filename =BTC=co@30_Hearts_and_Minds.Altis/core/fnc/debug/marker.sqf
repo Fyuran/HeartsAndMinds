@@ -32,10 +32,10 @@ private _cfgVehicles = configFile >> "CfgVehicles";
 {
     private _typeof = typeOf _x;
 
-    private _alpha = 1;
-    if ((_owners select _forEachindex) isNotEqualTo 2) then {
-        _alpha = 0.3;
-    };
+    private _alpha = 0.5;
+    // if ((_owners select _forEachindex) isNotEqualTo 2) then {
+    //     _alpha = 0.3;
+    // };
 
     private _color = [];
     switch (side _x) do {
