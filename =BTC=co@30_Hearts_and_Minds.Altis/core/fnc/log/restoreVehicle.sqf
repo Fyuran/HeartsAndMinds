@@ -35,4 +35,4 @@ private _vehicle = [_array, _object] call BIS_fnc_nearestPosition; // Function t
 
 [objNull, _vehicle] call ace_rearm_fnc_rearmEntireVehicleSuccess; //first arg is supposed to be an existing ammoSource such as an ammo truck
 _vehicle setdamage 0;
-_vehicle setFuel 1;
+[_vehicle, 1] remoteExecCall ["setFuel", _vehicle];
