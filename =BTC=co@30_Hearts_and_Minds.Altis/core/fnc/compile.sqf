@@ -407,6 +407,7 @@ if (!isDedicated) then {
     btc_log_fnc_paste = compileScript ["core\fnc\log\paste.sqf"];
     btc_log_fnc_refuelSource = compileScript ["core\fnc\log\refuelSource.sqf"];
     btc_log_fnc_rearmSource = compileScript ["core\fnc\log\rearmSource.sqf"];
+    btc_log_fnc_restoreVehicle = compileScript ["core\fnc\log\restoreVehicle.sqf"];
     btc_log_fnc_inventoryCopy = compileScript ["core\fnc\log\inventoryCopy.sqf"];
     btc_log_fnc_inventoryPaste = compileScript ["core\fnc\log\inventoryPaste.sqf"];
     btc_log_fnc_inventoryRestore = compileScript ["core\fnc\log\inventoryRestore.sqf"];

@@ -68,6 +68,11 @@ _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title
         _params call btc_log_fnc_rearmSource
     }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
+	_action = ["Restore", "Restore", "\A3\ui_f\data\igui\cfg\simpleTasks\types\rearm_ca.paa", {//localize "STR_BTC_HAM_ACTION_LOGPOINT_REARMSOURCE"
+        params ["", "", "_params"];
+        _params call btc_log_fnc_rearmSource
+    }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+    [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Require_veh", localize "STR_BTC_HAM_ACTION_LOGPOINT_REQVEH", "\A3\ui_f\data\map\vehicleicons\iconCar_ca.paa", {
         params ["", "", "_params"];
         _params spawn btc_arsenal_fnc_garage
