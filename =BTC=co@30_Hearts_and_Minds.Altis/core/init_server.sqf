@@ -38,6 +38,11 @@ if (btc_db_load && {profileNamespace getVariable [format ["btc_hm_%1_db", worldN
 [] call btc_spect_fnc_checkLoop;
 [] call btc_db_fnc_autoRestartLoop;
 
+//Namespace to hold variables for admin debug
+btc_debug_namespace = [true] call CBA_fnc_createNamespace;
+publicVariable "btc_debug_namespace";
+
+
 {
     [_x, 30] call btc_veh_fnc_addRespawn;
     if (_forEachIndex isEqualTo 0) then {

@@ -73,8 +73,4 @@ if (btc_debug_log) then {
 
 if (btc_debug) then {
     [format ["in %1", _cache_pos], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-    private _marker = createMarker [format ["%1", _cache_pos], _cache_pos];
-    _marker setMarkerType "mil_unknown";
-    _marker setMarkerText format ["Cache %1", btc_cache_n];
-    _marker setMarkerSize [0.8, 0.8];
 };

@@ -73,7 +73,6 @@ _city setVariable ["ho_units_spawned", false];
 
 _city setVariable ["city_realPos", getPos _city];
 _city setPos _pos;
-if (btc_debug) then {deleteMarker format ["loc_%1", _id];};
 
 [_city, btc_hideouts_radius] call btc_city_fnc_setPlayerTrigger;
 [{
@@ -107,14 +106,6 @@ private _markers = [];
 } forEach _markers_saved;
 
 _hideout setVariable ["markers", _markers];
-
-if (btc_debug) then {
-    private _marker = createMarker [format ["btc_hideout_%1", _pos], _pos];
-    _marker setMarkerType "mil_unknown";
-    _marker setMarkerText format ["Hideout %1", _id_hideout];
-    _marker setMarkerSize [0.8, 0.8];
-    _marker setMarkerColor "ColorRed";
-};
 
 if (btc_debug_log) then {
     [format ["_this = %1 ; POS %2 ID %3", _this, _pos, count btc_hideouts], __FILE__, [false]] call btc_debug_fnc_message;

@@ -184,12 +184,33 @@ _action = ["side_mission_request", localize "STR_BTC_HAM_ACTION_SIDEMISSION_REQ"
 [player, 1, ["ACE_SelfActions", "side_mission"], _action] call ace_interact_menu_fnc_addActionToObject;
 
 //Debug
-if (btc_debug) then {
-    _action = ["Debug_graph", "Disable debug graph", "\a3\Ui_f\data\GUI\Rsc\RscDisplayMissionEditor\iconCamera_ca.paa", {btc_debug_graph = !btc_debug_graph}, {btc_debug_graph}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
-    _action = ["Debug_graph", "Enable debug graph", "\a3\Ui_f\data\GUI\Rsc\RscDisplayMissionEditor\iconCamera_ca.paa", {btc_debug_graph = true; 73001 cutRsc ["TER_fpscounter", "PLAIN"];}, {!btc_debug_graph}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
-};
+private _action = ["Debug", "Debug Tools", "core\img\debug_icon.paa", {}, {(call BIS_fnc_admin) == 2 || !isMultiplayer}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+    //Debug-Mode
+    _action = ["Debug_off", "Debug", ["core\img\debug_on.paa", "#006400"], {[false] call btc_debug_fnc_debug_mode;}, {btc_debug}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    _action = ["Debug_on", "Debug", ["core\img\debug_on.paa", "#FF0000"], {[] call btc_debug_fnc_debug_mode;}, {!btc_debug}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    //Debug-Graph
+    _action = ["Debug_graph_off", "FPS Graph", ["\a3\Ui_f\data\GUI\Rsc\RscDisplayMissionEditor\iconCamera_ca.paa", "#006400"], {btc_debug_graph = !btc_debug_graph}, {btc_debug_graph}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    _action = ["Debug_graph_on", "FPS Graph", ["\a3\Ui_f\data\GUI\Rsc\RscDisplayMissionEditor\iconCamera_ca.paa", "#FF0000"], {btc_debug_graph = true; 73001 cutRsc ["TER_fpscounter", "PLAIN"];}, {!btc_debug_graph && {btc_debug}}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    //Debug-Cities
+    _action = ["Debug_cities_off", "Cities", ["core\img\debug_cities.paa", "#006400"], { [false] call btc_debug_fnc_cities;}, {btc_debug_cities}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    _action = ["Debug_cities_on", "Cities", ["core\img\debug_cities.paa", "#FF0000"], {[true, "btc_debug_fnc_cities"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isDedicated];}, {!btc_debug_cities}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    //Debug-Hideouts
+    _action = ["Debug_hideouts_off", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#006400"], {[false] call btc_debug_fnc_hideouts;}, {btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    _action = ["Debug_hideouts_on", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#FF0000"], {[true, "btc_debug_fnc_hideouts"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isDedicated];}, {!btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    //Debug-Cache
+    _action = ["Debug_cache_off", "Cache", ["core\img\debug_cache.paa", "#006400"], {[false] call btc_debug_fnc_cache;}, {btc_debug_cache}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    _action = ["Debug_cache_on", "Cache", ["core\img\debug_cache.paa", "#FF0000"], {[true, "btc_debug_fnc_cache"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isDedicated];}, {!btc_debug_cache}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
 
 //Re-deploy
 private _actions = [];

@@ -76,9 +76,6 @@ private _cities = values btc_city_all;
 private _numberOfCity = round ((count _cities) * _density_of_occupiedCity);
 {
     _x setVariable ["occupied", true];
-    if (btc_debug) then {
-        (format ["loc_%1", _x getVariable "id"]) setMarkerColor "colorRed";
-    };
 } forEach (_cities select [0, _numberOfCity]);
 
 if !(isNil "btc_custom_loc") then {

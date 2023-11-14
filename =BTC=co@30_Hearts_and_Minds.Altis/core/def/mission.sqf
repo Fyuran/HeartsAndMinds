@@ -132,9 +132,13 @@ switch (btc_p_debug) do {
 if (!isMultiplayer) then {
     btc_debug_log = true;
     btc_debug = true;
-    btc_debug_graph = false;
-    btc_debug_frames = 0;
 };
+//Local Debug to Admin
+btc_debug_graph = false;
+btc_debug_frames = 0;
+btc_debug_cities = false;
+btc_debug_hideouts = false;
+btc_debug_cache = false;
 
 private _cfgVehicles = configFile >> "CfgVehicles";
 private _allClassVehicles = ("true" configClasses _cfgVehicles) apply {configName _x};

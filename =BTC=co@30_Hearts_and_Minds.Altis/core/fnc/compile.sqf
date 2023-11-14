@@ -84,6 +84,9 @@ if (isServer) then {
     btc_delay_fnc_exec = compileScript ["core\fnc\delay\exec.sqf"];
     btc_delay_fnc_waitAndExecute = compileScript ["core\fnc\delay\waitAndExecute.sqf"];
 
+    //DEBUG
+    btc_debug_fnc_request_server_data = compileScript ["core\fnc\debug\server_to_client\request_server_data.sqf"];
+
     //DOOR
     btc_door_fnc_lock = compileScript ["core\fnc\door\lock.sqf"];
     btc_door_fnc_get = compileScript ["core\fnc\door\get.sqf"];
@@ -333,6 +336,10 @@ if (!isDedicated) then {
     btc_debug_fnc_units = compileScript ["core\fnc\debug\units.sqf"];
     btc_debug_fnc_fps = compileScript ["core\fnc\debug\fps.sqf"];
     btc_debug_fnc_graph = compileScript ["core\fnc\debug\graph.sqf"];
+    btc_debug_fnc_cities = compileScript ["core\fnc\debug\server_to_client\cities.sqf"];
+    btc_debug_fnc_hideouts = compileScript ["core\fnc\debug\server_to_client\hideouts.sqf"];
+    btc_debug_fnc_cache = compileScript ["core\fnc\debug\server_to_client\cache.sqf"];
+    btc_debug_fnc_debug_mode = compileScript ["core\fnc\debug\debug_mode.sqf"]; 
 
     //CIV
     btc_civ_fnc_add_leaflets = compileScript ["core\fnc\civ\add_leaflets.sqf"];
