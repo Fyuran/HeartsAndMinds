@@ -29,8 +29,10 @@ private _array = (nearestObjects [_object, ["LandVehicle", "Air", "Ship"], 10]) 
     _x isKindOf "ace_fastroping_helper"
 )};
 
-_vehicle = _array select 0; // add various check
+if (_array isEqualTo []) exitWith {"No vehicles found nearby" call CBA_fnc_notify;};
 
+private _vehicle = [_array, _object] call BIS_fnc_nearestPosition; // Function to find the nearest Object from a list.
+
+[objNull, _vehicle] call ace_rearm_fnc_rearmEntireVehicleSuccess; //first arg is supposed to be an existing ammoSource such as an ammo truck
 _vehicle setdamage 0;
 _vehicle setFuel 1;
-_vehicle setVehicleAmmoDef 1; // works for local turret -> check and execute where's local?
