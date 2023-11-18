@@ -21,18 +21,15 @@
 #define MMAPGET btc_JSON_data get format["btc_hm_%1", _name]
 #define MAPGET(ARG) btc_JSON_data get format["btc_hm_%1_" + ARG, _name]
 
-params [
-	["_name", btc_db_saveName, [""]]
-];
-
 [{!(isNil "btc_JSON_data")}, {
 params[
-	["_name", btc_db_saveName, [""]]
+	["_name", worldName, [""]]
 ];
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
 if (btc_debug) then {
-	[format ["Loading JSON data for %1", _name], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+	private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
+	[format ["Loading JSON data for %1", _saveFile], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };
 
 // METADATA
@@ -250,5 +247,8 @@ if (_markers isNotEqualTo createHashMap) then {
 
 [["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
 
-}, _this] call CBA_fnc_waitUntilAndExecute;
+}, _this, 180, {
+	[["Database loading timed out after 180s, falling through to defaults", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+	[] call btc_db_fnc_initDefault;
+}] call CBA_fnc_waitUntilAndExecute;
 

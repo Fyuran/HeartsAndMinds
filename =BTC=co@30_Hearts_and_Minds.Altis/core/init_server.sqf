@@ -2,8 +2,8 @@
 
 switch (btc_db_load) do {
 	case 1: {
-		if (profileNamespace getVariable [format ["btc_hm_%1_db", btc_db_saveName], false]) then {
-			if ((profileNamespace getVariable [format ["btc_hm_%1_version", btc_db_saveName], 1.13]) in [btc_version select 1, 22.1]) then {
+		if (profileNamespace getVariable [format ["btc_hm_%1_db", worldName], false]) then {
+			if ((profileNamespace getVariable [format ["btc_hm_%1_version", worldName], 1.13]) in [btc_version select 1, 22.1]) then {
 				[] call compileScript ["core\fnc\db\load.sqf"];
 			} else {
 				[] call compileScript ["core\fnc\db\load_old.sqf"];
@@ -13,7 +13,8 @@ switch (btc_db_load) do {
 		};
 	};
 	case 2: {
-		("btc_ArmaToJSON" callExtension ["dataExists", [format["btc_hm_%1.JSON", btc_db_saveName]]]) params ["_result", "_returnCode"];
+		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
+		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params ["_result", "_returnCode"];
 		if (_returnCode isEqualTo 200) then {
 			[] call btc_json_fnc_load;
 		} else {

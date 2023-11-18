@@ -21,7 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_name", btc_db_saveName, [""]]
+    ["_name", worldName, [""]]
 ];
 
 setDate +(profileNamespace getVariable [format ["btc_hm_%1_date", _name], date]);

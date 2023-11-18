@@ -1,18 +1,17 @@
 /* ----------------------------------------------------------------------------
-	Function: btc_json_fnc_rename
+	Function: btc_json_fnc_load_new_file
 	
 	Description:
-	    Renames JSON file
+	    Changes profileNamespace JSON save file name to allow loading of new file on preInit
 	
 	Parameters:
 	    _path - where the file is located. [String]
-		_name - new file name [String]
 	
 	Returns:
 	
 	Examples:
 	    (begin example)
-	        [] call btc_json_fnc_rename;
+	        [] call btc_json_fnc_load_new_file;
 	    (end)
 	
 	Author:
@@ -22,20 +21,17 @@
 
 params[
 	["_path", "", [""]],
-	["_name", "", [""]],
 	["_custom_hint", "", [""]]
 ];
 
 if (btc_debug) then {
-	[format ["Renaming JSON data for %1 to %2", _path, _name], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+	[format ["btc_hm_%1_saveFile JSON set to %2", worldName, _path], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
-private _returnString = ("btc_ArmaToJSON" callExtension ["renameData", [_path, _name]]) select 0;
+profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
+
 if(_custom_hint isEqualTo "") then {
-	[[_returnString, 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
+	[[format["Restart mission to load %1", _path], 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 } else {
 	[[_custom_hint, 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 };
-
-
-[] call btc_json_fnc_fileviewer_r_server;

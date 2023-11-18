@@ -61,6 +61,9 @@ private _saveButton = _fileviewer displayCtrl 1602;
 _saveButton ctrlAddEventHandler ["ButtonClick", {
 	params ["_saveButton"];
 	[] remoteExecCall ["btc_json_fnc_save", 2];
+	private _fileviewer = ctrlParent _delButton;
+	private _listBox = _fileviewer displayCtrl 1500;
+	_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
 }];
 
 //Copy Button
@@ -70,6 +73,9 @@ _copyButton ctrlAddEventHandler ["ButtonClick", {
 	_path = uiNamespace getVariable ["btc_JSON_fileviewer_textlbCurSel", ""];
 	if(_path isNotEqualTo "") then {
 		[_path] remoteExecCall ["btc_json_fnc_copy", 2];
+		private _fileviewer = ctrlParent _delButton;
+		private _listBox = _fileviewer displayCtrl 1500;
+		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
 	};
 }];
 
@@ -80,6 +86,9 @@ _delButton ctrlAddEventHandler ["ButtonClick", {
 	_path = uiNamespace getVariable ["btc_JSON_fileviewer_textlbCurSel", ""];
 	if(_path isNotEqualTo "") then {
 		[_path] remoteExecCall ["btc_json_fnc_delete", 2];
+		private _fileviewer = ctrlParent _delButton;
+		private _listBox = _fileviewer displayCtrl 1500;
+		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
 	};
 }];
 
@@ -89,7 +98,10 @@ _loadButton ctrlAddEventHandler ["ButtonClick", {
 	params ["_loadButton"];
 	_path = uiNamespace getVariable ["btc_JSON_fileviewer_textlbCurSel", ""];
 	if(_path isNotEqualTo "") then {
-		[_path, format["btc_hm_%1", btc_db_saveName], "Restart mission to load new file"] remoteExecCall ["btc_json_fnc_rename", 2];
+		[_path] remoteExecCall ["btc_json_fnc_load_new_file", 2];
+		private _fileviewer = ctrlParent _delButton;
+		private _listBox = _fileviewer displayCtrl 1500;
+		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
 	};
 }];
 
@@ -103,7 +115,8 @@ _renameButton ctrlAddEventHandler ["ButtonClick", {
 	_rscEdit ctrlSetText "Insert valid name...(Press Enter to Commit)";
 	ctrlSetFocus _rscEdit;
 	uiNamespace setVariable ["btc_JSON_fileviewer_rscEdit_fnc", "btc_json_fnc_rename"]; 
-	
+	private _listBox = _fileviewer displayCtrl 1500;
+	_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
 }];
 //[message, header, okButton, cancelButton, parent, useParentBox, pause] call BIS_fnc_guiMessage
 //[text, title, buttonOK, buttonCancel, icon, parentDisplay] call BIS_fnc_3DENShowMessage

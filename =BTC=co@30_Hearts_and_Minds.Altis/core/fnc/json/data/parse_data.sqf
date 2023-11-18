@@ -25,8 +25,7 @@ if(isNil "btc_JSON_data") then {
 };
 btc_JSON_parsed = true;
 
-_jsonData = +btc_JSON;
-_jsonData apply {
+btc_JSON apply {
 	_x params [
 		["_function", [], ["",[]]], 
 		["_data", [], ["",[]]]

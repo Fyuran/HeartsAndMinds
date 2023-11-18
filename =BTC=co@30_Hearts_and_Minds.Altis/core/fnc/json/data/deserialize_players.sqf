@@ -34,7 +34,9 @@
 	if (btc_p_autoloadout isEqualTo 0) then {
 		player setUnitLoadout _loadout;
 	};
-	player setPosASL _pos;
+
+	_pos = [_pos, 0, 10, 1, 1, 10, 0, [], _pos] call BIS_fnc_findSafePos;
+	player setPosASL [_pos#0, _pos#1, 0];
 	player setDir _dir;
 	player forceFlagTexture _flagTexture;
 

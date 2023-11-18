@@ -84,9 +84,10 @@ if (isServer) then {
     btc_json_fnc_parse_data = compileScript ["core\fnc\json\data\parse_data.sqf"];
     btc_json_fnc_save = compileScript ["core\fnc\json\save.sqf"];
     btc_json_fnc_load = compileScript ["core\fnc\json\load.sqf"];
-    btc_json_fnc_delete = compileScript ["core\fnc\json\delete.sqf"];
-    btc_json_fnc_rename = compileScript ["core\fnc\json\rename.sqf"];
-    btc_json_fnc_copy = compileScript ["core\fnc\json\copy.sqf"];
+    btc_json_fnc_delete = compileScript ["core\fnc\json\ui\delete.sqf"];
+    btc_json_fnc_rename = compileScript ["core\fnc\json\ui\rename.sqf"];
+    btc_json_fnc_copy = compileScript ["core\fnc\json\ui\copy.sqf"];
+    btc_json_fnc_load_new_file = compileScript ["core\fnc\json\ui\load_new_file.sqf"];
     btc_json_fnc_get_group_data = compileScript ["core\fnc\json\data\get_group_data.sqf"];
     btc_json_fnc_spawn_group = compileScript ["core\fnc\json\data\spawn_group.sqf"]; 
     btc_json_fnc_serialize_players = compileScript ["core\fnc\json\data\serialize_players.sqf"];

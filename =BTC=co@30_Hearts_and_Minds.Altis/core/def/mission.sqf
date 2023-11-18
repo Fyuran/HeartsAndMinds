@@ -152,7 +152,6 @@ if (isServer) then {
     //Database
     btc_db_serverCommandPassword = "btc_password"; //Define the same password in server.cfg like this: serverCommandPassword = "btc_password";
     btc_db_warningTimeAutoRestart = 5;
-    btc_db_saveName = worldName; //change to customize save name;
 
     //Hideout
     btc_hideouts = []; publicVariable "btc_hideouts";

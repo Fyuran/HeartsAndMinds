@@ -21,7 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_name", btc_db_saveName, [""]]
+    ["_name", worldName, [""]]
 ];
 
 if (btc_debug) then {

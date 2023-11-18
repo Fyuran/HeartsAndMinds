@@ -20,7 +20,7 @@
 ---------------------------------------------------------------------------- */
 
 params [
-	["_name", btc_db_saveName, [""]]
+	["_name", worldName, [""]]
 ];
 
 if (btc_debug) then {
@@ -235,9 +235,13 @@ format["btc_hm_%1", _name] + " " +// JSON fileName
     "
 }";
 
-private _returnString = "btc_ArmaToJSON" callExtension _json;
-[[_returnString, 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
+private _path = "btc_ArmaToJSON" callExtension _json;
+if(_path isEqualTo "") exitWith {
+	[format["Invalid _path, could not save file."], __FILE__, nil, true] call btc_debug_fnc_message;
+};
+profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
 
+[[format["JSON saved to %1", _path], 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
 [] call btc_json_fnc_fileviewer_r_server;
 
-_returnString
+_path

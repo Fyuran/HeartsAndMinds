@@ -19,6 +19,10 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
+if (btc_debug) then {
+	[format["Database loading falling through to defaults"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+};
+
 if (btc_hideout_n > 0) then {
 	for "_i" from 1 to btc_hideout_n do {
 		[] call btc_hideout_fnc_create;

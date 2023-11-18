@@ -20,7 +20,8 @@
 ---------------------------------------------------------------------------- */
 
 params[
-	["_path", "", [""]]
+	["_path", "", [""]],
+	["_custom_hint", "", [""]]
 ];
 
 if (btc_debug) then {
@@ -28,6 +29,11 @@ if (btc_debug) then {
 };
 
 private _returnString = ("btc_ArmaToJSON" callExtension ["deleteData", [_path]]) select 0;
-[[_returnString, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+
+if(_custom_hint isEqualTo "") then {
+	[[_returnString, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+} else {
+	[[_custom_hint, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+};
 
 [] call btc_json_fnc_fileviewer_r_server;

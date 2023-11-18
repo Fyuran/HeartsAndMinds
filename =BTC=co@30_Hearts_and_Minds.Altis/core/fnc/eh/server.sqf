@@ -74,7 +74,7 @@ addMissionEventHandler ["HandleDisconnect", {
         if(btc_db_load isEqualTo 2) then { //JSON
 
             private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
-            _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", btc_db_saveName], createHashMap];
+            _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", worldName], createHashMap];
 
             private _hash = [_player] call btc_json_fnc_serialize_players;
             _hash set ["uid", _uid];
@@ -99,7 +99,7 @@ addMissionEventHandler ["HandleDisconnect", {
     };
     if(btc_db_load == 2) then { //JSON
         private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
-        _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_slotsSerialized", btc_db_saveName], createHashMap];
+        _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_slotsSerialized", worldName], createHashMap];
  
         private _hash = _slots_serialized getOrDefault [_uid, createHashMap];
         if(_hash isEqualTo createHashMap) exitWith {};
@@ -189,7 +189,3 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
         [_obj, 50] call ace_cargo_fnc_setSpace;
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 } forEach ["CUP_MTVR_Base", "Truck_01_base_F"];
-
-if((btc_db_load == 2)) then {
-    [] call btc_json_fnc_addMEH;
-};

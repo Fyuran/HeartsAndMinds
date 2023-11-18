@@ -23,7 +23,7 @@ Author:
 
 params [
     ["_showHint", true, [true]],
-    ["_name", btc_db_saveName, [""]]
+    ["_name", worldName, [""]]
 ];
 
 profileNamespace setVariable [format ["btc_hm_%1_version", _name], nil];
