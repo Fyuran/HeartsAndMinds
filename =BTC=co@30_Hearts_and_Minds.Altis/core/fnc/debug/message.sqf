@@ -47,3 +47,4 @@ if(!_isError) then {
     ["%2: %1", _message, _folder] remoteExecCall ["BIS_fnc_error", [clientOwner, 0] select _global];
     [_message, _folder, _type] call CBA_fnc_debug;
 };
+

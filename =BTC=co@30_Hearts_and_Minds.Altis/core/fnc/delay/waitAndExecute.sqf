@@ -29,7 +29,7 @@ Author:
         ["_delay", 0, [0]]
     ];
 
-    if (_delay isEqualTo 0) exitWith {_parameters call _code};
+    if (_delay <= 0) exitWith {_parameters call _code};
 
     [_code, _parameters, btc_delay_time + _delay] call CBA_fnc_waitAndExecute;
 }, _this, btc_delay_time] call CBA_fnc_waitAndExecute;

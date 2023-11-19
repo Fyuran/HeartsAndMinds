@@ -5,11 +5,15 @@ onLoadName = $STR_BTC_HAM_DESCR_NAME;
 onLoadMission = $STR_BTC_HAM_DESCR_MISSION;
 enabledebugconsole = 1;
 
+#include "\a3\ui_f\hpp\definecommoncolors.inc"
+#include "\a3\ui_f\hpp\defineResincl.inc"
+#include "\a3\ui_f\hpp\definecommongrids.inc"
+
 #include "core\fnc\debug\defines.hpp"
 #include "core\fnc\common\dlg.hpp"
 #include "core\fnc\fob\dlg.hpp"
 #include "core\fnc\log\dlg.hpp"
-
+#include "core\fnc\json\ui\fileviewerRsc.hpp"
 class RscTitles {
     class Default {
         idd = -1;

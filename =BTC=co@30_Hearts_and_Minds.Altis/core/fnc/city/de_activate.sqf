@@ -3,7 +3,7 @@
 Function: btc_city_fnc_de_activate
 
 Description:
-    Desactivate the city by storing all groups present inside and clean up dead bodies.
+    Deactivate the city by storing all groups present inside and clean up dead bodies.
 
 Parameters:
     _city - City to desactivate. [Number]
@@ -50,10 +50,14 @@ private _has_suicider = false;
         {!(_x getVariable ["no_cache", false])} &&
         {_x getVariable ["btc_city", _city] in [_city, objNull]}
     ) then {
-        private _data_group = _x call btc_data_fnc_get_group;
+        private _data_group = _x call ([btc_data_fnc_get_group,  btc_json_fnc_get_group_data] select (btc_db_load == 2));
         _data_units pushBack _data_group;
 
-        if ((_data_group select 0) in [5, 7]) then {_has_suicider = true;};
+        if(_data_group isEqualType createHashMap) then {
+            if ((_data_group get "type_db") in [5, 7]) then {_has_suicider = true;};
+        } else {
+            if ((_data_group select 0) in [5, 7]) then {_has_suicider = true;};
+        };   
     };
 } forEach allGroups;
 

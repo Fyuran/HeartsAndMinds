@@ -10,7 +10,7 @@ diag_log format (["=BTC= HEARTS AND MINDS VERSION %1.%2.%3"] + btc_version);
 //<< Time options >>
 btc_p_time = "btc_p_time" call BIS_fnc_getParamValue;
 btc_p_acctime = "btc_p_acctime" call BIS_fnc_getParamValue;
-btc_db_load = ("btc_p_load" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_db_load = "btc_p_load" call BIS_fnc_getParamValue;
 btc_p_auto_db = "btc_p_auto_db" call BIS_fnc_getParamValue isEqualTo 1;
 btc_p_db_autoRestartTime = "btc_p_db_autoRestartTime" call BIS_fnc_getParamValue;
 btc_p_db_autoRestartHour = [
