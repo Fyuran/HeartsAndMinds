@@ -73,7 +73,7 @@ switch true do {
         _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
         [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
     };
-    case (btc_global_reputation < btc_rep_level_high && {btc_global_reputation >= btc_rep_level_low}): {
+    case (btc_global_reputation < btc_rep_level_high && {btc_global_reputation >= btc_rep_level_veryLow}): {
         ["FOBlowRepWarningDescription", ["", format[
             localize "$STR_BTC_HAM_EVENT_EASTWIND",
             _structure getVariable ["FOB_name", ""]

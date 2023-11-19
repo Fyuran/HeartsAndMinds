@@ -57,12 +57,6 @@ if (_cities isNotEqualTo createHashMap) then {
 		_city setVariable ["btc_rep_civKilled", _civKilled];
 
 		if (btc_debug) then {
-			private _marker = _city getVariable ["marker", ""];
-			if (_city getVariable ["occupied", false]) then {
-				_marker setMarkerColor (["colorRed", "ColorCIV"] select _initialized);
-			} else {
-				_marker setMarkerColor (["colorGreen", "ColorWhite"] select _initialized);
-			};
 			if (btc_debug_log) then {
 				[format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false]] call btc_debug_fnc_message;
 			};

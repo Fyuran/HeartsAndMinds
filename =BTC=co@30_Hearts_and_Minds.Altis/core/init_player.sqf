@@ -51,9 +51,6 @@ if(btc_p_intro) then {
 
     if(btc_debug) then {
         [] call btc_debug_fnc_debug_mode;
-        [true, "btc_debug_fnc_cities"] call btc_debug_fnc_request_server_data;
-        [true, "btc_debug_fnc_hideouts"] call btc_debug_fnc_request_server_data;
-        [true, "btc_debug_fnc_cache"] call btc_debug_fnc_request_server_data;
     };
 
 }] call CBA_fnc_waitUntilAndExecute;

@@ -372,17 +372,12 @@ if(_has_en) then {
         _x getVariable ["has_ho", false]
     };
     //in case only one hideout is found, make sure it is used to double the chance, 1 would be wasted in this specific case
-    private _hideoutsCount = if(count _hideouts isEqualTo 1) then {2} else {count _hideouts max 1};
+    private _hideoutsCount = if(count _hideouts isEqualTo 1) then {2} else {count _hideouts};
 
-    //chance1 = random ((btc_global_reputation/100) min 0.75);
-    //chance2 = ((count nearCities / ((btc_global_reputation/15) max 0.2)) * countHideouts );
+    private _chance1 = random ((btc_global_reputation/100) min 0.75);
+    private _chance2 = ((count _nearCities / ((btc_global_reputation/4) max 0.2)) * _hideoutsCount );
 
-    if ( //i'm not a clever man formula
-        random ((btc_global_reputation/100) min 0.75) < (
-            (count _nearCities) / //can be n==0 
-                ( (btc_global_reputation/15) max 0.2)  * //should always be n>=0.2
-                    _hideoutsCount) //should always be n>=1
-    ) then {
+    if (_chance1 < _chance2) then {
         [EVENT_FOB_ATTACK, _city] call btc_event_fnc_eventManager;
     };
 };

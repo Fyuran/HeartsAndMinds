@@ -29,20 +29,17 @@ if(isNil "btc_debug_namespace") exitWith {
 };
 
 (btc_debug_namespace getVariable "hideouts") apply {
-		_x params [
-			"_id", 
-			"_pos"
-		];
-		private _markerVarName = format ["btc_hideout_%1",  _pos];
-		private _marker = btc_debug_namespace getVariable [_markerVarName, createMarkerLocal [_markerVarName, _pos]];
+		(values _y) params (keys _y);
+		private _markerVarName = format ["_hideout_loc_%1",  _pos];
+		private _marker = _y getOrDefault [_markerVarName, createMarkerLocal [_markerVarName, _pos], true];
 
 	if(_isEnable) then {
 		_marker setMarkerTypeLocal "mil_unknown";
 		_marker setMarkerTextLocal format ["Hideout %1", _id];
 		_marker setMarkerSizeLocal [0.8, 0.8];
 		_marker setMarkerColorLocal "ColorRed";
-		btc_debug_namespace setVariable [_markerVarName, _marker];
 	} else {
+		_y deleteAt _markerVarName;
 		deleteMarkerLocal _marker;
 	};
 };

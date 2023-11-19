@@ -51,6 +51,10 @@ private _cities_status = createHashMap;
 		_name = _y getVariable "id"
 	};
 
+	if (_y getVariable ["active", false]) then {
+        [_y] call btc_db_fnc_enabled_city_save; //activated cities won't record any new data until deactivation.
+    };
+
 	private _hash = ["id", "initialized", "spawn_more", "occupied",
 		"data_units", "has_ho", "ho_units_spawned", "ieds",
 		"has_suicider", "btc_rep_civKilled", "name",

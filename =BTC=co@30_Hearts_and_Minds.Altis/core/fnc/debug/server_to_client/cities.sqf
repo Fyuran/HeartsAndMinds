@@ -30,20 +30,12 @@ if(isNil "btc_debug_namespace") exitWith {
 
 
 (btc_debug_namespace getVariable "cities") apply {
-	_x params[
-		"_id",
-		"_occupied",
-		"_name",
-		"_type",
-		"_cachingRadius",
-		"_hasBeach",
-		"_pos"
-	];
-	private _markerVarName = format ["loc_%1", _id];
-	private _marker = btc_debug_namespace getVariable [_markerVarName, createMarkerLocal [_markerVarName, _pos]];
+	(values _y) params (keys _y);
+	private _markerVarName = format ["_loc_%1", _id];
+	private _marker = _y getOrDefault [_markerVarName, createMarkerLocal [_markerVarName, _pos], true];
 
-	private _markeVarName = format ["locn_%1", _id];
-	private _marke = btc_debug_namespace getVariable [_markeVarName, createMarkerLocal [_markeVarName, _pos]];
+	private _markeVarName = format ["_locn_%1", _id];
+	private _marke = _y getOrDefault [_markeVarName, createMarkerLocal [_markeVarName, _pos], true];
 
 	private _spaces = "";
 	for "_i" from 0 to count _name -1 do {
@@ -55,14 +47,17 @@ if(isNil "btc_debug_namespace") exitWith {
 		_marker setMarkerBrushLocal "SolidBorder";
 		_marker setMarkerSizeLocal [_cachingRadius + btc_city_radiusOffset, _cachingRadius + btc_city_radiusOffset];
 		_marker setMarkerAlphaLocal 0.3;
-		_marker setMarkerColorLocal (["colorGreen", "colorRed"] select _occupied);
+		if (_occupied) then {
+			_marker setMarkerColorLocal (["colorRed", "ColorCIV"] select _initialized);
+		} else {
+			_marker setMarkerColorLocal (["colorGreen", "ColorWhite"] select _initialized);
+		};
 
 		_marke setMarkerTypeLocal "Contact_dot1";
 		_marke setMarkerTextLocal format [_spaces + "%1 ID %2 - %3", _type, _id, _hasBeach];
-
-		btc_debug_namespace setVariable [_markerVarName, _marker];
-		btc_debug_namespace setVariable [_markeVarName, _marke];
 	} else {
+		_y deleteAt _markerVarName;
+		_y deleteAt _markeVarName;
 		deleteMarkerLocal _marker;
 		deleteMarkerLocal _marke;
 	};

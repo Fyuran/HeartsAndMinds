@@ -28,15 +28,15 @@ if(isNil "btc_debug_namespace") exitWith {
         __FILE__, nil, true] call btc_debug_fnc_message;
 };
 
-private _cache_n = btc_debug_namespace getVariable "cache_n";
-private _pos = btc_debug_namespace getVariable "cache_pos";
+private _hash = btc_debug_namespace getVariable "cache";
+private _cache_n = _hash get "cache_n";
+private _pos = _hash get "cache_pos";
 
-private _marker = btc_debug_namespace getVariable ["cache_marker", createMarkerLocal [format ["btc_cache_%1",  _cache_n], _pos]];
+private _marker = _hash getOrDefault ["_cache_loc", createMarkerLocal [format ["btc_cache_%1",  _cache_n], _pos], true];
 if(_isEnable) then {
     _marker setMarkerType "mil_unknown";
     _marker setMarkerText format ["Cache %1", _cache_n];
     _marker setMarkerSize [0.8, 0.8];
-	btc_debug_namespace setVariable ["cache_marker", _marker];
 } else {
 	deleteMarkerLocal _marker;
 };
