@@ -67,7 +67,7 @@ for "_id" from 0 to (count _locations - 1) do {
         if ((getMarkerPos "YOUR_MARKER_AREA") inArea [_position, 500, 500, 0, false]) exitWith {};
         */
 
-        [_position, _type, _name, _cachingRadius, false, _id] call btc_city_fnc_create;
+        [_position, _type, _name, _cachingRadius, false] call btc_city_fnc_create;
     };
 };
 

@@ -63,63 +63,24 @@ addMissionEventHandler ["BuildingChanged", btc_rep_fnc_buildingchanged];
 
 addMissionEventHandler ["PlayerConnected", btc_eh_fnc_playerConnected];
 addMissionEventHandler ["HandleDisconnect", {
-    params ["_player", "_id", "_uid", "_name"];
+    params ["_player"];
     if (_player in (entities "HeadlessClient_F")) then {
         deleteVehicle _player;
     };
     if (alive _player) then {
-        if (btc_debug) then {
-            [format ["handling disconnect for %1[%2]", _uid, _this], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-        };
-        if(btc_db_load isEqualTo 2) then { //JSON
-
-            private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
-            _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", worldName], createHashMap];
-
-            private _hash = [_player] call btc_json_fnc_serialize_players;
-            _hash set ["uid", _uid];
-            if (btc_debug) then {
-                [format ["saving JSON disconnect for %1[%2]", _uid, _hash], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-            };
-		    _slots_serialized set [_uid, _hash];
-
-        }; 
-
         _player call btc_slot_fnc_serializeState;
     };
     false
 }];
 ["ace_unconscious", btc_slot_fnc_serializeState] call CBA_fnc_addEventHandler;
 ["btc_playerConnected", { 
-    params ["_player", "_data"]; 
-    _data params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
-
-    if (btc_debug) then {
-        [format ["loading data for %1[%2]", _uid, _this], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-    };
-    if(btc_db_load == 2) then { //JSON
-        private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
-        _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_slotsSerialized", worldName], createHashMap];
- 
-        private _hash = _slots_serialized getOrDefault [_uid, createHashMap];
-        if(_hash isEqualTo createHashMap) exitWith {};
-        if (btc_debug) then {
-            [format ["loading JSON data for %1[%2]", _uid, _hash], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-        };
-        (values _hash) params ((keys _hash) apply {"_" + _x}); //keys lack the local scope definer '_'
-        [_pos, _direction, _loadout,
-        _ForcedFlagTexture, _chem_contaminated, _medical_status,
-            _acex_field_rations] remoteExecCall ["btc_json_fnc_deserialize_players", _owner];
-
-    }else {
-        [_player, _player call btc_slot_fnc_createKey, _owner] call btc_slot_fnc_deserializeState_s;
-    };
-    
+    params ["_player", "_ids"];
+    [_player, _player call btc_slot_fnc_createKey, _ids select 4] call btc_slot_fnc_deserializeState_s;
 }] call CBA_fnc_addEventHandler;
 if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {
         if ((allPlayers - entities "HeadlessClient_F") isEqualTo []) then {
-            [] call ([btc_db_fnc_save, btc_json_fnc_save] select (btc_db_load == 2));
+            [] call btc_db_fnc_save;
         };
     }];
 };

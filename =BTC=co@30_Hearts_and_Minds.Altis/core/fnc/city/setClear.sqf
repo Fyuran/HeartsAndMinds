@@ -39,6 +39,10 @@ if (_remainEnemyUnits isNotEqualTo []) then {
     } forEach _remainEnemyUnits;
 };
 
+if (_city getVariable ["marker", ""] != "") then {
+    (_city getVariable ["marker", ""]) setMarkerColor "ColorGreen";
+};
+
 if (btc_final_phase) then {
     btc_city_remaining = btc_city_remaining - [_city];
 };

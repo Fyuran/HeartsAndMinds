@@ -13,7 +13,7 @@ enabledebugconsole = 1;
 #include "core\fnc\common\dlg.hpp"
 #include "core\fnc\fob\dlg.hpp"
 #include "core\fnc\log\dlg.hpp"
-#include "core\fnc\json\ui\fileviewerRsc.hpp"
+
 class RscTitles {
     class Default {
         idd = -1;

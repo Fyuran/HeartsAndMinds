@@ -24,21 +24,12 @@ Author:
 private _action = ["Database", localize "STR_BTC_HAM_ACTION_DATA_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\D_ca.paa", {}, {(call BIS_fnc_admin) == 2 || isServer}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 
-if(btc_db_load == 2) then { // If is JSON
-    _action = ["request_json_fileviewer", "JSON File Viewer", "core\img\json.paa", {
-        [{[] call btc_json_fnc_fileviewer;}] call CBA_fnc_execNextFrame; //without this, game will crash
-    }, {true}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
-};
-if(btc_db_load == 1) then {//If not JSON
-    _action = ["request_save", localize "str_3den_display3den_menubar_missionsave_text", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\download_ca.paa", "#084808"], {[] remoteExecCall ["btc_db_fnc_save", 2]}, {true}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
-    _action = ["request_delete", localize "STR_3DEN_Delete", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\exit_ca.paa", "#FF0000"], {[] remoteExecCall ["btc_db_fnc_delete", 2]}, {true}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
-    _action = ["request_load", localize "STR_3DEN_Display3DENRequiredAddons_btnForceLoad", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\intel_ca.paa", "#ffa500"], {[] remoteExecCall ["btc_db_fnc_load", 2]}, {true}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
-};
-
+_action = ["request_save", localize "str_3den_display3den_menubar_missionsave_text", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\download_ca.paa", "#084808"], {[] remoteExecCall ["btc_db_fnc_save", 2]}, {true}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
+_action = ["request_delete", localize "STR_3DEN_Delete", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\exit_ca.paa", "#FF0000"], {[] remoteExecCall ["btc_db_fnc_delete", 2]}, {true}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
+_action = ["request_load", localize "STR_3DEN_Display3DENRequiredAddons_btnForceLoad", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\intel_ca.paa", "#ffa500"], {[] remoteExecCall ["btc_db_fnc_load", 2]}, {true}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
 
 //Intel
 _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title", "\A3\ui_f\data\igui\cfg\simpleTasks\types\search_ca.paa", {
@@ -202,7 +193,7 @@ _action = ["side_mission_request", localize "STR_BTC_HAM_ACTION_SIDEMISSION_REQ"
 [player, 1, ["ACE_SelfActions", "side_mission"], _action] call ace_interact_menu_fnc_addActionToObject;
 
 //Debug
-private _action = ["Debug", "Debug Tools", "core\img\debug_icon.paa", {}, {(call BIS_fnc_admin) == 2 || !isMultiplayer}] call ace_interact_menu_fnc_createAction;
+private _action = ["Debug", "Debug Tools", "core\img\debug_icon.paa", {}, {(call BIS_fnc_admin) == 2 || btc_debug}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Mode
     _action = ["Debug_off", "Debug", ["core\img\debug_on.paa", "#006400"], {[false] call btc_debug_fnc_debug_mode;}, {btc_debug}] call ace_interact_menu_fnc_createAction;
