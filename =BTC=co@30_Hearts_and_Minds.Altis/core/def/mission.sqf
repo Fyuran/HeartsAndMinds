@@ -87,6 +87,7 @@ btc_p_chem = ("btc_p_chem" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_spect = ("btc_p_spect" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_side_mission_cycle = "btc_p_side_mission_cycle" call BIS_fnc_getParamValue;
 btc_p_fob_cap_time = "btc_p_fob_cap_time" call BIS_fnc_getParamValue;
+btc_p_fob_garrison = ("btc_p_fob_garrison" call BIS_fnc_getParamValue) isEqualTo 1;
 
 //<< Arsenal options >>
 btc_p_arsenal_Type = "btc_p_arsenal_Type" call BIS_fnc_getParamValue;
@@ -192,7 +193,8 @@ if (isServer) then {
     btc_fob_rallypointTimer = 60 * btc_p_rallypointTimer;
     btc_body_deadPlayers  = [];
 	btc_fob_showAlert = true;
-	btc_fob_alertRadius = 600;
+	btc_fob_alertRadius = 600; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
+    btc_fob_conquestRadius = 30; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
     btc_fob_attackRadius = worldSize / 8 + btc_city_radiusOffset;
 
     //Patrol

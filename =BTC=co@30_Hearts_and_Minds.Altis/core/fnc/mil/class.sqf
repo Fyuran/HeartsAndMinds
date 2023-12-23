@@ -68,10 +68,10 @@ _factions = _factions apply {
 
 _enemy_side = [east, west, independent, civilian] select getNumber (_cfgFactionClasses >> _factions select 0 >> "side");
 
-//Prevent selecting same side as player side
-if (_enemy_side isEqualTo btc_player_side) exitWith {
-    [["IND_G_F"], _en_AA, _en_tank] call btc_mil_fnc_class;
-};
+// //Prevent selecting same side as player side
+// if (_enemy_side isEqualTo btc_player_side) exitWith {
+//     [["IND_G_F"], _en_AA, _en_tank] call btc_mil_fnc_class;
+// };
 
 {
     private _faction = _x;
@@ -145,7 +145,15 @@ if !(_en_AA) then {
 _type_units = _type_units select {
     (getText (_cfgVehicles >> _x >> "role") isNotEqualTo "Crewman") &&
     ((_x find "_Survivor_") isEqualTo -1) &&
+    ((_x find "_Competitor_") isEqualTo -1) &&
+    ((_x find "_UGV_") isEqualTo -1) &&
+    ((_x find "_UAV_") isEqualTo -1) &&
+    ((_x find "_ghillie_") isEqualTo -1) &&
+    ((_x find "_Parade_") isEqualTo -1) &&
+    ((_x find "_RangeMaster_") isEqualTo -1) &&
+    ((_x find "_Captain_") isEqualTo -1) &&
     ((_x find "_Story") isEqualTo -1) &&
+    ((_x find "_spotter_") isEqualTo -1) &&
     ((_x find "_unarmed_") isEqualTo -1) &&
     (getText (_cfgVehicles >> _x >> "vehicleClass") isNotEqualTo "MenVR")
 };

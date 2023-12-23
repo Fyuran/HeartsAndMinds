@@ -26,7 +26,6 @@ Author:
 
 ---------------------------------------------------------------------------- */
 #define EVENT_FOB_ATTACK 0
-#define FOB_CONQUEST_RANGE 30
 
 params [
     ["_pos", [], [[]]],
@@ -63,9 +62,14 @@ _marker setMarkerShape "ICON";
 
 //Alarm FOB Trigger
 if (btc_p_event_enable_fobAttack) then {
+    private _structBoundingSphere = sizeOf _fob_structure;
+    private _alertRadius = _structBoundingSphere + btc_fob_alertRadius;
+    private _conquestRadius = _structBoundingSphere + btc_fob_conquestRadius;
+    
 	private _alarmTrg = createTrigger ["EmptyDetector", _pos, false];
-	_alarmTrg setTriggerArea [btc_fob_alertRadius, btc_fob_alertRadius, 0, false];
+	_alarmTrg setTriggerArea [_alertRadius, _alertRadius, 0, false];
 	_alarmTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", true];
+
 	private _alarmTrgStatementOn = "
 		[thisTrigger, thisList] call btc_fob_fnc_alarmTrg;
 	";
@@ -75,7 +79,7 @@ if (btc_p_event_enable_fobAttack) then {
         private _marker = createMarker [format ["fob_%1", _FOB_name],_alarmTrg];
         _marker setMarkerShape "ELLIPSE";
         _marker setMarkerBrush "SolidBorder";
-        _marker setMarkerSize [btc_fob_alertRadius, btc_fob_alertRadius];
+        _marker setMarkerSize [_alertRadius, _alertRadius];
         _marker setMarkerAlpha 0.3;
         _marker setMarkerColor "ColorBlue";
 
@@ -92,8 +96,9 @@ if (btc_p_event_enable_fobAttack) then {
 
     //Destroy FOB Trigger
     private _destroyTrg = createTrigger ["EmptyDetector", _pos, false];
-    _destroyTrg setTriggerArea [FOB_CONQUEST_RANGE, FOB_CONQUEST_RANGE, 0, false];
+    _destroyTrg setTriggerArea [_conquestRadius, _conquestRadius, 0, false];
     _destroyTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", true];
+
     private _destroyTrgStatementOn = "
         [thisTrigger] call btc_fob_fnc_destroyTrg;
     ";
@@ -104,7 +109,7 @@ if (btc_p_event_enable_fobAttack) then {
         private _marker = createMarker [format ["fob_c%1", _FOB_name],_destroyTrg];
         _marker setMarkerShape "ELLIPSE";
         _marker setMarkerBrush "SolidBorder";
-        _marker setMarkerSize [FOB_CONQUEST_RANGE, FOB_CONQUEST_RANGE];
+        _marker setMarkerSize [_conquestRadius, _conquestRadius];
         _marker setMarkerAlpha 0.4;
         _marker setMarkerColor "ColorPink";
         _markersArr pushBack _marker;
@@ -136,6 +141,13 @@ if (btc_p_event_enable_fobAttack) then {
         [EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
     };
 
+    if(btc_p_fob_garrison) then {
+        if (btc_friendly_type_units isEqualTo []) exitWith {
+            ["no suitable classes found for fob garrison", __FILE__, [false, true, false], true] call btc_debug_fnc_message;
+        };
+
+        [_structure, btc_player_side, btc_friendly_type_units] call btc_mil_fnc_garrison;
+    };
 };
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 

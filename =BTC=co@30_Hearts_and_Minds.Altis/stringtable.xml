@@ -906,6 +906,10 @@
                 <Original>Time before FOB is destroyed during capture:</Original>
                 <Italian>Tempo prima che la FOB venga distrutta durante la cattura:</Italian>
             </Key>
+            <Key ID="STR_BTC_HAM_PARAM_GAMEPLAY_FOBGARRISON">
+                <Original>Friendly AI Garrison in FOBS:</Original>
+                <Italian>Unità AI alleate all'interno delle FOB:</Italian>
+            </Key>
         </Container>
         <Container name="Parameters: Arsenal">
             <Key ID="STR_BTC_HAM_PARAM_ARSENAL_TITLE">

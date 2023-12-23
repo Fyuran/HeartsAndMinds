@@ -418,7 +418,13 @@ class Params {
         values[] = {10, 20, 30, 40, 50, 60};
         texts[] = {10,20,30,40,50,60};
         default = 20;
-    }; 
+    };
+    class btc_p_fob_garrison { // FOB AI garrison:
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_GAMEPLAY_FOBGARRISON"]);
+        values[] = {0,1};
+        texts[] = {$STR_DISABLED,$STR_ENABLED};
+        default = 1;
+    };
     class btc_p_arsenal_title { // << Arsenal options >>
         title = $STR_BTC_HAM_PARAM_ARSENAL_TITLE;
         values[]={0};
@@ -441,7 +447,7 @@ class Params {
         title = __EVAL(format ["      %1:", localize "STR_ACE_Interaction_Equipment"]);
         values[]={0,1,2};
         texts[]={$STR_DISABLED,$STR_BTC_HAM_PARAM_ARSENAL_AUTOLOADOUT, $STR_BTC_HAM_PARAM_ARSENAL_RMVWEAPONS};
-        default = 1;
+        default = 0;
     };
     class btc_p_garage { // Activate garage for admin:
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_ARSENAL_GARAGEADMIN"]);

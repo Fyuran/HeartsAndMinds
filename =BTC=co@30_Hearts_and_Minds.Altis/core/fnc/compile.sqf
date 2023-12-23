@@ -143,6 +143,7 @@ if (isServer) then {
     btc_mil_fnc_create_group = compileScript ["core\fnc\mil\create_group.sqf"];
     btc_mil_fnc_create_static = compileScript ["core\fnc\mil\create_static.sqf"];
     btc_mil_fnc_create_patrol = compileScript ["core\fnc\mil\create_patrol.sqf"];
+    btc_mil_fnc_garrison = compileScript ["core\fnc\mil\garrison.sqf"]; 
     btc_mil_fnc_send = compileScript ["core\fnc\mil\send.sqf"];
     btc_mil_fnc_set_skill = compileScript ["core\fnc\mil\set_skill.sqf"];
     btc_mil_fnc_getStructures = compileScript ["core\fnc\mil\getStructures.sqf"];
