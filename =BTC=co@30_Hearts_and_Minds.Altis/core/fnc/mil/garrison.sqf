@@ -27,37 +27,39 @@ params [
 	["_type_units", btc_type_units, [[]]]
 ];
 if(isNull _building) exitWith {["Invalid _building param", __FILE__, [false, true, false], true] call btc_debug_fnc_message;};
+private _boundingSphere = sizeOf typeOf _building;
 
 private _buildingPositions = _building buildingPos -1;
-if (count _buildingPositions <= 0) exitWith {
+private _buildingPositionCount = (count _buildingPositions);
+if (_buildingPositionCount <= 0) exitWith {
 	if(btc_debug) then {
 		[format["No suitable positions found for garrison at %1", _pos], __FILE__, [false, true, false]] call btc_debug_fnc_message;
 	};
 };
 
-private _group = createGroup _enemy_side;
-//_group enableAttack false;
+[_enemy_side, _building, _buildingPositions, _buildingPositionCount, _type_units] spawn {
+	params ["_enemy_side", "_building", "_buildingPositions", "_buildingPositionCount", "_type_units"];
 
-for "_i" from 1 to (count _buildingPositions) do {
-	btc_delay_time = btc_delay_time + btc_delay_unit;
-	[{
-		btc_delay_time = btc_delay_time - btc_delay_unit;
+	private _group = createGroup _enemy_side;
+	_group enableAttack false;
+	private _staticWeapons = _building nearObjects ["StaticWeapon", 50] select {locked _x != 2 && {_x emptyPositions "gunner" > 0}};
 
-		params [
-			["_group", grpNull, [grpNull]],
-			["_unit_type", "", [""]],
-			["_buildingPositions", [], [[]]],
-			["_building", objNull, [objNull]]
-		];
+	for "_i" from 1 to _buildingPositionCount do {
 		private _pos = _buildingPositions select (count (units _group));
-		private _unit = _group createUnit [_unit_type, _pos, [], 0, "CAN_COLLIDE"];
+		private _unit = _group createUnit [selectRandom _type_units, _pos, [], 0, "CAN_COLLIDE"];
 
-		[_unit] joinSilent _group;
-		doStop _unit;
+		waitUntil {unitReady _unit};
+		// This command causes AI to repeatedly attempt to crouch when engaged
 		_unit setUnitPos "UP";
-		_unit setDir (_building getDir _unit);
+		doStop _unit;
+		_unit disableAI "PATH";
 
-	}, [_group, selectRandom _type_units, _buildingPositions, _building], btc_delay_time - 0.01] call CBA_fnc_waitAndExecute;
+		if (count _staticWeapons > 0) then {
+			_unit moveInGunner (_staticWeapons select 0);
+			_unit assignAsGunner (_staticWeapons deleteAt 0);
+		};
+	};
 };
+
 
 (leader _group) setVariable ["acex_headless_blacklist", true];

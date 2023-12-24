@@ -193,8 +193,8 @@ if (isServer) then {
     btc_fob_rallypointTimer = 60 * btc_p_rallypointTimer;
     btc_body_deadPlayers  = [];
 	btc_fob_showAlert = true;
-	btc_fob_alertRadius = 600; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
-    btc_fob_conquestRadius = 30; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
+	btc_fob_alertRadius = 0; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
+    btc_fob_conquestRadius = 0; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
     btc_fob_attackRadius = worldSize / 8 + btc_city_radiusOffset;
 
     //Patrol

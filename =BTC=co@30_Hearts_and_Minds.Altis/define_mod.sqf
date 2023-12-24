@@ -18,7 +18,6 @@ BIS_respSpecShowControlsHelper = true;   // Show the controls tutorial box
 BIS_respSpecShowHeader = true;           // Top bar of the spectator UI including mission time
 BIS_respSpecLists = true;                // Show list of available units and locations on the left hand side
 
-btc_fob_alertRadius = 600;
 
 /*
     Here you can specify which equipment should be added or removed from the arsenal.
@@ -78,3 +77,5 @@ private _backpackCBRN = "B_CombinationUnitRespirator_01_F";
 btc_arsenal_loadout = [_uniforms, _uniformsCBRN, _uniformsSniper, _vests, _helmets, _hoods, [_hoodCBRN, _hoodCBRN, _hoodCBRN, _hoodCBRN], _laserdesignators, _night_visions, _weapons, _weapons_sniper, _weapons_machineGunner, _bipods, _pistols, _launcher_AT, _launcher_AA, _backpacks, _backpacks_big, [_backpackCBRN, _backpackCBRN, _backpackCBRN, _backpackCBRN], [_radio, _radio, _radio, _radio]];
 
 btc_friendly_type_units = ([["BLU_F"]] call btc_mil_fnc_class) select 1;
+btc_fob_alertRadius = 300; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)
+btc_fob_conquestRadius = 0; //radius will scale with btc_fob_structure's boundingSphere(sizeOf)

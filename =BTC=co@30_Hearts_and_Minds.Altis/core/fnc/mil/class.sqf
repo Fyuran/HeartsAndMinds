@@ -78,7 +78,7 @@ _enemy_side = [east, west, independent, civilian] select getNumber (_cfgFactionC
 
     //Get all vehicles of the _faction selected
     private _allclass_f = _allclass select {
-        (toUpper getText (_cfgVehicles >> _x >> "faction")) isEqualTo _faction &&
+        (toUpper getText (_cfgVehicles >> _x >> "faction")) isEqualTo (toUpper _faction) &&
         {!(_x isKindOf "Van_02_vehicle_base_F")} // https://feedback.bistudio.com/T129141
     };
 
