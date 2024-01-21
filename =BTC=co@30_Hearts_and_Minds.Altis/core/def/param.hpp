@@ -415,9 +415,9 @@ class Params {
     };
     class btc_p_fob_cap_time { // FOB cap time:
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_GAMEPLAY_FOBCAP"]);
-        values[] = {10, 20, 30, 40, 50, 60};
-        texts[] = {10,20,30,40,50,60};
-        default = 20;
+        values[] = {600,1200,1800};
+        texts[] = {"10 minutes","20 minutes","30 minutes"};
+        default = 1200;
     };
     class btc_p_fob_garrison { // FOB AI garrison:
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_GAMEPLAY_FOBGARRISON"]);

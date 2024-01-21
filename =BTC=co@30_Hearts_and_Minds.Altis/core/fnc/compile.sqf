@@ -98,6 +98,7 @@ if (isServer) then {
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
     btc_event_fnc_attackFOB = compileScript ["core\fnc\event\attackFOB.sqf"];
+    btc_event_fnc_attackFOBChance = compileScript ["core\fnc\event\attackFOBChance.sqf"];
     btc_event_fnc_attackFOBspawn = compileScript ["core\fnc\event\attackFOBspawn.sqf"];
 
     //IED

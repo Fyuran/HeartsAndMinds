@@ -25,7 +25,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#define EVENT_FOB_ATTACK 0
 
 params [
     ["_city", objNull, [objNull]],
@@ -364,22 +363,7 @@ if (_HCs isNotEqualTo []) then {
 
 //FOB attack event - #define EVENT_FOB_ATTACK 0
 if(_has_en) then {
-    private _nearCities = values btc_city_all select {
-        (_x distance2D _city) <= btc_fob_attackRadius && 
-        {_x getVariable ["occupied", false]}
-	}; 
-    private _hideouts = _nearCities select {
-        _x getVariable ["has_ho", false]
-    };
-    //in case only one hideout is found, make sure it is used to double the chance, 1 would be wasted in this specific case
-    private _hideoutsCount = if(count _hideouts isEqualTo 1) then {2} else {count _hideouts};
-
-    private _chance1 = random ((btc_global_reputation/100) min 0.75);
-    private _chance2 = ((count _nearCities / ((btc_global_reputation/4) max 0.2)) * _hideoutsCount );
-
-    if (_chance1 < _chance2) then {
-        [EVENT_FOB_ATTACK, _city] call btc_event_fnc_eventManager;
-    };
+    [_city] call btc_event_fnc_attackFOBChance;
 };
 
 

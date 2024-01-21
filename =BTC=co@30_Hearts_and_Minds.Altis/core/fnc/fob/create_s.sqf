@@ -132,14 +132,7 @@ if (btc_p_event_enable_fobAttack) then {
 
     (_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
-	private _nearCities = values btc_city_all select {
-        (_x distance2D _structure) <= btc_fob_attackRadius && 
-        {_x getVariable ["occupied", false]}
-	}; 
-	
-    if ((btc_global_reputation + random btc_rep_level_high) < (btc_rep_level_high * (1 + (count _nearCities)/10))) then {
-        [EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
-    };
+	[_structure] call btc_event_fnc_attackFOBChance;
 
     if(btc_p_fob_garrison) then {
         if (btc_friendly_type_units isEqualTo []) exitWith {
