@@ -50,7 +50,7 @@ private _has_suicider = false;
         {!(_x getVariable ["no_cache", false])} &&
         {_x getVariable ["btc_city", _city] in [_city, objNull]}
     ) then {
-        private _data_group = _x call ([btc_data_fnc_get_group,  btc_json_fnc_get_group_data] select (btc_db_load == 2));
+        private _data_group = _x call btc_data_fnc_get_group;
         _data_units pushBack _data_group;
 
         if(_data_group isEqualType createHashMap) then {

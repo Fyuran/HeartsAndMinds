@@ -18,37 +18,43 @@
 	    Fyuran
 	
 ---------------------------------------------------------------------------- */
-#define MMAPGET btc_JSON_data get format["btc_hm_%1", _name]
-#define MAPGET(ARG) btc_JSON_data get format["btc_hm_%1_" + ARG, _name]
+#define MAPGET(ARG) btc_JSON get ARG
 
-[{!(isNil "btc_JSON_data")}, {
 params[
 	["_name", worldName, [""]]
 ];
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
-if (btc_debug) then {
-	private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
-	[format ["Loading JSON data for %1", _saveFile], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-};
+[] call btc_json_fnc_request_data;
 
 // METADATA
-private _metadata = ((MMAPGET) get "metadata");
-(values _metadata) params (keys _metadata);
-setDate _btc_hm_Altis_date;
-btc_global_reputation = _btc_hm_Altis_rep;
+private _metadata = (MAPGET(_name));
+private _btc_ho_sel = -1;
+if (_metadata isNotEqualTo createHashMap) then {
+	
+	_metadata apply {
+		(values _y) params ((keys _y) apply {"_" + _x});
+		setDate _date;
+		btc_global_reputation = _rep;
+		_btc_ho_sel = _ho_sel;
+	};
+
+};
+
 
 // CITIES
 private _cities = (MAPGET("cities"));
 if (_cities isNotEqualTo createHashMap) then {
 	_cities apply {
-		(values _y) params (keys _y);// iterate through cities' data
+		(values _y) params ((keys _y) apply {"_" + _x});// iterate through cities' data
 
 		private _city = btc_city_all get _id;
-	
+
 		_city setVariable ["initialized", _initialized];
 		_city setVariable ["spawn_more", _spawn_more];
 		_city setVariable ["occupied", _occupied];
+		_city setVariable ["data_animals", _data_animals];
+		_city setVariable ["data_tags", _data_tags];
 		_city setVariable ["data_units", _data_units];
 		_city setVariable ["has_ho", _has_ho];
 		_city setVariable ["ho_units_spawned", _ho_units_spawned];
@@ -70,16 +76,16 @@ if (_cities isNotEqualTo createHashMap) then {
 	};
 };
 // HIDEOUTS
-private _ho = (MAPGET("ho"));
-if (_ho isNotEqualTo createHashMap) then {
-	_ho apply {
-		(values _y) params (keys _y);
+private _hos = (MAPGET("hos"));
+if (_hos isNotEqualTo createHashMap) then {
+	_hos apply {
+		(values _y) params ((keys _y) apply {"_" + _x});
 		[_pos, _id_hideout, _rinf_time, _cap_time, _assigned_to, _markers_saved] call btc_hideout_fnc_create;
 	};
 };
 private _select_ho = (btc_hideouts apply {
 	_x getVariable "id"
-}) find _btc_hm_Altis_ho_sel;
+}) find _btc_ho_sel;
 if (_select_ho isEqualTo - 1) then {
 	btc_hq = objNull;
 } else {
@@ -94,7 +100,7 @@ if (btc_hideouts isEqualTo []) then {
 private _cache = (MAPGET("cache"));
 if (_cache isNotEqualTo createHashMap) then {
 	_cache apply {
-		(values _y) params (keys _y);
+		(values _y) params ((keys _y) apply {"_" + _x});
 		btc_cache_pos = _cache_pos;
 		btc_cache_n = _cache_n;
 		btc_cache_info = _cache_info;
@@ -128,7 +134,7 @@ if (_cache isNotEqualTo createHashMap) then {
 private _fobs = (MAPGET("fobs"));
 if (_fobs isNotEqualTo createHashMap) then {
 	_fobs apply {
-		(values _y) params (keys _y);
+		(values _y) params ((keys _y) apply {"_" + _x});
 		[_pos, _direction, _name] call btc_fob_fnc_create_s;
 		if (btc_debug_log) then {
 			[format ["_fob = %1 at %2", _name, _pos], __FILE__, [false]] call btc_debug_fnc_message;
@@ -142,7 +148,7 @@ if (_objs isNotEqualTo createHashMap) then {
 	[{
 		// Can't use ace_cargo for objects created during first frame.
 		_this apply {
-			(values _y) params (keys _y);
+			(values _y) params ((keys _y) apply {"_" + _x});
 
 			[[_type, _pos, _direction, "",
 				_cargo, _inventory, _vectorPos,
@@ -172,7 +178,7 @@ if (_vehs isNotEqualTo createHashMap) then {
 	[{
 		// Can't be executed just after because we can't delete and spawn vehicle during the same frame.
 		_this apply {
-			(values _y) params (keys _y);
+			(values _y) params ((keys _y) apply {"_" + _x});
 
 			private _veh = [
 				_type, _pos, _direction, _fuel,
@@ -191,39 +197,36 @@ if (_vehs isNotEqualTo createHashMap) then {
 	}, _vehs] call CBA_fnc_execNextFrame;
 };
 
-// PLAYERS
-private _players = (MAPGET("slotsSerialized"));
-if (_players isNotEqualTo createHashMap) then {
-	[{
-		if(!isMultiplayer) then {
+// PLAYERS(Handled in EH, this is merely for debugging)
+if(btc_debug) then {
+	private _players = (MAPGET("slotsSerialized"));
+	if (_players isNotEqualTo createHashMap) then {
+		[{
 			_this apply {
-				(values _y) params (keys _y);
+				(values _y) params ((keys _y) apply {"_" + _x});
 
-				[_pos, _direction, _loadout,
-					_ForcedFlagTexture, _chem_contaminated, _medical_status,
-						_acex_field_rations] remoteExecCall ["btc_json_fnc_deserialize_players", _uid call BIS_fnc_getUnitByUID];
+				_player = _uid call BIS_fnc_getUnitByUID;
+				if(!isNull _player) then {
+					[_pos, _direction, _loadout,
+						_ForcedFlagTexture, _chem_contaminated,
+							_acex_field_rations] remoteExecCall ["btc_json_fnc_deserialize_players", _player];
 
-				if (btc_debug_log) then {
-					[format ["_player = %1 at %2", _uid, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+					if (btc_debug_log) then {
+						[format ["_player = %1 at %2", _uid, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+					};
 				};
+
 			};
-		};
-		//need to sanitize keys with '_' in front that were used by btc_json_fnc_load params
-		_this apply {
-			private _fixed_hash = ((keys _y) apply {_x trim["_", 1]}) createHashMapFromArray (values _y);
-			_this deleteAt _x;
-			_this set [_x, _fixed_hash];
-		};
+		}, _players] call CBA_fnc_execNextFrame; // Need to wait for vehicle creation
 
-	}, _players] call CBA_fnc_execNextFrame; // Need to wait for vehicle creation
-
+	};
 };
 
 // MARKERS
 private _markers = (MAPGET("markers"));
 if (_markers isNotEqualTo createHashMap) then {
 	{
-		(values _y) params (keys _y);
+		(values _y) params ((keys _y) apply {"_" + _x});
 
 		private _marker = createMarker [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
 		_marker setMarkerText _markerText;
@@ -246,9 +249,3 @@ if (_markers isNotEqualTo createHashMap) then {
 };
 
 [["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
-
-}, _this, 180, {
-	[["Database loading timed out after 180s, falling through to defaults", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
-	[] call btc_db_fnc_initDefault;
-}] call CBA_fnc_waitUntilAndExecute;
-

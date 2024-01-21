@@ -28,7 +28,6 @@
 		"_loadout",
 		"_flagTexture",
 		"_isContaminated",
-		"_state",
 		["_field_rations", [], [[]]]
 	];
 	if (btc_p_autoloadout isEqualTo 0) then {
@@ -44,9 +43,7 @@
 		player call btc_chem_fnc_damageLoop;
 	};
 
-	_field_rations params [["_thirst", 0, [0]], ["_hunger", 0, [0]]];
-	player setVariable ["acex_field_rations_thirst", _thirst];
-	player setVariable ["acex_field_rations_hunger", _hunger];
+	player setVariable ["acex_field_rations_thirst", _field_rations#0];
+	player setVariable ["acex_field_rations_hunger", _field_rations#1];
 
-	[_state] call btc_json_fnc_deserialize_medical_status;
 }, _this] call CBA_fnc_waitUntilAndExecute;

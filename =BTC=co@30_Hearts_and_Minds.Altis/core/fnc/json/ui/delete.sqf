@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-	Function: btc_json_fnc_delete
+	Function: btc_json_fnc_delete_file
 	
 	Description:
 	    Deletes JSON file.
@@ -11,7 +11,7 @@
 	
 	Examples:
 	    (begin example)
-	        [] call btc_json_fnc_delete;
+	        [] call btc_json_fnc_delete_file;
 	    (end)
 	
 	Author:

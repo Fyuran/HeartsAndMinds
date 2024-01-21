@@ -35,10 +35,9 @@ private _simpleData = createHashMapFromArray[
 	[
 		"metadata",
 		(
-		[format["btc_hm_%1_version", _name], format ["btc_hm_%1_date", _name],
-		format ["btc_hm_%1_rep", _name], format ["btc_hm_%1_ho_sel", _name]]
-		createHashMapFromArray
-		[btc_version select 1, date, btc_global_reputation, btc_hq getVariable ["id", 0]]
+			["version", "date", "rep", "ho_sel"]
+			createHashMapFromArray
+ 			[btc_version select 1, date, btc_global_reputation, btc_hq getVariable ["id", 0]]
 		)
 	]
 ];
@@ -48,26 +47,25 @@ private _cities_status = createHashMap;
 {
 	private _name = _y getVariable ["name", ""];
 	if (_name isEqualTo "") then {
-		_name = _y getVariable "id"
+		_name = str(_y getVariable "id");
 	};
 
-	private _hash = ["id", "initialized", "spawn_more", "occupied",
+	private _hash = ["id", "name", "initialized", "spawn_more", "occupied",
 		"data_units", "has_ho", "ho_units_spawned", "ieds",
-		"has_suicider", "btc_rep_civKilled", "name",
-	"cachingRadius", "type"] createHashMapFromArray [
+		"has_suicider", "data_animals", "data_tags", "btc_rep_civKilled"] createHashMapFromArray [
 		_y getVariable ["id", -1],
+		_name,
 		_y getVariable ["initialized", false],
 		_y getVariable ["spawn_more", false],
 		_y getVariable ["occupied", false],
-		_y getVariable ["data_units", createHashMap],
+		_y getVariable ["data_units", []],
 		_y getVariable ["has_ho", false],
 		_y getVariable ["ho_units_spawned", false],
 		_y getVariable ["ieds", []],
 		_y getVariable ["has_suicider", false],
-		_y getVariable ["civKilled", []],
-		_y getVariable ["name", ""],
-		_y getVariable ["cachingRadius", 100],
-		_y getVariable ["type", ""]
+		_y getVariable ["data_animals", []],
+    	_y getVariable ["data_tags", []],
+		_y getVariable ["btc_rep_civKilled", []]
 	];
 
 	_cities_status set [_name, _hash];
@@ -185,13 +183,21 @@ private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
 } forEach (_vehiclesNotInCargo + _vehiclesInCargo);
 
 // PLAYERS
-private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
-_slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", _name], createHashMap];
+private _slots_serialized = (missionNamespace getVariable ["btc_JSON", createHashMap]); 
+_slots_serialized = _slots_serialized getOrDefault ["slotsSerialized", createHashMap];
 
 ((allPlayers - entities "HeadlessClient_F") apply {
 	if (alive _x) then {
-		private _hash = [_x] call btc_json_fnc_serialize_players;
-		_slots_serialized set [_hash get "uid", _hash];
+		private _hash = createHashMapFromArray[
+			["uid", getPlayerUID _x],
+			["pos", getPosASL _x],
+			["direction", getDir _x],
+			["loadout", getUnitLoadout _x],
+			["ForcedFlagTexture", getForcedFlagTexture _x],
+			["chem_contaminated", _x in btc_chem_contaminated],
+			["acex_field_rations", [_x getVariable ["acex_field_rations_thirst", 0], _x getVariable ["acex_field_rations_hunger", 0]]]
+		];
+		_slots_serialized set [getPlayerUID _x, _hash];
 	};
 });
 
@@ -223,15 +229,15 @@ private _json =
 format["btc_hm_%1", _name] + " " +// JSON fileName
 "{
     " + endl +
-    format ["""btc_hm_%1""", _name] + ":" + encodedHashes#0 + ", " +
-    format ["""btc_hm_%1_markers""", _name] + ":" + encodedHashes#1 + ", " +
-    format ["""btc_hm_%1_cities""", _name] + ":" + encodedHashes#2 + ", " +
-    format ["""btc_hm_%1_ho""", _name] + ":" + encodedHashes#3 + ", " +
-    format ["""btc_hm_%1_cache""", _name] + ":" + encodedHashes#4 + ", " +
-    format ["""btc_hm_%1_fobs""", _name] + ":" + encodedHashes#5 + ", " +
-    format ["""btc_hm_%1_objs""", _name] + ":" + encodedHashes#6 + ", " +
-    format ["""btc_hm_%1_slotsSerialized""", _name] + ": " + encodedHashes#7 + ", " +
-    format ["""btc_hm_%1_vehs""", _name] + ":" + encodedHashes#8 +
+    format ["""%1""", _name] + ":" + encodedHashes#0 + ", " +
+    """markers""" + ":" + encodedHashes#1 + ", " +
+    """cities""" + ":" + encodedHashes#2 + ", " +
+    """hos""" + ":" + encodedHashes#3 + ", " +
+    """cache""" + ":" + encodedHashes#4 + ", " +
+    """fobs""" + ":" + encodedHashes#5 + ", " +
+    """objs""" + ":" + encodedHashes#6 + ", " +
+    """slotsSerialized""" + ": " + encodedHashes#7 + ", " +
+    """vehs""" + ":" + encodedHashes#8 +
     "
 }";
 

@@ -40,7 +40,7 @@ _data_unit params [
     ["_type", 1, [0]],
     ["_array_pos", [], [[]]],
     ["_array_type", [], [[]]],
-    ["_side", east, [east]],
+    ["_side", btc_enemy_side, [east, ""]],
     ["_array_dam", [], [[]]],
     ["_behaviour", [], [[]]],
     ["_array_wp", [], [[]]],
@@ -55,6 +55,16 @@ if (_type isEqualTo 5) exitWith {
 if (_type isEqualTo 7) exitWith {
     [[_city, _spawningRadius, _array_pos select 0], btc_ied_fnc_drone_create] call btc_delay_fnc_exec;
     _delay + btc_delay_unit
+};
+if(typeName _side == "STRING") then {
+	_side = switch(_side) do {
+		case"EAST": {east};
+		case"WEST": {west};
+		case"CIV": {civilian};
+		case"GUER": {independent};
+
+		default {btc_enemy_side};
+	};
 };
 
 private _group = createGroup _side;
@@ -75,13 +85,23 @@ if (_type isEqualTo 1) then {
         ["_type", 1, [0]],
         ["_array_pos", [], [[]]],
         ["_array_type", [], [[]]],
-        ["_side", east, [east]],
+        ["_side", east, [east, ""]],
         ["_array_dam", [], [[]]],
         ["_behaviour", [], [[]]],
         ["_array_wp", [], [[]]],
         ["_array_veh", [], [[], ""]]
     ];
 
+    if(typeName _side == "STRING") then {
+        _side = switch(_side) do {
+            case"EAST": {east};
+            case"WEST": {west};
+            case"CIV": {civilian};
+            case"GUER": {independent};
+
+            default {btc_enemy_side};
+        };
+    };
     if !(_type in [3, 6]) then {
         [_group] call CBA_fnc_clearWaypoints;
         {

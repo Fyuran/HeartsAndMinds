@@ -1,0 +1,16 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "connect",
+            "type": "sqf",
+            "request": "launch",
+            "missionRoot": "${workspaceFolder}",
+            "scriptPrefix": "C:\\Users\\danke\\OneDrive\\Documents\\Arma 3 - Other Profiles\\=BTC=%20Cpl%2eFyuran\\mpmissions\\=BTC=co@30_Hearts_and_Minds.Altis"
+        }
+    ]
+}

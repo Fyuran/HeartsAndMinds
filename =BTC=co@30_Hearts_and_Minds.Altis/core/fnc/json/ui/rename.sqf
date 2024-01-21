@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-	Function: btc_json_fnc_rename
+	Function: btc_json_fnc_rename_file
 	
 	Description:
 	    Renames JSON file
@@ -12,7 +12,7 @@
 	
 	Examples:
 	    (begin example)
-	        [] call btc_json_fnc_rename;
+	        [] call btc_json_fnc_rename_file;
 	    (end)
 	
 	Author:

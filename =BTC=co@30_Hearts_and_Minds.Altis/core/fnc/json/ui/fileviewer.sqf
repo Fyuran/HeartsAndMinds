@@ -72,7 +72,7 @@ _copyButton ctrlAddEventHandler ["ButtonClick", {
 	params ["_copyButton"];
 	_path = uiNamespace getVariable ["btc_JSON_fileviewer_textlbCurSel", ""];
 	if(_path isNotEqualTo "") then {
-		[_path] remoteExecCall ["btc_json_fnc_copy", 2];
+		[_path] remoteExecCall ["btc_json_fnc_copy_file", 2];
 		private _fileviewer = ctrlParent _delButton;
 		private _listBox = _fileviewer displayCtrl 1500;
 		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
@@ -85,7 +85,7 @@ _delButton ctrlAddEventHandler ["ButtonClick", {
 	params ["_delButton"];
 	_path = uiNamespace getVariable ["btc_JSON_fileviewer_textlbCurSel", ""];
 	if(_path isNotEqualTo "") then {
-		[_path] remoteExecCall ["btc_json_fnc_delete", 2];
+		[_path] remoteExecCall ["btc_json_fnc_delete_file", 2];
 		private _fileviewer = ctrlParent _delButton;
 		private _listBox = _fileviewer displayCtrl 1500;
 		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
@@ -98,7 +98,7 @@ _loadButton ctrlAddEventHandler ["ButtonClick", {
 	params ["_loadButton"];
 	_path = uiNamespace getVariable ["btc_JSON_fileviewer_textlbCurSel", ""];
 	if(_path isNotEqualTo "") then {
-		[_path] remoteExecCall ["btc_json_fnc_load_new_file", 2];
+		[_path] remoteExecCall ["btc_json_fnc_load_file", 2];
 		private _fileviewer = ctrlParent _delButton;
 		private _listBox = _fileviewer displayCtrl 1500;
 		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
@@ -114,7 +114,7 @@ _renameButton ctrlAddEventHandler ["ButtonClick", {
 	_rscEdit ctrlEnable true;
 	_rscEdit ctrlSetText "Insert valid name...(Press Enter to Commit)";
 	ctrlSetFocus _rscEdit;
-	uiNamespace setVariable ["btc_JSON_fileviewer_rscEdit_fnc", "btc_json_fnc_rename"]; 
+	uiNamespace setVariable ["btc_JSON_fileviewer_rscEdit_fnc", "btc_json_fnc_rename_file"]; 
 	private _listBox = _fileviewer displayCtrl 1500;
 	_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
 }];

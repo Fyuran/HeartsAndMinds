@@ -73,7 +73,7 @@ addMissionEventHandler ["HandleDisconnect", {
         };
         if(btc_db_load isEqualTo 2) then { //JSON
 
-            private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
+            private _slots_serialized = (missionNamespace getVariable ["btc_JSON", createHashMap]); 
             _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_" + "slotsSerialized", worldName], createHashMap];
 
             private _hash = [_player] call btc_json_fnc_serialize_players;
@@ -98,17 +98,15 @@ addMissionEventHandler ["HandleDisconnect", {
         [format ["loading data for %1[%2]", _uid, _this], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
     };
     if(btc_db_load == 2) then { //JSON
-        private _slots_serialized = (missionNamespace getVariable ["btc_JSON_data", createHashMap]); 
-        _slots_serialized = _slots_serialized getOrDefault [format["btc_hm_%1_slotsSerialized", worldName], createHashMap];
- 
+        private _slots_serialized = (missionNamespace getVariable ["btc_JSON", createHashMap]); 
+        _slots_serialized = _slots_serialized getOrDefault ["slotsSerialized", createHashMap];
+
         private _hash = _slots_serialized getOrDefault [_uid, createHashMap];
         if(_hash isEqualTo createHashMap) exitWith {};
-        if (btc_debug) then {
-            [format ["loading JSON data for %1[%2]", _uid, _hash], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-        };
+
         (values _hash) params ((keys _hash) apply {"_" + _x}); //keys lack the local scope definer '_'
         [_pos, _direction, _loadout,
-        _ForcedFlagTexture, _chem_contaminated, _medical_status,
+        _ForcedFlagTexture, _chem_contaminated,
             _acex_field_rations] remoteExecCall ["btc_json_fnc_deserialize_players", _owner];
 
     }else {

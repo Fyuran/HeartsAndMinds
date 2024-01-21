@@ -47,16 +47,16 @@ private _array = _city getVariable ["ieds", []];
 
         _array pushBack [_sel_pos, selectRandom btc_model_ieds, _dir, _x];
 
-        if (btc_debug) then {
-            private _marker = createMarker [format ["btc_ied_%1", _sel_pos], _sel_pos];
-            _marker setMarkerType "mil_warning";
-            _marker setMarkerColor (["ColorBlue", "ColorRed"] select _x);
-            _marker setMarkerText (["IED (fake)", "IED"] select _x);
-            _marker setMarkerSize [0.8, 0.8];
-        };
-        if (btc_debug_log) then {
-            [format ["_this = %1  POS %2 N %3(%4)", _this, _sel_pos, _i, _n], __FILE__, [false]] call btc_debug_fnc_message;
-        };
+        // if (btc_debug) then {
+        //     private _marker = createMarker [format ["btc_ied_%1", _sel_pos], _sel_pos];
+        //     _marker setMarkerType "mil_warning";
+        //     _marker setMarkerColor (["ColorBlue", "ColorRed"] select _x);
+        //     _marker setMarkerText (["IED (fake)", "IED"] select _x);
+        //     _marker setMarkerSize [0.8, 0.8];
+        // };
+        // if (btc_debug_log) then {
+        //     [format ["_this = %1  POS %2 N %3(%4)", _this, _sel_pos, _i, _n], __FILE__, [false]] call btc_debug_fnc_message;
+        // };
     };
 } forEach [true, false];
 

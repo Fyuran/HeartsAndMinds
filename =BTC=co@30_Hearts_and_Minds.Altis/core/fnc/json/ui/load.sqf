@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-	Function: btc_json_fnc_load_new_file
+	Function: btc_json_fnc_load_file
 	
 	Description:
 	    Changes profileNamespace JSON save file name to allow loading of new file on preInit
@@ -11,7 +11,7 @@
 	
 	Examples:
 	    (begin example)
-	        [] call btc_json_fnc_load_new_file;
+	        [] call btc_json_fnc_load_file;
 	    (end)
 	
 	Author:

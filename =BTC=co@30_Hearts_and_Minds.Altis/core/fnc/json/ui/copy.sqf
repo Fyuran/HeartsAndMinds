@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-	Function: btc_json_fnc_copy
+	Function: btc_json_fnc_copy_file
 	
 	Description:
 	    Copies JSON File
@@ -11,7 +11,7 @@
 	
 	Examples:
 	    (begin example)
-	        [] call btc_json_fnc_copy;
+	        [] call btc_json_fnc_copy_file;
 	    (end)
 	
 	Author:

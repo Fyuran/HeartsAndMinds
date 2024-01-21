@@ -44,6 +44,17 @@ _wreck setPosATL [_pos select 0, _pos select 1, 0];
 _wreck setDir _dir;
 _wreck setVectorUp surfaceNormal _pos;
 
+if (btc_debug) then {
+    private _marker = createMarker [format ["btc_ied_%1", _pos], _pos];
+    _marker setMarkerType "mil_warning";
+    _marker setMarkerColor (["ColorBlue", "ColorRed"] select _active);
+    _marker setMarkerText (["IED (fake)", "IED"] select _active);
+    _marker setMarkerSize [0.8, 0.8];
+};
+if (btc_debug_log) then {
+    [format ["IED = POS %1 N %2", _pos, count _ied_list], __FILE__, [false]] call btc_debug_fnc_message;
+};
+
 if !(_active) exitWith {[_wreck, _type, objNull]};
 
 private _ied = createMine [selectRandom btc_type_ieds_ace, [_pos select 0, _pos select 1, btc_ied_offset], [], 2];
