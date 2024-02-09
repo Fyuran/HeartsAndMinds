@@ -61,7 +61,7 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
             if (round _fob_conquest_time > 0) then { //decrease cap time
                     _structure setVariable["fob_conquest_time", _fob_conquest_time - (triggerInterval _fob_trg), true];
             };
-            if (round _fob_conquest_time == 0) then { //reset the -1 flag
+            if (round _fob_conquest_time <= 0) then { //reset the -1 flag
                 _structure setVariable["fob_conquest_time", -1, true]; 
                 [_handle] call CBA_fnc_removePerFrameHandler;
             };
