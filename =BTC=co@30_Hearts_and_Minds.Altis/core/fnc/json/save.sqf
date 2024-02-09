@@ -45,6 +45,9 @@ private _simpleData = createHashMapFromArray[
 // CITIES
 private _cities_status = createHashMap;
 {
+	if (_y getVariable ["active", false]) then {
+        [_city] call btc_db_fnc_enabled_city_save; //activated cities won't record any new data until deactivation.
+    };
 	private _name = _y getVariable ["name", ""];
 	if (_name isEqualTo "") then {
 		_name = str(_y getVariable "id");

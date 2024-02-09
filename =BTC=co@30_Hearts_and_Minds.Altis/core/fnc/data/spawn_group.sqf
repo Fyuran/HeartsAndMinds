@@ -85,7 +85,7 @@ if (_type isEqualTo 1) then {
         ["_type", 1, [0]],
         ["_array_pos", [], [[]]],
         ["_array_type", [], [[]]],
-        ["_side", east, [east, ""]],
+        ["_side", btc_enemy_side, [east, ""]],
         ["_array_dam", [], [[]]],
         ["_behaviour", [], [[]]],
         ["_array_wp", [], [[]]],

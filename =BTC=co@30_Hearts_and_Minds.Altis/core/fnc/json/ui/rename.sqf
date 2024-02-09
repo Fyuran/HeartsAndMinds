@@ -27,10 +27,10 @@ params[
 ];
 
 if (btc_debug) then {
-	[format ["Renaming JSON data for %1 to %2", _path, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+	[format ["Renaming JSON file for %1 to %2", _path, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
-private _returnString = ("btc_ArmaToJSON" callExtension ["renameData", [_path, _name]]) select 0;
+private _returnString = ("btc_ArmaToJSON" callExtension ["renameFile", [_path, _name]]) select 0;
 
 if(_custom_hint isEqualTo "") then {
 	[[format["%1 changed to %2", _path, _name], 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
