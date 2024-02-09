@@ -73,6 +73,6 @@ class RscText_FOB_text: RscText
     text = "FOB %1"; //--- ToDo: Localize;
     x = 0.903625 * safezoneW + safezoneX;
     y = 0.236 * safezoneH + safezoneY;
-    w = 0.04125 * safezoneW;
+    w = 0.088 * safezoneW;
     h = 0.015 * safezoneH;
 };
