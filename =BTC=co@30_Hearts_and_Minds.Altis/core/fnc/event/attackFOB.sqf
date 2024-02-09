@@ -23,21 +23,13 @@ Author:
 #define EVENT_COOLDOWN 600
 
 if(!params[
-	["_activator", ObjNull, [ObjNull]]
-]) exitWith {["Attempted to pass ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message; false};
+	["_structure", ObjNull, [ObjNull]]
+]) exitWith {
+    ["_structure is null", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message; 
+    false
+};
 private _return = false; //used to tell eventmanager event is not being handled anymore
 
-if (_activator inArea [getMarkerPos "btc_base", btc_fob_minDistance, btc_fob_minDistance, 0, false]) exitWith {
-    [format["%1 is too close to btc_base, aborting", getPosASL _activator], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    _return
-};
-
-private _fobs = btc_fobs param [1, [], [[]]]; //btc_fobs syntax is [[markers...],[fob_structures..],[fob_flags...],[fob_loudspeakers...], [[triggers...]]]
-if(_fobs isEqualTo []) exitWith {
-    ["_fobs is empty, are there any fobs yet?", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    _return
-};
-private _structure = [_fobs, _activator] call BIS_fnc_nearestPosition;
 private _isUnderAttack = _structure getVariable ["FOB_Event", false];
 if(_isUnderAttack) exitWith { //avoids multiple FOB events
     [format["event fob attack already active on %1", _structure getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;

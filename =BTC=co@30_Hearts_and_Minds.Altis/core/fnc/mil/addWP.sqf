@@ -62,6 +62,9 @@ switch (_wp) do {
         [_group, _rpos, -1, "SENTRY", "AWARE", "RED", "UNCHANGED", "WEDGE", "(group this) call btc_data_fnc_add_group;", [18000, 36000, 54000]] call CBA_fnc_addWaypoint;
     };
     case ("FOB") : {
+        
+        _group setBehaviourStrong "COMBAT";     
+        _group setSpeedMode "FULL";
         private _houses = ([_city, _area] call btc_fnc_getHouses) select 0;
         [_group] call CBA_fnc_clearWaypoints;
         if (_houses isNotEqualTo [] && 
