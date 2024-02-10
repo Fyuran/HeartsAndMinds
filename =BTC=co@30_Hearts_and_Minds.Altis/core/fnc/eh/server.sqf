@@ -63,19 +63,27 @@ addMissionEventHandler ["BuildingChanged", btc_rep_fnc_buildingchanged];
 
 addMissionEventHandler ["PlayerConnected", btc_eh_fnc_playerConnected];
 addMissionEventHandler ["HandleDisconnect", {
-    params ["_player"];
+    params ["_player", "_id", "_uid", "_name"];
     if (_player in (entities "HeadlessClient_F")) then {
         deleteVehicle _player;
     };
     if (alive _player) then {
+        if (btc_debug) then {
+            [format ["handling disconnect for %1[%2]", _uid, _this], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+        };
         _player call btc_slot_fnc_serializeState;
     };
     false
 }];
 ["ace_unconscious", btc_slot_fnc_serializeState] call CBA_fnc_addEventHandler;
 ["btc_playerConnected", { 
-    params ["_player", "_ids"];
-    [_player, _player call btc_slot_fnc_createKey, _ids select 4] call btc_slot_fnc_deserializeState_s;
+    params ["_player", "_data"]; 
+    _data params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+
+    if (btc_debug) then {
+        [format ["loading data for %1[%2]", _uid, _this], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+    };
+    [_player, _player call btc_slot_fnc_createKey, _owner] call btc_slot_fnc_deserializeState_s;
 }] call CBA_fnc_addEventHandler;
 if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {

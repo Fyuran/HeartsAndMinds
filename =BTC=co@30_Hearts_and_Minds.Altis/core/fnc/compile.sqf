@@ -16,6 +16,7 @@ if (isServer) then {
     btc_cache_fnc_init = compileScript ["core\fnc\cache\init.sqf"];
 
     //COMMON
+    btc_fnc_show_custom_hint = compileScript ["core\fnc\common\show_custom_hint.sqf"]; 
     btc_fnc_check_los = compileScript ["core\fnc\common\check_los.sqf"];
     btc_fnc_create_composition = compileScript ["core\fnc\common\create_composition.sqf"];
     btc_fnc_house_addWP = compileScript ["core\fnc\common\house_addWP.sqf"];

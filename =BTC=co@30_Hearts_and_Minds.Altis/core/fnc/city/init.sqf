@@ -24,14 +24,15 @@ params [
     ["_density_of_occupiedCity", btc_p_density_of_occupiedCity, [0]]
 ];
 
-private _locations = configfile >> "cfgworlds" >> worldName >> "names";
-
 private _citiesType = ["NameVillage", "NameCity", "NameCityCapital", "NameLocal", "Hill", "Airport", "StrongpointArea", "BorderCrossing", "VegetationFir"];
 if (btc_p_sea) then {_citiesType pushBack "NameMarine";};
 
 btc_city_all = createHashMap;
-for "_id" from 0 to (count _locations - 1) do {
-    private _current = _locations select _id;
+
+private _locations = configfile >> "cfgworlds" >> worldName >> "names";
+private _locationsNames = _locations call BIS_fnc_getCfgSubClasses;
+_locationsNames apply {
+    private _current = _locations >> _x;
 
     private _type = getText (_current >> "type");
 
@@ -72,12 +73,19 @@ for "_id" from 0 to (count _locations - 1) do {
 };
 
 private _cities = values btc_city_all;
-[_cities, true] call CBA_fnc_shuffle;
-private _numberOfCity = round ((count _cities) * _density_of_occupiedCity);
-{
-    _x setVariable ["occupied", true];
-} forEach (_cities select [0, _numberOfCity]);
+if(_cities isNotEqualTo []) then {
+    [_cities, true] call CBA_fnc_shuffle;
+    private _numberOfCity = round ((count _cities) * _density_of_occupiedCity);
+    {
+        _x setVariable ["occupied", true];
+    } forEach (_cities select [0, _numberOfCity]);
+};
 
 if !(isNil "btc_custom_loc") then {
     {_x call btc_city_fnc_create;} forEach btc_custom_loc;
 };
+
+if(btc_city_all isEqualTo []) then {
+    [format["btc_city_all is empty"], __FILE__, [false, btc_debug_log, true], true] call btc_debug_fnc_message;
+};
+

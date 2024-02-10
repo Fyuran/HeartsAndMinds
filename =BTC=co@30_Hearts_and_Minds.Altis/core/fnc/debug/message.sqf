@@ -14,7 +14,7 @@ Returns:
 
 Examples:
     (begin example)
-        _result = [] call btc_debug_fnc_message;
+        error = [format[""], __FILE__, [false, btc_debug_log, true], true] call btc_debug_fnc_message;
     (end)
 
 Author:
