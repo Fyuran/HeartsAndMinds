@@ -14,7 +14,7 @@ Returns:
 
 Examples:
     (begin example)
-        error = [format[""], __FILE__, [false, btc_debug_log, true], true] call btc_debug_fnc_message;
+        error = [format[""], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     (end)
 
 Author:
@@ -30,7 +30,7 @@ params [
 ];
 
 _type params[
-    ["_useChat", false, [true]],
+    ["_useChat", btc_debug, [true]],
     ["_useLog", btc_debug_log, [true]],
     ["_global", true, [true]]
 ];

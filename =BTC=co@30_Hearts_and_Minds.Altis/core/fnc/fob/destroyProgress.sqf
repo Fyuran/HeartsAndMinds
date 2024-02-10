@@ -26,10 +26,14 @@ if(!params[
 disableSerialization;
 
 BTC_FOB_CAP_DISPLAY_INDEX = missionNamespace getVariable ["BTC_FOB_CAP_DISPLAY_INDEX", 1]; //supports more than one FOB attack progress
-_display = findDisplay 46;
-_bar =  _display ctrlCreate ["RscProgressFOB", -1];
-_flag = _display ctrlCreate ["RscPicture_FOB_icon", -1];
-_text = _display ctrlCreate ["RscText_FOB_text", -1];
+private _display = [] call BIS_fnc_displayMission; //returns display 46
+if(isNull _display) exitWith {
+	[format["display 46 is null"], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+};
+
+private _bar =  _display ctrlCreate ["RscProgressFOB", -1];
+private _flag = _display ctrlCreate ["RscPicture_FOB_icon", -1];
+private _text = _display ctrlCreate ["RscText_FOB_text", -1];
 _text ctrlSetText (_structure getVariable ["FOB_name", "UNKNOWN"]);
 [_bar, _flag, _text] apply {
 	(ctrlPosition _x) params ["_xPos", "_yPos", "_w", "_h"];
@@ -67,5 +71,5 @@ BTC_FOB_CAP_DISPLAY_INDEX =  BTC_FOB_CAP_DISPLAY_INDEX + 1;
 	sleep 3;
 	[_bar, _flag, _text] apply {ctrlDelete _x};
 	
-	BTC_FOB_CAP_DISPLAY_INDEX =  BTC_FOB_CAP_DISPLAY_INDEX - 1;;
+	BTC_FOB_CAP_DISPLAY_INDEX =  BTC_FOB_CAP_DISPLAY_INDEX - 1;
 };
