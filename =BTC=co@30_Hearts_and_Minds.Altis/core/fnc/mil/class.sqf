@@ -12,7 +12,7 @@ Parameters:
 
 Returns:
     _array - Array of:
-        _enemy_side - Enemy side. [side]
+        _side - Enemy side. [side]
         _type_units - All units class name. [Array]
         _type_divers - All divers class name. [Array]
         _type_crewmen - Crew class name. [String]
@@ -38,7 +38,7 @@ params [
     ["_en_tank", false, [false]]
 ];
 
-private _enemy_side = [];
+private _side = [];
 private _type_units = [];
 private _type_divers = [];
 private _divers = [];
@@ -66,10 +66,10 @@ _factions = _factions apply {
     };
 };
 
-_enemy_side = [east, west, independent, civilian] select getNumber (_cfgFactionClasses >> _factions select 0 >> "side");
+_side = [east, west, independent, civilian] select getNumber (_cfgFactionClasses >> _factions select 0 >> "side");
 
 // //Prevent selecting same side as player side
-// if (_enemy_side isEqualTo btc_player_side) exitWith {
+// if (_side isEqualTo btc_player_side) exitWith {
 //     [["IND_G_F"], _en_AA, _en_tank] call btc_mil_fnc_class;
 // };
 
@@ -121,7 +121,7 @@ _enemy_side = [east, west, independent, civilian] select getNumber (_cfgFactionC
 
 //Handle if no class name is found
 if (_type_divers isEqualTo []) then {
-    _type_divers = if (_enemy_side isEqualTo east) then {
+    _type_divers = if (_side isEqualTo east) then {
         ["O_diver_F", "O_diver_exp_F", "O_diver_TL_F"]
     } else {
         ["I_diver_F", "I_diver_exp_F", "I_diver_TL_F"]
@@ -155,6 +155,7 @@ _type_units = _type_units select {
     ((_x find "_Story") isEqualTo -1) &&
     ((_x find "_spotter_") isEqualTo -1) &&
     ((_x find "_unarmed_") isEqualTo -1) &&
+    ((_x find "_PG_") isEqualTo -1) && //paratroopers
     (getText (_cfgVehicles >> _x >> "vehicleClass") isNotEqualTo "MenVR")
 };
 _type_crewmen = _type_units select 0;
@@ -163,4 +164,4 @@ _type_motorized_armed = _type_motorized_armed select {getNumber (_cfgVehicles >>
 _type_motorized_armed_ground = _type_motorized_armed_ground select {getNumber (_cfgVehicles >> _x >> "isUav") isNotEqualTo 1};
 _type_motorized_transport = _type_motorized_transport select {getNumber (_cfgVehicles >> _x >> "isUav") isNotEqualTo 1};
 
-[_enemy_side, _type_units, _type_divers, _type_crewmen, _type_boats, _type_motorized, _type_motorized_armed,  _type_mg, _type_gl, _type_motorized_armed_ground, _type_motorized_transport]
+[_side, _type_units, _type_divers, _type_crewmen, _type_boats, _type_motorized, _type_motorized_armed,  _type_mg, _type_gl, _type_motorized_armed_ground, _type_motorized_transport]
