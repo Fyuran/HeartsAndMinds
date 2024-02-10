@@ -75,4 +75,5 @@ class RscText_FOB_text: RscText
     y = 0.236 * safezoneH + safezoneY;
     w = 0.088 * safezoneW;
     h = 0.015 * safezoneH;
+    sizeEx = 0.015 * safezoneH;
 };

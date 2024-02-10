@@ -60,7 +60,7 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
                 _structure setVariable["fob_conquest_time", _fob_conquest_time + (triggerInterval _fob_trg), true];
             } else {
                 if (round _fob_conquest_time > 0) then { //decrease cap time
-                        _structure setVariable["fob_conquest_time", _fob_conquest_time - (triggerInterval _fob_trg), true];
+                        _structure setVariable["fob_conquest_time", _fob_conquest_time - 2, true];
                 };
                 if (round _fob_conquest_time <= 0) then { //reset the -1 flag
                     _structure setVariable["fob_conquest_time", -1, true]; 
