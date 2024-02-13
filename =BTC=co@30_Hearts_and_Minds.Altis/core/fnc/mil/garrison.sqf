@@ -26,14 +26,14 @@ params [
 	["_enemy_side", btc_enemy_side, [east]],
 	["_type_units", btc_type_units, [[]]]
 ];
-if(isNull _building) exitWith {["Invalid _building param", __FILE__, [false, true, false], true] call btc_debug_fnc_message;};
+if(isNull _building) exitWith {["Invalid _building param", __FILE__, [false, true, true], true] call btc_debug_fnc_message;};
 private _boundingSphere = sizeOf typeOf _building;
 
 private _buildingPositions = _building buildingPos -1;
 private _buildingPositionCount = (count _buildingPositions);
 if (_buildingPositionCount <= 0) exitWith {
 	if(btc_debug) then {
-		[format["No suitable positions found for garrison at %1", _pos], __FILE__, [false, true, false]] call btc_debug_fnc_message;
+		[format["No suitable positions found for garrison at %1", _pos], __FILE__, [false, true, true]] call btc_debug_fnc_message;
 	};
 };
 

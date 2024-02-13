@@ -15,20 +15,43 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Fyuran
 
 ---------------------------------------------------------------------------- */
-
-params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
-
-if (_name isEqualTo "__SERVER__") exitWith {};
-
-if (btc_debug_log) then {
-    [format ["_this %1", _this], __FILE__, [false]] call btc_debug_fnc_message;
-};
+if (_this select 2 isEqualTo "__SERVER__") exitWith {}; //_name
 
 [{
-    !isNull ((_this select 1) call BIS_fnc_getUnitByUID)
+    !isNull ((_this select 1) call BIS_fnc_getUnitByUID) //_uid
 }, {
-    ["btc_playerConnected", [(_this select 1) call BIS_fnc_getUnitByUID, _this]] call CBA_fnc_localEvent;
+    params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+
+    private _unit = _uid call BIS_fnc_getUnitByUID;
+    private _key = getPlayerUID _unit;
+    if (btc_debug) then {
+        [format ["for %1, %2, %3, [%2]", _name, _unit, _key, _this], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
+    if(btc_p_slot_isShare) then {
+        private _unitPos = getPosASL _unit;
+        _unitPos set [2, 0];//discard height, it's not needed
+
+        private _slotIndex = btc_db_missionPlayerSlots find _unitPos;
+        if(_slotIndex != -1) then {
+            if (btc_debug) then {
+                [format ["%2's data assigned to slot: %1",_slotIndex+1, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+            };
+            _unit setVariable ["btc_slot_player", _slotIndex];
+            _key = _slotIndex;
+        };
+    };
+
+    if (_key in btc_slots_serialized) then {
+        private _data = btc_slots_serialized get _key;
+        if (_data select 4) then {
+            if ((btc_chem_contaminated pushBackUnique _unit) > -1) then {
+                publicVariable "btc_chem_contaminated";
+                _unit call btc_chem_fnc_damageLoop;
+            };
+        };
+        _data remoteExecCall ["btc_slot_fnc_deserializeState", _unit];
+    };
 }, _this, 20 * 60] call CBA_fnc_waitUntilAndExecute;

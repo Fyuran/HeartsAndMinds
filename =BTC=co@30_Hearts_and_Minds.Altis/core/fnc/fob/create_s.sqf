@@ -62,6 +62,12 @@ _marker setMarkerShape "ICON";
 
 //Alarm FOB Trigger
 if (btc_p_event_enable_fobAttack) then {
+    if(btc_p_fob_garrison) then {
+        if (btc_friendly_type_units isEqualTo []) exitWith {
+            ["no suitable classes found for fob garrison", __FILE__, [false, true, false], true] call btc_debug_fnc_message;
+        };
+        [{[_this, btc_player_side, btc_friendly_type_units] call btc_mil_fnc_garrison;}, _structure] call CBA_fnc_execNextFrame;
+    };
     private _structBoundingSphere = sizeOf _fob_structure;
     private _alertRadius = _structBoundingSphere + btc_fob_alertRadius;
     private _conquestRadius = _structBoundingSphere + btc_fob_conquestRadius;
@@ -133,14 +139,6 @@ if (btc_p_event_enable_fobAttack) then {
     (_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
 	[_structure] call btc_event_fnc_attackFOBChance;
-
-    if(btc_p_fob_garrison) then {
-        if (btc_friendly_type_units isEqualTo []) exitWith {
-            ["no suitable classes found for fob garrison", __FILE__, [false, true, false], true] call btc_debug_fnc_message;
-        };
-
-        [_structure, btc_player_side, btc_friendly_type_units] call btc_mil_fnc_garrison;
-    };
 };
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 

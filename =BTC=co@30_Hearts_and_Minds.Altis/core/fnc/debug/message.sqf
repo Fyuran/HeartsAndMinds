@@ -29,11 +29,13 @@ params [
     ["_isError", false, [false]]
 ];
 
-_type params[
-    ["_useChat", btc_debug, [true]],
-    ["_useLog", btc_debug_log, [true]],
-    ["_global", true, [true]]
-];
+// _type params[
+//     ["_useChat", btc_debug, [true]],
+//     ["_useLog", btc_debug_log, [true]],
+//     ["_global", true, [true]]
+// ];
+
+_type set [2, true]; //force global IT'S A DEBUG
 
 private _startPosition = _folder find "fnc";
 if (_startPosition isEqualTo -1) then {
@@ -44,7 +46,7 @@ _folder = _folder select [_startPosition, (_folder find ".sqf") - _startPosition
 if(!_isError) then {
     [_message, _folder, _type] call CBA_fnc_debug;
 } else {
-    ["%2: %1", _message, _folder] remoteExecCall ["BIS_fnc_error", [clientOwner, 0] select _global];
+    ["%2: %1", _message, _folder] remoteExecCall ["BIS_fnc_error", 0];
     [_message, _folder, _type] call CBA_fnc_debug;
 };
 

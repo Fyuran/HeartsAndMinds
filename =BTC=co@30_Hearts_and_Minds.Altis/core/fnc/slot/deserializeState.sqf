@@ -19,47 +19,43 @@ Returns:
 
 Examples:
     (begin example)
-        (btc_slots_serialized getOrDefault [(keys btc_slots_serialized)#0, []]) remoteExecCall ["btc_slot_fnc_deserializeState", allPlayers#0];
     (end)
 
 Author:
-    Vdauphin
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
 [{!isNull player}, {
     params [
-        "_previousPos",
-        "_dir",
-        "_loadout",
-        "_flagTexture",
-        "_isContaminated",
-        "_medicalDeserializeState",
+        ["_previousPos", [0,0,0], [[]], 3],
+        ["_dir", 0, [0]],
+        ["_loadout", [], [[]], 10],
+        ["_flagTexture", "", [""]],
+        ["_isContaminated", false, [false]],
+        ["_medicalDeserializeState", "", [""]],
         ["_vehicle", objNull, [objNull]],
         ["_field_rations", [], [[]]]
     ];
 
-    if (
-        player distance ASLToAGL _previousPos > 50 || // Don't set loadout when near main base
-        btc_p_autoloadout isEqualTo 0
-    ) then { 
-        [{[player, _this] call CBA_fnc_setLoadout;}, _loadout] call CBA_fnc_execNextFrame;
+    if (btc_debug) then {
+        [format ["deserializing %1 with: %2", name player, _this], __FILE__, [false]] call btc_debug_fnc_message;
     };
+    if (btc_p_autoloadout isEqualTo 0) then { 
+        [{player setUnitLoadout _this}, _loadout] call CBA_fnc_execNextFrame;
+    };
+    player setDir _dir; //keep setDir above setPos to sync direction between clients https://community.bistudio.com/wiki/setDir
     if ((isNull _vehicle) || {!(player moveInAny _vehicle)}) then {
         player setPosASL _previousPos;
     };
-    player setDir _dir;
+
     player forceFlagTexture _flagTexture;
     [{player getVariable ["ace_medical_initialized", false]}, {
         [player, _this] call ace_medical_fnc_deserializeState;
     }, _medicalDeserializeState] call CBA_fnc_waitUntilAndExecute;
 
-    if (_isContaminated) then {
-        player call btc_chem_fnc_damageLoop;
-    };
-
     _field_rations params [["_thirst", 0, [0]], ["_hunger", 0, [0]]];
-    player setVariable ["acex_field_rations_thirst", _thirst];
-    player setVariable ["acex_field_rations_hunger", _hunger];
+    player setVariable ["acex_field_rations_thirst", _thirst, true];
+    player setVariable ["acex_field_rations_hunger", _hunger, true];
 
 }, _this] call CBA_fnc_waitUntilAndExecute;

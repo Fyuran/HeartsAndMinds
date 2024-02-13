@@ -80,7 +80,7 @@ _text ctrlSetText (_structure getVariable ["FOB_name", "NoName"]);
 		};
 
 		_time = btc_p_fob_cap_time - _fob_conquest_time;
-		if(_time > 60) then [{_time = format ["%1m:%2s", floor(_time / 60), round(_time % 60)]}, {_time = ["%1s", round _time]}]; //adjust to show minutes
+		if(_time > 60) then [{_time = format ["%1m:%2s", floor(_time / 60), round(_time % 60)]}, {_time = format ["%1s", round _time]}]; //adjust to show minutes
 		_text ctrlSetText format["%1: %2", _barText, _time];
 
 		sleep 0.1;

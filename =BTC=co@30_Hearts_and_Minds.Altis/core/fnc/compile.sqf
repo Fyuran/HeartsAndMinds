@@ -95,6 +95,7 @@ if (isServer) then {
     //EH
     btc_eh_fnc_server = compileScript ["core\fnc\eh\server.sqf"];
     btc_eh_fnc_playerConnected = compileScript ["core\fnc\eh\playerConnected.sqf"];
+    btc_eh_fnc_handleDisconnect =compileScript ["core\fnc\eh\handleDisconnect.sqf"]; 
 
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
@@ -154,6 +155,7 @@ if (isServer) then {
     btc_mil_fnc_createUnits = compileScript ["core\fnc\mil\createUnits.sqf"];
     btc_mil_fnc_unit_killed = compileScript ["core\fnc\mil\unit_killed.sqf"];
     btc_mil_fnc_create_staticOnRoof = compileScript ["core\fnc\mil\create_staticOnRoof.sqf"];
+    btc_mil_fnc_getPlayersClasses = compileScript ["core\fnc\mil\getPlayersClasses.sqf"];
 
     //HIDEOUT
     btc_hideout_fnc_hd = compileScript ["core\fnc\hideout\hd.sqf"];
@@ -172,8 +174,7 @@ if (isServer) then {
 
     //SLOT
     btc_slot_fnc_serializeState = compileScript ["core\fnc\slot\serializeState.sqf"];
-    btc_slot_fnc_deserializeState_s = compileScript ["core\fnc\slot\deserializeState_s.sqf"];
-    btc_slot_fnc_createKey = compileScript ["core\fnc\slot\createKey.sqf"];
+    btc_slot_fnc_getPlayableSlots = compileScript ["core\fnc\slot\getPlayableSlots.sqf"];
 
     //REP
     btc_rep_fnc_call_militia = compileScript ["core\fnc\rep\call_militia.sqf"];

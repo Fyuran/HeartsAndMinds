@@ -12,13 +12,14 @@
                 <Czech>Hearts and Minds</Czech>
             </Key>
             <Key ID="STR_BTC_HAM_DESCR_MISSION">
-                <Original>github.com/Vdauphin/HeartsAndMinds</Original>
-                <Spanish>github.com/Vdauphin/HeartsAndMinds</Spanish>
-                <German>github.com/Vdauphin/HeartsAndMinds</German>
-                <Portuguese>github.com/Vdauphin/HeartsAndMinds</Portuguese>
-                <Chinesesimp>github.com/Vdauphin/HeartsAndMinds</Chinesesimp>
-                <French>github.com/Vdauphin/HeartsAndMinds</French>
-                <Czech>github.com/Vdauphin/HeartsAndMinds</Czech>
+                <Original>github.com/Fyuran/HeartsAndMinds</Original>
+                <Spanish>github.com/Fyuran/HeartsAndMinds</Spanish>
+                <German>github.com/Fyuran/HeartsAndMinds</German>
+                <Portuguese>github.com/Fyuran/HeartsAndMinds</Portuguese>
+                <Chinesesimp>github.com/Fyuran/HeartsAndMinds</Chinesesimp>
+                <French>github.com/Fyuran/HeartsAndMinds</French>
+                <Czech>github.com/Fyuran/HeartsAndMinds</Czech>
+                <Italian>github.com/Fyuran/HeartsAndMinds</Italian>
             </Key>
         </Container>
     </Package>
@@ -746,7 +747,7 @@
                 <Original>Number of tickets lost per death:</Original>
             </Key>
             <Key ID="STR_BTC_HAM_RESP_TICKETSHARE">
-                <Original>Tickets are share between:</Original>
+                <Original>Tickets are shared between:</Original>
                 <German>Tickets werden aufgeteilt zwischen?</German>
                 <Chinesesimp>重生票数在以下玩家间共享:</Chinesesimp>
                 <Czech>Životy se dělí mezi:</Czech>
@@ -760,7 +761,7 @@
                 <French>Joueurs de la même faction</French>
             </Key>
             <Key ID="STR_BTC_HAM_RESP_TICKETPRISONER">
-                <Original>Attribute tickets from prisoners to (Enable only if tickets are not share):</Original>
+                <Original>Attribute tickets from prisoners to (Enable only if tickets are not shared):</Original>
             </Key>
             <Key ID="STR_BTC_HAM_RESP_ALLCONNECTED">
                 <Original>All connected players</Original>
@@ -775,7 +776,7 @@
                 <Original>To connected player with the lowest ticket number (0 included)</Original>
             </Key>
             <Key ID="STR_BTC_HAM_RESP_NOTSHARE">
-                <Original>Not share</Original>
+                <Original>Not shared</Original>
                 <German>Nicht aufteilen.</German>
                 <Chinesesimp>不共享</Chinesesimp>
                 <Czech>Nesdílet</Czech>
@@ -796,7 +797,8 @@
                 <Czech>ACE Arsenal dostupný při respawnu po zabití:</Czech>
             </Key>
             <Key ID="STR_BTC_HAM_PARAM_SLOT_ISSHARE">
-                <Original>Each slot is share between players</Original>
+                <Original>Player slot sharing</Original>
+                <Italian>Condivisione slot giocatore</Italian>
             </Key>
         </Container>
         <Container name="Parameters: AI Skill">

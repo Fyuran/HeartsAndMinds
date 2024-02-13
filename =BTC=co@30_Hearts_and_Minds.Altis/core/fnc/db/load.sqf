@@ -237,7 +237,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 };
 
 //Player slots
-private _slots_serialized = +(profileNamespace getVariable [format ["btc_hm_%1_slotsSerialized", _name], createHashMap]);
+btc_slots_serialized = +(profileNamespace getVariable [format ["btc_hm_%1_slotsSerialized", _name], createHashMap]);
 [{
     {
         if (_y isEqualTo []) then {continue};
@@ -249,8 +249,7 @@ private _slots_serialized = +(profileNamespace getVariable [format ["btc_hm_%1_s
         };
         _y set [6, _objtClass];
     } forEach _this;
-}, _slots_serialized] call CBA_fnc_execNextFrame; // Need to wait for vehicle creation
-btc_slots_serialized = _slots_serialized;
+}, btc_slots_serialized] call CBA_fnc_execNextFrame; // Need to wait for vehicle creation
 
 //Player Markers
 private _markers_properties = +(profileNamespace getVariable [format ["btc_hm_%1_markers", _name], []]);

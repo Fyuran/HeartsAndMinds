@@ -31,6 +31,7 @@ if (btc_db_load && {profileNamespace getVariable [format ["btc_hm_%1_db", worldN
     if (isNil "btc_vehicles") then {btc_vehicles = [];};
 };
 
+[] call btc_slot_fnc_getPlayableSlots;
 [] call btc_eh_fnc_server;
 [btc_ied_list] call btc_ied_fnc_fired_near;
 [] call btc_chem_fnc_checkLoop;

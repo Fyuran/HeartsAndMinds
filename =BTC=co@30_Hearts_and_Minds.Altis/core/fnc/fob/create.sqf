@@ -26,8 +26,7 @@ params [
 
 if(!canSuspend) exitWith {
     if(btc_debug) then {
-        ["%1 Called in a non suspended envinronment", __FILE__] call BIS_fnc_error;
-        ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+        ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };
 };
 
