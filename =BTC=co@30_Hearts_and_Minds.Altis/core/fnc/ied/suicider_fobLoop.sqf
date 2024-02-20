@@ -18,7 +18,7 @@
 	    Fyuran
 	
 ---------------------------------------------------------------------------- */
-#define KABOOM_RANGE 15
+#define KABOOM_RANGE 25
 #define TRG_RANGE 100
 
 params [
@@ -45,7 +45,7 @@ if (alive _structure) then {
 		];
 		_veh = objectParent _suicider;
 		while { alive _suicider && {!isNull _veh} } do {
-			if((_veh distance2D _structure) <= TRG_RANGE) then { //failsafe in case waypoints get screwed up
+			if((_veh distance2D _structure) <= TRG_RANGE) then {
 				playSound3D ["A3\Sounds_F\weapons\horns\truck_horn_2.wss", objNull, false, _veh, 5, 1, 500];
 			};
 			sleep 0.8;
