@@ -41,9 +41,9 @@ Author:
     if (btc_debug) then {
         [format ["deserializing %1 with: %2", name player, _this], __FILE__, [false]] call btc_debug_fnc_message;
     };
-    if (btc_p_autoloadout isEqualTo 0) then { 
-        [{player setUnitLoadout _this}, _loadout] call CBA_fnc_execNextFrame;
-    };
+
+    [{player setUnitLoadout _this}, _loadout] call CBA_fnc_execNextFrame;
+
     player setDir _dir; //keep setDir above setPos to sync direction between clients https://community.bistudio.com/wiki/setDir
     if ((isNull _vehicle) || {!(player moveInAny _vehicle)}) then {
         player setPosASL _previousPos;

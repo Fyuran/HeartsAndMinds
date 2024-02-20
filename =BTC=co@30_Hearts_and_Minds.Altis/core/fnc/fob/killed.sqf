@@ -56,8 +56,6 @@ if(_fob getVariable ["FOB_Event", false]) then {
         [_fob_task_name, "FAILED"] call btc_task_fnc_setState;
         [_fob_task_name, btc_player_side, true] call BIS_fnc_deleteTask;
     };
-
-    _groups = _fob getVariable["FOB_Event_grps", []];
     
    btc_event_activeEvents = (0 max (btc_event_activeEvents - 1));
 };

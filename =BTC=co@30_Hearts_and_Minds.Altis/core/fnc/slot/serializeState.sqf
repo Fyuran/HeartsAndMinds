@@ -24,9 +24,9 @@ params [
     ["_unit", objNull, [objNull]]
 ];
 
-private _key = [getPlayerUID _unit, _unit getVariable ["btc_slot_player", -1]] select btc_p_slot_isShare;
+private _key = [getPlayerUID _unit, _unit getVariable ["btc_slot_player", -1]] select btc_p_slot_isShared;
 if(typeName _key isEqualTo "SCALAR") then {
-    if(_key < 0) exitWith {}; //out of check for invalid player slot
+    if(_key < 0) exitWith {}; //out of bounds check for invalid player slot
 };
 
 private _data = [
@@ -46,5 +46,5 @@ private _data = [
 btc_slots_serialized set [_key, _data];
 
 if (btc_debug) then {
-    [format ["%1 recording data: %2", [name _unit, _key] select btc_p_slot_isShare, _data], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+    [format ["%1 recording data: %2", [name _unit, _key] select btc_p_slot_isShared, _data], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };

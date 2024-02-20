@@ -18,7 +18,7 @@ btc_p_db_autoRestartHour = [
     "btc_p_db_autoRestartHour2" call BIS_fnc_getParamValue
 ];
 btc_p_db_autoRestartType = "btc_p_db_autoRestartType" call BIS_fnc_getParamValue;
-btc_p_slot_isShare = "btc_p_slot_isShare" call BIS_fnc_getParamValue isEqualTo 1;
+btc_p_slot_isShared = "btc_p_slot_isShared" call BIS_fnc_getParamValue isEqualTo 1;
 btc_p_change_time = ("btc_p_change_time" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_change_weather = ("btc_p_change_weather" call BIS_fnc_getParamValue) isEqualTo 1;
 

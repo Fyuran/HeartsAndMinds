@@ -142,6 +142,7 @@ if !(_en_AA) then {
     //Remove Anti-Air Units
     _type_units = _type_units select {!([_x, ["MissileLauncher", "256"]] call btc_mil_fnc_ammoUsage)};
 };
+
 _type_units = _type_units select {
     (getText (_cfgVehicles >> _x >> "role") isNotEqualTo "Crewman") &&
     ((_x find "_Survivor_") isEqualTo -1) &&
@@ -156,6 +157,10 @@ _type_units = _type_units select {
     ((_x find "_spotter_") isEqualTo -1) &&
     ((_x find "_unarmed_") isEqualTo -1) &&
     ((_x find "_PG_") isEqualTo -1) && //paratroopers
+    ((_x find "heli") isEqualTo -1) &&
+    ((_x find "pilot") isEqualTo -1) &&
+    ((_x find "uav") isEqualTo -1) &&
+    ((_x find "crew") isEqualTo -1) &&
     (getText (_cfgVehicles >> _x >> "vehicleClass") isNotEqualTo "MenVR")
 };
 _type_crewmen = _type_units select 0;

@@ -74,19 +74,14 @@ switch true do {
 };
 
 
-//Group spawning and prep for CBA_fnc_waitUntilAndExecute's condition statement
-private _groups = [_structure, _nearCities] call btc_event_fnc_attackFOBspawn;
-_structure setVariable["FOB_Event_grps", _groups];
-
-/*
-    I hate this clusterfuck but all groups are spawned after a set delay 
-    and it would result in an empty units array therefore the condition would be true before they even spawned
-*/
-[{
+//Group spawning and victory condition manager
+[[_structure, _flag, _nearCities], {
     [format["%1 victory manager is on", (_this select 0) getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
     
-    params["_structure", "_flag", "_groups"];
+    params["_structure", "_flag", "_nearCities"];
+
     _units = [];
+    _groups = [_structure, _nearCities] call btc_event_fnc_attackFOBspawn;
     _groups apply {_units append units _x};
 
     _statement = {
@@ -105,18 +100,16 @@ _structure setVariable["FOB_Event_grps", _groups];
         _structure setVariable["FOB_Respawn_EH", _BISEH_return];
 
         btc_event_activeEvents = (0 max (btc_event_activeEvents - 1));
-
     };
 
     // TASK_SUCCEEDED when only a part of enemy troops are remaining
     [{// also has timeout in case of Arma's AI fuckery
         ({alive _x} count (_this select 3)) <= (_this select 4)
-    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 300*(count _groups), _statement
+    }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 
+        300*(count _groups), _statement
     ] call CBA_fnc_waitUntilAndExecute;
 
-}, [_structure, _flag, _groups], 2*(count _groups)] call CBA_fnc_waitAndExecute;
-
-
+}] call btc_delay_fnc_exec;
 
 btc_event_activeEvents = btc_event_activeEvents + 1;
 btc_event_cooldown = CBA_missionTime + EVENT_COOLDOWN;

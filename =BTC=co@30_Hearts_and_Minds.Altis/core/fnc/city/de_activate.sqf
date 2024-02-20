@@ -6,7 +6,7 @@ Description:
     Deactivate the city by storing all groups present inside and clean up dead bodies.
 
 Parameters:
-    _city - City to desactivate. [Number]
+    _city - City to deactivate. [Number]
 
 Returns:
 

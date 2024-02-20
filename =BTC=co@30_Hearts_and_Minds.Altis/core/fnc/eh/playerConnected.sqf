@@ -53,5 +53,18 @@ if (_this select 2 isEqualTo "__SERVER__") exitWith {}; //_name
             };
         };
         _data remoteExecCall ["btc_slot_fnc_deserializeState", _unit];
+    } else {
+        switch (btc_p_autoloadout) do {
+            case 1: {
+                private _arsenal_trait = _unit call btc_arsenal_fnc_trait;
+                _unit setUnitLoadout ([_arsenal_trait select 0] call btc_arsenal_fnc_loadout);
+            };
+            case 2: {
+                (weapons _unit) apply {          
+                    _unit removeWeaponGlobal _x;
+                };
+            };
+            default {};
+        };
     };
 }, _this, 20 * 60] call CBA_fnc_waitUntilAndExecute;

@@ -3,11 +3,11 @@
 Function: btc_db_fnc_enabled_city_save
 
 Description:
-    Correctly saves data on activated cities by moving stuff around
-	and making sure nothing is deleted unlike from city_deactivate.
+    Correctly saves data on activated cities 
+    and making sure nothing is deleted unlike from city_deactivate.
 
 Parameters:
-    _city - City to desactivate. [Number]
+    _city - City to deactivate. [Number]
 
 Returns:
 
@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    Giallustio & Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -30,7 +30,7 @@ if (btc_debug) then {
     [str _id, __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
-//Save all and delete
+//Save all
 private _cachingRadius = _city getVariable ["cachingRadius", 0];
 
 private _pos_city = getPosWorld _city;

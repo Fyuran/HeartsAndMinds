@@ -18,7 +18,6 @@ BIS_respSpecShowControlsHelper = true;   // Show the controls tutorial box
 BIS_respSpecShowHeader = true;           // Top bar of the spectator UI including mission time
 BIS_respSpecLists = true;                // Show list of available units and locations on the left hand side
 
-
 /*
     Here you can specify which equipment should be added or removed from the arsenal.
     Please take care that there are different categories (weapons, magazines, items, backpacks) for different pieces of equipment into which you have to classify the classnames.

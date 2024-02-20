@@ -36,17 +36,6 @@ if(btc_p_intro) then {
         player createDiarySubject ["btc_diarylog", localize "STR_BTC_HAM_CON_INFO_ASKHIDEOUT_DIARYLOG", '\A3\ui_f\data\igui\cfg\simpleTasks\types\talk_ca.paa'];
     };
 
-    switch (btc_p_autoloadout) do {
-        case 1: {
-            player setUnitLoadout ([_arsenal_trait select 0] call btc_arsenal_fnc_loadout);
-        };
-        case 2: {
-            removeAllWeapons player;
-        };
-        default {
-        };
-    };
-
     [] call btc_respawn_fnc_screen;
 
     if(btc_debug) then {

@@ -131,7 +131,7 @@ class Params {
         texts[]={$STR_DISABLED,$STR_ENABLED};
         default = 0;
     };
-    class btc_p_slot_isShare { // Each slot is share between players
+    class btc_p_slot_isShared { // Each slot is shared between players
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_SLOT_ISSHARE"]);
         values[]={0,1};
         texts[]={$STR_DISABLED, $STR_ENABLED};
