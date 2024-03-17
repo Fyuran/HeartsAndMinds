@@ -31,6 +31,8 @@ if (isServer) then {
     btc_fnc_roof = compileScript ["core\fnc\common\roof.sqf"];
     btc_fnc_moveOut = compileScript ["core\fnc\common\moveOut.sqf"];
     btc_fnc_changeWeather = compileScript ["core\fnc\common\changeWeather.sqf"];
+    btc_fnc_find_highest_pos = compileScript ["core\fnc\common\find_highest_pos.sqf"];
+    btc_fnc_correct_position = compileScript ["core\fnc\common\correct_position.sqf"];
     btc_fnc_circlePosAroundObj = compileScript ["core\fnc\common\circlePosAroundObj.sqf"];
     btc_fnc_getCompositionBoundingSize = compileScript ["core\fnc\common\getCompositionBoundingSize.sqf"]; 
 

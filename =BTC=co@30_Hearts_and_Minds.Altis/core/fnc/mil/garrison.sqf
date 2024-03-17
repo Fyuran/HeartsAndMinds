@@ -13,7 +13,7 @@ Returns:
 
 Examples:
     (begin example)
-        [player] call btc_mil_fnc_garrison;
+        [cursorObject, side player] call btc_mil_fnc_garrison;
     (end)
 
 Author:
@@ -23,47 +23,61 @@ Author:
 
 params [
     ["_building", objNull, [objNull]],
-	["_enemy_side", btc_enemy_side, [east]],
+	["_side", btc_enemy_side, [east]],
 	["_type_units", btc_type_units, [[]]]
 ];
-if(isNull _building) exitWith {["Invalid _building param", __FILE__, [false, true, true], true] call btc_debug_fnc_message;};
-private _boundingSphere = sizeOf typeOf _building;
+if(isNull _building) exitWith {["Invalid _building param", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(_type_units isEqualTo []) exitWith {["_type_units is empty", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
 
-private _buildingPositions = _building buildingPos -1;
-private _buildingPositionCount = (count _buildingPositions);
-if (_buildingPositionCount <= 0) exitWith {
+if ((count (_building buildingPos -1)) <= 0) exitWith {
 	if(btc_debug) then {
-		[format["No suitable positions found for garrison at %1", _pos], __FILE__, [false, true, true]] call btc_debug_fnc_message;
+		[format["No suitable positions found for garrison"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 	};
 };
 
-[_enemy_side, _building, _buildingPositions, _buildingPositionCount, _type_units] spawn {
-	params ["_enemy_side", "_building", "_buildingPositions", "_buildingPositionCount", "_type_units"];
+[[_side, _building, _type_units], {
+	params ["_side", "_building", "_type_units"];
+	private _group = createGroup _side;
 
-	private _group = createGroup _enemy_side;
-	private _staticWeapons = _building nearObjects ["StaticWeapon", 50] select {locked _x != 2 && {_x emptyPositions "gunner" > 0}};
-
-	for "_i" from 1 to _buildingPositionCount do {
-		private _pos = _buildingPositions select (count (units _group));
-		private _unit = _group createUnit [selectRandom _type_units, _pos, [], 0, "CAN_COLLIDE"];
-		
-		waitUntil {unitReady _unit};
-		// This command causes AI to repeatedly attempt to crouch when engaged
-		_unit setUnitPos "UP";
+	private _buildingPositions = _building buildingPos -1;
+	private _buildingCenter = getPosWorld _building;
+	private _buildingPositionsOutside = _buildingPositions select {!(lineIntersects [_x, (_x vectorAdd [0, 0, 10])])};
+	
+	_buildingPositions apply {
+		private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
+		// _directionPos = _building getRelPos [100, _buildingCenter getDir _x];
+		// _unit doWatch _directionPos;
 		doStop _unit;
-		_unit disableAI "PATH";
 
-		if (count _staticWeapons > 0) then {
-			_unit moveInGunner (_staticWeapons select 0);
-			_unit assignAsGunner (_staticWeapons deleteAt 0);
+		if(_x in _buildingPositionsOutside) then { //disallow outside units from crouching or moving
+			_unit setUnitPos "UP";
+			_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
 		};
-		sleep 0.5;
-		[objNull, _unit] call ace_medical_treatment_fnc_fullHeal; //units will sometimes spawn and get damaged
 	};
 
-	_building setVariable ["btc_mil_garrison", units _group];
+	//Static spawn
+	private _surface = [_building, 4] call btc_fnc_find_highest_pos;
+	if(_surface isNotEqualTo [[0, 0, 0], 0]) then {
+		_surface params ["_highestPosATL", "_surfaceNormal"];
+		private _veh = createVehicle ["B_G_HMG_02_high_F", _highestPosATL, [], 0, "CAN_COLLIDE"];
+		_veh setVectorUp _surfaceNormal;
+
+		private _group = createGroup _side;
+		private _unit = _group createUnit [selectRandom _type_units, [0, 0, 0], [], 0, "CAN_COLLIDE"];
+		_unit moveinGunner _veh;
+		_unit assignAsGunner _veh;
+
+		(leader _group) setVariable ["acex_headless_blacklist", true];
+	} else {
+		if(btc_debug) then {
+			[format["No suitable positions found for static"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+		};
+	};
+
 	(leader _group) setVariable ["acex_headless_blacklist", true];
-};
+
+}] call btc_delay_fnc_exec;
+
 
 
 
