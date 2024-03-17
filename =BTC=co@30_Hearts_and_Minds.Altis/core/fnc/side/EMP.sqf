@@ -19,6 +19,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -123,6 +124,6 @@ waitUntil {sleep 5;
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-80 call btc_rep_fnc_change;
+[objNull, _SIDE_EMP_DESTROYED_] call btc_rep_fnc_change;
 
 [_taskID, "SUCCEEDED"] call btc_task_fnc_setState;

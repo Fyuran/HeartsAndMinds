@@ -23,6 +23,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_house", objNull, [objNull]],
@@ -33,8 +34,10 @@ params [
 ];
 if (_door isEqualTo "") exitWith {};
 
+if((_house getVariable [format ["bis_disabled_%1", _door], 0]) isEqualTo 1) then {
+    [_player, _DOOR_FORCED_] remoteExecCall ["btc_rep_fnc_change", 2];
+};
 _house setVariable [format ["bis_disabled_%1", _door], 0, true];
-[btc_rep_malus_breakDoor, _player] remoteExecCall ["btc_rep_fnc_change", 2];
 
 private _getDoorAnimations = [_house, _door] call ace_interaction_fnc_getDoorAnimations;
 _getDoorAnimations params ["_animations"];

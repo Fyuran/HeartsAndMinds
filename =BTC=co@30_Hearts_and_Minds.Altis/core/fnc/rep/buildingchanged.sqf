@@ -21,6 +21,7 @@ Author:
     mtusnio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_from", objNull, [objNull]],
@@ -66,4 +67,4 @@ if (btc_debug) then {
     [format ["%1 to %2. Malus: %3", _classname, typeOf _to, _malus], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
 };
 
-_malus call btc_rep_fnc_change;
+[objNull, [_BUILDING_DAMAGED_, _BUILDING_DESTROYED_] select _isRuin] call btc_rep_fnc_change;

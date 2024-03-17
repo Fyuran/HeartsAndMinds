@@ -30,7 +30,8 @@ private _playerUnitsFactions = [];
 private _subClasses = _missionCfg call BIS_fnc_getCfgSubClasses;
 _subClasses apply {
     private _isPlayable = getNumber(_missionCfg >> _x >> "Entities" >> "Item0" >> "Attributes" >> "isPlayable") isEqualTo 1;
-    if(_isPlayable) then {
+    private _isPlayerSide = [getText(_missionCfg >> _x >> "side"), str btc_player_side, false] call BIS_fnc_inString;
+    if(_isPlayable && {_isPlayerSide}) then {
         _playerUnitsClasses pushBackUnique getText(_missionCfg >> _x >> "Entities" >> "Item0" >> "type");
     };
 };

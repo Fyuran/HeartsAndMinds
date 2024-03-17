@@ -41,13 +41,12 @@ if (_buildingPositionCount <= 0) exitWith {
 	params ["_enemy_side", "_building", "_buildingPositions", "_buildingPositionCount", "_type_units"];
 
 	private _group = createGroup _enemy_side;
-	_group enableAttack false;
 	private _staticWeapons = _building nearObjects ["StaticWeapon", 50] select {locked _x != 2 && {_x emptyPositions "gunner" > 0}};
 
 	for "_i" from 1 to _buildingPositionCount do {
 		private _pos = _buildingPositions select (count (units _group));
 		private _unit = _group createUnit [selectRandom _type_units, _pos, [], 0, "CAN_COLLIDE"];
-
+		
 		waitUntil {unitReady _unit};
 		// This command causes AI to repeatedly attempt to crouch when engaged
 		_unit setUnitPos "UP";
@@ -58,8 +57,13 @@ if (_buildingPositionCount <= 0) exitWith {
 			_unit moveInGunner (_staticWeapons select 0);
 			_unit assignAsGunner (_staticWeapons deleteAt 0);
 		};
+		sleep 0.5;
+		[objNull, _unit] call ace_medical_treatment_fnc_fullHeal; //units will sometimes spawn and get damaged
 	};
+
+	_building setVariable ["btc_mil_garrison", units _group];
+	(leader _group) setVariable ["acex_headless_blacklist", true];
 };
 
 
-(leader _group) setVariable ["acex_headless_blacklist", true];
+

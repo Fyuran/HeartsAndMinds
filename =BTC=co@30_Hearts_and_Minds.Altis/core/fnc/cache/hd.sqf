@@ -25,6 +25,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_cache", objNull, [objNull]],
@@ -71,10 +72,7 @@ if (
         [format ["DESTROYED: ID %1 POS %2", btc_cache_n, btc_cache_pos], __FILE__, [false]] call btc_debug_fnc_message;
     };
 
-    [btc_rep_bonus_cache, _instigator] call btc_rep_fnc_change;
-
-    //Notification
-    [0] remoteExecCall ["btc_fnc_show_hint", 0];
+    [_instigator, _CACHE_DESTROYED_] call btc_rep_fnc_change;
 
     [btc_cache_n + 1, btc_cache_pictures] call btc_cache_fnc_init;
 } else {

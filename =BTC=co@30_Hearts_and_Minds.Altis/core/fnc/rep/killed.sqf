@@ -20,6 +20,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params ["_unit", "_causeOfDeath", "_killer", "_instigator"];
 
@@ -31,8 +32,8 @@ if (
 if (isPlayer _instigator) then {
     private _isAgent = isAgent teamMember _unit;
     [
-        [btc_rep_malus_civ_killed, btc_rep_malus_animal_killed] select _isAgent,
-        _instigator
+        _instigator,
+        [_CIV_KILLED_, _ANIMAL_KILLED_] select _isAgent
     ] call btc_rep_fnc_change;
     if (btc_global_reputation < btc_rep_level_normal + 100) then {
         [getPos _unit] call btc_rep_fnc_eh_effects;

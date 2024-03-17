@@ -19,6 +19,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -162,6 +163,6 @@ if (_units select {alive _x} isEqualTo []) then {
 
 if (_taskID call BIS_fnc_taskState in ["CANCELED", "FAILED"]) exitWith {};
 
-_rep call btc_rep_fnc_change;
+[_rep, _SIDE_CIV_RESCUED_] call btc_rep_fnc_change;
 
 [_taskID, "SUCCEEDED"] call btc_task_fnc_setState;

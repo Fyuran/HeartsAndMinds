@@ -19,9 +19,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-#include "\a3\editor_f\Data\Scripts\dikCodes.h"
-#define BTC_PLAY_FBSOUND true    //set false if you do not want a "key-pressed-feedback" (sound)
-#define BTC_FBSOUND "ClickSoft"  //really quiet sound
+#include "..\script_macros.hpp"
 
 private _menuString = "Hearts and Minds " + localize "STR_BTC_HAM_ACTION_ORDERS_MAIN";
 //Order Stop
@@ -32,8 +30,8 @@ private _menuString = "Hearts and Minds " + localize "STR_BTC_HAM_ACTION_ORDERS_
     { //"Civil Order: Stop", "Order a civilian to stop"
         if (isNull objectParent player) then {
             [1] call btc_int_fnc_orders;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },
@@ -47,8 +45,8 @@ private _menuString = "Hearts and Minds " + localize "STR_BTC_HAM_ACTION_ORDERS_
     { //"Civil Order: Get down", "Order a civilian to get down"
         if (isNull objectParent player) then {
             [2] call btc_int_fnc_orders;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },
@@ -62,8 +60,8 @@ private _menuString = "Hearts and Minds " + localize "STR_BTC_HAM_ACTION_ORDERS_
     { //"Civil Order: Go Away", "Order a civilian to go away"
         if (isNull objectParent player) then {
             [3] call btc_int_fnc_orders;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },

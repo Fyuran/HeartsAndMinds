@@ -19,6 +19,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -80,6 +81,6 @@ if !(alive _unit) exitWith {
     [_taskID, "FAILED"] call BIS_fnc_taskSetState;
 };
 
-10 call btc_rep_fnc_change;
+[objNull, _SIDE_CIV_BOAT_TREATED_] call btc_rep_fnc_change;
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

@@ -19,6 +19,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -200,4 +201,4 @@ if (_taskID call BIS_fnc_taskState isEqualTo "FAILED") exitWith {
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-50 call btc_rep_fnc_change;
+[objNull, _SIDE_OFFICER_CAPTURED_] call btc_rep_fnc_change;

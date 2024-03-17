@@ -25,7 +25,7 @@ params [
 ];
 
 private _key = [getPlayerUID _unit, _unit getVariable ["btc_slot_player", -1]] select btc_p_slot_isShared;
-if(typeName _key isEqualTo "SCALAR") then {
+if(_key  isEqualType 0) then {
     if(_key < 0) exitWith {}; //out of bounds check for invalid player slot
 };
 

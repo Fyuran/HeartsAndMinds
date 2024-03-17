@@ -39,7 +39,7 @@ missionnamespace setvariable ["BIS_fnc_showNotification_queue",_queue];
 
 //--- Process the queue
 _process = missionnamespace getvariable ["BIS_fnc_showNotification_process",true];
-_processDone = if (typename _process == typename true) then {true} else {scriptdone _process};
+_processDone = if (_process isEqualType true) then {true} else {scriptdone _process};
 if (_processDone) then {
 	_process = [_data] spawn {
 		params[

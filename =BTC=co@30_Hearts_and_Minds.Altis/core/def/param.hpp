@@ -425,6 +425,12 @@ class Params {
         texts[] = {$STR_DISABLED,$STR_ENABLED};
         default = 1;
     };
+    class btc_p_door_locks { // Door locks:
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_GAMEPLAY_DOORLOCKS"]);
+        values[] = {0,1};
+        texts[] = {$STR_DISABLED,$STR_ENABLED};
+        default = 0;
+    };
     class btc_p_arsenal_title { // << Arsenal options >>
         title = $STR_BTC_HAM_PARAM_ARSENAL_TITLE;
         values[]={0};
@@ -505,8 +511,8 @@ class Params {
     };
     class btc_p_city_free_trigger { // City will be free if number of enemies is equal or lower than:
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_OTHER_CITYFREE"]);
-        values[]={0,1,2,3};
-        texts[]={$STR_DISABLED,"1","2","3"};
+        values[]={0,1,2,3,4,5};
+        texts[]={$STR_DISABLED,"1","2","3","4","5"};
         default = 2;
     };
     class btc_p_intro {//Show intro on Spawn
@@ -525,6 +531,12 @@ class Params {
         title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_OTHER_DEBUG"]);
         values[]={0,1,2};
         texts[]={$STR_DISABLED,$STR_ENABLED, $STR_BTC_HAM_PARAM_OTHER_DEBUG_LOGONLY}; // texts[]={"Off","On","Log only"};
+        default = 1;
+    };
+    class btc_p_debug_fps {
+        title = __EVAL(format ["      %1", localize "STR_BTC_HAM_PARAM_OTHER_DEBUG_FPS"]);
+        values[]={0,1};
+        texts[]={$STR_DISABLED,$STR_ENABLED}; // texts[]={"Off","On"};
         default = 1;
     };
 };

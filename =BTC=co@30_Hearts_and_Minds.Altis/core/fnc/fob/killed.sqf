@@ -25,7 +25,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#define FOB_REP -100
+#include "..\script_macros.hpp"
 
 params [
     ["_struc", objNull, [objNull]],
@@ -44,11 +44,12 @@ if (btc_debug || btc_debug_log) then {
 
 deleteMarker ((_fobs select 0) deleteAt _fob_index); //Markers
 private _fob = (_fobs select 1) deleteAt _fob_index; //FOB_structure
-deleteVehicle ((_fobs select 2) deleteAt _fob_index); //Flags
+private _flag = ((_fobs select 2) deleteAt _fob_index); //Flags
 deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
 ((_fobs select 4) deleteAt _fob_index) apply {deleteVehicle _x}; //Triggers
 [_fob getVariable ["CBAperFrameHandle", -1]] call CBA_fnc_removePerFrameHandler; //CBA PFH
 _fob setVariable["fob_conquest_time", -1, true]; //Make sure all GUIs are closed
+[objNull, _flag] call btc_jail_fnc_removeJail_s;
 
 if(_fob getVariable ["FOB_Event", false]) then {
     _fob_task_name = format["btc_task_%1", _fob getVariable ["FOB_name", ""]];
@@ -59,10 +60,17 @@ if(_fob getVariable ["FOB_Event", false]) then {
     
    btc_event_activeEvents = (0 max (btc_event_activeEvents - 1));
 };
-[FOB_REP, objNull] call btc_rep_fnc_change;
 
-if (_delete) then {
+(_fob getVariable ["btc_mil_garrison", []]) apply {
+    [_x] call ace_medical_status_fnc_setDead;
+};
+
+deleteVehicle _flag;
+if (!_delete) then {
+    [_fob getVariable ["FOB_name", ""], _FOB_LOST_] call btc_rep_fnc_change;
+} else {
     deleteVehicle _fob;
+    [_fob getVariable ["FOB_name", ""], _FOB_DISMANTLED_] call btc_rep_fnc_change;
 };
 
 _this

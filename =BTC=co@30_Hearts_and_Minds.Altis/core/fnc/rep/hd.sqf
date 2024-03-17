@@ -25,8 +25,9 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
-if ((_this select 1) isEqualType []) exitWith {}; // Some agents return an array when tacking damage 
+if ((_this select 1) isEqualType []) exitWith {}; // Some agents return an array when taking damage 
 
 params [
     ["_unit", objNull, [objNull]],
@@ -52,10 +53,7 @@ if !(isServer) exitWith {
     _dam
 };
 
-[
-    [btc_rep_malus_civ_hd, btc_rep_malus_animal_hd] select _isAgent,
-    _instigator
-] call btc_rep_fnc_change;
+//[_instigator, [_CIV_HURT_, _ANIMAL_HURT_] select _isAgent] call btc_rep_fnc_change;
 if (btc_global_reputation < btc_rep_level_normal + 100) then {[getPos _unit] call btc_rep_fnc_eh_effects;};
 
 if (btc_debug_log) then {

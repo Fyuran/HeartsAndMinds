@@ -125,7 +125,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
         [
             [player, btc_player_side] select btc_p_respawn_ticketsShare,
             btc_p_respawn_ticketsLost
-        ] call BIS_fnc_respawnTickets; // Need to be handle locally
+        ] call BIS_fnc_respawnTickets; // Needs to be handled locally
         _this remoteExecCall ["btc_respawn_fnc_player", 2];
     }] call CBA_fnc_addEventHandler;
 };

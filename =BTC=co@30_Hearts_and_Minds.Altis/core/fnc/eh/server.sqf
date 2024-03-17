@@ -18,6 +18,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 addMissionEventHandler ["BuildingChanged", btc_rep_fnc_buildingchanged];
 ["ace_explosives_defuse", btc_rep_fnc_explosives_defuse] call CBA_fnc_addEventHandler;
@@ -45,11 +46,7 @@ addMissionEventHandler ["BuildingChanged", btc_rep_fnc_buildingchanged];
 ["ace_disarming_dropItems", btc_rep_fnc_foodRemoved] call CBA_fnc_addEventHandler;
 ["btc_respawn_player", {
     params ["", "_player"];
-    [btc_rep_malus_player_respawn, _player] call btc_rep_fnc_change;
-    btc_slots_serialized set [
-        _player getVariable ["btc_slot_key", [0, 0, 0]],
-        [] // Reset serialized data if slot died
-    ];
+    [_player, _PLAYER_RESPAWNED_] call btc_rep_fnc_change;
 }] call CBA_fnc_addEventHandler;
 
 ["ace_explosives_detonate", {

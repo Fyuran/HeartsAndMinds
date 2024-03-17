@@ -34,12 +34,6 @@ _group setVariable ["no_cache", nil];
 private _city = [leader _group, values btc_city_all, false] call btc_fnc_find_closecity;
 _city setVariable ["occupied", true];
 
-if (_city getVariable ["marker", ""] != "") then {
-    private _marker = _city getVariable ["marker", ""];
-    _marker setMarkerColor "ColorRed";
-    _marker setMarkerAlpha 0.3;
-};
-
 private _wp = if (vehicle leader _group isEqualTo leader _group) then {
     selectRandom ["HOUSE", "PATROL", "SENTRY"];
 } else {

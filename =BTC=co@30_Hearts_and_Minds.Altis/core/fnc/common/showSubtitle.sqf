@@ -26,13 +26,7 @@ Author:
     Thomas Ryan
 
 ---------------------------------------------------------------------------- */
-
-#define WAIT         10
-#define POS_W        (0.4 * safeZoneW)
-#define POS_H        (safeZoneH)
-#define POS_X        (0.5 - POS_W / 2)
-#define POS_Y        (safeZoneY + (6/8) * safeZoneH)
-#define POS_Y_CAM    (safeZoneY + (31/32) * safeZoneH)
+#include "..\script_macros.hpp"
 
 disableSerialization;
 // Create display and control

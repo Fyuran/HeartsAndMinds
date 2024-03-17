@@ -30,17 +30,12 @@ private _city = _trigger getVariable "playerTrigger";
 _city setVariable ["occupied", false];
 
 if (_remainEnemyUnits isNotEqualTo []) then {
-    {
+    _remainEnemyUnits apply {
         if (unitIsUAV _x) then {
             _x setDamage 1;
-        } else {
-            [_x, true] call ace_captives_fnc_setSurrendered;
         };
-    } forEach _remainEnemyUnits;
-};
-
-if (_city getVariable ["marker", ""] != "") then {
-    (_city getVariable ["marker", ""]) setMarkerColor "ColorGreen";
+    };
+    [_remainEnemyUnits] spawn btc_jail_fnc_setCaptives_s;
 };
 
 if (btc_final_phase) then {

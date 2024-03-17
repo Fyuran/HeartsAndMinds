@@ -19,6 +19,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -60,6 +61,6 @@ if (!alive _veh) exitWith {
     [_taskID, "FAILED"] call BIS_fnc_taskSetState;
 };
 
-(- btc_rep_malus_wheelChange * _damagedWheel) call btc_rep_fnc_change;
+[(- btc_rep_malus_wheelChange * _damagedWheel), _SIDE_VEHICLE_REPAIRED_] call btc_rep_fnc_change;
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

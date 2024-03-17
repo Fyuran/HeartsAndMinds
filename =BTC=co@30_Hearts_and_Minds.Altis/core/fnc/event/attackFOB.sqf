@@ -19,8 +19,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define FOB_ATTACK_TASK_TYPE 42
-#define EVENT_COOLDOWN 600
+#include "..\script_macros.hpp"
 
 if(!params[
 	["_structure", ObjNull, [ObjNull]]
@@ -63,7 +62,7 @@ switch true do {
     case (btc_global_reputation >= btc_rep_level_high): {
         ["WarningDescription", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
         _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
-        [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
+        [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
     };
     case (btc_global_reputation < btc_rep_level_high && {btc_global_reputation >= btc_rep_level_veryLow}): {
         ["FOBlowRepWarningDescription", ["", format[
@@ -104,7 +103,7 @@ switch true do {
 
     // TASK_SUCCEEDED when only a part of enemy troops are remaining
     [{// also has timeout in case of Arma's AI fuckery
-        ({alive _x} count (_this select 3)) <= (_this select 4)
+        ({alive _x} count (_this select 3)) <= (_this select 4) || !(alive _structure)
     }, _statement, [_structure, _flag, _groups, _units, floor((count _units)/2.5)], 
         300*(count _groups), _statement
     ] call CBA_fnc_waitUntilAndExecute;
@@ -112,7 +111,7 @@ switch true do {
 }] call btc_delay_fnc_exec;
 
 btc_event_activeEvents = btc_event_activeEvents + 1;
-btc_event_cooldown = CBA_missionTime + EVENT_COOLDOWN;
+btc_event_cooldown = CBA_missionTime + _EVENT_COOLDOWN_;
 
 
 _return

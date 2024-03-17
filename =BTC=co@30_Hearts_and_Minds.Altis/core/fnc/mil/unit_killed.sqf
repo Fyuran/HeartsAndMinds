@@ -21,15 +21,28 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params ["_unit", "_causeOfDeath", "_killer", "_instigator"];
 
-if (side group _unit isNotEqualTo btc_enemy_side) exitWith {};
+private _unitSide = side group _unit;
+if ((_unitSide isNotEqualTo btc_enemy_side) && (_unitSide isNotEqualTo btc_player_side)) exitWith {hint format ["%1", _this]};
 
-if (random 100 > btc_info_intel_chance) then {
-    _unit setVariable ["intel", true];
+if (_unitSide isEqualTo btc_enemy_side) then {
+    if (random 100 > btc_info_intel_chance) then {
+        _unit setVariable ["intel", true];
+    };
 };
 
 if (isPlayer _instigator) then {
-    [btc_rep_bonus_mil_killed, _instigator] call btc_rep_fnc_change;
+    private _isSurrendering = _unit getVariable ["ace_captives_isSurrendering", false];
+    if(_isSurrendering) then {
+        [_instigator, _CAPTIVE_KILLED_] call btc_rep_fnc_change;
+    } else {
+        if((_unitSide isEqualTo btc_player_side) && (!isPlayer _unit)) then {  
+            [_instigator, _FRIENDLY_KILLED_] call btc_rep_fnc_change;
+        } else {
+            [_instigator, _HOSTILE_KILLED_] call btc_rep_fnc_change;
+        };
+    };
 };

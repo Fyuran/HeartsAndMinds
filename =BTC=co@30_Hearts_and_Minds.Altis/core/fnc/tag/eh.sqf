@@ -19,6 +19,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params ["_tag", "_texture", "_object", "_unit"];
 
@@ -38,8 +39,8 @@ if (_unit in values btc_city_all) then {
             private _tagToRemove = _tags select 1 select 1;
             if (_tagToRemove in btc_tags_server) then {
                 [
-                    [btc_rep_bonus_removeTagLetter, btc_rep_bonus_removeTag] select (_tagToRemove isKindOf "Graffiti_base_F"),
-                    _unit
+                    _unit,
+                    [_TAG_LETTER_REMOVED_, _TAG_REMOVED_] select (_tagToRemove isKindOf "Graffiti_base_F")
                 ] call btc_rep_fnc_change;
             };
             deleteVehicle _tagToRemove;

@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    Giallustio
+    Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -72,21 +72,17 @@ if (_name_to_check in _array_markers) exitWith {
     _mat spawn btc_fob_fnc_create;
 };
 
-(localize "STR_BTC_HAM_O_FOB_CREATE_H_WIP") call CBA_fnc_notify;
+//(localize "STR_BTC_HAM_O_FOB_CREATE_H_WIP") call CBA_fnc_notify;
 
 closeDialog 0;
 
-[{
-    params ["_mat", "_name"];
+if (isNull _mat) exitWith {};
+deleteVehicle _mat;
 
-    if (isNull _mat) exitWith {};
+private _structure = createVehicle [btc_fob_structure, getPosATL _mat, [], 0, "CAN_COLLIDE"];
+[_structure] call btc_log_fnc_place;
+waitUntil {!btc_log_placing};
 
-    private _pos = getPosATL _mat;
-    private _direction = getDir _mat;
-    private _FOB_name = "FOB " + _name;
-
-    deleteVehicle _mat;
-
-    [_pos, _direction, _FOB_name] remoteExecCall ["btc_fob_fnc_create_s", 2];
-    [7, _FOB_name] remoteExecCall ["btc_fnc_show_hint", [0, -2] select isDedicated];
-}, [_mat, _name], 5] call CBA_fnc_waitAndExecute;
+private _FOB_name = "FOB " + _name;
+[_structure, _FOB_name] remoteExecCall ["btc_fob_fnc_create_s", 2];
+[7, _FOB_name] remoteExecCall ["btc_fnc_show_hint", [0, -2] select isDedicated];

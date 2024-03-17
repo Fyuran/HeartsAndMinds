@@ -19,6 +19,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -164,6 +165,6 @@ _group_officer setVariable ["no_cache", false];
 removeMissionEventHandler ["HandleDisconnect", _IDEH_HandleDisconnect];
 if ((_taskID call BIS_fnc_taskState) in ["CANCELED", "FAILED"]) exitWith {[_taskID, _taskID call BIS_fnc_taskState] call btc_task_fnc_setState};
 
-40 call btc_rep_fnc_change;
+[objNull, _SIDE_TARGET_KILLED_] call btc_rep_fnc_change;
 
 [_taskID, "SUCCEEDED"] call btc_task_fnc_setState;

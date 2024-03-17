@@ -25,6 +25,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_hideout", objNull, [objNull]],
@@ -49,7 +50,7 @@ if (
     btc_hideouts deleteAt (btc_hideouts find _hideout);
     publicVariable "btc_hideouts";
 
-    [btc_rep_bonus_hideout, _instigator] call btc_rep_fnc_change;
+    [_instigator, _HIDEOUT_DESTROYED_] call btc_rep_fnc_change;
 
     private _id = _hideout getVariable "id";
     private _marker = createMarker [format ["btc_hideout_%1_destroyed", _id], getPos _hideout];

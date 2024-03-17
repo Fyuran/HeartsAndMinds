@@ -7,7 +7,7 @@ Description:
 
 Parameters:
     _asker - Player. [Object]
-
+    _intelType - Intel type [Number]
 Returns:
     _intelType - Return the type of intel. [Number]
 
@@ -22,10 +22,9 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_asker", objNull, [objNull]]
+    ["_asker", -1, [objNull, 0]],
+    ["_intelType", random 100, [0]]
 ];
-
-private _intelType = random 100;
 
 if (btc_hideouts isEqualTo []) then {_intelType = (btc_info_intel_type select 0) - 10;};
 

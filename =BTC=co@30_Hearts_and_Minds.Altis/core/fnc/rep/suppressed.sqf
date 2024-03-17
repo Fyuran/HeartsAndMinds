@@ -23,6 +23,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_civ", objNull, [objNull]],
@@ -51,10 +52,10 @@ if (
     {abs((_shooter getDir _civ) - getDir _shooter) < 150/(_shooter distance _civ)}
 ) then {
     if (isServer)  then {
-        [btc_rep_malus_civ_suppressed, _shooter] call btc_rep_fnc_change;
+        //[_shooter, _CIV_SUPPRESSED_] call btc_rep_fnc_change;
         [getPos _civ] call btc_rep_fnc_eh_effects;
     } else {
-        [btc_rep_malus_civ_suppressed, _shooter] remoteExecCall ["btc_rep_fnc_change", 2];
+        //[_shooter, _CIV_SUPPRESSED_] remoteExecCall ["btc_rep_fnc_change", 2];
         [getPos _civ] remoteExecCall ["btc_rep_fnc_eh_effects", 2];
     };
 

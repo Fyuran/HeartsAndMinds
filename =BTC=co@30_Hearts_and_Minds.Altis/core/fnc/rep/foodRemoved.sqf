@@ -22,11 +22,11 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params ["_caller", "_target", "_listOfItemsToRemove",
     ["_numberOfItems", 2, [0]]
 ];
-
 
 private _removedItem = _listOfItemsToRemove select 0;
 if (
@@ -35,8 +35,8 @@ if (
 ) then {
     private _repChange = btc_rep_malus_foodRemove * _numberOfItems;
     if (isServer) then {
-        [_repChange, _caller] call btc_rep_fnc_change;
+        [_repChange, _FOOD_REMOVED_] call btc_rep_fnc_change;
     } else {
-        [_repChange, _caller] remoteExecCall ["btc_rep_fnc_change", 2];
+        [_repChange, _FOOD_REMOVED_] remoteExecCall ["btc_rep_fnc_change", 2];
     };
 };

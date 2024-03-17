@@ -21,6 +21,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_vehicle", objNull, [objNull]],
@@ -74,7 +75,7 @@ _vehicle addMPEventHandler ["MPKilled", {
         _data pushBack (_vehicle getVariable ["btc_EDENinventory", []]);
         [btc_veh_fnc_respawn, [_vehicle, _data], _data select 3] call CBA_fnc_waitAndExecute;
 
-        [btc_rep_malus_veh_killed, _instigator] call btc_rep_fnc_change;
+        [_instigator, _VEHICLE_LOST_] call btc_rep_fnc_change;
     };
 }];
 if (btc_p_respawn_location > 0) then {

@@ -293,7 +293,9 @@ if (
     [[_city, _spawningRadius/2], btc_city_fnc_getHouses] call btc_delay_fnc_exec;
 };
 
-[_city, btc_door_fnc_lock] call btc_delay_fnc_exec;
+if(btc_p_door_locks) then {
+    [_city, btc_door_fnc_lock] call btc_delay_fnc_exec;
+};
 
 if (btc_p_info_houseDensity > 0) then {
     [_city, btc_info_fnc_createIntels] call btc_delay_fnc_exec;
@@ -361,7 +363,6 @@ if (_HCs isNotEqualTo []) then {
     };
 };
 
-//FOB attack event - #define EVENT_FOB_ATTACK 0
 if(_has_en) then {
     [_city] call btc_event_fnc_attackFOBChance;
 };

@@ -17,7 +17,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define EVENT_FOB_ATTACK 0
+#include "..\script_macros.hpp"
 
 params[
     ["_city", objNull, [objNull]]
@@ -49,5 +49,5 @@ private _cities = linearConversion[0, count values btc_city_all, count _nearCiti
 
 if(random[0, _cities, 1] > random[0, _rep, 1]) then {
     private _structure = [_fobs, _city] call BIS_fnc_nearestPosition;
-    [EVENT_FOB_ATTACK, _structure] call btc_event_fnc_eventManager;
+    [_EVENT_FOB_ATTACK_, _structure] call btc_event_fnc_eventManager;
 };

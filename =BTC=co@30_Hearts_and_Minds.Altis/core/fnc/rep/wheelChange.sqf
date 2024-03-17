@@ -21,6 +21,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     "_object",
@@ -37,8 +38,8 @@ if (
 
 private _instigator = nearestObject [_object, btc_player_type];
 [
-    btc_rep_malus_wheelChange,
-    _instigator
+    _instigator,
+    _CIV_WHEEL_CHANGED_
 ] call btc_rep_fnc_change;
 
 if (btc_debug_log) then {

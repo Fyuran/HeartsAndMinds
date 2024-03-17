@@ -88,6 +88,7 @@ btc_p_spect = ("btc_p_spect" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_side_mission_cycle = "btc_p_side_mission_cycle" call BIS_fnc_getParamValue;
 btc_p_fob_cap_time = "btc_p_fob_cap_time" call BIS_fnc_getParamValue;
 btc_p_fob_garrison = ("btc_p_fob_garrison" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_p_door_locks = ("btc_p_door_locks" call BIS_fnc_getParamValue) isEqualTo 1;
 
 //<< Arsenal options >>
 btc_p_arsenal_Type = "btc_p_arsenal_Type" call BIS_fnc_getParamValue;
@@ -112,6 +113,7 @@ private _p_city_free_trigger = "btc_p_city_free_trigger" call BIS_fnc_getParamVa
 btc_p_flag = "btc_p_flag" call BIS_fnc_getParamValue;
 btc_p_intro = ("btc_p_intro" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_debug = "btc_p_debug" call BIS_fnc_getParamValue;
+btc_p_debug_fps = ("btc_p_debug_fps" call BIS_fnc_getParamValue) isEqualTo 1;
 
 switch (btc_p_debug) do {
     case 0 : {
@@ -149,6 +151,9 @@ if (isServer) then {
     btc_final_phase = false;
     btc_delay_time = 0;
 
+    //Player side
+    btc_player_side = west;
+
     //City
     btc_city_blacklist = [];//NAME FROM CFG
     btc_p_city_free_trigger_condition = if (_p_city_free_trigger isEqualTo 0) then {
@@ -182,6 +187,19 @@ if (isServer) then {
     btc_hideout_cap_time = 1800;
     btc_hideout_minRange = btc_hideout_range;
 
+    //JAIL
+    private _base_jail_pos = getMarkerPos "btc_jail_base";
+    if(_base_jail_pos isEqualTo [0,0,0]) then {
+        ["btc_jail_base marker is absent or bad", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    } else {
+        private _base_jail = [true] call CBA_fnc_createNamespace;
+        _base_jail setDir markerDir "btc_jail_base";
+        _base_jail setPosATL _base_jail_pos;
+
+        btc_jails = [_base_jail];
+        publicVariable "btc_jails";
+    };
+
     //IED
     btc_ied_suic_time = 900;
     btc_ied_suic_spawned = - btc_ied_suic_time;
@@ -207,7 +225,6 @@ if (isServer) then {
     //Rep
     btc_rep_militia_call_time = 600;
     btc_rep_militia_called = - btc_rep_militia_call_time;
-    btc_rep_delayed = [0, []];
 
     //Chem
     btc_chem_decontaminate = [];
@@ -476,7 +493,6 @@ btc_type_hazmat = ["HazmatBag_01_F", "Land_MetalBarrel_F"] + (_allClassSorted se
 btc_containers_mat = ["Land_Cargo20_military_green_F", "Land_Cargo40_military_green_F"];
 
 //Player
-btc_player_side = west;
 btc_respawn_marker = "respawn_west";
 btc_player_type = ["SoldierWB", "SoldierEB", "SoldierGB"] select ([west, east, independent] find btc_player_side);
 
@@ -575,7 +591,6 @@ btc_log_def_placeable = (_cFortifications + _cContainers + _cSupplies + _cFOB + 
     getNumber(_cfgVehicles >> _x >> "ace_dragging_canCarry") isEqualTo 0
 };
 btc_tow_vehicleTowing = objNull;
-btc_log_placing_max_h = 12;
 btc_log_placing = false;
 btc_log_obj_created = [];
 
@@ -706,6 +721,7 @@ btc_rep_bonus_IEDCleanUp = 10;
 btc_rep_bonus_removeTag = 3;
 btc_rep_bonus_removeTagLetter = 0.5;
 btc_rep_bonus_foodGive = 0.5;
+btc_rep_bonus_captive_detained = 5;
 
 btc_rep_malus_civ_hd = - 2;
 btc_rep_malus_animal_hd = - 1;
@@ -719,6 +735,7 @@ btc_rep_malus_building_destroyed = - 5;
 btc_rep_malus_foodRemove = - btc_rep_bonus_foodGive;
 btc_rep_malus_breakDoor = - 2;
 btc_rep_malus_wheelChange = - 7;
+btc_rep_malus_fob_lost = -10;
 
 btc_rep_level_veryLow = 0;
 btc_rep_level_low = 200;
@@ -729,7 +746,7 @@ btc_rep_level_high = 750;
 btc_units_owners = [];
 
 //Door
-btc_door_breaking_time = 60;
+btc_door_breaking_time = 5;
 
 //Flag
 btc_flag_textures = [

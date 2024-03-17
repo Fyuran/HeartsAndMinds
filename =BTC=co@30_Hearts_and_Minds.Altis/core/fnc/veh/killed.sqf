@@ -23,6 +23,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_vehicle", objNull, [objNull]],
@@ -40,8 +41,8 @@ _marker setMarkerColor "ColorRed";
 _vehicle setVariable ["marker", _marker];
 if (_allowRepChange) then {
     if (isServer) then {
-        [btc_rep_malus_veh_killed, _killer] call btc_rep_fnc_change;
+        [_killer, _VEHICLE_LOST_] call btc_rep_fnc_change;
     } else {
-        [btc_rep_malus_veh_killed, _killer] remoteExecCall ["btc_rep_fnc_change", 2];
+        [_killer, _VEHICLE_LOST_] remoteExecCall ["btc_rep_fnc_change", 2];
     };
 };

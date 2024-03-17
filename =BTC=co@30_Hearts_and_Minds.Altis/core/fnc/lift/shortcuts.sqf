@@ -19,9 +19,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-#include "\a3\editor_f\Data\Scripts\dikCodes.h"
-#define BTC_PLAY_FBSOUND true    //set false if you do not want a "key-pressed-feedback" (sound)
-#define BTC_FBSOUND "ClickSoft"  //really quiet sound
+#include "..\script_macros.hpp"
 
 private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
 [
@@ -35,8 +33,8 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
             {(getPosATL player) select 2 > 4}
         ) then {
             [] spawn btc_lift_fnc_deployRopes;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },
@@ -52,8 +50,8 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
             {(driver vehicle player) isEqualTo player}
         ) then {
             [] call btc_lift_fnc_destroyRopes;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },
@@ -66,8 +64,8 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
     {
         if (btc_ropes_deployed) then {
             [] call btc_lift_fnc_hud;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },
@@ -81,8 +79,8 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
     {
         if ([] call btc_lift_fnc_check) then {
             [] spawn btc_lift_fnc_hook;
-            if (BTC_PLAY_FBSOUND) then {
-                playSound BTC_FBSOUND;
+            if (_BTC_PLAY_FBSOUND_) then {
+                playSound _BTC_FBSOUND_;
             };
         };
     },

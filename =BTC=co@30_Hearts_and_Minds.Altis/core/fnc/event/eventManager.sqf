@@ -17,7 +17,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define EVENT_FOB_ATTACK 0
+#include "..\script_macros.hpp"
 
 params[
     ["_event", -1, [0]],
@@ -40,7 +40,7 @@ if(btc_event_activeEvents >= btc_p_event_maxEvents) exitWith { //compared to btc
 
 btc_event_beingHandled = true;
 btc_event_beingHandled = switch (_event) do {
-    case EVENT_FOB_ATTACK : {
+    case _EVENT_FOB_ATTACK_ : {
         if(btc_p_event_enable_fobAttack) then {_params call btc_event_fnc_attackFOB;}
     }; 
     default {

@@ -18,7 +18,8 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-
+//Captive units
+["btc_info_jailed_cond", {!(_this#1 getVariable ["btc_info_isDetained", false])}] call ace_common_fnc_addCanInteractWithCondition;
 
 //Database
 private _action = ["Database", localize "STR_BTC_HAM_ACTION_DATA_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\D_ca.paa", {}, {(call BIS_fnc_admin) == 2 || isServer}] call ace_interact_menu_fnc_createAction;
@@ -36,8 +37,8 @@ _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title
     [btc_info_fnc_search_for_intel, [_target]] call CBA_fnc_execNextFrame;
 }, {!alive _target}] call ace_interact_menu_fnc_createAction;
 {[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach (btc_type_units + btc_type_divers);
-_action = ["Interrogate_intel", localize "STR_BTC_HAM_ACTION_INTEL_INTERROGATE", "\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\instructor_ca.paa", {[_target,true] spawn btc_info_fnc_ask;}, {alive _target && {[_target] call ace_common_fnc_isAwake} && captive _target}] call ace_interact_menu_fnc_createAction;
-{[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach (btc_type_units + btc_type_divers);
+// _action = ["Interrogate_intel", localize "STR_BTC_HAM_ACTION_INTEL_INTERROGATE", "\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\instructor_ca.paa", {[_target,true] spawn btc_info_fnc_ask;}, {alive _target && {[_player, _target, ["isnothandcuffed", "isnotsurrendering", "isnotsitting"]] call ace_common_fnc_canInteractWith} && captive _target}] call ace_interact_menu_fnc_createAction;
+// {[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach (btc_type_units + btc_type_divers);
 _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title", "\A3\ui_f\data\igui\cfg\simpleTasks\types\search_ca.paa", {
     [btc_info_fnc_search_for_intel, [_target]] call CBA_fnc_execNextFrame;
 }, {true}] call ace_interact_menu_fnc_createAction;
@@ -130,7 +131,7 @@ _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title
 //Place
 _action = ["Logistic", localize "STR_BTC_HAM_ACTION_LOC_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\L_ca.paa", {}, {true}] call ace_interact_menu_fnc_createAction;
 {[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach btc_log_def_loadable;
-_action = ["Place", localize "STR_ACE_Dragging_Carry", "\z\ace\addons\dragging\UI\icons\box_carry.paa", {_target call btc_log_fnc_place}, {!btc_log_placing && !(player getVariable ["ace_dragging_isCarrying", false])}] call ace_interact_menu_fnc_createAction;
+_action = ["Place", localize "STR_ACE_Dragging_Carry", "\z\ace\addons\dragging\UI\icons\box_carry.paa", {[_target] call btc_log_fnc_place}, {!btc_log_placing && !(player getVariable ["ace_dragging_isCarrying", false])}] call ace_interact_menu_fnc_createAction;
 {[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach btc_log_def_placeable;
 
 //Shower
@@ -161,7 +162,7 @@ _action = ["Civil_Go_away", localize "STR_BTC_HAM_ACTION_ORDERS_GOAWAY", "\A3\ui
 [player, 1, ["ACE_SelfActions", "Civil_Orders"], _action] call ace_interact_menu_fnc_addActionToObject;
 
 { //Actions attachted to AI
-    _action = ["Civil_Orders", localize "STR_BTC_HAM_ACTION_ORDERS_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\types\meet_ca.paa", {}, {true}] call ace_interact_menu_fnc_createAction;
+    _action = ["Civil_Orders", localize "STR_BTC_HAM_ACTION_ORDERS_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\types\meet_ca.paa", {}, {[_player, _target, ["isnothandcuffed", "isnotsurrendering", "isnotsitting"]] call ace_common_fnc_canInteractWith}] call ace_interact_menu_fnc_createAction;
     [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
     _action = ["Civil_taxi", localize "STR_BTC_HAM_ACTION_ORDERS_TAXI", "\A3\ui_f\data\igui\cfg\simpleTasks\types\talk4_ca.paa", {[4, _target] call btc_int_fnc_orders;}, {(alive _target) && (vehicle _target) isNotEqualTo _target}] call ace_interact_menu_fnc_createAction;
     [_x, 0, ["ACE_MainActions", "Civil_Orders"], _action] call ace_interact_menu_fnc_addActionToClass;
@@ -171,9 +172,9 @@ _action = ["Civil_Go_away", localize "STR_BTC_HAM_ACTION_ORDERS_GOAWAY", "\A3\ui
     [_x, 0, ["ACE_MainActions", "Civil_Orders"], _action] call ace_interact_menu_fnc_addActionToClass;
     _action = ["Civil_Go_away", localize "STR_BTC_HAM_ACTION_ORDERS_GOAWAY", "\A3\ui_f\data\igui\cfg\simpleTasks\types\talk1_ca.paa", {[3, _target] call btc_int_fnc_orders;}, {alive _target}] call ace_interact_menu_fnc_createAction;
     [_x, 0, ["ACE_MainActions", "Civil_Orders"], _action] call ace_interact_menu_fnc_addActionToClass;
-    _action = ["Ask_Info", localize "STR_BTC_HAM_ACTION_ORDERS_ASKINFO", "\A3\ui_f\data\igui\cfg\simpleTasks\types\talk_ca.paa", {[_target,false] spawn btc_info_fnc_ask;}, {alive _target && {[_target] call ace_common_fnc_isAwake} && {side _target isEqualTo civilian}}] call ace_interact_menu_fnc_createAction;
+    _action = ["Ask_Info", localize "STR_BTC_HAM_ACTION_ORDERS_ASKINFO", "\A3\ui_f\data\igui\cfg\simpleTasks\types\talk_ca.paa", {[_target,false] spawn btc_info_fnc_ask;}, {alive _target && {[_player, _target, ["isnothandcuffed", "isnotsurrendering", "isnotsitting"]] call ace_common_fnc_canInteractWith} && {side _target isEqualTo civilian}}] call ace_interact_menu_fnc_createAction;
     [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
-    _action = ["Ask_Reputation", localize "STR_BTC_HAM_ACTION_ORDERS_ASKREP", "\A3\ui_f\data\igui\cfg\simpleTasks\types\talk_ca.paa", {[_target] spawn btc_info_fnc_ask_reputation;}, {alive _target && {[_target] call ace_common_fnc_isAwake} && {side _target isEqualTo civilian}}] call ace_interact_menu_fnc_createAction;
+    _action = ["Ask_Reputation", localize "STR_BTC_HAM_ACTION_ORDERS_ASKREP", "\A3\ui_f\data\igui\cfg\simpleTasks\types\talk_ca.paa", {[_target] spawn btc_info_fnc_ask_reputation;}, {alive _target && {[_player, _target, ["isnothandcuffed", "isnotsurrendering", "isnotsitting"]] call ace_common_fnc_canInteractWith} && {side _target isEqualTo civilian}}] call ace_interact_menu_fnc_createAction;
     [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
     _action = ["Give_food", localize "STR_BTC_HAM_ACTION_GIVEFOOD", "\z\ace\addons\common\data\icon_banana_ca.paa", {[player, _target] call btc_int_fnc_foodGive}, {alive _target && {"ACE_Banana" in items player}}] call ace_interact_menu_fnc_createAction;
     [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;

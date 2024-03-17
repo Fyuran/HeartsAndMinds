@@ -18,8 +18,8 @@
 	    Fyuran
 	
 ---------------------------------------------------------------------------- */
-#define KABOOM_RANGE 25
-#define TRG_RANGE 100
+#define _KABOOM_RANGE 25
+#define _TRG_RANGE 100
 
 params [
 	["_suicider", objNull, [objNull]]
@@ -45,7 +45,7 @@ if (alive _structure) then {
 		];
 		_veh = objectParent _suicider;
 		while { alive _suicider && {!isNull _veh} } do {
-			if((_veh distance2D _structure) <= TRG_RANGE) then {
+			if((_veh distance2D _structure) <= _TRG_RANGE) then {
 				playSound3D ["A3\Sounds_F\weapons\horns\truck_horn_2.wss", objNull, false, _veh, 5, 1, 500];
 			};
 			sleep 0.8;
@@ -53,7 +53,7 @@ if (alive _structure) then {
 	};
 
 	[{
-		isNull (objectParent (_this select 0)) || {((objectParent (_this select 0)) distance2D (_this select 1)) <= KABOOM_RANGE}
+		isNull (objectParent (_this select 0)) || {((objectParent (_this select 0)) distance2D (_this select 1)) <= _KABOOM_RANGE}
 	}, {
 		playSound3d [getMissionPath "core\sounds\allahu_akbar.ogg", (objectParent (_this select 0)), false, getPosASL (objectParent (_this select 0)), 5, random [0.9, 1, 1.2], 100];
 		(_this select 0) setDamage 1;

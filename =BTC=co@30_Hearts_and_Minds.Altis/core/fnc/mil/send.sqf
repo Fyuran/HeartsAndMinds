@@ -25,7 +25,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#define FOB_ATTACK_PATROL_TYPE 2
+#include "..\script_macros.hpp"
 
 params [
     ["_start", objNull, [objNull]],
@@ -51,7 +51,7 @@ switch (_typeOf_patrol) do {
 
         _delay = [_group, _return_pos, _veh_type] call btc_mil_fnc_createVehicle;
     };
-    case FOB_ATTACK_PATROL_TYPE : {
+    case _FOB_ATTACK_PATROL_TYPE_ : {
         _group = createGroup btc_enemy_side;
 
         private _return_pos = [_pos, 10, 500, 13, false] call btc_fnc_findsafepos;
@@ -62,6 +62,7 @@ switch (_typeOf_patrol) do {
 };
 _group setVariable ["no_cache", true];
 _group setVariable ["acex_headless_blacklist", true];
+_group setVariable ["lambs_danger_disableGroupAI", true];
 
 [{
     params ["_group", "_typeOf_patrol", "_dest", "_infFormation"];
@@ -74,7 +75,7 @@ _group setVariable ["acex_headless_blacklist", true];
         case 1 : {
             [_group, _dest, -1, "MOVE", "AWARE", "RED", "NORMAL", "NO CHANGE", "(group this) call btc_data_fnc_add_group;", nil, 60] call CBA_fnc_addWaypoint;
         };
-        case FOB_ATTACK_PATROL_TYPE : {
+        case _FOB_ATTACK_PATROL_TYPE_ : {
             [_group, _dest, -1, "MOVE", "SAFE", "WHITE", "LIMITED", "NO CHANGE", "[group this, [this, btc_fobs select 1, false] call btc_fnc_find_closecity, 100, ""FOB""] call btc_mil_fnc_addWP;", nil, 300] call CBA_fnc_addWaypoint;
     };
 

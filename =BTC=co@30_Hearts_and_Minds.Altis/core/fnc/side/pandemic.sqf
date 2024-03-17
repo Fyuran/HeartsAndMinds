@@ -19,6 +19,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_taskID", "btc_side", [""]]
@@ -92,7 +93,7 @@ if !("SUCCEEDED" in (_tasksID apply {_x call BIS_fnc_taskState})) exitWith {
 
 {
     if (_x call BIS_fnc_taskState isEqualTo "SUCCEEDED") then {
-        15 call btc_rep_fnc_change;
+        [objNull, _SIDE_CIV_DECONTAMINATED_] call btc_rep_fnc_change;
     };
 } forEach _tasksID;
 

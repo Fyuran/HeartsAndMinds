@@ -23,7 +23,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define TRG_RANGE 150
+#define _TRG_RANGE 150
 
 params [
     ["_city", objNull, [objNull]],
@@ -72,7 +72,7 @@ _suicider setVariable ["btc_target_fob", _structure]; //necessary for WP correct
 
 //Waypoints and Range check
 [_group] call CBA_fnc_clearWaypoints;
-[_group, _structure, -1, "MOVE", "CARELESS", "BLUE", "FULL", "NO CHANGE", "this call btc_ied_fnc_suicider_fobLoop", nil, TRG_RANGE] call CBA_fnc_addWaypoint;
+[_group, _structure, -1, "MOVE", "CARELESS", "BLUE", "FULL", "NO CHANGE", "this call btc_ied_fnc_suicider_fobLoop", nil, _TRG_RANGE] call CBA_fnc_addWaypoint;
 
 //EH killed
 _suicider addEventHandler ["Killed", {

@@ -50,14 +50,6 @@ private _cities_status = +(profileNamespace getVariable [format ["btc_hm_%1_citi
     _city setVariable ["data_tags", _data_tags];
     _city setVariable ["btc_rep_civKilled", _civKilled];
 
-    if (btc_debug) then {
-        private _marker = _city getVariable ["marker", ""];
-        if (_city getVariable ["occupied", false]) then {
-            _marker setMarkerColor "colorRed";
-        } else {
-            _marker setMarkerColor "colorGreen";
-        };
-    };
     if (btc_debug_log) then {
         [format [
             "ID: %1 - _initialized %2 _spawn_more %3 _occupied %4 count _data_units %5 _has_ho %6",

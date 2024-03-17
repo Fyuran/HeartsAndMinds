@@ -18,8 +18,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define FOB_SIGHT_RANGE 500
-#define EVENT_FOB_ATTACK 0
+#include "..\script_macros.hpp"
 
 params[
     ["_group", grpNull, [grpNull]],
@@ -37,7 +36,7 @@ if(_fobs isEqualTo []) exitWith {
 [format["P:%1 FOB WP checking", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 
 private _pos = getPosASL this;
-private _fobIndex = _fobs findIf {(_x distance2D _pos) <= (FOB_SIGHT_RANGE + btc_fob_alertRadius)};
+private _fobIndex = _fobs findIf {(_x distance2D _pos) <= (_FOB_SIGHT_RANGE_ + btc_fob_alertRadius)};
 
 if(_fobIndex isNotEqualTo -1) then {
     _fob = _fobs select _fobIndex;
@@ -50,7 +49,7 @@ if(_fobIndex isNotEqualTo -1) then {
     [{
         (_this select 0) inArea (((_this select 1) getVariable["FOB_Triggers", []]) select 0)
     }, {
-        [EVENT_FOB_ATTACK, (_this select 1)] call btc_event_fnc_eventManager;
+        [_EVENT_FOB_ATTACK_, (_this select 1)] call btc_event_fnc_eventManager;
         _fob setVariable ["FOB_Event", true];
     }, [leader _group, _fob]] call CBA_fnc_waitUntilAndExecute;
     

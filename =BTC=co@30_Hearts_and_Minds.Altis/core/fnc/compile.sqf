@@ -16,7 +16,6 @@ if (isServer) then {
     btc_cache_fnc_init = compileScript ["core\fnc\cache\init.sqf"];
 
     //COMMON
-    btc_fnc_show_custom_hint = compileScript ["core\fnc\common\show_custom_hint.sqf"]; 
     btc_fnc_check_los = compileScript ["core\fnc\common\check_los.sqf"];
     btc_fnc_create_composition = compileScript ["core\fnc\common\create_composition.sqf"];
     btc_fnc_house_addWP = compileScript ["core\fnc\common\house_addWP.sqf"];
@@ -32,6 +31,8 @@ if (isServer) then {
     btc_fnc_roof = compileScript ["core\fnc\common\roof.sqf"];
     btc_fnc_moveOut = compileScript ["core\fnc\common\moveOut.sqf"];
     btc_fnc_changeWeather = compileScript ["core\fnc\common\changeWeather.sqf"];
+    btc_fnc_circlePosAroundObj = compileScript ["core\fnc\common\circlePosAroundObj.sqf"];
+    btc_fnc_getCompositionBoundingSize = compileScript ["core\fnc\common\getCompositionBoundingSize.sqf"]; 
 
     //CHEM
     btc_chem_fnc_checkLoop = compileScript ["core\fnc\chem\checkLoop.sqf"];
@@ -87,6 +88,7 @@ if (isServer) then {
 
     //DEBUG
     btc_debug_fnc_request_server_data = compileScript ["core\fnc\debug\server_to_client\request_server_data.sqf"];
+    btc_debug_fnc_debug_marker_show_fps = compileScript["core\fnc\debug\show_fps.sqf"];
 
     //DOOR
     btc_door_fnc_lock = compileScript ["core\fnc\door\lock.sqf"];
@@ -131,6 +133,12 @@ if (isServer) then {
     btc_info_fnc_cacheMarker = compileScript ["core\fnc\info\cacheMarker.sqf"];
     btc_info_fnc_path = compileScript ["core\fnc\info\path.sqf"];
     btc_info_fnc_createIntels = compileScript ["core\fnc\info\createIntels.sqf"];
+
+    //JAIL
+    btc_jail_fnc_setCaptives_s = compileScript ["core\fnc\jail\setCaptives_s.sqf"];
+    btc_jail_fnc_detain_s = compileScript ["core\fnc\jail\detain_s.sqf"];
+    btc_jail_fnc_createJail_s = compileScript ["core\fnc\jail\createJail_s.sqf"];
+    btc_jail_fnc_removeJail_s = compileScript ["core\fnc\jail\removeJail_s.sqf"];
 
     //FOB
     btc_fob_fnc_create_s = compileScript ["core\fnc\fob\create_s.sqf"];
@@ -183,7 +191,6 @@ if (isServer) then {
     btc_rep_fnc_hh = compileScript ["core\fnc\rep\hh.sqf"];
     btc_rep_fnc_buildingchanged = compileScript ["core\fnc\rep\buildingchanged.sqf"];
     btc_rep_fnc_explosives_defuse = compileScript ["core\fnc\rep\explosives_defuse.sqf"];
-    btc_rep_fnc_notify = compileScript ["core\fnc\rep\notify.sqf"];
     btc_rep_fnc_killed = compileScript ["core\fnc\rep\killed.sqf"];
     btc_rep_fnc_wheelChange = compileScript ["core\fnc\rep\wheelChange.sqf"];
 
@@ -393,6 +400,9 @@ if (!isDedicated) then {
     btc_info_fnc_ask_reputation = compileScript ["core\fnc\info\ask_reputation.sqf"];
     btc_info_fnc_cachePicture = compileScript ["core\fnc\info\cachePicture.sqf"];
 
+    //JAIL
+    btc_jail_fnc_addJailActions = compileScript ["core\fnc\jail\addJailActions.sqf"];
+
     //LIFT
     btc_lift_fnc_check = compileScript ["core\fnc\lift\check.sqf"];
     btc_lift_fnc_deployRopes = compileScript ["core\fnc\lift\deployRopes.sqf"];
@@ -413,6 +423,7 @@ if (!isDedicated) then {
     btc_log_fnc_place_create_camera = compileScript ["core\fnc\log\place_create_camera.sqf"];
     btc_log_fnc_place = compileScript ["core\fnc\log\place.sqf"];
     btc_log_fnc_place_key_down = compileScript ["core\fnc\log\place_key_down.sqf"];
+    btc_log_fnc_place_mouse_zchanged = compileScript ["core\fnc\log\place_mouse_zchanged.sqf"];
     btc_log_fnc_repair_wreck = compileScript ["core\fnc\log\repair_wreck.sqf"];
     btc_log_fnc_copy = compileScript ["core\fnc\log\copy.sqf"];
     btc_log_fnc_paste = compileScript ["core\fnc\log\paste.sqf"];
@@ -462,4 +473,5 @@ if (!isDedicated) then {
 /////////////////////HEADLESS\\\\\\\\\\\\\\\\\\\\\
 if (!hasInterface && !isDedicated) then {
     btc_eh_fnc_headless = compileScript ["core\fnc\eh\headless.sqf"];
+    btc_debug_fnc_debug_marker_show_fps = compileScript["core\fnc\debug\show_fps.sqf"];
 };

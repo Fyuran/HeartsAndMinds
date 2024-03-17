@@ -20,6 +20,7 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_player", player, [objNull]],
@@ -38,6 +39,6 @@ if (
         [name _target, localize (["STR_BTC_HAM_CON_INFO_ASKREP_NOINTER", "STR_BTC_HAM_CON_INT_ALRGIVEFOOD"] select _isInterpreter)] call btc_fnc_showSubtitle;
     } else {
         [name _target, localize (["STR_BTC_HAM_CON_INFO_ASKREP_NOINTER", "str_a3_rscdisplaywelcome_kart_pard_footer2"] select _isInterpreter)] call btc_fnc_showSubtitle;
-        [btc_rep_bonus_foodGive, _player] remoteExecCall ["btc_rep_fnc_change", 2];
+        [_player, _FOOD_GIVEN_] remoteExecCall ["btc_rep_fnc_change", 2];
     };
 };

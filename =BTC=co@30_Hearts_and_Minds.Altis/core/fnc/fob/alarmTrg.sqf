@@ -18,8 +18,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define FOB_ATTACK_TASK_TYPE 42
-#define COOLDOWN 300
+#include "..\script_macros.hpp"
 
 params[
     ["_fob_trg", ObjNull, [ObjNull]],
@@ -59,7 +58,7 @@ if(_FOB_Event) then {
     _structure spawn {
         params["_structure"];
 
-        _structure setVariable["btc_fob_cooldown", CBA_missionTime + COOLDOWN];
+        _structure setVariable["btc_fob_cooldown", CBA_missionTime + _FOB_COOLDOWN_];
 
         _loudspeaker = _structure getVariable ["FOB_Loudspeaker", ObjNull];
         _pos = getPosASL _loudspeaker;
@@ -67,7 +66,7 @@ if(_FOB_Event) then {
         sleep 5;
 
         _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
-        [_fob_task_name, FOB_ATTACK_TASK_TYPE, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
+        [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
         
         playSound3d [getMissionPath "core\sounds\btc_event_FOB_Alert.ogg", _loudspeaker, false, _pos, 5];
         sleep 4;
