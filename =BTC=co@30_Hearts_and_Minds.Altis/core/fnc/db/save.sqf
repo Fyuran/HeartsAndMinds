@@ -126,10 +126,17 @@ profileNamespace setVariable [format ["btc_hm_%1_rep", _name], btc_global_reputa
 //FOBS
 private _fobs = [];
 {
-    if !(isNull ((btc_fobs select 2) select _forEachIndex)) then {
+    private _flag = (btc_fobs select 2) select _forEachIndex;
+    if !(isNull _flag) then {
         private _pos = getMarkerPos [_x, true];
         private _direction = getDir ((btc_fobs select 1) select _forEachIndex);
-        _fobs pushBack [markerText _x, _pos, _direction];
+        private _array = [_pos, _direction, markerText _x];
+
+        private _jail = _flag getVariable ["btc_jail", objNull];
+        if(alive _jail) then {
+            _array pushBack [getPosATL _jail, [vectorDir _jail, vectorUp _jail]];
+        };
+        _fobs pushBack _array;
     };
 } forEach (btc_fobs select 0);
 profileNamespace setVariable [format ["btc_hm_%1_fobs", _name], +_fobs];

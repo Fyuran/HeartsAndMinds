@@ -12,7 +12,7 @@ Returns:
 
 Examples:
     (begin example)
-        [player, cursorObject] call btc_jail_fnc_removeJail_s;
+        [cursorObject] call btc_jail_fnc_removeJail_s;
     (end)
 
 Author:
@@ -22,7 +22,6 @@ Author:
 #include "..\script_macros.hpp"
 
 params[
-    ["_player", objNull, [objNull]],
     ["_target", objNull, [objNull]]
 ];
 

@@ -60,7 +60,7 @@ _jailed pushBack _captive;
 _captive setVariable ["btc_info_isDetained", true, true]; //for ace_common_fnc_addCanInteractWithCondition in btc_int_fnc_add_actions
 [_captive, true] call ACE_common_fnc_disableAI;
 [_captive, "Acts_ExecutionVictim_Loop", 2] call ace_common_fnc_doAnimation;
-_captive setDir (((direction _jail) + 135) % 360); //animation Acts_ExecutionVictim_Loop is offset from origin in pos and dir
+_captive setDir ((direction _jail) + 135); //animation Acts_ExecutionVictim_Loop is offset from origin in pos and dir
 _captive setPos (_jailPositions select (count _jailed % count _jailPositions));
 
 [remoteExecutedOwner, selectRandom[81,96]] call btc_info_fnc_give_intel;

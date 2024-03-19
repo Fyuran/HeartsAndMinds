@@ -33,7 +33,7 @@ params [
     private _element = (btc_fobs select 2) find _flag;
     private _fob = (btc_fobs select 1) select _element;
 
-    (_fob getVariable ["btc_mil_garrison", []]) apply {
+    (units (_fob getVariable ["btc_mil_garrison_group", []])) apply {
         deleteVehicle _x;
     };
     [_fob, objNull, objNull, true, true] call btc_fob_fnc_killed;

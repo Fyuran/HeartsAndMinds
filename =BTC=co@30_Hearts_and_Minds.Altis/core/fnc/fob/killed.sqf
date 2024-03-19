@@ -49,7 +49,7 @@ deleteVehicle ((_fobs select 3) deleteAt _fob_index); //Loudspeakers
 ((_fobs select 4) deleteAt _fob_index) apply {deleteVehicle _x}; //Triggers
 [_fob getVariable ["CBAperFrameHandle", -1]] call CBA_fnc_removePerFrameHandler; //CBA PFH
 _fob setVariable["fob_conquest_time", -1, true]; //Make sure all GUIs are closed
-[objNull, _flag] call btc_jail_fnc_removeJail_s;
+[_flag] call btc_jail_fnc_removeJail_s;
 
 if(_fob getVariable ["FOB_Event", false]) then {
     _fob_task_name = format["btc_task_%1", _fob getVariable ["FOB_name", ""]];
@@ -61,8 +61,8 @@ if(_fob getVariable ["FOB_Event", false]) then {
    btc_event_activeEvents = (0 max (btc_event_activeEvents - 1));
 };
 
-(_fob getVariable ["btc_mil_garrison", []]) apply {
-    [_x] call ace_medical_status_fnc_setDead;
+(units (_fob getVariable ["btc_mil_garrison_group", []])) apply {
+    _x setDamage 1;
 };
 
 deleteVehicle _flag;

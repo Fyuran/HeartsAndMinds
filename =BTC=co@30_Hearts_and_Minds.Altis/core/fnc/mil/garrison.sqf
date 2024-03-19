@@ -41,7 +41,7 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 
 	private _buildingPositions = _building buildingPos -1;
 	private _buildingCenter = getPosWorld _building;
-	private _buildingPositionsOutside = _buildingPositions select {!(lineIntersects [_x, (_x vectorAdd [0, 0, 10])])};
+	private _buildingPositionsInside = _buildingPositions select {!(lineIntersects [_x, (_x vectorAdd [0, 0, 10])])};
 	
 	_buildingPositions apply {
 		private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
@@ -49,30 +49,31 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 		// _unit doWatch _directionPos;
 		doStop _unit;
 
-		if(_x in _buildingPositionsOutside) then { //disallow outside units from crouching or moving
+		if(!(_x in _buildingPositionsInside)) then { //disallow outside units from crouching or moving
 			_unit setUnitPos "UP";
 			_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
 		};
 	};
 
+	_building setVariable["btc_mil_garrison_group", _group];
 	//Static spawn
-	private _surface = [_building, 4] call btc_fnc_find_highest_pos;
-	if(_surface isNotEqualTo [[0, 0, 0], 0]) then {
-		_surface params ["_highestPosATL", "_surfaceNormal"];
-		private _veh = createVehicle ["B_G_HMG_02_high_F", _highestPosATL, [], 0, "CAN_COLLIDE"];
-		_veh setVectorUp _surfaceNormal;
+	// private _surface = [_building, 4, 3, false] call btc_fnc_find_highest_pos;
+	// if(_surface isNotEqualTo [[0, 0, 0], 0]) then {
+	// 	_surface params ["_highestPosATL", "_surfaceNormal"];
+	// 	private _veh = createVehicle ["B_G_HMG_02_high_F", _highestPosATL, [], 0, "CAN_COLLIDE"];
+	// 	_veh setVectorUp _surfaceNormal;
 
-		private _group = createGroup _side;
-		private _unit = _group createUnit [selectRandom _type_units, [0, 0, 0], [], 0, "CAN_COLLIDE"];
-		_unit moveinGunner _veh;
-		_unit assignAsGunner _veh;
+	// 	private _group = createGroup _side;
+	// 	private _unit = _group createUnit [selectRandom _type_units, [0, 0, 0], [], 0, "CAN_COLLIDE"];
+	// 	_unit moveinGunner _veh;
+	// 	_unit assignAsGunner _veh;
 
-		(leader _group) setVariable ["acex_headless_blacklist", true];
-	} else {
-		if(btc_debug) then {
-			[format["No suitable positions found for static"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-		};
-	};
+	// 	(leader _group) setVariable ["acex_headless_blacklist", true];
+	// } else {
+	// 	if(btc_debug) then {
+	// 		[format["No suitable positions found for static"], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+	// 	};
+	// };
 
 	(leader _group) setVariable ["acex_headless_blacklist", true];
 

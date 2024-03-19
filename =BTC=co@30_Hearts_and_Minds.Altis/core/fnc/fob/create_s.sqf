@@ -9,9 +9,7 @@ Parameters:
     _pos - Position of the FOB. [Array]
     _direction - Direction of the FOB between 0 to 360 degree. [Number]
     _FOB_name - Name of the FOB. [String]
-    _fob_structure - FOB structure. [Array]
-    _fob_flag - Flag type. [Array]
-    _fobs - Array of FOB. [Array]
+
 
 Returns:
     _array - Return marker, structure and flag object. [Array]
@@ -28,21 +26,33 @@ Author:
 #include "..\script_macros.hpp"
 
 params [
-    ["_structure", objNull, [objNull]],
+    ["_pos", [], [[]]],
+    ["_direction", 0, [0]],
     ["_FOB_name", "FOB ", [""]],
-    ["_fob_structure", btc_fob_structure, [[]]],
-    ["_fob_flag", btc_fob_flag, [[]]],
-    ["_fobs", btc_fobs, [[]]]
+    ["_jailData", [], [[]]]
 ];
 
-private _pos = getPosATL _structure;
-private _flag = createVehicle [_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
+if(btc_debug) then {
+    [format["%1", _this],
+            __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;  
+};
+
+private _structure = createVehicle [btc_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
+_structure setDir _direction;
+private _flag = createVehicle [btc_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
 private _loudspeaker = createVehicle ["Land_Loudspeakers_F", _pos, [], 0, "CAN_COLLIDE"];
+private _jail = objNull;
+if(_jailData isNotEqualTo []) then {
+    _jailData params [
+        ["_pos", [0,0,0], []],
+        ["_vectorDirAndUp", [], [[]]]
+    ];
+    _jail = [_flag, _pos, _vectorDirAndUp] call btc_jail_fnc_createJail_s;
+};
 
-
-(_fobs select 1) pushBack _structure;
-(_fobs select 2) pushBack _flag;
-(_fobs select 3) pushBack _loudspeaker;
+(btc_fobs select 1) pushBack _structure;
+(btc_fobs select 2) pushBack _flag;
+(btc_fobs select 3) pushBack _loudspeaker;
 
 _structure setVariable["FOB_name", _FOB_name, true];
 _structure setVariable["FOB_Loudspeaker", _loudspeaker];
@@ -50,6 +60,9 @@ private _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addResp
 _structure setVariable["FOB_Respawn_EH", _BISEH_return];
 _structure setVariable["FOB_Flag", _flag];
 
+[_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
+_structure addEventHandler ["Killed", btc_fob_fnc_killed];
+[_flag] remoteExecCall ["btc_jail_fnc_addJailActions", [0, -2] select isDedicated];
 
 private _marker = createMarker [_FOB_name, _pos];
 _marker setMarkerSize [1, 1];
@@ -57,7 +70,7 @@ _marker setMarkerType "b_hq";
 _marker setMarkerText _FOB_name;
 _marker setMarkerColor "ColorBlue";
 _marker setMarkerShape "ICON";
-(_fobs select 0) pushBack _marker;
+(btc_fobs select 0) pushBack _marker;
 
 //Alarm FOB Trigger
 if (btc_p_event_enable_fobAttack) then {
@@ -67,7 +80,7 @@ if (btc_p_event_enable_fobAttack) then {
         };
         [{[_this, btc_player_side, btc_friendly_type_units] call btc_mil_fnc_garrison;}, _structure] call CBA_fnc_execNextFrame;
     };
-    private _structBoundingSphere = sizeOf _fob_structure;
+    private _structBoundingSphere = sizeOf btc_fob_structure;
     private _alertRadius = _structBoundingSphere + btc_fob_alertRadius;
     private _conquestRadius = _structBoundingSphere + btc_fob_conquestRadius;
     
@@ -135,13 +148,9 @@ if (btc_p_event_enable_fobAttack) then {
     _destroyTrg setVariable["btc_fob_structure", _structure];
     _structure setVariable["FOB_Triggers", [_alarmTrg, _destroyTrg]];
 
-    (_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
+    (btc_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
 	[_structure] call btc_event_fnc_attackFOBChance;
 };
-[_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 
-_structure addEventHandler ["Killed", btc_fob_fnc_killed];
-[_flag] remoteExecCall ["btc_jail_fnc_addJailActions", [0, -2] select isDedicated];
-
-[_marker, _structure, _flag, _loudspeaker]
+[_marker, _structure, _flag, _loudspeaker, jail]

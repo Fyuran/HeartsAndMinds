@@ -2678,15 +2678,17 @@
                 <Chinesesimp>后退! FOB装配中</Chinesesimp>
                 <French>Reculez ! Construction de la FOB en cours</French>
                 <Czech>Oddalte se! Montáž FOB</Czech>
+                <Italian>Allontanati! FOB in costruzione</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_O_FOB_DISMANTLE_H_PROC">
-                <English>Dismantle, move out ...</English>
+                <English>Dismantling, move out ...</English>
                 <Spanish>Desmantelado, muévanse...</Spanish>
                 <German>Abbau im gange, geh ein wenig zurück...</German>
                 <Portuguese>Desmontando, se afaste...</Portuguese>
                 <Chinesesimp>正在拆除, 请远离 ...</Chinesesimp>
                 <French>Démantéllement en cours, écartez-vous...</French>
                 <Czech>Probíhá demontáž, oddalte se trochu zpět...</Czech>
+                <Italian>Smantellamento, allontanati...</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_O_FOB_DLG_T_NAMEFOB">
                 <English>Name the FOB:</English>
@@ -3164,6 +3166,14 @@
                 <French>SHIFT pour augmenter la vitesse de mouvement</French>
                 <Czech>SHIFT pro zvýšení pohybu</Czech>
             </Key>
+            <Key ID="STR_BTC_HAM_LOG_PLACE_HINT5">
+                <English>N to set object to terrain</English>
+                <Italian>N per spostare l'oggetto sul terreno</Italian>
+            </Key>
+            <Key ID="STR_BTC_HAM_LOG_PLACE_HINT6">
+                <English>T to reset height and orientation</English>
+                <Italian>T per reimpostare l'altezza e l'orientamento</Italian>
+            </Key>
             <Key ID="STR_BTC_HAM_LOG_PLACE_RELEASE">
                 <English>Release</English>
                 <Spanish>Soltar</Spanish>
@@ -3172,6 +3182,7 @@
                 <Chinesesimp>释放</Chinesesimp>
                 <French>Lacher</French>
                 <Czech>Uvolnění</Czech>
+                <Italian>Rilascia</Italian>
             </Key>
         </Container>
         <Container name="Logistic: Repair wreck ">

@@ -473,6 +473,14 @@ private _mapsIntel = switch (worldName) do {
 };
 btc_info_intels append _mapsIntel;
 
+//Jail
+btc_jail_comp = [ //pos is relative to center
+    ["Land_Net_Fence_Gate_F", [0, -4, 0], 0], 
+    ["Land_Razorwire_F", [4, 0, 0], 90], 
+    ["Land_Razorwire_F", [0, 4, 0], 0], 
+    ["Land_Razorwire_F", [-4, 0, 0], 90]
+];
+
 //Supplies
 btc_supplies_cargo = "Land_Cargo20_IDAP_F";
 btc_supplies_mat = [

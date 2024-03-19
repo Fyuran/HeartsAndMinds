@@ -119,9 +119,14 @@ btc_cache_pictures = _cache_pictures;
 private _fobs = +(profileNamespace getVariable [format ["btc_hm_%1_fobs", _name], []]);
 
 {
-    _x params ["_fob_name", "_pos", ["_direction", 0, [0]]];
+    _x params [
+        ["_pos", [], [[]]], 
+        ["_direction", 0, [0]],
+        ["_FOB_name", "FOB ", [""]],   
+        ["_jailData", [], []]
+    ];
 
-    [_pos, _direction, _fob_name] call btc_fob_fnc_create_s;
+    [_pos, _direction, _FOB_name, _jailData] call btc_fob_fnc_create_s;
 } forEach _fobs;
 
 //REP

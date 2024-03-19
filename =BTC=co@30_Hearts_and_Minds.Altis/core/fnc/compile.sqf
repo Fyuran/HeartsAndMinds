@@ -404,6 +404,7 @@ if (!isDedicated) then {
 
     //JAIL
     btc_jail_fnc_addJailActions = compileScript ["core\fnc\jail\addJailActions.sqf"];
+    btc_jail_fnc_createJail = compileScript ["core\fnc\jail\createJail.sqf"];
 
     //LIFT
     btc_lift_fnc_check = compileScript ["core\fnc\lift\check.sqf"];
