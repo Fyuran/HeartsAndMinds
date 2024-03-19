@@ -3274,10 +3274,6 @@
                 <English>Food donated to local population by %1.</English>
                 <Italian>Cibo donato alla popolazione locale da %1.</Italian>
             </Key>
-            <Key ID="STR_BTC_HAM_REP_CIV_KILLED">
-                <English>Civilian killed by %1.</English>
-                <Italian>Civile ucciso da %1.</Italian>
-            </Key>
             <Key ID="STR_BTC_HAM_REP_HOSTILE_KILLED">
                 <English>Hostile killed by %1.</English>
                 <Italian>Ostile ucciso da %1.</Italian>
@@ -3337,10 +3333,6 @@
             <Key ID="STR_BTC_HAM_REP_VEHICLE_LOST_KILLER">
                 <English>A vehicle belonging to your side has been destroyed by %1.</English>
                 <Italian>Un veicolo appartenente alla tua fazione è stato distrutto da %1.</Italian>
-            </Key>
-            <Key ID="STR_BTC_HAM_REP_SIDE_VEHICLE_REPAIRED">
-                <English>A vehicle has been repaired.</English>
-                <Italian>Un veicolo è stato riparato.</Italian>
             </Key>
             <Key ID="STR_BTC_HAM_REP_FRIENDLY_KILLED">
                 <English>An ally has been killed by %1.</English>
