@@ -40,7 +40,8 @@ private _data = [
     [
         _unit getVariable ["acex_field_rations_thirst", 0],
         _unit getVariable ["acex_field_rations_hunger", 0]
-    ]
+    ],
+    [_unit] call ace_hearing_fnc_hasEarPlugsIn
 ];
 
 btc_slots_serialized set [_key, _data];

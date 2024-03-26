@@ -48,7 +48,7 @@ private _cornersRel = [
     [_xMax, _yMin, _zMin],
     [_xMin, _yMax, _zMin]
 ];
-private _cornersATL = _cornersRel apply {
+private _cornersAGL = _cornersRel apply {
     _object modelToWorld _x;
 };
 
@@ -59,7 +59,7 @@ if(_showHelpers) then {
         btc_correct_position_debug_objects = [];
     };
 };
-{
+_cornersAGL apply {
     if(_showHelpers) then {
         private _sphere = createVehicle ["Sign_Sphere25cm_F", _x, [], 0, "CAN_COLLIDE"];
         btc_correct_position_debug_objects pushBack _sphere;
@@ -73,6 +73,6 @@ if(_showHelpers) then {
         };
         
     };
-}forEach _cornersATL;
+};
 
 

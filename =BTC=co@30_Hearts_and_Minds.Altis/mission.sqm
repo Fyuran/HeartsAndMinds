@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=53;
+		nextID=61;
 	};
 	class Camera
 	{
-		pos[]={8373.8135,95.521904,10114.714};
-		dir[]={-0.88954657,-0.45682308,-0.0043251235};
-		up[]={-0.45682165,0.88954502,-0.0022211322};
-		aside[]={-0.0048615169,6.211576e-08,0.99999166};
+		pos[]={8347.8564,91.287903,10113.061};
+		dir[]={-0.4743714,-0.80838615,0.34854507};
+		up[]={-0.65144581,0.58865255,0.47865078};
+		aside[]={0.59210658,-1.4901161e-08,0.80585968};
 	};
 };
 binarizationWanted=0;
@@ -2833,12 +2833,13 @@ class Mission
 			class PositionInfo
 			{
 				position[]={8332.0986,73.998543,10119.811};
-				angles[]={0.15475343,0.96266937,0.039977662};
+				angles[]={0.15475833,0.96267128,0.039985489};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
+				name="test_2";
 				disableSimulation=1;
 			};
 			id=263;
@@ -2867,12 +2868,13 @@ class Mission
 			class PositionInfo
 			{
 				position[]={8333.0166,73.120308,10125.847};
-				angles[]={0.11021705,5.667902,0.017332481};
+				angles[]={0.11021754,5.6679044,0.01733112};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
+				name="test_4";
 				disableSimulation=1;
 			};
 			id=264;
@@ -2901,12 +2903,13 @@ class Mission
 			class PositionInfo
 			{
 				position[]={8338.6777,73.319649,10124.914};
-				angles[]={0.087773547,0.98975867,0.017332481};
+				angles[]={0.0877726,0.98975873,0.01733112};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
+				name="test_3";
 				disableSimulation=1;
 			};
 			id=265;
@@ -2936,12 +2939,13 @@ class Mission
 			class PositionInfo
 			{
 				position[]={8337.625,74.144173,10119.125};
-				angles[]={0.087129124,2.4998531,0.020326748};
+				angles[]={0.087126836,2.4998527,0.020333085};
 			};
 			side="Empty";
 			flags=5;
 			class Attributes
 			{
+				name="test_1";
 			};
 			id=270;
 			type="Land_Net_Fence_Gate_F";
@@ -3014,20 +3018,7 @@ class Mission
 								};
 							};
 						};
-						class Attribute2
-						{
-							property="lambs_danger_disableAI";
-							expression="if (_value) then { _this setVariable ['lambs_danger_disableAI', _value, true]; }";
-							class Value
-							{
-								class data
-								{
-									singleType="BOOL";
-									value=1;
-								};
-							};
-						};
-						nAttributes=3;
+						nAttributes=2;
 					};
 				};
 				class Item1
@@ -3074,20 +3065,7 @@ class Mission
 								};
 							};
 						};
-						class Attribute2
-						{
-							property="lambs_danger_disableAI";
-							expression="if (_value) then { _this setVariable ['lambs_danger_disableAI', _value, true]; }";
-							class Value
-							{
-								class data
-								{
-									singleType="BOOL";
-									value=1;
-								};
-							};
-						};
-						nAttributes=3;
+						nAttributes=2;
 					};
 				};
 			};

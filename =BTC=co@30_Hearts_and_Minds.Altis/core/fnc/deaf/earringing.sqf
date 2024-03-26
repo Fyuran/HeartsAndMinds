@@ -25,4 +25,5 @@ params [
 ];
 
 private _players_close = allPlayers inAreaArray [_pos, 100, 100];
-[20] remoteExecCall ["ace_hearing_fnc_earRinging", _players_close];
+_players_close select {!([_x] call ace_hearing_fnc_hasEarPlugsIn)};
+[10] remoteExecCall ["ace_hearing_fnc_earRinging", _players_close];
