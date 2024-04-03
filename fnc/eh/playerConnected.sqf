@@ -38,14 +38,14 @@ if (_name isEqualTo "__SERVER__") exitWith {};
     private _unit = _uid call BIS_fnc_getUnitByUID;
     private _key = getPlayerUID _unit;
 
-    [format ["for %1, %2, %3, [%2]", _name, _unit, _key, _this], __FILE__, [btc_debug, true, true]] call btc_debug_fnc_message;
+    [format ["for %1, %2, %3, [%2]", _name, _unit, _key, _this], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
     if(btc_p_slot_isShared) then {
         private _unitPos = getPosASL _unit;
         _unitPos set [2, 0];//discard height, it's not needed
 
         private _slotIndex = btc_db_missionPlayerSlots find _unitPos;
         if(_slotIndex != -1) then {
-            [format ["%2's data assigned to slot: %1",_slotIndex+1, _name], __FILE__, [btc_debug, true, true]] call btc_debug_fnc_message;
+            [format ["%2's data assigned to slot: %1",_slotIndex+1, _name], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
             _unit setVariable ["btc_slot_player", _slotIndex];
             _key = _slotIndex;
         };

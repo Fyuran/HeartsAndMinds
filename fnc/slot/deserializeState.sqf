@@ -26,7 +26,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-[{!isNull player && {local player}}, {
+[{!isNull player}, {
     params [
         ["_previousPos", [0,0,0], [[]], 3],
         ["_dir", 0, [0]],
@@ -60,7 +60,7 @@ Author:
     player setVariable ["acex_field_rations_hunger", _hunger, true];
 
     if(_hasEarPlugsIn) then {
-        [ace_player, false] call ace_hearing_fnc_putInEarplugs;
+        [player, false] call ace_hearing_fnc_putInEarplugs;
     };
 
-}, _this] call CBA_fnc_waitUntilAndExecute;
+}, _this, 300] call CBA_fnc_waitUntilAndExecute;

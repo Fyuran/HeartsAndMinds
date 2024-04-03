@@ -20,10 +20,8 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params ["_unit", "_id", "_uid", "_name"];
+[format ["for %1, %2, %3, [%2]", _name, _unit, [_uid, _unit getVariable ["btc_slot_player", -1]] select btc_p_slot_isShared, _this], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
 
-if (btc_debug) then {
-    [format ["for %1, %2, %3, [%2]", _name, _unit, [_uid, _unit getVariable ["btc_slot_player", -1]] select btc_p_slot_isShared, _this], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
 _unit call btc_slot_fnc_serializeState;
 
 false
