@@ -18,27 +18,34 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-if (_this select 2 isEqualTo "__SERVER__") exitWith {}; //_name
+params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+
+ [format ["playerConnected data: %1", _this], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+if (_name isEqualTo "__SERVER__") exitWith {};
 
 [{
-    !isNull ((_this select 1) call BIS_fnc_getUnitByUID) //_uid
+    !isNull ((_this select 1) call BIS_fnc_getUnitByUID)
 }, {
-    params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+    params [
+        ["_id", -1, [0]], 
+        ["_uid", "",[""]], 
+        ["_name", "", [""]], 
+        ["_jip", false, [false]], 
+        ["_owner", 2, [0]], 
+        ["_idstr", "", [""]]
+    ];
 
     private _unit = _uid call BIS_fnc_getUnitByUID;
     private _key = getPlayerUID _unit;
-    if (btc_debug) then {
-        [format ["for %1, %2, %3, [%2]", _name, _unit, _key, _this], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    };
-    if(btc_p_slot_isShare) then {
+
+    [format ["for %1, %2, %3, [%2]", _name, _unit, _key, _this], __FILE__, [btc_debug, true, true]] call btc_debug_fnc_message;
+    if(btc_p_slot_isShared) then {
         private _unitPos = getPosASL _unit;
         _unitPos set [2, 0];//discard height, it's not needed
 
         private _slotIndex = btc_db_missionPlayerSlots find _unitPos;
         if(_slotIndex != -1) then {
-            if (btc_debug) then {
-                [format ["%2's data assigned to slot: %1",_slotIndex+1, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-            };
+            [format ["%2's data assigned to slot: %1",_slotIndex+1, _name], __FILE__, [btc_debug, true, true]] call btc_debug_fnc_message;
             _unit setVariable ["btc_slot_player", _slotIndex];
             _key = _slotIndex;
         };

@@ -26,7 +26,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-[{!isNull player}, {
+[{!isNull player && {local player}}, {
     params [
         ["_previousPos", [0,0,0], [[]], 3],
         ["_dir", 0, [0]],
@@ -35,12 +35,13 @@ Author:
         ["_isContaminated", false, [false]],
         ["_medicalDeserializeState", "", [""]],
         ["_vehicle", objNull, [objNull]],
-        ["_field_rations", [], [[]]]
+        ["_field_rations", [], [[]]],
+        ["_hasEarPlugsIn", false, [false]]
     ];
 
-    if (btc_debug) then {
-        [format ["deserializing %1 with: %2", name player, _this], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+
+    [format ["%1 with: %2", name player, _this], __FILE__, [false, true, false]] call btc_debug_fnc_message;
+
 
     [{player setUnitLoadout _this}, _loadout] call CBA_fnc_execNextFrame;
 
@@ -57,5 +58,9 @@ Author:
     _field_rations params [["_thirst", 0, [0]], ["_hunger", 0, [0]]];
     player setVariable ["acex_field_rations_thirst", _thirst, true];
     player setVariable ["acex_field_rations_hunger", _hunger, true];
+
+    if(_hasEarPlugsIn) then {
+        [ace_player, false] call ace_hearing_fnc_putInEarplugs;
+    };
 
 }, _this] call CBA_fnc_waitUntilAndExecute;

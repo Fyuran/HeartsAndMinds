@@ -46,6 +46,4 @@ private _data = [
 
 btc_slots_serialized set [_key, _data];
 
-if (btc_debug) then {
-    [format ["%1 recording data: %2", [name _unit, _key] select btc_p_slot_isShared, _data], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-};
+[format ["%1 recording data: %2", [name _unit, _key] select btc_p_slot_isShared, _data], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
