@@ -36,7 +36,7 @@ private _handle=[{
 	_localvehicles = { local _x } count vehicles;
 	_localgroups = {local _x} count allGroups;
 
-	_marketText = format[ "%1: %2 fps"];
+	_marketText = format[ "%1: %2 fps", _sourcestr, _myfps];
 	if(btc_debug) then {
 		_marketText insert[0, "DEBUG "];
 	};
