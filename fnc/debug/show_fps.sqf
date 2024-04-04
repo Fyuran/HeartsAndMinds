@@ -36,11 +36,11 @@ private _handle=[{
 	_localvehicles = { local _x } count vehicles;
 	_localgroups = {local _x} count allGroups;
 
-	_marketText = format[ "%1: %2 fps", _sourcestr, _myfps];
+	_markerText = format[ "%1: %2 fps", _sourcestr, _myfps];
 	if(btc_debug) then {
-		_marketText insert[0, "DEBUG "];
+		_markerText insert[0, "DEBUG "];
 	};
-	_myfpsmarker setMarkerText _marketText;
+	_myfpsmarker setMarkerText _markerText;
 	
 	_myfpsmarker setMarkerAlpha 0.7;
 	_myfpsmarker setMarkerColor "ColorGREEN";

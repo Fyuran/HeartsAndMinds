@@ -26,14 +26,14 @@ params[
 ];
 
 if(_isBoat) exitWith {
-    [format["P:%1 is on boat, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    [format["P:%1 is on boat, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };
 
 private _fobs = (btc_fobs select 1);
 if(_fobs isEqualTo []) exitWith {
-    [format["P:%1 _fobs is empty, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    [format["P:%1 _fobs is empty, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };
-[format["P:%1 FOB WP checking", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+[format["P:%1 FOB WP checking", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 
 private _pos = getPosASL this;
 private _fobIndex = _fobs findIf {(_x distance2D _pos) <= (_FOB_SIGHT_RANGE_ + btc_fob_alertRadius)};
@@ -41,7 +41,7 @@ private _fobIndex = _fobs findIf {(_x distance2D _pos) <= (_FOB_SIGHT_RANGE_ + b
 if(_fobIndex isNotEqualTo -1) then {
     _fob = _fobs select _fobIndex;
     if(isNull _fob) exitWith {
-        [format["P:%1 FOB is Null", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+        [format["P:%1 FOB is Null", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
     };
 
     [_group, _fob, 100, "PATROL"] call btc_mil_fnc_addWP;
@@ -63,7 +63,7 @@ if(_fobIndex isNotEqualTo -1) then {
                 deleteMarker format["Patrol_fant_%1_%2", _patrol_id, _i];
             };
             btc_patrols_pos set [_patrol_id, [getMarkerPos format["Patrol_fant_begin_%1", _patrol_id], getPosASL _fob]];
-            [format["P:%1 Found fob, redirecting patrol", _patrol_id], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+            [format["P:%1 Found fob, redirecting patrol", _patrol_id], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
         };
     };
 };

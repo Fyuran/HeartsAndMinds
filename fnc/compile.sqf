@@ -98,7 +98,6 @@ if (isServer) then {
 
     //EH
     btc_eh_fnc_server = compileScript ["core\fnc\eh\server.sqf"];
-    btc_eh_fnc_playerConnected = compileScript ["core\fnc\eh\playerConnected.sqf"];
     btc_eh_fnc_handleDisconnect =compileScript ["core\fnc\eh\handleDisconnect.sqf"]; 
 
     //EVENT
@@ -142,6 +141,9 @@ if (isServer) then {
     btc_jail_fnc_createJail_s = compileScript ["core\fnc\jail\createJail_s.sqf"];
     btc_jail_fnc_removeJail_s = compileScript ["core\fnc\jail\removeJail_s.sqf"];
 
+    //JSON
+    btc_json_fnc_createVehicle = compileScript ["core\fnc\json\createVehicle.sqf"];
+
     //FOB
     btc_fob_fnc_create_s = compileScript ["core\fnc\fob\create_s.sqf"];
     btc_fob_fnc_dismantle_s = compileScript ["core\fnc\fob\dismantle_s.sqf"];
@@ -183,7 +185,7 @@ if (isServer) then {
     btc_patrol_fnc_addEH = compileScript ["core\fnc\patrol\addEH.sqf"];
 
     //SLOT
-    btc_slot_fnc_serializeState = compileScript ["core\fnc\slot\serializeState.sqf"];
+    btc_slot_fnc_getData = compileScript ["core\fnc\slot\getData.sqf"];
     btc_slot_fnc_getPlayableSlots = compileScript ["core\fnc\slot\getPlayableSlots.sqf"];
 
     //REP
@@ -470,7 +472,7 @@ if (!isDedicated) then {
     btc_tow_fnc_check = compileScript ["core\fnc\tow\check.sqf"];
 
     //SLOT
-    btc_slot_fnc_deserializeState = compileScript ["core\fnc\slot\deserializeState.sqf"];
+    btc_slot_fnc_loadPlayer = compileScript ["core\fnc\slot\loadPlayer.sqf"];
 };
 
 /////////////////////HEADLESS\\\\\\\\\\\\\\\\\\\\\

@@ -24,13 +24,8 @@ params [
     ["_name", worldName, [""]]
 ];
 
-if (btc_debug) then {
-    ["...1", __FILE__, [btc_debug, false, true]] call btc_debug_fnc_message;
-};
 
-[8] remoteExecCall ["btc_fnc_show_hint", 0];
-
-[false] call btc_db_fnc_delete;
+[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
 
 //Version
 profileNamespace setVariable [format ["btc_hm_%1_version", _name], btc_version select 1];
@@ -97,10 +92,6 @@ private _array_ho = [];
 profileNamespace setVariable [format ["btc_hm_%1_ho", _name], +_array_ho];
 
 profileNamespace setVariable [format ["btc_hm_%1_ho_sel", _name], btc_hq getVariable ["id", 0]];
-
-if (btc_debug) then {
-    ["...2", __FILE__, [btc_debug, false, true]] call btc_debug_fnc_message;
-};
 
 //CACHE
 private _array_cache = [];
@@ -238,22 +229,10 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 //Player slots
 {
     if (alive _x) then {
-        _x call btc_slot_fnc_serializeState;
+        [getPlayerUID _x] call btc_slot_fnc_getData;
     };
 } forEach (allPlayers - entities "HeadlessClient_F");
-private _slots_serialized = +btc_slots_serialized;
-{
-    if (btc_debug_log) then {
-        [format ["btc_slots_serialized %1 %2", _x, _y], __FILE__, [false]] call btc_debug_fnc_message;
-    };
-    if (_y isEqualTo []) then {continue};
-    private _vehicle = _y select 6;
-    if !(isNull _vehicle) then {
-        _y set [0, getPosASL _vehicle];
-    };
-    _y set [6, typeOf _vehicle];
-} forEach _slots_serialized;
-profileNamespace setVariable [format ["btc_hm_%1_slotsSerialized", _name], +_slots_serialized];
+profileNamespace setVariable [format ["btc_hm_%1_slotsSerialized", _name], +btc_slots_serialized];
 
 //Player Markers
 private _player_markers = allMapMarkers select {"_USER_DEFINED" in _x};
@@ -265,7 +244,5 @@ profileNamespace setVariable [format ["btc_hm_%1_markers", _name], +_markers_pro
 //End
 profileNamespace setVariable [format ["btc_hm_%1_db", _name], true];
 saveProfileNamespace;
-if (btc_debug) then {
-    ["...3", __FILE__, [btc_debug, false, true]] call btc_debug_fnc_message;
-};
-[9] remoteExecCall ["btc_fnc_show_hint", 0];
+
+[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_9", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;

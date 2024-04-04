@@ -22,7 +22,7 @@ if(btc_p_intro) then {
 
     btc_respawn_marker setMarkerPosLocal player;
     player addRating 9999;
-    ["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;
+    ["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups;
 
     [player] call btc_eh_fnc_player;
 
@@ -42,4 +42,7 @@ if(btc_p_intro) then {
         [] call btc_debug_fnc_debug_mode;
     };
 
+    if(btc_db_load) then {
+        [] call btc_slot_fnc_loadPlayer;
+    };
 }] call CBA_fnc_waitUntilAndExecute;

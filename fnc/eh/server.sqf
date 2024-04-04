@@ -58,7 +58,6 @@ addMissionEventHandler ["BuildingChanged", btc_rep_fnc_buildingchanged];
     ] call CBA_fnc_waitAndExecute;
 }] call CBA_fnc_addEventHandler;
 
-addMissionEventHandler ["PlayerConnected", btc_eh_fnc_playerConnected];
 addMissionEventHandler ["HandleDisconnect", btc_eh_fnc_handleDisconnect];
 
 if (btc_p_auto_db) then {

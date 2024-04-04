@@ -235,18 +235,6 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 
 //Player slots
 btc_slots_serialized = +(profileNamespace getVariable [format ["btc_hm_%1_slotsSerialized", _name], createHashMap]);
-[{
-    {
-        if (_y isEqualTo []) then {continue};
-        private _objtClass = _y select 6;
-        if (_objtClass isEqualTo "") then {
-            _objtClass = objNull;
-        } else {
-            _objtClass = nearestObject [ASLToATL (_y select 0), _objtClass];
-        };
-        _y set [6, _objtClass];
-    } forEach _this;
-}, btc_slots_serialized] call CBA_fnc_execNextFrame; // Need to wait for vehicle creation
 
 //Player Markers
 private _markers_properties = +(profileNamespace getVariable [format ["btc_hm_%1_markers", _name], []]);

@@ -29,8 +29,8 @@ _action = ["request_save", localize "str_3den_display3den_menubar_missionsave_te
 [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
 _action = ["request_delete", localize "STR_3DEN_Delete", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\exit_ca.paa", "#FF0000"], {[] remoteExecCall ["btc_db_fnc_delete", 2]}, {true}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
-_action = ["request_load", localize "STR_3DEN_Display3DENRequiredAddons_btnForceLoad", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\intel_ca.paa", "#ffa500"], {[] remoteExecCall ["btc_db_fnc_load", 2]}, {true}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
+// _action = ["request_load", localize "STR_3DEN_Display3DENRequiredAddons_btnForceLoad", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\intel_ca.paa", "#ffa500"], {[] remoteExecCall ["btc_db_fnc_load", 2]}, {true}] call ace_interact_menu_fnc_createAction;
+// [player, 1, ["ACE_SelfActions", "Database"], _action] call ace_interact_menu_fnc_addActionToObject;
 
 //Intel
 _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title", "\A3\ui_f\data\igui\cfg\simpleTasks\types\search_ca.paa", {
