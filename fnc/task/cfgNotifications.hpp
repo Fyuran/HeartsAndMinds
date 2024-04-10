@@ -1,36 +1,29 @@
+import Default from CfgNotifications;
 class CfgNotifications {
-    class Default {
-        color[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])","(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
-        colorIconPicture[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])","(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
-        colorIconText[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])","(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
-        description = "";
-        difficulty[] = {};
-        duration = 3;
-        iconPicture = "";
-        iconText = "";
-        priority = 0;
-        sound = "defaultNotification";
-        soundClose = "defaultNotificationClose";
-        soundRadio = "";
-        title = "";
-    };
-    class WarningDescription {
+    class WarningDescription : Default {
+        colorIconPicture[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
+        colorIconText[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
         color[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
         iconPicture = "\a3\Ui_f\data\Map\Markers\Military\warning_ca.paa";
+        description = "%2";
+        title = "Warning";
+    };
+    class WarningDescriptionAudio : WarningDescription {
         sound = "Alarm";
-        description = "%2";
-        title = "Warning";
     };
-    class Warning2Description {
-        color[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
-        iconPicture = "\a3\Ui_f\data\Map\Markers\Military\warning_ca.paa";
-        description = "%2";
-        title = "Warning";
+    class WarningDescriptionUnderattack : WarningDescription {
+        sound = "btc_underattack";
     };
-    class FOBlowRepWarningDescription {
-        color[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};
+    class WarningDescriptionDefeated : WarningDescription {
+        color[] = {1,0,0,1};
+        colorIconPicture[] = {1,0,0,1};
+        iconPicture = "core\img\skull.paa";
+        duration = 5;
+        priority = 5;
+        sound = "btc_defeated";
+    };
+    class FOBlowRepWarningDescriptionAudio : WarningDescription {
         iconPicture = "\a3\Ui_f\data\Map\Markers\Military\unknown_CA.paa";
-        description = "%2";
         sound = "wind5";
         title = "Bad Weather";
     };

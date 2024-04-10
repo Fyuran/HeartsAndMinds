@@ -49,7 +49,7 @@ private _FOB_Name = _structure getVariable["FOB_name",""];
 [format["%1: alarm triggered", _FOB_name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
  
 //Notification sound
-["Warning2Description", ["", format[
+["WarningDescriptionAudio", ["", format[
     localize "$STR_BTC_HAM_EVENT_FOBUNDERATTACK",
     _FOB_Name
 ]]] call btc_task_fnc_showNotification_s;
@@ -70,8 +70,6 @@ if(_FOB_Event) then {
         
         playSound3d [getMissionPath "core\sounds\btc_event_FOB_Alert.ogg", _loudspeaker, false, _pos, 5];
         sleep 4;
-        playSound3d ["a3\data_f_curator\sound\cfgsounds\air_raid.wss", _loudspeaker, false, _pos, 5];
-        sleep 9;
         playSound3d ["a3\data_f_curator\sound\cfgsounds\air_raid.wss", _loudspeaker, false, _pos, 5];
     }; 
 };

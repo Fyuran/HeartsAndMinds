@@ -13,6 +13,7 @@ Returns:
 
 Examples:
     (begin example)
+        [cursorObject] call btc_event_fnc_attackFOB;
     (end)
 
 Author:
@@ -47,7 +48,7 @@ if (_nearCities isEqualTo []) exitWith {
 //Disables Respawn and Redeploy
 private _flag = _structure getVariable["FOB_Flag", objNull];
 _flag setVariable["FOB_Event", true, true]; //publicVariable for clients to handle ace interaction menu condition check
-_structure setVariable ["FOB_Event", true];
+_structure setVariable ["FOB_Event", true, true];
 _BIS_respawn_EH = _structure getVariable["FOB_Respawn_EH", []];
 _BIS_respawn_EH call BIS_fnc_removeRespawnPosition;
 
@@ -60,12 +61,12 @@ Notifications or task based on reputation(default values)
 */
 switch true do {
     case (btc_global_reputation >= btc_rep_level_high): {
-        ["WarningDescription", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
+        ["WarningDescriptionAudio", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
         _fob_task_name = format["btc_task_%1", _structure getVariable ["FOB_name", ""]];
         [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _structure, btc_fob_structure, true, true] call btc_task_fnc_create;
     };
     case (btc_global_reputation < btc_rep_level_high && {btc_global_reputation >= btc_rep_level_veryLow}): {
-        ["FOBlowRepWarningDescription", ["", format[
+        ["FOBlowRepWarningDescriptionAudio", ["", format[
             localize "$STR_BTC_HAM_EVENT_EASTWIND",
             _structure getVariable ["FOB_name", ""]
         ]]] call btc_task_fnc_showNotification_s;

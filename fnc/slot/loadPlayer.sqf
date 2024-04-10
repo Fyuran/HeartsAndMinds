@@ -47,7 +47,6 @@ if(!alive player) exitWith {
         ["_flagTexture", "", [""]],
         ["_isContaminated", false, [false]],
         ["_medicalDeserializeState", "", [""]],
-        ["_vehicle", objNull, [objNull]],
         ["_field_rations", [], [[]]],
         ["_hasEarPlugsIn", false, [false]],
         ["_uid", "", [""]]

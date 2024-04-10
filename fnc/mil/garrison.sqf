@@ -40,19 +40,13 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 	private _group = createGroup _side;
 
 	private _buildingPositions = _building buildingPos -1;
-	private _buildingCenter = getPosWorld _building;
-	private _buildingPositionsInside = _buildingPositions select {!(lineIntersects [_x, (_x vectorAdd [0, 0, 10])])};
 	
 	_buildingPositions apply {
 		private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
-		// _directionPos = _building getRelPos [100, _buildingCenter getDir _x];
-		// _unit doWatch _directionPos;
 		doStop _unit;
-
-		if(!(_x in _buildingPositionsInside)) then { //disallow outside units from crouching or moving
-			_unit setUnitPos "UP";
-			_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
-		};
+		_unit setVariable ["lambs_danger_disableAI", true];
+		_unit setUnitPos "UP";
+		_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
 	};
 
 	_building setVariable["btc_mil_garrison_group", _group];

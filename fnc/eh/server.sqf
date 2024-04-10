@@ -20,7 +20,7 @@ Author:
 ---------------------------------------------------------------------------- */
 #include "..\script_macros.hpp"
 
-addMissionEventHandler ["BuildingChanged", btc_rep_fnc_buildingchanged];
+addMissionEventHandler ["BuildingChanged", btc_eh_fnc_buildingChanged];
 ["ace_explosives_defuse", btc_rep_fnc_explosives_defuse] call CBA_fnc_addEventHandler;
 ["ace_killed", btc_rep_fnc_killed] call CBA_fnc_addEventHandler;
 ["Animal", "InitPost", {
@@ -133,3 +133,23 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
         [_obj, 50] call ace_cargo_fnc_setSpace;
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 } forEach ["CUP_MTVR_Base", "Truck_01_base_F"];
+
+//Sunrise or Sunset
+[abs btc_p_eh_sunriseorsunset] call btc_eh_fnc_setSunriseOrSunset;
+
+//FOBS ruins
+btc_fobs_ruins_eh = ["btc_fobs_reactivation", {
+    params["_actionObj", "_name", "_ruins", "_marker"];
+    systemChat format["called server eh fob ruins: %1", _this];
+    private _toRemove = nearestObjects [_ruins, ["WeaponHolderSimulated"], (boundingBox _ruins)#2 + 100, true];
+    _toRemove append (_toRemove apply {
+        _corpse = getCorpse _x;
+        if(!isPlayer [_corpse]) then {_corpse} else {};
+    });
+    _toRemove call CBA_fnc_deleteEntity;
+
+    btc_fobs_ruins deleteAt _name;
+    deleteMarker _marker;
+    deleteVehicle _actionObj;
+    deleteVehicle _ruins;
+}] call CBA_fnc_addEventHandler;

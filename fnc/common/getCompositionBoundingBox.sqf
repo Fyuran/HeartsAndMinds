@@ -24,7 +24,7 @@ params [
     ["_objs", [], [[], objNull]]
 ];
 
-if(_objs isEqualType objNull) exitWith {2 boundingBoxReal _objs};
+if(_objs isEqualType objNull) then {_objs = [_objs]};
 
 private _positionCenterX = 0;
 private _positionCenterY = 0;
@@ -35,7 +35,7 @@ _positions apply {
     _positionCenterY = _positionCenterY + _x#1;
     _positionCenterZ = _positionCenterZ + _x#2;
 };
-private _compositionCenter = [
+private _compositionCenter = [ //retrieve centroid
     [_positionCenterX, _positionCenterY, _positionCenterZ], 
     count _positions
 ] call BIS_fnc_vectorDivide;
@@ -142,6 +142,5 @@ if (btc_debug) then {
 
 private _return = [_lowestRelPos, _highestRelPos, vectorMagnitude _boundingBoxSize];
 if(btc_debug) then {_return pushBack _centerDummy};
-
 
 _return

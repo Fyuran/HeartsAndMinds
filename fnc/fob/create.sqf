@@ -30,7 +30,7 @@ if(!canSuspend) exitWith {
     };
 };
 
-if (((position _mat) isFlatEmpty [1, 0, 0.9, 1, 0, false, _mat]) isEqualTo []) exitWith {(localize "STR_BTC_HAM_O_FOB_CREATE_H_AREA") call CBA_fnc_notify;};
+//if (((position _mat) isFlatEmpty [1, 0, 0.9, 1, 0, false, _mat]) isEqualTo []) exitWith {(localize "STR_BTC_HAM_O_FOB_CREATE_H_AREA") call CBA_fnc_notify;};
 
 if (_mat inArea [getMarkerPos "btc_base", btc_fob_minDistance, btc_fob_minDistance, 0, false]) exitWith {(localize "STR_BTC_HAM_O_FOB_CREATE_H_DBASE") call CBA_fnc_notify;};
 
@@ -61,9 +61,12 @@ if (ctrlText 777 == "") exitWith {
 };
 
 private _name = ctrlText 777;
+private _hasFOBinString = ["FOB", _name, false] call BIS_fnc_inString;
+if (!_hasFOBinString) then {
+    _name = "FOB " + _name;
+};
 
-private _FOB_name = "FOB " + _name;
-private _name_to_check = toUpper _FOB_name;
+private _name_to_check = toUpper _name;
 private _array_markers = allMapMarkers apply {toUpper _x};
 
 if (_name_to_check in _array_markers) exitWith {
@@ -86,8 +89,7 @@ waitUntil {!btc_log_placing};
 
 private _pos = getPosATL _structure;
 private _direction = direction _structure;
-private _FOB_name = "FOB " + _name;
 deleteVehicle _structure;
 
-[_pos, _direction, _FOB_name] remoteExecCall ["btc_fob_fnc_create_s", 2];
-[7, _FOB_name] remoteExecCall ["btc_fnc_show_hint", [0, -2] select isDedicated];
+[_pos, _direction, _name] remoteExecCall ["btc_fob_fnc_create_s", 2];
+[7, _name] remoteExecCall ["btc_fnc_show_hint", [0, -2] select isDedicated];

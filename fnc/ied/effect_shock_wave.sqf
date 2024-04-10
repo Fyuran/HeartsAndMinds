@@ -47,4 +47,4 @@ for "_i" from 0 to ((count _color)-1) step 1 do {
 };
 
 sleep .07;
-{deletevehicle _x} forEach _smokes;
+_smokes apply {deleteVehicle _x};

@@ -25,7 +25,8 @@ params [
 ];
 
 
-[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
+[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_8", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
+[false] call btc_db_fnc_delete;
 
 //Version
 profileNamespace setVariable [format ["btc_hm_%1_version", _name], btc_version select 1];
@@ -131,6 +132,8 @@ private _fobs = [];
     };
 } forEach (btc_fobs select 0);
 profileNamespace setVariable [format ["btc_hm_%1_fobs", _name], +_fobs];
+profileNamespace setVariable [format ["btc_hm_%1_fobs_ruins", _name], +btc_fobs_ruins];
+
 
 //Vehicles status
 private _array_veh = [];

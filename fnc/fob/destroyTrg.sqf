@@ -36,34 +36,36 @@ private _unconsciousUnits = (list _fob_trg) select {(_x getVariable ["ACE_isUnco
 if(_unconsciousUnits isEqualTo list _fob_trg) exitWith {};
 
 //Handle client GUI
-private _fob_conquest_time = round(_structure getVariable["fob_conquest_time", -1]);
+private _fob_conquest_time = round(_structure getVariable["cap_time", -1]);
 if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run this code block once
 
-    ["WarningDescription", ["", format[
+    ["WarningDescriptionUnderattack", ["", format[
         localize "$STR_BTC_HAM_EVENT_FOBBEINGCAPPED",
         _structure getVariable["FOB_name", "UNKNOWN"]
     ]]] call btc_task_fnc_showNotification_s;
 
-    _structure setVariable["fob_conquest_time", 0, true]; //unsetting the -1 flag
-    [_structure] remoteExecCall ["btc_fob_fnc_destroyProgress", [0,-2] select isDedicated];
+    _structure setVariable["cap_time", 0, true]; //unsetting the -1 flag
+    [_structure, _structure getVariable ["FOB_name", "UNKNOWN"], false, btc_p_fob_cap_time] 
+        remoteExecCall ["btc_ui_fnc_progressBars", [0,-2] select isDedicated, _structure];
 
-    _handle = [
+    private _handle = [
     {
         _args params["_fob_trg", "_structure"];
 
-        _fob_conquest_time = _structure getVariable["fob_conquest_time", -1];
+        _fob_conquest_time = _structure getVariable["cap_time", -1];
         _awakeUnits = (list _fob_trg) select {!(_x getVariable ["ACE_isUnconscious", false])}; //ACE_isUnconscious units should never update cap timer
 
         if(!isGamePaused) then {
             if(_awakeUnits isNotEqualTo []) then { //increase cap time
                 _structure setVariable["btc_fob_cooldown", -1]; //reset cooldown, sounds the alarm!
-                _structure setVariable["fob_conquest_time", _fob_conquest_time + (triggerInterval _fob_trg), true];
+                _structure setVariable["cap_time", _fob_conquest_time + (triggerInterval _fob_trg), true];
             } else {
                 if (round _fob_conquest_time > 0) then { //decrease cap time
-                        _structure setVariable["fob_conquest_time", _fob_conquest_time - 2, true];
+                        _structure setVariable["cap_time", _fob_conquest_time - 2, true];
                 };
                 if (round _fob_conquest_time <= 0) then { //reset the -1 flag
-                    _structure setVariable["fob_conquest_time", -1, true]; 
+                    _structure setVariable["cap_time", -1, true]; 
+                    remoteExecCall ["", [0,-2] select isDedicated, _structure];
                     [_handle] call CBA_fnc_removePerFrameHandler;
                 };
             };
@@ -77,5 +79,5 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
         _fob_trg, _structure
     ]] call CBA_fnc_addPerFrameHandler;
 
-    _structure setVariable ["CBAperFrameHandle", _handle];
+    _structure setVariable ["destroyTrgPFH", _handle];
 };

@@ -52,4 +52,4 @@ for "_i" from 0 to ((count _rVar)-1) step 1 do {
 };
 
 sleep 0.22;
-{deleteVehicle _x} forEach _rockesArr;
+_rockesArr apply {deleteVehicle _x};

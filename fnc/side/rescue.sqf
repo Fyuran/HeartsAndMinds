@@ -156,9 +156,9 @@ if (_units select {alive _x} isEqualTo []) then {
     _rep = 40;
 };
 
-{
+_triggers apply {
     deleteVehicle _x;
-} forEach _triggers;
+};
 [[], [_heli, _fx, _group] + _units] call btc_fnc_delete;
 
 if (_taskID call BIS_fnc_taskState in ["CANCELED", "FAILED"]) exitWith {};

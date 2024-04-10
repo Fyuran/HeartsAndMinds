@@ -1,4 +1,5 @@
 enableSaving [false, false];
+setMissionOptions createHashMapFromArray [["IgnoreNoDamage", true], ["IgnoreFakeHeadHit", true]];
 
  call compileScript ["core\def\mission.sqf"]; 
  call compileScript ["define_mod.sqf"];

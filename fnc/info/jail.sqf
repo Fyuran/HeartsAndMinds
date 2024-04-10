@@ -44,7 +44,7 @@ if(_captive in _jailed) exitWith {
 };
 _jailed pushBack _captive;
 if(count _jailed > count _jailPositions) then { //remove all decorative captives and start from beggining
-    _jailed apply {deleteVehicle _x;};
+    deleteVehicle _jailed;
     _jailed = [];
 };
 _jail setVariable ["btc_jailed", _jailed];

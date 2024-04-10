@@ -46,7 +46,7 @@ class btc_fob_create {
 };
 
 import RscPicture;
-class RscProgressFOB: RscProgress
+class btc_UI_RscProgress: RscProgress
 {
     x = 0.903625 * safezoneW + safezoneX;
     y = 0.236 * safezoneH + safezoneY;
@@ -60,7 +60,7 @@ class RscProgressFOB: RscProgress
         "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"
     };
 };
-class RscPicture_FOB_icon: RscPicture
+class btc_UI_RscProgressIcon: RscPicture
 {
     text = "a3\ui_f\data\Map\Markers\Flags\nato_ca.paa";
     x = 0.891875 * safezoneW + safezoneX;
@@ -68,7 +68,7 @@ class RscPicture_FOB_icon: RscPicture
     w = 0.0103125 * safezoneW;
     h = 0.015 * safezoneH;
 };
-class RscText_FOB_text: RscText
+class btc_UI_RscProgressText: RscText
 {
     text = "FOB %1"; //--- ToDo: Localize;
     x = 0.903625 * safezoneW + safezoneX;

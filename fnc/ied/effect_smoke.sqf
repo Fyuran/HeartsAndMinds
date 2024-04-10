@@ -91,4 +91,4 @@ for "_i" from 0 to 6 step 1 do {
     };
 };
 sleep 2;
-{deleteVehicle _x} forEach _smokes;
+_smokes apply {deleteVehicle _x};

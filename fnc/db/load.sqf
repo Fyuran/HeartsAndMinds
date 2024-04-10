@@ -28,12 +28,13 @@ if((profileNamespace getVariable [format ["btc_hm_%1_cities", _name], createHash
     ["No Database found to load.", 1, [1,0,0,1]] call CBA_fnc_notify;
 };
 
+private _cfgVehicles = configFile >> "CfgVehicles";
+
 setDate +(profileNamespace getVariable [format ["btc_hm_%1_date", _name], date]);
 
 //CITIES
 private _cities_status = +(profileNamespace getVariable [format ["btc_hm_%1_cities", _name], []]);
-
-{
+_cities_status apply {
     _x params ["_id", "_initialized", "_spawn_more", "_occupied", "_data_units", "_has_ho", "_ho_units_spawned", "_ieds", "_has_suicider",
         ["_data_animals", [], [[]]],
         ["_data_tags", [], [[]]],
@@ -66,14 +67,13 @@ private _cities_status = +(profileNamespace getVariable [format ["btc_hm_%1_citi
             count _data_animals, count _data_tags, count _civKilled  
         ], __FILE__, [false]] call btc_debug_fnc_message;
     };
-} forEach _cities_status;
+};
 
 //HIDEOUT
 private _array_ho = +(profileNamespace getVariable [format ["btc_hm_%1_ho", _name], []]);
-
-{
+_array_ho apply {
     _x call btc_hideout_fnc_create;
-} forEach _array_ho;
+};
 
 private _ho = profileNamespace getVariable [format ["btc_hm_%1_ho_sel", _name], 0];
 private _select_ho = (btc_hideouts apply {_x getVariable "id"}) find _ho;
@@ -100,11 +100,11 @@ btc_cache_info = _cache_info;
 btc_cache_obj setVariable ["btc_cache_unitsSpawned", _cache_unitsSpawned];
 
 btc_cache_markers = [];
-{
+_cache_markers apply {
     _x params ["_pos", "_marker_name"];
 
     [_pos, 0, _marker_name] call btc_info_fnc_cacheMarker;
-} forEach _cache_markers;
+};
 
 btc_cache_pictures = _cache_pictures;
 {
@@ -117,8 +117,7 @@ btc_cache_pictures = _cache_pictures;
 
 //FOB
 private _fobs = +(profileNamespace getVariable [format ["btc_hm_%1_fobs", _name], []]);
-
-{
+_fobs apply {
     _x params [
         ["_pos", [], [[]]], 
         ["_direction", 0, [0]],
@@ -127,23 +126,34 @@ private _fobs = +(profileNamespace getVariable [format ["btc_hm_%1_fobs", _name]
     ];
 
     [_pos, _direction, _FOB_name, _jailData] call btc_fob_fnc_create_s;
-} forEach _fobs;
+};
+
+btc_fobs_ruins = +(profileNamespace getVariable [format ["btc_hm_%1_fobs_ruins", _name], createHashMap]);
+if(btc_fobs_ruins isNotEqualTo createHashMap) then {
+    btc_fobs_ruins apply { // _[key,[_pos, _dir, _typeOf]]
+        private _ruin = createSimpleObject [_y#2, _y#0, false];
+        _ruin setDir _y#1;
+        _ruin setVariable["FOB_name", _x, true];
+
+        [objNull, _ruin] call btc_fob_fnc_reactivation;
+    };
+};
 
 //REP
 btc_global_reputation = profileNamespace getVariable [format ["btc_hm_%1_rep", _name], 0];
 
 //Objects
-{deleteVehicle _x} forEach (getMissionLayerEntities "btc_vehicles" select 0);
+(getMissionLayerEntities "btc_vehicles" select 0) apply {deleteVehicle _x};
 if !(isNil "btc_vehicles") then {
-    {deleteVehicle _x} forEach btc_vehicles;
+    btc_vehicles apply {deleteVehicle _x};
     btc_vehicles = [];
 };
 
 private _objs = +(profileNamespace getVariable [format ["btc_hm_%1_objs", _name], []]);
 [{ // Can't use ace_cargo for objects created during first frame.
-    {
+    _this apply {
         [_x] call btc_db_fnc_loadObjectStatus;
-    } forEach _this;
+    };
 }, _objs] call CBA_fnc_execNextFrame;
 
 //VEHICLES
@@ -190,7 +200,7 @@ private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name]
             [_veh, objNull, objNull, nil, false] call btc_veh_fnc_killed;
         };
         if (_ViV isNotEqualTo []) then {
-            {
+            _ViV apply {
                 private _vehToLoad = _x call _loadVehicle;
                 if !([_vehToLoad, _veh] call btc_tow_fnc_ViV) then {
                     _vehToLoad setVehiclePosition [_veh, [], 100, "NONE"];
@@ -199,14 +209,14 @@ private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name]
                         _marker setMarkerPos _vehToLoad;
                     };
                 };
-            } forEach _ViV;
+            };
         };
 
         _veh
     };
-    {
+    _this apply {
         _x call _loadVehicle;
-    } forEach _this;
+    };
 }, _vehs] call CBA_fnc_execNextFrame;
 
 //Player Tags

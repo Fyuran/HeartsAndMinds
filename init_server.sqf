@@ -39,14 +39,13 @@ if (btc_db_load && {profileNamespace getVariable [format ["btc_hm_%1_db", worldN
 [] call btc_spect_fnc_checkLoop;
 [] call btc_db_fnc_autoRestartLoop;
 
-if(btc_p_debug_fps) then {
-    [] call compileScript ["core\fnc\debug\show_fps_init.sqf"];
-};
-
 //Namespace to hold variables for debug
 btc_debug_namespace = [true] call CBA_fnc_createNamespace;
 publicVariable "btc_debug_namespace";
 
+if(btc_p_debug_fps) then {
+    [] call compileScript ["core\fnc\debug\show_fps_init.sqf"];
+};
 
 {
     [_x, 30] call btc_veh_fnc_addRespawn;

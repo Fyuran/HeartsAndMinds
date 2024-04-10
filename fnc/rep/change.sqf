@@ -25,7 +25,8 @@ Author:
 
 params [
     ["_instigator", objNull, [objNull, 0, ""]],
-    ["_reason", -1, [0]]
+    ["_reason", -1, [0]],
+    ["_showNotification", true, [true]]
 ];
 
 private _name = "PLACEHOLDER";
@@ -94,26 +95,28 @@ _change params [
 ];
 btc_global_reputation = btc_global_reputation + _rep_amount;
 
-if (btc_debug || btc_debug_log) then {
+if (btc_debug) then {
     [format ["GLOBAL %1 - CHANGE %2 - REASON %3 - INSTIGATOR %4", btc_global_reputation, _rep_amount, _reason, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 };
 
 //abs rep var to make sure even negative changes are displayed
-if ((btc_p_rep_notify != -1) && {(abs _rep_amount) >= btc_p_rep_notify}) then {
+if(_showNotification) then {
+    if ((btc_p_rep_notify != -1) && {(abs _rep_amount) >= btc_p_rep_notify}) then {
 
-    private _colorIntensity = linearConversion [0, 5, _rep_amount, 0, 1, true];
-    if(_rep_amount > 0) then {
-        [
-            ["core\img\thumbs_up.paa", 5, [0,(_colorIntensity + 0.3) min 1,0,1]], 
-            [_text, 1, [1,1,1,1]]
-        ] remoteExecCall ["CBA_fnc_notify", 0];
-    } else {
-        [
-            ["core\img\thumbs_down.paa", 5, [(_colorIntensity + 0.3) min 1,0,0,1]], 
-            [_text, 1, [1,1,1,1]]
-        ] remoteExecCall ["CBA_fnc_notify", 0];
+        private _colorIntensity = linearConversion [0, 5, _rep_amount, 0, 1, true];
+        if(_rep_amount > 0) then {
+            [
+                ["core\img\thumbs_up.paa", 5, [0,(_colorIntensity + 0.3) min 1,0,1]], 
+                [_text, 1, [1,1,1,1]]
+            ] remoteExecCall ["CBA_fnc_notify", 0];
+        } else {
+            [
+                ["core\img\thumbs_down.paa", 5, [(_colorIntensity + 0.3) min 1,0,0,1]], 
+                [_text, 1, [1,1,1,1]]
+            ] remoteExecCall ["CBA_fnc_notify", 0];
+        };
+
     };
-
 };
 
 true

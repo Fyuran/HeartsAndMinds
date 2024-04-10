@@ -21,6 +21,7 @@ btc_p_db_autoRestartType = "btc_p_db_autoRestartType" call BIS_fnc_getParamValue
 btc_p_slot_isShared = "btc_p_slot_isShared" call BIS_fnc_getParamValue isEqualTo 1;
 btc_p_change_time = ("btc_p_change_time" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_change_weather = ("btc_p_change_weather" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_p_eh_sunriseorsunset = "btc_p_eh_sunriseorsunset" call BIS_fnc_getParamValue;
 
 //<< Respawn options >>
 btc_p_respawn_location = "btc_p_respawn_location" call BIS_fnc_getParamValue;
@@ -89,6 +90,7 @@ btc_p_side_mission_cycle = "btc_p_side_mission_cycle" call BIS_fnc_getParamValue
 btc_p_fob_cap_time = "btc_p_fob_cap_time" call BIS_fnc_getParamValue;
 btc_p_fob_garrison = ("btc_p_fob_garrison" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_door_locks = ("btc_p_door_locks" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_p_fob_disable_destruction = ("btc_p_fob_disable_destruction" call BIS_fnc_getParamValue) isEqualTo 1;
 
 //<< Arsenal options >>
 btc_p_arsenal_Type = "btc_p_arsenal_Type" call BIS_fnc_getParamValue;
@@ -210,6 +212,7 @@ if (isServer) then {
 
     //FOB
     btc_fobs = [[], [], [], [], []];
+    btc_fobs_ruins = createHashMap;
     btc_fob_rallypointTimer = 60 * btc_p_rallypointTimer;
     btc_body_deadPlayers  = [];
 	btc_fob_showAlert = true;

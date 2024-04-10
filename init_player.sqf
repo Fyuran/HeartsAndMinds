@@ -42,7 +42,7 @@ if(btc_p_intro) then {
         [] call btc_debug_fnc_debug_mode;
     };
 
-    if(btc_db_load) then {
+    if(btc_db_load && {isMultiplayer}) then {
         [] call btc_slot_fnc_loadPlayer;
     };
 }] call CBA_fnc_waitUntilAndExecute;

@@ -43,7 +43,6 @@ if(alive _unit) then {
         getForcedFlagTexture _unit,
         _unit in btc_chem_contaminated,
         [_unit] call ace_medical_fnc_serializeState,
-        vehicle _unit,
         [
             _unit getVariable ["acex_field_rations_thirst", 0],
             _unit getVariable ["acex_field_rations_hunger", 0]
