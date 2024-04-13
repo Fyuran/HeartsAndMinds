@@ -74,14 +74,29 @@ if (isServer) then {
     //DB
     btc_db_fnc_save = compileScript ["core\fnc\db\save.sqf"];
     btc_db_fnc_delete = compileScript ["core\fnc\db\delete.sqf"];
+    btc_db_fnc_initDefault = compileScript ["core\fnc\db\initDefault.sqf"];
     btc_db_fnc_loadObjectStatus = compileScript ["core\fnc\db\loadObjectStatus.sqf"];
     btc_db_fnc_saveObjectStatus = compileScript ["core\fnc\db\saveObjectStatus.sqf"];
     btc_db_fnc_loadCargo = compileScript ["core\fnc\db\loadcargo.sqf"];
     btc_db_fnc_autoRestart = compileScript ["core\fnc\db\autoRestart.sqf"];
     btc_db_fnc_setTurretMagazines = compileScript ["core\fnc\db\setTurretMagazines.sqf"];
     btc_db_fnc_autoRestartLoop = compileScript ["core\fnc\db\autoRestartLoop.sqf"];
-    btc_db_fnc_enabled_city_save = compileScript ["core\fnc\db\save_enabled_city.sqf"]; 
-
+    btc_db_fnc_save_enabled_city = compileScript ["core\fnc\db\save_enabled_city.sqf"]; 
+    
+    //JSON
+    btc_json_fnc_save = compileScript ["core\fnc\json\save.sqf"];
+    btc_json_fnc_load = compileScript ["core\fnc\json\load.sqf"];
+    btc_json_fnc_createVehicle = compileScript ["core\fnc\json\data\createVehicle.sqf"];
+    btc_json_fnc_encodeJSON = compileScript ["core\fnc\json\data\encodeJSON.sqf"];
+    btc_json_fnc_parse_data = compileScript ["core\fnc\json\data\parse_data.sqf"];
+    btc_json_fnc_request_data = compileScript["core\fnc\json\data\request_data.sqf"];
+    btc_json_fnc_delete_file = compileScript ["core\fnc\json\ui\delete.sqf"];
+    btc_json_fnc_rename_file = compileScript ["core\fnc\json\ui\rename.sqf"];
+    btc_json_fnc_copy_file = compileScript ["core\fnc\json\ui\copy.sqf"];
+    btc_json_fnc_load_file = compileScript ["core\fnc\json\ui\load.sqf"];
+    btc_json_fnc_fileviewer_r_server = compileScript ["core\fnc\json\ui\fileviewer_r_server.sqf"];
+    btc_json_fnc_medical_serializeState = compileScript ["core\fnc\json\data\medical_serializeState.sqf"]; 
+    btc_json_fnc_medical_deserializeState = compileScript ["core\fnc\json\data\medical_deserializeState.sqf"];
     //DELAY
     btc_delay_fnc_createUnit = compileScript ["core\fnc\delay\createUnit.sqf"];
     btc_delay_fnc_createVehicle = compileScript ["core\fnc\delay\createVehicle.sqf"];
@@ -448,6 +463,9 @@ if (!isDedicated) then {
     btc_log_fnc_inventoryPaste = compileScript ["core\fnc\log\inventoryPaste.sqf"];
     btc_log_fnc_inventoryRestore = compileScript ["core\fnc\log\inventoryRestore.sqf"];
 
+    //JSON
+    btc_json_fnc_fileviewer = compileScript ["core\fnc\json\ui\fileviewer.sqf"];
+    btc_json_fnc_fileviewer_r_client = compileScript ["core\fnc\json\ui\fileviewer_r_client.sqf"];
     //REP
     btc_rep_fnc_treatment = compileScript ["core\fnc\rep\treatment.sqf"];
 

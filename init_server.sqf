@@ -1,37 +1,37 @@
 [] call compileScript ["core\fnc\city\init.sqf"];
 
 ["Initialize", [true]] call BIS_fnc_dynamicGroups;
+switch (btc_db_load) do {
+	case 1: {
+		if (profileNamespace getVariable [format ["btc_hm_%1_db", worldName], false]) then {
+			if ((profileNamespace getVariable [format ["btc_hm_%1_version", worldName], 1.13]) in [btc_version select 1, 22.1]) then {
+				[] call compileScript ["core\fnc\db\load.sqf"];
+			} else {
+				[] call compileScript ["core\fnc\db\load_old.sqf"];
+			};
+		} else {
+			[] call btc_db_fnc_initDefault;
+		};
+	};
+	case 2: {
+		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
+		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params ["_result", "_returnCode"];
+		if (_returnCode isEqualTo 200) then {
+			[] call btc_json_fnc_load;
+		} else {
+			[] call btc_db_fnc_initDefault;
+		};
+	};
+	default {
+		[] call btc_db_fnc_initDefault;
+	};
+};
 setTimeMultiplier btc_p_acctime;
 
 ["btc_m", -1, objNull, "", false, false] call btc_task_fnc_create;
 [["btc_dft", "btc_m"], 0] call btc_task_fnc_create;
 [["btc_dty", "btc_m"], 1] call btc_task_fnc_create;
 
-if (btc_db_load && {profileNamespace getVariable [format ["btc_hm_%1_db", worldName], false]}) then {
-    if ((profileNamespace getVariable [format ["btc_hm_%1_version", worldName], 1.13]) in [btc_version select 1, 22.1]) then {
-        [] call compileScript ["core\fnc\db\load.sqf"];
-    } else {
-        [] call compileScript ["core\fnc\db\load_old.sqf"];
-    };
-} else {
-    if (btc_hideout_n > 0) then {
-        for "_i" from 1 to btc_hideout_n do {[] call btc_hideout_fnc_create;};
-    } else {
-        [] spawn btc_fnc_final_phase;
-    };
-    
-    [] call btc_cache_fnc_init;
-
-    btc_startDate set [3, btc_p_time];
-    setDate btc_startDate;
-
-    {
-        _x call btc_veh_fnc_add;
-    } forEach (getMissionLayerEntities "btc_vehicles" select 0);
-    if (isNil "btc_vehicles") then {btc_vehicles = [];};
-};
-
-[] call btc_slot_fnc_getPlayableSlots;
 [] call btc_eh_fnc_server;
 [btc_ied_list] call btc_ied_fnc_fired_near;
 [] call btc_chem_fnc_checkLoop;
