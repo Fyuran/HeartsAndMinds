@@ -28,7 +28,7 @@ private _name = _ruins getVariable ["FOB_name", "UNKNOWN"];
 if(!isNull _fob) then { //validates calls from db_load
     _name = _fob getVariable ["FOB_name", "UNKNOWN"];
     private _pos = getPosASL _fob;
-    btc_fobs_ruins set [_name, [_pos, getDir _fob, typeOf _ruins]];
+    btc_fobs_ruins set [_name, [_pos, getDir _fob, typeOf _ruins, _name]];
 };
 if(isNull _ruins) exitWith {
     [format["_ruins is null"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
@@ -45,6 +45,7 @@ private _flagPos = [_ruins] call btc_fnc_getBoundingCornersPos;
 _flagPos = selectRandom _flagPos;
 _flagPos set [2, 0];
 private _flag = createVehicle ["Flag_White_F", _flagPos, [], 0, "NONE"];
+[_flag, 0, true] call BIS_fnc_animateFlag;
 _flag allowDamage false;
 
 private _actionPos = _flag modelToWorld((boundingCenter _flag) vectorDiff [0.2,0.75,6.4]); //position the action node at the base of the flag
