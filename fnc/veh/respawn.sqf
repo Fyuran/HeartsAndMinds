@@ -42,7 +42,7 @@ crew _vehicle call btc_fnc_moveOut;
             "_pos",
             "_dir",
             "_time",
-            ["_vectorPos", [], [[]]],
+            ["_vectorDirAndUp", [], [[]]],
             ["_customization", [false, false], [[]]],
             ["_isMedicalVehicle", false, [true]],
             ["_isRepairVehicle", false, [true]],
@@ -57,7 +57,7 @@ crew _vehicle call btc_fnc_moveOut;
         private _vehicle = _type createVehicle _pos;
         _vehicle setDir _dir;
         _vehicle setPosASL _pos;
-        _vehicle setVectorDirAndUp _vectorPos;
+        _vehicle setVectorDirAndUp _vectorDirAndUp;
 
         if (unitIsUAV _vehicle) then {
             createVehicleCrew _vehicle;

@@ -177,7 +177,7 @@ private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name]
             ["_supplyVehicle", [], [[]]],
             ["_objectTexture", [], [[]]],
             ["_EDENinventory", [], [[]]],
-            ["_vectorPos", [], [[]]],
+            ["_vectorDirAndUp", [], [[]]],
             ["_ViV", [], [[]]],
             ["_flagTexture", "", [""]],
             ["_turretMagazines", [], [[]]],
@@ -189,7 +189,7 @@ private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name]
         };
 
         private _veh = [_veh_type, _veh_pos, _veh_dir, _customization, _isMedicalVehicle, _isRepairVehicle, _fuelSource, _pylons, _isContaminated, _supplyVehicle, _objectTexture, _EDENinventory, _veh_AllHitPointsDamage, _flagTexture, _tagTexture] call btc_log_fnc_createVehicle;
-        _veh setVectorDirAndUp _vectorPos;
+        _veh setVectorDirAndUp _vectorDirAndUp;
         _veh setFuel _veh_fuel;
 
         [_veh, _turretMagazines] call btc_db_fnc_setTurretMagazines;
@@ -225,14 +225,14 @@ private _id = ["ace_tagCreated", {
     params ["_tag", "_texture", "_object"];
     btc_tags_player pushBack [_tag, _texture, _object];
 }] call CBA_fnc_addEventHandler;
-{
+_tags_properties apply {
     _x params ["_tagPosASL", "_vectorDirAndUp", "_texture", "_typeObject", "_tagModel"];
     private _object = objNull;
     if (_typeObject isNotEqualTo "") then {
         _object = nearestObject [ASLToATL _tagPosASL, _typeObject];
     };
     [_tagPosASL, _vectorDirAndUp, _texture, _object, objNull, "",_tagModel] call ace_tagging_fnc_createTag;
-} forEach _tags_properties;
+};
 ["ace_tagCreated", _id] call CBA_fnc_removeEventHandler;
 
 //Player respawn tickets

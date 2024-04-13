@@ -37,17 +37,54 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 
 [[_side, _building, _type_units], {
 	params ["_side", "_building", "_type_units"];
-	private _group = createGroup _side;
 
 	private _buildingPositions = _building buildingPos -1;
-	
-	_buildingPositions apply {
-		private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
-		doStop _unit;
-		_unit setVariable ["lambs_danger_disableAI", true];
-		_unit setUnitPos "UP";
-		_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
+	private _outside = _buildingPositions select {
+		private _pos = AGLtoASL _x;
+		private _surface = (lineIntersectsSurfaces [_pos, _pos vectorAdd [0,0,5], objNull, objNull, true, 1, "GEOM"]) param[0, []];
+		_surface isEqualTo []
 	};
+
+	if(btc_debug) then {
+		btc_garrison_buildingPos_debug_objects = [];
+		_buildingPositions apply {
+			private _sphere = createVehicle ["Sign_Sphere25cm_F", _x, [], 0, "CAN_COLLIDE"];
+			private _pos = _x;
+			private _higherPos = _pos vectorAdd [0,0,5];
+			private _intersect = (lineIntersectsSurfaces [AGLtoASL _pos, AGLtoASL _higherPos, _sphere, objNull, true, 1, "GEOM"]) param[0, []];
+			if (_intersect isNotEqualTo []) then {
+				_sphere setVariable ["btc_debug_ceiling", ASLtoATL (_intersect#0)];
+			};
+			btc_garrison_buildingPos_debug_objects pushBack _sphere;
+		};
+
+		btc_garrison_buildingPos_debug_eh = addMissionEventHandler ["Draw3D", {
+			btc_garrison_buildingPos_debug_objects apply {
+				_pos = getPosATLVisual _x;
+				_top = _pos vectorAdd [0,0,5];
+				_ceiling = _x getVariable ["btc_debug_ceiling", []];
+				if(_ceiling isNotEqualTo []) then {
+					drawLine3D [_pos, _ceiling, [1,0,0,1]];
+					_x setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,0,1)'];
+				} else {
+					drawLine3D [_pos, _top, [0,1,0,1]];
+					_x setObjectTextureGlobal [0,'#(argb,8,8,3)color(0,1,0,1)'];
+				};
+			};
+		}];
+	};
+
+	private _group = createGroup _side;
+	_buildingPositions apply {
+		if(_x in _outside) then { //only create units that are outside
+			private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
+			doStop _unit;
+			_unit setVariable ["lambs_danger_disableAI", true];
+			_unit setUnitPos "UP";
+			_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
+		};
+	};
+
 
 	_building setVariable["btc_mil_garrison_group", _group];
 	//Static spawn

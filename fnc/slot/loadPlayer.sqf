@@ -34,23 +34,18 @@ if(!alive player) exitWith {
             [format["btc_slot_data is still nil"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
         };
     };
+    if!(btc_slot_data isEqualType createHashMap) exitWith {
+        if(btc_debug) then {
+            [format ["btc_slot_data not a HASHMAP"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+        };
+    };
     if(btc_slot_data isEqualTo []) exitWith {
         if(btc_debug) then {
             [format ["no data found for %1(%2)", name player, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
         };
     };
 
-    btc_slot_data params [
-        ["_previousPos", [0,0,0], [[]], 3],
-        ["_dir", 0, [0]],
-        ["_loadout", [], [[]], 10],
-        ["_flagTexture", "", [""]],
-        ["_isContaminated", false, [false]],
-        ["_medicalDeserializeState", "", [""]],
-        ["_field_rations", [], [[]]],
-        ["_hasEarPlugsIn", false, [false]],
-        ["_uid", "", [""]]
-    ];
+    (values btc_slot_data) params ((keys btc_slot_data) apply {"_" + _x});
 
     if(btc_debug) then {
         [format ["%1(%2) with: %3", name player, _uid, btc_slot_data], __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;
@@ -58,8 +53,7 @@ if(!alive player) exitWith {
 
     if((_uid isNotEqualTo "") && {_uid isNotEqualTo (getPlayerUID player)}) exitWith { //just check for mismatch, ignore empty string
         if(btc_debug) then {
-            if(_uid isEqualTo "") then {_uid = "EMPTY"};
-            [format ["%1, different uid! %2, %3", name player, _uid, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
+            [format ["%1, different uid! %2, %3", name player, "EMPTY", getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
         };
     };
     player setDir _dir; //keep setDir above setPos to sync direction between clients https://community.bistudio.com/wiki/setDir
@@ -67,8 +61,8 @@ if(!alive player) exitWith {
 
     player forceFlagTexture _flagTexture;
     [{player getVariable ["ace_medical_initialized", false]}, {
-        [player, _this] call ace_medical_fnc_deserializeState;
-    }, _medicalDeserializeState] call CBA_fnc_waitUntilAndExecute;
+        [player, _this] call btc_json_fnc_medical_deserializeState;
+    }, _medicalState] call CBA_fnc_waitUntilAndExecute;
 
     _field_rations params [["_thirst", 0, [0]], ["_hunger", 0, [0]]];
     player setVariable ["acex_field_rations_thirst", _thirst, true];
@@ -100,7 +94,7 @@ if(!alive player) exitWith {
 
     btc_slot_data = nil; //reset stored info
 
-}, nil, 300, {
+}, nil, 60, {
     if(btc_debug) then {
         [format ["timeout, unable to load data for %1(%2)", name player, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };

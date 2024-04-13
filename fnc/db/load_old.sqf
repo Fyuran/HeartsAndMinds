@@ -157,7 +157,7 @@ private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name]
             ["_isContaminated", false, [false]],
             ["_supplyVehicle", [], [[]]],
             ["_EDENinventory", [], [[]]],
-            ["_vectorPos", [], [[]]],
+            ["_vectorDirAndUp", [], [[]]],
             ["_ViV", [], [[]]],
             ["_flagTexture", "", [""]],
             ["_turretMagazines", [], [[]]],
@@ -169,7 +169,7 @@ private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name]
         };
 
         private _veh = [_veh_type, _veh_pos, _veh_dir, _customization, _isMedicalVehicle, _isRepairVehicle, _fuelSource, _pylons, _isContaminated, _supplyVehicle, nil, _EDENinventory, _veh_AllHitPointsDamage, _flagTexture, _tagTexture] call btc_log_fnc_createVehicle;
-        _veh setVectorDirAndUp _vectorPos;
+        _veh setVectorDirAndUp _vectorDirAndUp;
         _veh setFuel _veh_fuel;
 
         [_veh, _turretMagazines] call btc_db_fnc_setTurretMagazines;

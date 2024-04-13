@@ -62,11 +62,11 @@ private _attachedObjects = attachedObjects _jail;
 
 if(btc_debug) then {
     [format["executing btc_log_fnc_place to %1 with %2 boundingBoxReal", 
-        _jail, _attachedObjects call btc_fnc_getCompositionBoundingSize],
+        _jail, _attachedObjects call btc_fnc_getCompositionBoundingBox],
             __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;  
 };
 
-[_jail, _attachedObjects call btc_fnc_getCompositionBoundingSize] call btc_log_fnc_place;
+[_jail, _attachedObjects call btc_fnc_getCompositionBoundingBox] call btc_log_fnc_place;
 waitUntil {!btc_log_placing};
 
 private _pos = getPosATL _jail;

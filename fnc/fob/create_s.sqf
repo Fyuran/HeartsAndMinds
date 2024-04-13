@@ -75,7 +75,7 @@ _marker setMarkerShape "ICON";
 //Alarm FOB Trigger
 if(btc_p_fob_garrison) then {
     if (btc_friendly_type_units isEqualTo []) exitWith {
-        ["no suitable classes found for fob garrison", __FILE__, [false, true, false], true] call btc_debug_fnc_message;
+        ["no suitable classes found for fob garrison", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };
     [{[_this, btc_player_side, btc_friendly_type_units] call btc_mil_fnc_garrison;}, _structure] call CBA_fnc_execNextFrame;
 };

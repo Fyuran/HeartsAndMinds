@@ -38,7 +38,7 @@ profileNamespace setVariable [format ["btc_hm_%1_date", _name], date];
 private _cities_status = [];
 {
     if (_y getVariable ["active", false]) then {
-        [_city] call btc_db_fnc_enabled_city_save; //activated cities won't record any new data until deactivation.
+        [_city] call btc_db_fnc_save_enabled_city; //activated cities won't record any new data until deactivation.
     };
 
     private _city_status = [];
@@ -146,7 +146,7 @@ private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
 {
     (_x call btc_db_fnc_saveObjectStatus) params [
         "_type", "_pos", "_dir", "", "_cargo",
-        "_inventory", "_vectorPos", "_isContaminated", "",
+        "_inventory", "_vectorDirAndUp", "_isContaminated", "",
         ["_flagTexture", "", [""]],
         ["_turretMagazines", [], [[]]],
         ["_notuse", "", [""]],
@@ -164,7 +164,7 @@ private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
     _data pushBack _inventory;
     _data append ([_x] call btc_veh_fnc_propertiesGet);
     _data pushBack (_x getVariable ["btc_EDENinventory", []]);
-    _data pushBack _vectorPos;
+    _data pushBack _vectorDirAndUp;
     _data pushBack []; // ViV
     _data pushBack _flagTexture;
     _data pushBack _turretMagazines;
@@ -221,7 +221,7 @@ private _tags_properties = _tags apply {
 };
 profileNamespace setVariable [format ["btc_hm_%1_tags", _name], +_tags_properties];
 
-//Player respawn tickets
+//Player respawn tickets and bodies
 if (btc_p_respawn_ticketsAtStart >= 0) then {
     profileNamespace setVariable [format ["btc_hm_%1_respawnTickets", _name], +btc_respawn_tickets];
 
@@ -230,11 +230,12 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 };
 
 //Player slots
-{
+btc_slots_serialized = createHashMap;
+(allPlayers - entities "HeadlessClient_F") apply {
     if (alive _x) then {
         [getPlayerUID _x] call btc_slot_fnc_getData;
     };
-} forEach (allPlayers - entities "HeadlessClient_F");
+};
 profileNamespace setVariable [format ["btc_hm_%1_slotsSerialized", _name], +btc_slots_serialized];
 
 //Player Markers

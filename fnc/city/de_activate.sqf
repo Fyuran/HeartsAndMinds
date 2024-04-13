@@ -43,7 +43,7 @@ if (_has_en) then {
 private _pos_city = getPosWorld _city;
 private _data_units = [];
 private _has_suicider = false;
-{
+allGroups apply {
     if (
         (leader _x) inArea [_pos_city, _cachingRadius, _cachingRadius, 0, false] &&
         {side _x != btc_player_side} &&
@@ -55,10 +55,10 @@ private _has_suicider = false;
 
         if ((_data_group select 0) in [5, 7]) then {_has_suicider = true;};
     };
-} forEach allGroups;
+};
 
 private _data_animals = [];
-{
+agents apply {
     private _agent = agent _x;
     if (
         _agent inArea [_pos_city, _cachingRadius, _cachingRadius, 0, false] &&
@@ -72,10 +72,10 @@ private _data_animals = [];
         ];
         _agent call CBA_fnc_deleteEntity;
     };
-} forEach agents;
+};
 
 private _data_tags = [];
-{
+(btc_tags_server inAreaArray [_pos_city, _cachingRadius, _cachingRadius]) apply {
     if (_x getVariable ["btc_city", _city] isEqualTo _city) then {
         private _pos = getPos _x;
         _pos set [2, 0];
@@ -87,7 +87,7 @@ private _data_tags = [];
         ];
         _x call CBA_fnc_deleteEntity;
     };
-} forEach (btc_tags_server inAreaArray [_pos_city, _cachingRadius, _cachingRadius]);
+};
 btc_tags_server = btc_tags_server - [objNull];
 
 (_city getVariable ["btc_city_intels", []]) call CBA_fnc_deleteEntity;

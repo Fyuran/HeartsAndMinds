@@ -56,6 +56,16 @@ if (_type isEqualTo 7) exitWith {
     [[_city, _spawningRadius, _array_pos select 0], btc_ied_fnc_drone_create] call btc_delay_fnc_exec;
     _delay + btc_delay_unit
 };
+if(_side isEqualType "") then {
+	_side = switch(_side) do {
+		case"EAST": {east};
+		case"WEST": {west};
+		case"CIV": {civilian};
+		case"GUER": {independent};
+
+		default {btc_enemy_side};
+	};
+};
 
 private _group = createGroup _side;
 _group setVariable ["btc_city", _city];
@@ -82,6 +92,16 @@ if (_type isEqualTo 1) then {
         ["_array_veh", [], [[], ""]]
     ];
 
+    if(_side isEqualType "") then {
+        _side = switch(_side) do {
+            case"EAST": {east};
+            case"WEST": {west};
+            case"CIV": {civilian};
+            case"GUER": {independent};
+
+            default {btc_enemy_side};
+        };
+    };
     if !(_type in [3, 6]) then {
         [_group] call CBA_fnc_clearWaypoints;
         {

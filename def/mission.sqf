@@ -10,7 +10,7 @@ diag_log format (["=BTC= HEARTS AND MINDS VERSION %1.%2.%3"] + btc_version);
 //<< Time options >>
 btc_p_time = "btc_p_time" call BIS_fnc_getParamValue;
 btc_p_acctime = "btc_p_acctime" call BIS_fnc_getParamValue;
-btc_db_load = ("btc_p_load" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_db_load = "btc_p_load" call BIS_fnc_getParamValue;
 btc_p_auto_db = "btc_p_auto_db" call BIS_fnc_getParamValue isEqualTo 1;
 btc_p_db_autoRestartTime = "btc_p_db_autoRestartTime" call BIS_fnc_getParamValue;
 btc_p_db_autoRestartHour = [
@@ -414,10 +414,10 @@ if (isServer) then {
     btc_respawn_tickets = createHashMap;
 
     //Delay
-    btc_delay_agent = 0.1;
-    btc_delay_unit = 0.2;
-    btc_delay_vehicle = 0.3;
-    btc_delay_exec = 0.1;
+    btc_delay_agent = 0.4;
+    btc_delay_unit = 0.8;
+    btc_delay_vehicle = 0.6;
+    btc_delay_exec = 0.4;
 };
 
 //Civ
@@ -446,7 +446,7 @@ btc_animals_type = ["Hen_random_F", "Cock_random_F", "Fin_random_F", "Alsatian_R
 //FOB
 btc_fob_mat = "Land_Cargo20_blue_F";
 btc_fob_structure = "Land_Cargo_HQ_V1_F";
-btc_fob_flag = "Flag_NATO_F";
+btc_fob_flag = "Flag_Blue_F";
 btc_fob_id = 0;
 btc_fob_minDistance = 1500;
 

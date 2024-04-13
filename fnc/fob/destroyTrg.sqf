@@ -39,7 +39,7 @@ if(_unconsciousUnits isEqualTo list _fob_trg) exitWith {};
 private _fob_conquest_time = round(_structure getVariable["cap_time", -1]);
 if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run this code block once
 
-    ["WarningDescriptionUnderattack", ["", format[
+    ["WarningDescriptionAudio", ["", format[
         localize "$STR_BTC_HAM_EVENT_FOBBEINGCAPPED",
         _structure getVariable["FOB_name", "UNKNOWN"]
     ]]] call btc_task_fnc_showNotification_s;

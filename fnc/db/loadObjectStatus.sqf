@@ -30,7 +30,7 @@ _object_data params [
     "",
     "_cargo",
     "_inventory",
-    "_vectorPos",
+    "_vectorDirAndUp",
     ["_isContaminated", false, [false]],
     ["_dogtagDataTaken", [], [[]]],
     ["_flagTexture", "", [""]],
@@ -44,7 +44,7 @@ private _obj = createVehicle [_type, ASLToATL _pos, [], 0, "CAN_COLLIDE"];
 
 _obj setDir _dir;
 _obj setPosASL _pos;
-_obj setVectorDirAndUp _vectorPos;
+_obj setVectorDirAndUp _vectorDirAndUp;
 
 if (_isContaminated) then {
     if ((btc_chem_contaminated pushBackUnique _obj) > -1) then {
