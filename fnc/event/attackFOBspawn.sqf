@@ -48,7 +48,7 @@ for "_i" from 0 to _maxGrps do {
     if(count _groups >= _FOB_MAX_GROUPS_) then {break;};
 };
 
-if (random (btc_rep_level_high + 250) > btc_global_reputation) then {
+if (btc_global_reputation < btc_rep_level_veryLow) then {
     private _city = selectRandom _nearCities;
     _grp = [_city, _structure] call btc_ied_fnc_suicider_fob_create;
     _groups pushBack _grp;
