@@ -31,7 +31,7 @@ if(_uid isEqualTo "") exitWith {
 
 btc_slot_data = createHashMap;
 if (_uid in btc_slots_serialized) then {
-    btc_slot_data = btc_slots_serialized getOrDefault [_uid, []];
+    btc_slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
 };
 
 if(isRemoteExecuted && {remoteExecutedOwner isNotEqualTo 0}) then { //relay back data to requesting client
