@@ -26,7 +26,7 @@ private _action = [];
 if(btc_db_load == 2) then { // If is JSON
     _action = ["request_json_fileviewer", "JSON File Viewer", "core\img\json.paa", {
         [{[] call btc_json_fnc_fileviewer;}] call CBA_fnc_execNextFrame; //without this, game will crash
-    }, {true}] call ace_interact_menu_fnc_createAction;
+    }, {(call BIS_fnc_admin) == 2 || isServer}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 };
 if(btc_db_load == 1) then {//If not JSON

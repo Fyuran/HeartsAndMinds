@@ -26,9 +26,20 @@ if(btc_p_intro) then {
 
     [player] call btc_eh_fnc_player;
 
-    private _arsenal_trait = player call btc_arsenal_fnc_trait;
+    _arsenal_trait = player call btc_arsenal_fnc_trait;
     if (btc_p_arsenal_Restrict isEqualTo 3) then {
         [_arsenal_trait select 1] call btc_arsenal_fnc_weaponsFilter;
+    };
+    switch (btc_p_autoloadout) do {
+        case 1: {
+            player setUnitLoadout ([_arsenal_trait select 0] call btc_arsenal_fnc_loadout);
+        };
+        case 2: {
+            (weapons player) apply {          
+                player removeWeapon _x;
+            };
+        };
+        default {};
     };
     [] call btc_int_fnc_add_actions;
 

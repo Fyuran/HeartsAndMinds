@@ -140,8 +140,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 //FOBS ruins
 btc_fobs_ruins_eh = ["btc_fobs_reactivation", {
     params["_actionObj", "_name", "_ruins", "_marker"];
-    systemChat format["called server eh fob ruins: %1", _this];
-    private _toRemove = nearestObjects [_ruins, ["WeaponHolderSimulated"], (boundingBox _ruins)#2 + 100, true];
+    _toRemove = nearestObjects [_ruins, ["WeaponHolderSimulated"], (boundingBox _ruins)#2 + 100, true];
     _toRemove append (_toRemove apply {
         _corpse = getCorpse _x;
         if(!isPlayer [_corpse]) then {_corpse} else {};
@@ -152,4 +151,33 @@ btc_fobs_ruins_eh = ["btc_fobs_reactivation", {
     deleteMarker _marker;
     deleteVehicle _actionObj;
     deleteVehicle _ruins;
+}] call CBA_fnc_addEventHandler;
+
+btc_mil_replenish_garrison_eh = ["btc_mil_replenish_garrison", {
+    params[
+        ["_building", objNull, [objNull]],
+        ["_side", btc_enemy_side, [east]],
+        ["_type_units", btc_type_units, [[]]],
+        ["_outsideOnly", false, [true]]
+    ];
+    _buildingPos = _building getVariable ["btc_mil_garrison_pos", []];
+    if(_buildingPos isEqualTo []) exitWith {
+        if(btc_debug) then {
+            [format ["%1(%2) has no positions available", _building, getPosASL _building], __FILE__, [btc_debug, btc_debug_log], true] call btc_debug_fnc_message;
+        };
+    };
+    
+    _garrisonUnits = (units(_building getVariable["btc_mil_garrison_group", []])) select {alive _x};
+    _emptyPos = [];
+    if(_garrisonUnits isEqualTo []) then {
+        _this call btc_mil_fnc_garrison; 
+    } else {
+        _buildingPos apply {
+            _soldiers = _x nearEntities ["Man", 1];
+            _soldiers = _soldiers select {alive _x && {!isPlayer _x}};
+        };
+    };
+    
+
+
 }] call CBA_fnc_addEventHandler;

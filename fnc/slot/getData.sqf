@@ -62,4 +62,4 @@ if(btc_debug) then {
     [format ["%1(%2) retrieving and saving data", name _unit, _uid], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
 };
 
-btc_slot_data
+btc_slot_data = nil;

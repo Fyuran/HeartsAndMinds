@@ -34,26 +34,25 @@ if(!alive player) exitWith {
             [format["btc_slot_data is still nil"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
         };
     };
-    if!(btc_slot_data isEqualType createHashMap) exitWith {
+    if(!(btc_slot_data isEqualType createHashMap)) exitWith { //not a hashmap
         if(btc_debug) then {
             [format ["btc_slot_data not a HASHMAP"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
         };
     };
-    if(btc_slot_data isEqualTo []) exitWith {
+    if(btc_slot_data isEqualTo createHashMap) exitWith { //empty hashmap
         if(btc_debug) then {
             [format ["no data found for %1(%2)", name player, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
         };
     };
 
     (values btc_slot_data) params ((keys btc_slot_data) apply {"_" + _x});
-
     if(btc_debug) then {
         [format ["%1(%2) with: %3", name player, _uid, btc_slot_data], __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;
     };
 
     if((_uid isNotEqualTo "") && {_uid isNotEqualTo (getPlayerUID player)}) exitWith { //just check for mismatch, ignore empty string
         if(btc_debug) then {
-            [format ["%1, different uid! %2, %3", name player, "EMPTY", getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
+            [format ["%1, different uid! %2, %3", name player, _uid, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
         };
     };
     player setDir _dir; //keep setDir above setPos to sync direction between clients https://community.bistudio.com/wiki/setDir
@@ -70,21 +69,8 @@ if(!alive player) exitWith {
 
     if (_isContaminated) then {
         if ((btc_chem_contaminated pushBackUnique player) > -1) then {
-                publicVariable "btc_chem_contaminated";
-                player call btc_chem_fnc_damageLoop;
-            };
-        } else {
-        switch (btc_p_autoloadout) do {
-            case 1: {
-                private _arsenal_trait = player call btc_arsenal_fnc_trait;
-                player setUnitLoadout ([_arsenal_trait select 0] call btc_arsenal_fnc_loadout);
-            };
-            case 2: {
-                (weapons player) apply {          
-                    player removeWeapon _x;
-                };
-            };
-            default {};
+            publicVariable "btc_chem_contaminated";
+            player call btc_chem_fnc_damageLoop;
         };
     };
     player setUnitLoadout _loadout;

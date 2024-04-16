@@ -24,7 +24,8 @@ Author:
 params [
     ["_building", objNull, [objNull]],
 	["_side", btc_enemy_side, [east]],
-	["_type_units", btc_type_units, [[]]]
+	["_type_units", btc_type_units, [[]]],
+	["_outsideOnly", false, [true]]
 ];
 if(isNull _building) exitWith {["Invalid _building param", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
 if(_type_units isEqualTo []) exitWith {["_type_units is empty", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
@@ -35,19 +36,21 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 	};
 };
 
-[[_side, _building, _type_units], {
-	params ["_side", "_building", "_type_units"];
+[[_side, _building, _type_units, _outsideOnly], {
+	params ["_side", "_building", "_type_units", "_outsideOnly"];
 
 	private _buildingPositions = _building buildingPos -1;
-	private _outside = _buildingPositions select {
-		private _pos = AGLtoASL _x;
-		private _surface = (lineIntersectsSurfaces [_pos, _pos vectorAdd [0,0,5], objNull, objNull, true, 1, "GEOM"]) param[0, []];
-		_surface isEqualTo []
+	if(_outsideOnly) then {
+		_buildingPositions = _buildingPositions select {
+			private _pos = AGLtoASL _x;
+			private _surface = (lineIntersectsSurfaces [_pos, _pos vectorAdd [0,0,5], objNull, objNull, true, 1, "GEOM"]) param[0, []];
+			_surface isEqualTo []
+		};
 	};
 
 	if(btc_debug) then {
 		btc_garrison_buildingPos_debug_objects = [];
-		_buildingPositions apply {
+		(_building buildingPos -1) apply {
 			private _sphere = createVehicle ["Sign_Sphere25cm_F", _x, [], 0, "CAN_COLLIDE"];
 			private _pos = _x;
 			private _higherPos = _pos vectorAdd [0,0,5];
@@ -85,7 +88,7 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 		};
 	};
 
-
+	_building setVariable["btc_mil_garrison_pos", _buildingPositions];
 	_building setVariable["btc_mil_garrison_group", _group];
 	//Static spawn
 	// private _surface = [_building, 4, 3, false] call btc_fnc_find_highest_pos;
