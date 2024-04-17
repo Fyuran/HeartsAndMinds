@@ -16,6 +16,7 @@
 	Author: Fyuran
 	
 ---------------------------------------------------------------------------- */
+#define _DATA_EXISTS_ 202
 
 private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
 if(_saveFile isEqualTo "") exitWith {
@@ -40,19 +41,21 @@ _category apply {
 		[format ["Loading JSON data for %1[%2]: %3", _saveFile, _x, _return], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 	};
 
-	if(_returnCode isEqualTo 202) then {
+	if(_returnCode isEqualTo _DATA_EXISTS_) then { //if data exists
 		for "_i" from 0 to (_pieces - 1) do {
 			("btc_ArmaToJSON" callExtension ["getData", [_saveFile, _x, str _i]]) params ["_rawDataPiece", "_returnCode"];
 			if (btc_debug) then {
 				[format ["Loading JSON Data returned for %1(%2/%3)", _x, _i + 1, _pieces], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 			};
-			if(_returnCode isEqualTo 202) then {
+			if(_returnCode isEqualTo _DATA_EXISTS_) then { //if data piece exists
 				_rawData pushBack _rawDataPiece;
 			};
 		};
+
+		[_x, _rawData] call btc_json_fnc_parse_data;
 	};
 
-	[_x, _rawData] call btc_json_fnc_parse_data;
+	
 };
 
 btc_JSON

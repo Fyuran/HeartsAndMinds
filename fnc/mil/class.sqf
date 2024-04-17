@@ -110,7 +110,9 @@ _side = [east, west, independent, civilian] select getNumber (_cfgFactionClasses
     );
     _type_motorized_transport append (
         _allclass_f select {
-           (count getArray (_cfgVehicles >> _x >> "cargoProxyIndexes")) > 0; 
+            ((_x isKindOf "Car") || (_x isKindOf "Truck")) && !(_x isKindOf "Wheeled_Apc_F") &&
+            ((count getArray (_cfgVehicles >> _x >> "cargoProxyIndexes")) > 2) &&
+            (([_x, false] call BIS_fnc_allTurrets) isEqualTo [])
         }
     );
     //Static

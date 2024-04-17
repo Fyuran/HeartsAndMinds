@@ -693,7 +693,7 @@ btc_type_mg = _allclasse select 7;
 btc_type_gl = _allclasse select 8;
 btc_type_motorized_armed_ground = _allclasse select 9; //Grounded vehicles only, so "Air" and "Helicopter are excluded"
 btc_type_motorized_transport = _allclasse select 10; //Get vehicles that transport many troops
-btc_friendly_type_units = [] call btc_mil_fnc_getPlayersClasses;
+btc_type_friendly_units = [] call btc_mil_fnc_getPlayersClasses;
 //Sometimes you need to remove units: - ["Blabla","moreBlabla"];
 //Sometimes you need to add units: + ["Blabla","moreBlabla"];
 switch (_p_en) do {

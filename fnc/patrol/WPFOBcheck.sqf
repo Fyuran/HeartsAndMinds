@@ -26,14 +26,20 @@ params[
 ];
 
 if(_isBoat) exitWith {
-    [format["P:%1 is on boat, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+    if (btc_debug) then {
+        [format["P:%1 is on boat, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+    };
 };
 
 private _fobs = (btc_fobs select 1);
 if(_fobs isEqualTo []) exitWith {
-    [format["P:%1 _fobs is empty, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+    if (btc_debug) then {
+        [format["P:%1 _fobs is empty, aborting", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+    };
 };
-[format["P:%1 FOB WP checking", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+if (btc_debug) then {
+    [format["P:%1 FOB WP checking", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+};
 
 private _pos = getPosASL this;
 private _fobIndex = _fobs findIf {(_x distance2D _pos) <= (_FOB_SIGHT_RANGE_ + btc_fob_alertRadius)};
@@ -41,7 +47,9 @@ private _fobIndex = _fobs findIf {(_x distance2D _pos) <= (_FOB_SIGHT_RANGE_ + b
 if(_fobIndex isNotEqualTo -1) then {
     _fob = _fobs select _fobIndex;
     if(isNull _fob) exitWith {
-        [format["P:%1 FOB is Null", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+        if (btc_debug) then {
+            [format["P:%1 FOB is Null", _group getVariable ["btc_patrol_id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+        };
     };
 
     [_group, _fob, 100, "PATROL"] call btc_mil_fnc_addWP;
