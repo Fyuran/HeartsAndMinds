@@ -24,7 +24,7 @@ if(_saveFile isEqualTo "") exitWith {
 	};
 };
 
-private _category = [worldName, "player_markers", "cities_status", "array_ho", 
+private _category = [worldName, "player_markers", "cities_status", "array_ho", "explosives",
 "array_cache", "fobs", "fobs_ruins", "array_obj", "tags_properties", "respawn_tickets", "deadPlayers", "slots_serialized", "array_veh"];
 btc_JSON = createHashMap;
 
@@ -44,7 +44,7 @@ _category apply {
 		for "_i" from 0 to (_pieces - 1) do {
 			("btc_ArmaToJSON" callExtension ["getData", [_saveFile, _x, str _i]]) params ["_rawDataPiece", "_returnCode"];
 			if (btc_debug) then {
-				[format ["Loading JSON Data returned for %1(%2)", _x, _i], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+				[format ["Loading JSON Data returned for %1(%2/%3)", _x, _i + 1, _pieces], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 			};
 			if(_returnCode isEqualTo 202) then {
 				_rawData pushBack _rawDataPiece;

@@ -3,7 +3,7 @@
 Function: btc_mil_fnc_unit_killed
 
 Description:
-    Fill me when you edit me !
+    Handle intel and reputation when an enemy is killed.
 
 Parameters:
     _unit - Object the event handler is assigned to. [Object]

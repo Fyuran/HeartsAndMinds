@@ -97,6 +97,7 @@ if (isServer) then {
     btc_json_fnc_fileviewer_r_server = compileScript ["core\fnc\json\ui\fileviewer_r_server.sqf"];
     btc_json_fnc_medical_serializeState = compileScript ["core\fnc\json\data\medical_serializeState.sqf"]; 
     btc_json_fnc_medical_deserializeState = compileScript ["core\fnc\json\data\medical_deserializeState.sqf"];
+
     //DELAY
     btc_delay_fnc_createUnit = compileScript ["core\fnc\delay\createUnit.sqf"];
     btc_delay_fnc_createVehicle = compileScript ["core\fnc\delay\createVehicle.sqf"];
@@ -114,15 +115,14 @@ if (isServer) then {
 
     //EH
     btc_eh_fnc_server = compileScript ["core\fnc\eh\server.sqf"];
-    btc_eh_fnc_handleDisconnect = compileScript ["core\fnc\eh\handleDisconnect.sqf"];
     btc_eh_fnc_setSunriseOrSunset = compileScript ["core\fnc\eh\setSunriseOrSunset.sqf"]; 
     btc_eh_fnc_buildingChanged = compileScript ["core\fnc\eh\buildingChanged.sqf"];  
 
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
-    btc_event_fnc_attackFOB = compileScript ["core\fnc\event\attackFOB.sqf"];
-    btc_event_fnc_attackFOBChance = compileScript ["core\fnc\event\attackFOBChance.sqf"];
-    btc_event_fnc_attackFOBspawn = compileScript ["core\fnc\event\attackFOBspawn.sqf"];
+    btc_event_fnc_canAttackFOB = compileScript ["core\fnc\event\FOB\canAttack.sqf"];
+    btc_event_fnc_attackFOBChance = compileScript ["core\fnc\event\FOB\chance.sqf"];
+    btc_event_fnc_attackFOBspawn = compileScript ["core\fnc\event\FOB\spawn.sqf"];
 
     //FOB
     btc_fob_fnc_create_s = compileScript ["core\fnc\fob\create_s.sqf"];
@@ -132,6 +132,10 @@ if (isServer) then {
     btc_fob_fnc_alarmTrg = compileScript ["core\fnc\fob\alarmTrg.sqf"];
     btc_fob_fnc_destroyTrg = compileScript ["core\fnc\fob\destroyTrg.sqf"];
     btc_fob_fnc_reactivation = compileScript ["core\fnc\fob\reactivation.sqf"];
+
+    //GARRISON
+    btc_garrison_fnc_spawn = compileScript ["core\fnc\garrison\spawn.sqf"];
+    btc_garrison_fnc_replenish = compileScript ["core\fnc\garrison\replenish.sqf"];
 
     //HIDEOUT
     btc_hideout_fnc_hd = compileScript ["core\fnc\hideout\hd.sqf"];
@@ -186,7 +190,6 @@ if (isServer) then {
     btc_mil_fnc_create_group = compileScript ["core\fnc\mil\create_group.sqf"];
     btc_mil_fnc_create_static = compileScript ["core\fnc\mil\create_static.sqf"];
     btc_mil_fnc_create_patrol = compileScript ["core\fnc\mil\create_patrol.sqf"];
-    btc_mil_fnc_garrison = compileScript ["core\fnc\mil\garrison.sqf"]; 
     btc_mil_fnc_send = compileScript ["core\fnc\mil\send.sqf"];
     btc_mil_fnc_set_skill = compileScript ["core\fnc\mil\set_skill.sqf"];
     btc_mil_fnc_getStructures = compileScript ["core\fnc\mil\getStructures.sqf"];
@@ -256,6 +259,7 @@ if (isServer) then {
     btc_tag_fnc_initArea = compileScript ["core\fnc\tag\initArea.sqf"];
     btc_tag_fnc_eh = compileScript ["core\fnc\tag\eh.sqf"];
     btc_tag_fnc_create = compileScript ["core\fnc\tag\create.sqf"];
+	btc_tag_fnc_vehicle = compileScript ["core\fnc\tag\vehicle.sqf"];
 
     //TASK
     btc_task_fnc_create = compileScript ["core\fnc\task\create.sqf"];

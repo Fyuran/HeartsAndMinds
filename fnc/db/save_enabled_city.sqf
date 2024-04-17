@@ -80,6 +80,10 @@ private _data_tags = [];
     };
 };
 
+(btc_vehicles inAreaArray [_pos_city, _cachingRadius, _cachingRadius]) apply {
+    [_x] call btc_tag_fnc_vehicle; 
+};
+
 if (btc_debug_log) then {
     [format ["count data_units = %1", count _data_units], __FILE__, [false]] call btc_debug_fnc_message;
     [format ["count data_animals = %1", count _data_animals], __FILE__, [false]] call btc_debug_fnc_message;

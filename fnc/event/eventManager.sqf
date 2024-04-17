@@ -41,7 +41,7 @@ if(btc_event_activeEvents >= btc_p_event_maxEvents) exitWith { //compared to btc
 btc_event_beingHandled = true;
 btc_event_beingHandled = switch (_event) do {
     case _EVENT_FOB_ATTACK_ : {
-        if(btc_p_event_enable_fobAttack) then {_params call btc_event_fnc_attackFOB;}
+        if(btc_p_event_enable_fobAttack) then {_params call btc_event_fnc_canAttackFOB;}
     }; 
     default {
         [format["event type %1 is not implemented or wrong", _event], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;

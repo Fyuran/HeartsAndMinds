@@ -17,7 +17,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
+#include "..\..\script_macros.hpp"
 
 params[
     ["_city", objNull, [objNull]]
@@ -33,7 +33,7 @@ if(_fobs isEqualTo []) exitWith {
 // };
 
 private _nearCities = values btc_city_all select {
-    (_x distance2D _structure) <= btc_fob_attackRadius && 
+    (_x distance2D _building) <= btc_fob_attackRadius && 
     {_x getVariable ["occupied", false]}
 }; 
 private _hideouts = _nearCities select {
@@ -48,6 +48,6 @@ private _rep = linearConversion[0, btc_rep_level_high, btc_global_reputation, 0,
 private _cities = linearConversion[0, count values btc_city_all, count _nearCities * _hideoutsCount, 0, 1, true];
 
 if(random[0, _cities, 1] > random[0, _rep, 1]) then {
-    private _structure = [_fobs, _city] call BIS_fnc_nearestPosition;
-    [_EVENT_FOB_ATTACK_, _structure] call btc_event_fnc_eventManager;
+    private _building = [_fobs, _city] call BIS_fnc_nearestPosition;
+    [_EVENT_FOB_ATTACK_, _building] call btc_event_fnc_eventManager;
 };

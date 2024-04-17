@@ -246,6 +246,24 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 //Player slots
 btc_slots_serialized = +(profileNamespace getVariable [format ["btc_hm_%1_slotsSerialized", _name], createHashMap]);
 
+//Explosives
+private _explosives = +(profileNamespace getVariable [format ["btc_hm_%1_explosives", _name], []]);
+btc_explosives = _explosives apply {
+    _x params ["_explosiveType", "_dir", "_pitch", "_pos", "_side"];
+    private _explosive = createVehicle [_explosiveType, _pos, [], 0, "CAN_COLLIDE"];
+    _explosive setPosATL _pos;
+    [_explosive, _dir, _pitch] call ACE_Explosives_fnc_setPosition;
+    _explosive setVariable ["btc_side", _side];
+    if (_side isEqualTo btc_player_side) then {
+        _explosive setShotParents [btc_explosives_objectSide, objNull];
+    };
+    [
+        _explosive,
+        _dir,
+        _pitch
+    ];
+};
+
 //Player Markers
 private _markers_properties = +(profileNamespace getVariable [format ["btc_hm_%1_markers", _name], []]);
 {

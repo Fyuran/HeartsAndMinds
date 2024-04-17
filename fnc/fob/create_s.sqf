@@ -37,8 +37,8 @@ if(btc_debug) then {
             __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;  
 };
 
-private _structure = createVehicle [btc_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
-_structure setDir _direction;
+private _building = createVehicle [btc_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
+_building setDir _direction;
 private _flag = createVehicle [btc_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
 private _loudspeaker = createVehicle ["Land_Loudspeakers_F", _pos, [], 0, "CAN_COLLIDE"];
 private _jail = objNull;
@@ -50,18 +50,18 @@ if(_jailData isNotEqualTo []) then {
     _jail = [_flag, _pos, _vectorDirAndUp] call btc_jail_fnc_createJail_s;
 };
 
-(btc_fobs select 1) pushBack _structure;
+(btc_fobs select 1) pushBack _building;
 (btc_fobs select 2) pushBack _flag;
 (btc_fobs select 3) pushBack _loudspeaker;
 
-_structure setVariable["FOB_name", _FOB_name, true];
-_structure setVariable["FOB_Loudspeaker", _loudspeaker];
+_building setVariable["FOB_name", _FOB_name, true];
+_building setVariable["FOB_Loudspeaker", _loudspeaker];
 private _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition;
-_structure setVariable["FOB_Respawn_EH", _BISEH_return];
-_structure setVariable["FOB_Flag", _flag];
+_building setVariable["FOB_Respawn_EH", _BISEH_return];
+_building setVariable["FOB_Flag", _flag];
 
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
-_structure addEventHandler ["Killed", btc_fob_fnc_killed];
+_building addEventHandler ["Killed", btc_fob_fnc_killed];
 [_flag] remoteExecCall ["btc_jail_fnc_addJailActions", [0, -2] select isDedicated, _flag];
 
 private _marker = createMarker [_FOB_name, _pos];
@@ -77,7 +77,7 @@ if(btc_p_fob_garrison) then {
     if (btc_friendly_type_units isEqualTo []) exitWith {
         ["no suitable classes found for fob garrison", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };
-    [{[_this, btc_player_side, btc_friendly_type_units, true] call btc_mil_fnc_garrison;}, _structure] call CBA_fnc_execNextFrame;
+    [{[_this, btc_player_side, btc_friendly_type_units, true] call btc_garrison_fnc_spawn;}, _building] call CBA_fnc_execNextFrame;
 };
 
 //Alarm FOB Trigger
@@ -111,7 +111,7 @@ if (btc_debug) then {
         _spaces = _spaces + " ";
     };
     _marke setMarkerText format [_spaces + "%1: alarm trigger range", _FOB_name];
-    _structure setVariable["alarmTrgMarker", [_marker, _marke]];
+    _building setVariable["alarmTrgMarker", [_marker, _marke]];
 };
 
 //Destroy FOB Trigger
@@ -142,13 +142,13 @@ if (btc_debug) then {
         _spaces = _spaces + " ";
     };
     _marke setMarkerText format [_spaces + "%1: conquest range", _FOB_name];
-    _structure setVariable["destroyTrgMarker", [_marker, _marke]];
+    _building setVariable["destroyTrgMarker", [_marker, _marke]];
 };
 
-_alarmTrg setVariable["btc_fob_structure", _structure];
-_destroyTrg setVariable["btc_fob_structure", _structure];
-_structure setVariable["FOB_Triggers", [_alarmTrg, _destroyTrg]];
+_alarmTrg setVariable["btc_fob_structure", _building];
+_destroyTrg setVariable["btc_fob_structure", _building];
+_building setVariable["FOB_Triggers", [_alarmTrg, _destroyTrg]];
 
 (btc_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
-[_marker, _structure, _flag, _loudspeaker, jail]
+[_marker, _building, _flag, _loudspeaker, jail]

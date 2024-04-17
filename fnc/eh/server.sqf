@@ -58,7 +58,7 @@ addMissionEventHandler ["BuildingChanged", btc_eh_fnc_buildingChanged];
     ] call CBA_fnc_waitAndExecute;
 }] call CBA_fnc_addEventHandler;
 
-addMissionEventHandler ["HandleDisconnect", btc_eh_fnc_handleDisconnect];
+addMissionEventHandler ["HandleDisconnect", {[_this#2] call btc_slot_fnc_getData; false}];
 
 if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {
@@ -134,6 +134,12 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 } forEach ["CUP_MTVR_Base", "Truck_01_base_F"];
 
+["ace_explosives_place", {
+    params ["_explosive", "_dir", "_pitch", "_unit"];
+    _explosive setVariable ["btc_side", side group _unit];
+    btc_explosives pushBack _this;
+}] call CBA_fnc_addEventHandler; 
+
 //Sunrise or Sunset
 [abs btc_p_eh_sunriseorsunset] call btc_eh_fnc_setSunriseOrSunset;
 
@@ -151,33 +157,4 @@ btc_fobs_ruins_eh = ["btc_fobs_reactivation", {
     deleteMarker _marker;
     deleteVehicle _actionObj;
     deleteVehicle _ruins;
-}] call CBA_fnc_addEventHandler;
-
-btc_mil_replenish_garrison_eh = ["btc_mil_replenish_garrison", {
-    params[
-        ["_building", objNull, [objNull]],
-        ["_side", btc_enemy_side, [east]],
-        ["_type_units", btc_type_units, [[]]],
-        ["_outsideOnly", false, [true]]
-    ];
-    _buildingPos = _building getVariable ["btc_mil_garrison_pos", []];
-    if(_buildingPos isEqualTo []) exitWith {
-        if(btc_debug) then {
-            [format ["%1(%2) has no positions available", _building, getPosASL _building], __FILE__, [btc_debug, btc_debug_log], true] call btc_debug_fnc_message;
-        };
-    };
-    
-    _garrisonUnits = (units(_building getVariable["btc_mil_garrison_group", []])) select {alive _x};
-    _emptyPos = [];
-    if(_garrisonUnits isEqualTo []) then {
-        _this call btc_mil_fnc_garrison; 
-    } else {
-        _buildingPos apply {
-            _soldiers = _x nearEntities ["Man", 1];
-            _soldiers = _soldiers select {alive _x && {!isPlayer _x}};
-        };
-    };
-    
-
-
 }] call CBA_fnc_addEventHandler;

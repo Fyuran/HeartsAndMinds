@@ -26,17 +26,17 @@ params [
     ["_n", 0, [0]]
 ];
 
-private _structure = objNull;
+private _building = objNull;
 ([_rpos, 70] call btc_mil_fnc_getStructures) params ["_structures", "_houses"];
 
 if (_structures isEqualTo []) then {
     if (_houses isNotEqualTo []) then {
-        _structure = selectRandom _houses;
+        _building = selectRandom _houses;
         _n = 1;
     };
 } else {
-    _structure = selectRandom _structures;
-    _n = count (_structure buildingPos -1);
+    _building = selectRandom _structures;
+    _n = count (_building buildingPos -1);
     if (_n > 8) then {
         _n = 2;
     } else {
@@ -44,4 +44,4 @@ if (_structures isEqualTo []) then {
     };
 };
 
-[_n, _structure]
+[_n, _building]

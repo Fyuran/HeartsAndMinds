@@ -249,11 +249,38 @@ private _player_markers = createHashMap;
 	"_USER_DEFINED" in _x
 });
 
-// Combine all together
+//Explosives
+private _explosives = [];
+btc_explosives apply {
+    _x params ["_explosive", "_dir", "_pitch"];
+    if (isNull _explosive) then {continue};
+
+	private _hash = createHashMapFromArray[
+        ["explosiveType", typeOf _explosive],
+        ["dir", _dir],
+        ["pitch", _pitch],
+        ["pos", getPosATL _explosive],
+        ["side", _explosive getVariable ["btc_side", sideEmpty]]
+    ];
+	_explosives set [count _explosives, _hash];
+};
+(allMines select {_x isKindOf "APERSMineDispenser_Mine_Ammo"}) apply {
+    private _hash = createHashMapFromArray[
+        ["explosiveType", typeOf _x],
+        ["dir", _x],
+        ["pitch", _x],
+        ["pos", getPosATL _x],
+        ["side", _x getVariable ["btc_side", side group ((getShotParents _x) select 0)]]
+    ];
+
+	_explosives set [count _explosives, _hash];
+};
+
+//Combine all together
 btc_JSON_save = [
 	_simpleData, _player_markers, _cities_status,
 	_array_ho, _array_cache, _fobs, _fobs_ruins,
-	_array_obj, _tags_properties, _respawn_tickets, _deadPlayers, _slots_serialized, _array_veh] apply {
+	_array_obj, _tags_properties, _respawn_tickets, _deadPlayers, _slots_serialized, _array_veh, _explosives] apply {
 		[_x] call btc_json_fnc_encodeJSON;// CBA_fnc_encodeJSON uses "format" which has a hard limit of 2048 chars
 	};
 
@@ -273,7 +300,8 @@ format["btc_hm_%1", _name] + " " +// btc_JSON_save fileName
 	"""respawn_tickets""" + ":" + btc_JSON_save#9 + ", " +
 	"""deadPlayers""" + ":" + btc_JSON_save#10 + ", " +
     """slots_serialized""" + ": " + btc_JSON_save#11 + ", " +
-    """array_veh""" + ":" + btc_JSON_save#12 +
+    """array_veh""" + ":" + btc_JSON_save#12 + ", " +
+	"""explosives""" + ": " + btc_JSON_save#13 + 
     "
 }";
 

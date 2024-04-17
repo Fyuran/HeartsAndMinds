@@ -263,4 +263,25 @@ if (_markers isNotEqualTo createHashMap) then {
 	} forEach _markers;
 };
 
+//Explosives
+private _explosives = +(MAPGET("explosives"));
+if (_explosives isNotEqualTo createHashMap) then {
+	btc_explosives = _explosives apply {
+		(values _y) params ((keys _y) apply {"_" + _x});
+
+		private _explosive = createVehicle [_explosiveType, _pos, [], 0, "CAN_COLLIDE"];
+		_explosive setPosATL _pos;
+		[_explosive, _dir, _pitch] call ACE_Explosives_fnc_setPosition;
+		_explosive setVariable ["btc_side", _side];
+		if (_side isEqualTo btc_player_side) then {
+			_explosive setShotParents [btc_explosives_objectSide, objNull];
+		};
+		[
+			_explosive,
+			_dir,
+			_pitch
+		];
+	};
+};
+
 [["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;

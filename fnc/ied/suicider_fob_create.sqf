@@ -27,7 +27,7 @@ Author:
 
 params [
     ["_city", objNull, [objNull]],
-	["_structure", objNull, [objNull]],
+	["_building", objNull, [objNull]],
     ["_type_units", "", [""]]
 ];
 
@@ -68,11 +68,11 @@ private _suicider = _group createUnit [_type_units, _pos, [], 0, "CAN_COLLIDE"];
 [_suicider] joinSilent _group;
 _suicider moveinDriver _veh;
 _suicider assignAsDriver _veh;
-_suicider setVariable ["btc_target_fob", _structure]; //necessary for WP correction.
+_suicider setVariable ["btc_target_fob", _building]; //necessary for WP correction.
 
 //Waypoints and Range check
 [_group] call CBA_fnc_clearWaypoints;
-[_group, _structure, -1, "MOVE", "CARELESS", "BLUE", "FULL", "NO CHANGE", "this call btc_ied_fnc_suicider_fobLoop", nil, _TRG_RANGE] call CBA_fnc_addWaypoint;
+[_group, _building, -1, "MOVE", "CARELESS", "BLUE", "FULL", "NO CHANGE", "this call btc_ied_fnc_suicider_fobLoop", nil, _TRG_RANGE] call CBA_fnc_addWaypoint;
 
 //EH killed
 _suicider addEventHandler ["Killed", {

@@ -41,20 +41,20 @@ params [
 private _pos = [_city call CBA_fnc_getPos, _area, _p_sea] call btc_fnc_randomize_pos;
 private _group_structure = [1, objNull];
 if (_wp isEqualTo "HOUSE") then { // Find building
-    ([_pos, _n] call btc_mil_fnc_getBuilding) params ["_numberOfGroup", "_structure"];
-    if (_structure isNotEqualTo objNull) then {
-        _group_structure = [_numberOfGroup, _structure];
+    ([_pos, _n] call btc_mil_fnc_getBuilding) params ["_numberOfGroup", "_building"];
+    if (_building isNotEqualTo objNull) then {
+        _group_structure = [_numberOfGroup, _building];
     } else {
         _wp = "PATROL"; // Handle the case there is no building
     };
 };
 
-_group_structure params ["_numberOfGroup", "_structure"];
+_group_structure params ["_numberOfGroup", "_building"];
 private _pos_iswater = surfaceIsWater _pos;
 private _hashMapGroup = createHashMap;
 _hashMapGroup set ["_pos", _pos];
 if (
-    _structure isEqualTo objNull &&
+    _building isEqualTo objNull &&
     {!_pos_iswater}
 ) then {
     [_hashMapGroup, {
@@ -79,8 +79,8 @@ for "_i" from 1 to _numberOfGroup do {
     switch (_wp) do {
         case ("HOUSE") : {
             _n = 1;
-            [[_group, _structure], btc_fnc_house_addWP] call btc_delay_fnc_exec;
-            _group setVariable ["btc_inHouse", typeOf _structure];
+            [[_group, _building], btc_fnc_house_addWP] call btc_delay_fnc_exec;
+            _group setVariable ["btc_inHouse", typeOf _building];
         };
         case ("PATROL") : {
             [{
@@ -100,7 +100,6 @@ for "_i" from 1 to _numberOfGroup do {
             }, [_group, _hashMapGroup], btc_delay_time] call CBA_fnc_waitAndExecute;            
         };
     };
-    _group setVariable ["wp_type", _wp, true];
     [_group, _hashMapGroup, _n, _pos_iswater] call btc_mil_fnc_createUnits;
 };
 

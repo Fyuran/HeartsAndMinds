@@ -82,14 +82,14 @@ closeDialog 0;
 if (isNull _mat) exitWith {};
 deleteVehicle _mat;
 
-private _structure = createVehicleLocal[btc_fob_structure, getPosATL _mat, [], 0, "CAN_COLLIDE"];
+private _building = createVehicleLocal[btc_fob_structure, getPosATL _mat, [], 0, "CAN_COLLIDE"];
 
-[_structure] call btc_log_fnc_place;
+[_building] call btc_log_fnc_place;
 waitUntil {!btc_log_placing};
 
-private _pos = getPosATL _structure;
-private _direction = direction _structure;
-deleteVehicle _structure;
+private _pos = getPosATL _building;
+private _direction = direction _building;
+deleteVehicle _building;
 
 [_pos, _direction, _name] remoteExecCall ["btc_fob_fnc_create_s", 2];
 [7, _name] remoteExecCall ["btc_fnc_show_hint", [0, -2] select isDedicated];

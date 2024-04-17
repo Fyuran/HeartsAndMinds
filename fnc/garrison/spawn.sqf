@@ -1,19 +1,19 @@
 
 /* ----------------------------------------------------------------------------
-Function: btc_mil_fnc_garrison
+Function: btc_garrison_fnc_spawn
 
 Description:
 	Adds AI garrisons based on number of available building positions
 
 Parameters:
-    _structure -
+    _building -
 	_group -
 
 Returns:
 
 Examples:
     (begin example)
-        [cursorObject, side player] call btc_mil_fnc_garrison;
+        [cursorObject, side player] call btc_garrison_fnc_spawn;
     (end)
 
 Author:
@@ -42,9 +42,12 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 	private _buildingPositions = _building buildingPos -1;
 	if(_outsideOnly) then {
 		_buildingPositions = _buildingPositions select {
-			private _pos = AGLtoASL _x;
-			private _surface = (lineIntersectsSurfaces [_pos, _pos vectorAdd [0,0,5], objNull, objNull, true, 1, "GEOM"]) param[0, []];
+			private _pos = ATLtoASL _x;
+			private _surface = (lineIntersectsSurfaces [_pos, _pos vectorAdd [0,0,5], objNull, objNull, true, 1, "GEOM"]);
 			_surface isEqualTo []
+		};
+		if(_buildingPositions isEqualTo []) then {
+			[format["No suitable outside positions found for garrison"], __FILE__, [false, btc_debug_log, false], true] call btc_debug_fnc_message;
 		};
 	};
 
@@ -54,7 +57,7 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 			private _sphere = createVehicle ["Sign_Sphere25cm_F", _x, [], 0, "CAN_COLLIDE"];
 			private _pos = _x;
 			private _higherPos = _pos vectorAdd [0,0,5];
-			private _intersect = (lineIntersectsSurfaces [AGLtoASL _pos, AGLtoASL _higherPos, _sphere, objNull, true, 1, "GEOM"]) param[0, []];
+			private _intersect = (lineIntersectsSurfaces [ATLtoASL _pos, ATLtoASL _higherPos, _sphere, objNull, true, 1, "GEOM"]) param[0, []];
 			if (_intersect isNotEqualTo []) then {
 				_sphere setVariable ["btc_debug_ceiling", ASLtoATL (_intersect#0)];
 			};
@@ -79,13 +82,12 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 
 	private _group = createGroup _side;
 	_buildingPositions apply {
-		if(_x in _outside) then { //only create units that are outside
-			private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
-			doStop _unit;
-			_unit setVariable ["lambs_danger_disableAI", true];
-			_unit setUnitPos "UP";
-			_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
-		};
+		private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
+		doStop _unit;
+		_unit setVariable["lambs_danger_disableAI", true];
+		_unit setVariable["btc_mil_garrison_group", true];
+		_unit setUnitPos "UP";
+		_unit disableAI "PATH"; // This command causes AI to repeatedly attempt to crouch when engaged
 	};
 
 	_building setVariable["btc_mil_garrison_pos", _buildingPositions];
