@@ -3,7 +3,7 @@
 Function: btc_slot_fnc_getData
 
 Description:
-    Server replies with requested player data
+    Server replies with requested player data if it exists
 
 Parameters:
 
@@ -28,38 +28,21 @@ if(_uid isEqualTo "") exitWith {
         ["invalid _uid", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };
 };
-
-btc_slot_data = createHashMap;
-if (_uid in btc_slots_serialized) then {
-    btc_slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
+if(isNil "btc_slots_serialized") exitWith {
+    if(btc_debug) then {
+        ["btc_slots_serialized is nil", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    };
 };
+
+btc_slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
 
 if(isRemoteExecuted && {remoteExecutedOwner isNotEqualTo 0}) then { //relay back data to requesting client
     remoteExecutedOwner publicVariableClient "btc_slot_data";
+    if(btc_debug) then {
+        private _unit = _uid call BIS_fnc_getUnitByUID;
+        [format ["%1(%2) retrieving data", name _unit, _uid], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
+    };
+
 };
 
-private _unit = _uid call BIS_fnc_getUnitByUID;
-if(alive _unit) then {
-    private _slot = createHashMapFromArray [
-        ["previousPos", getPosASL _unit],
-        ["dir", getDir _unit],
-        ["loadout", getUnitLoadout _unit],
-        ["flagTexture", getForcedFlagTexture _unit],
-        ["isContaminated", _unit in btc_chem_contaminated],
-        ["medicalState", [_unit] call btc_json_fnc_medical_serializeState],
-        ["field_rations", [
-            _unit getVariable ["acex_field_rations_thirst", 0],
-            _unit getVariable ["acex_field_rations_hunger", 0]
-        ]],
-        ["hasEarPlugsIn", [_unit] call ace_hearing_fnc_hasEarPlugsIn],
-        ["uid", _uid]
-    ];
-    btc_slots_serialized set [_uid, _slot];
-};
-
-
-if(btc_debug) then {
-    [format ["%1(%2) retrieving and saving data", name _unit, _uid], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
-};
-
-btc_slot_data = nil;
+btc_slot_data

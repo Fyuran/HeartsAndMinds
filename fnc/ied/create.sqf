@@ -45,10 +45,10 @@ _wreck setDir _dir;
 _wreck setVectorUp surfaceNormal _pos;
 
 if (btc_debug) then {
-    private _marker = createMarker [format ["btc_ied_%1", _pos], _pos];
-    _marker setMarkerType "mil_warning";
-    _marker setMarkerColor (["ColorBlue", "ColorRed"] select _active);
-    _marker setMarkerText (["IED (fake)", "IED"] select _active);
+    private _marker = createMarkerLocal [format ["btc_ied_%1", _pos], _pos];
+    _marker setMarkerTypeLocal "hd_warning";
+    _marker setMarkerColorLocal (["ColorBlue", "ColorRed"] select _active);
+    _marker setMarkerTextLocal (["IED (fake)", "IED"] select _active);
     _marker setMarkerSize [0.8, 0.8];
 };
 if (btc_debug_log) then {

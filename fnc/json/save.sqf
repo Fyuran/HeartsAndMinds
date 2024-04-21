@@ -130,13 +130,21 @@ private _fobs = createHashMap;
     if !(isNull _flag) then {
         private _pos = getMarkerPos [_x, true];
         private _direction = getDir ((btc_fobs select 1) select _forEachIndex);
-        private _array = [_pos, _direction, markerText _x, []];
+        private _array = [_pos, _direction, markerText _x, [], [], _flag getVariable ["btc_log_resources", 0]];
 
-        private _hash = ["pos", "direction", "FOB_name", "jailData"] createHashMapFromArray _array;
+        private _hash = ["pos", "direction", "FOB_name", "jailData", "logObjData", "resources"] createHashMapFromArray _array;
 
 		private _jail = _flag getVariable ["btc_jail", objNull];
         if(alive _jail) then {
             _hash set ["jailData", [getPosATL _jail, [vectorDir _jail, vectorUp _jail]]];
+        };
+
+		private _create_obj = _flag getVariable ["btc_log_create_obj", objNull];
+        if(alive _create_obj) then {
+            _hash set ["logObjData", [
+				getPosATL _create_obj, 
+				[vectorDir _create_obj, vectorUp _create_obj]
+			]];
         };
 
 		_fobs set [markerText _x, _hash];
@@ -144,7 +152,7 @@ private _fobs = createHashMap;
 } forEach (btc_fobs select 0);
 private _fobs_ruins = createHashMap;
 btc_fobs_ruins apply {
-	private _hash = ["pos", "dir", "typeOf", "name"] createHashMapFromArray _y;
+	private _hash = ["pos", "dir", "typeOf", "name"] createHashMapFromArray (values _y);
 	_fobs_ruins set [_x, _hash];
 };
 
@@ -159,7 +167,7 @@ private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
 		"_inventory", "_vectorDirAndUp", "_PLACEHOLDER2", "_PLACEHOLDER3",
 		["_flagTexture", "", [""]],
 		["_turretMagazines", [], [[]]],
-		"_no4",
+		"_PLACEHOLDER4",
 		["_tagTexture", "", [""]],
 		["_properties", [], [[]]]
 	];
@@ -176,24 +184,52 @@ private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
 	_array_veh set [_forEachIndex, _hash];
 } forEach (_vehiclesNotInCargo + _vehiclesInCargo);
 
-//Objects status
+//Log Objects status
 private _array_obj = createHashMap;
 {
 	if !(!alive _x || isNull _x) then {
 		private _data = [_x] call btc_db_fnc_saveObjectStatus;
-		private _hash =
-		["type", "pos", "dir", "", "cargo",
-			"inventory", "vectorDirAndUp", "isChem", "dogtagDataTaken",
-			"flagTexture", "turretMagazines", "customName", "tagTexture",
-			"properties"
-		] createHashMapFromArray _data;
-		_array_obj set [_forEachindex, _hash];
+
+			private _hash =
+			["type", "pos", "dir", "", "cargo",
+				"inventory", "vectorDirAndUp", "isChem", "dogtagDataTaken",
+					"flagTexture", "turretMagazines", "customName", "tagTexture",
+						"properties"
+			] createHashMapFromArray _data;
+			_array_obj set [_forEachindex, _hash];
 	};
 } forEach (btc_log_obj_created select {
-	!(isObjectHidden _x) &&
 	isNull objectParent _x &&
-	isNull isVehicleCargo _x
+	{!(isObjectHidden _x)} &&
+	{isNull isVehicleCargo _x}  
 });
+
+//Supplies
+private _array_fob_log_supplies = createHashMap;
+{
+	private _pos = getPosATL _x;
+	private _vectorDirAndUp = [vectorDir _x, vectorUp _x];
+	private _isClaimed = _x getVariable["btc_fob_log_isClaimed", false];
+	private _resources = _x getVariable ["btc_log_resources", 0];
+
+	private _markers = [];
+	(_x getVariable ["markers", []]) apply {
+		private _marker = [];
+		_marker pushBack (getMarkerPos _x);
+		_marker pushBack (markerText _x);
+		_markers pushBack _marker;
+	};
+
+	private _hash = ["pos", "vectorDirAndUp", "resources", "isClaimed", "markers"]
+	createHashMapFromArray [_pos, _vectorDirAndUp, _resources, _isClaimed, _markers];
+
+	_array_fob_log_supplies set [_forEachIndex, _hash];
+} forEach (btc_log_fob_supply_objects select {
+	isNull objectParent _x &&
+	{!(isObjectHidden _x)} &&
+	{isNull isVehicleCargo _x}  
+});
+
 
 //Player Tags
 private _tags = btc_tags_player select {alive (_x select 0)};
@@ -227,8 +263,8 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 //Player slots
 btc_slots_serialized = createHashMap;
 (allPlayers - entities "HeadlessClient_F") apply {
-    if (alive _x) then {
-        [getPlayerUID _x] call btc_slot_fnc_getData;
+    if (!isNull _x) then {
+        [getPlayerUID _x] call btc_slot_fnc_saveData;
     };
 };
 private _slots_serialized = +btc_slots_serialized;
@@ -280,7 +316,7 @@ btc_explosives apply {
 btc_JSON_save = [
 	_simpleData, _player_markers, _cities_status,
 	_array_ho, _array_cache, _fobs, _fobs_ruins,
-	_array_obj, _tags_properties, _respawn_tickets, _deadPlayers, _slots_serialized, _array_veh, _explosives] apply {
+	_array_obj, _array_fob_log_supplies, _tags_properties, _respawn_tickets, _deadPlayers, _slots_serialized, _array_veh, _explosives] apply {
 		[_x] call btc_json_fnc_encodeJSON;// CBA_fnc_encodeJSON uses "format" which has a hard limit of 2048 chars
 	};
 
@@ -296,12 +332,13 @@ format["btc_hm_%1", _name] + " " +// btc_JSON_save fileName
     """fobs""" + ":" + btc_JSON_save#5 + ", " +
 	"""fobs_ruins""" + ":" + btc_JSON_save#6 + ", " +
     """array_obj""" + ":" + btc_JSON_save#7 + ", " +
-	"""tags_properties""" + ":" + btc_JSON_save#8 + ", " +
-	"""respawn_tickets""" + ":" + btc_JSON_save#9 + ", " +
-	"""deadPlayers""" + ":" + btc_JSON_save#10 + ", " +
-    """slots_serialized""" + ": " + btc_JSON_save#11 + ", " +
-    """array_veh""" + ":" + btc_JSON_save#12 + ", " +
-	"""explosives""" + ": " + btc_JSON_save#13 + 
+	"""array_fob_log_supplies""" + ":" + btc_JSON_save#8 + ", " +
+	"""tags_properties""" + ":" + btc_JSON_save#9 + ", " +
+	"""respawn_tickets""" + ":" + btc_JSON_save#10 + ", " +
+	"""deadPlayers""" + ":" + btc_JSON_save#11 + ", " +
+    """slots_serialized""" + ": " + btc_JSON_save#12 + ", " +
+    """array_veh""" + ":" + btc_JSON_save#13 + ", " +
+	"""explosives""" + ": " + btc_JSON_save#14 + 
     "
 }";
 

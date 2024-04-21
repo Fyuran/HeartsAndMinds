@@ -26,6 +26,9 @@ params[
 private _hash = createHashMap;
 
 switch(_fncName) do {
+	case "btc_debug_fnc_fob_supplies": {
+		btc_debug_namespace setVariable ["fob_supplies", btc_log_fob_supply_objects, remoteExecutedOwner];
+	};
 	case "btc_debug_fnc_cache": {
 
 		_hash set ["cache_n", btc_cache_n];

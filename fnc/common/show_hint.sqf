@@ -45,6 +45,13 @@ private _text = switch (_type) do {
     case 3 : {
         localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_3";
     };
+    case 4 : {
+        [
+            [localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_4"],
+            [localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_MU"],
+            ['\A3\ui_f\data\map\markers\handdrawn\unknown_CA.paa', 0.8, [1,0.3,0.4]]
+        ];
+    };
     case 5 : {
         [
             [localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_5"],

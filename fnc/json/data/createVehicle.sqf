@@ -37,9 +37,9 @@ params [
     ["_veh_pos", [0, 0, 0], [[]]],
     ["_veh_dir", 0, [0]],
     ["_veh_fuel", 1, [0]],
-    ["_veh_allHitPointsDamage", [], [[]]],
+    ["_veh_allHitPointsDamage", [], [[]], 3],
     ["_veh_cargo", [], []],
-    ["_veh_inventory", [], []],
+    ["_veh_inventory", [], [], 4],
     ["_EDENinventory", [], [[]]],
     ["_vectorDirAndUp", [[0,1,0],[0,0,1]], [[]]],
     ["_flagTexture", "", [""]],
@@ -69,7 +69,7 @@ _veh setFuel _veh_fuel;
 _veh setVectorDirAndUp _vectorDirAndUp;
 [_veh, _turretMagazines] call btc_db_fnc_setTurretMagazines;
 
-[_veh, _cargo, _inventory] call btc_db_fnc_loadCargo;
+[_veh, _veh_cargo, _veh_inventory] call btc_db_fnc_loadCargo;
 
 if (_EDENinventory isNotEqualTo []) then {
     _veh setVariable ["btc_EDENinventory", _EDENinventory];

@@ -118,15 +118,12 @@ btc_cache_pictures = _cache_pictures;
 //FOB
 private _fobs = +(profileNamespace getVariable [format ["btc_hm_%1_fobs", _name], []]);
 _fobs apply {
-    _x params [
-        ["_pos", [], [[]]], 
-        ["_direction", 0, [0]],
-        ["_FOB_name", "FOB ", [""]],   
-        ["_jailData", [], []]
-    ];
-
-    [_pos, _direction, _FOB_name, _jailData] call btc_fob_fnc_create_s;
+    _x call btc_fob_fnc_create_s;
+    if (btc_debug) then {
+        [format ["_fob = %1 at %2", _x#2, _x#0], __FILE__, [false]] call btc_debug_fnc_message;
+    };
 };
+
 
 btc_fobs_ruins = +(profileNamespace getVariable [format ["btc_hm_%1_fobs_ruins", _name], createHashMap]);
 if(btc_fobs_ruins isNotEqualTo createHashMap) then {
@@ -135,7 +132,7 @@ if(btc_fobs_ruins isNotEqualTo createHashMap) then {
         _ruin setDir _y#1;
         _ruin setVariable["FOB_name", _x, true];
 
-        [objNull, _ruin] call btc_fob_fnc_reactivation;
+        [objNull, _ruin] call btc_fob_fnc_ruins;
     };
 };
 
@@ -155,6 +152,18 @@ private _objs = +(profileNamespace getVariable [format ["btc_hm_%1_objs", _name]
         [_x] call btc_db_fnc_loadObjectStatus;
     };
 }, _objs] call CBA_fnc_execNextFrame;
+
+
+//Supplies
+private _array_fob_log_supplies = +(profileNamespace getVariable [format ["btc_hm_%1_fob_log_supplies", _name], []]);
+[{
+    _this apply {
+        _args = [objNull];
+        _args append _x;
+        _args call btc_log_fob_fnc_resupply_packed;
+    };
+}, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
+
 
 //VEHICLES
 private _vehs = +(profileNamespace getVariable [format ["btc_hm_%1_vehs", _name], []]);
@@ -272,13 +281,13 @@ private _markers_properties = +(profileNamespace getVariable [format ["btc_hm_%1
         ["_markerChannel", 0, [0]]
     ];
 
-    private _marker = createMarker [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
-    _marker setMarkerText _markerText;
-    _marker setMarkerColor _markerColor;
-    _marker setMarkerType _markerType;
-    _marker setMarkerSize _markerSize;
-    _marker setMarkerAlpha _markerAlpha;
-    _marker setMarkerBrush _markerBrush;
+    private _marker = createMarkerLocal [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
+    _marker setMarkerTextLocal _markerText;
+    _marker setMarkerColorLocal _markerColor;
+    _marker setMarkerTypeLocal _markerType;
+    _marker setMarkerSizeLocal _markerSize;
+    _marker setMarkerAlphaLocal _markerAlpha;
+    _marker setMarkerBrushLocal _markerBrush;
     _marker setMarkerDir _markerDir;
 
     _marker setMarkerShape _markerShape;

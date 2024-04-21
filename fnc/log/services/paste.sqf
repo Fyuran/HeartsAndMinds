@@ -26,7 +26,7 @@ params [
     ["_create_object_point", objNull, [objNull]]
 ];
 
-if ([_create_object_point] call btc_fnc_checkArea) exitWith {};
+if ([_create_object_point] call btc_fnc_isAreaOccupied) exitWith {};
 
 if (isNil "_copy_container") exitWith {(localize "STR_BTC_HAM_O_PASTE_NOCOPIED") call CBA_fnc_notify};
 

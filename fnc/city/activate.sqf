@@ -155,6 +155,13 @@ if (_data_units isNotEqualTo []) then {
         });
         [+_housesEntrerable, round (_p_civ_group_ratio * _numberOfCivi), _city] call btc_civ_fnc_populate;
     };
+
+    private _fob_log_supplies = btc_log_fob_supply_objects select {(_x distanceSqr _city) < (_cachingRadius*_cachingRadius)};
+    _fob_log_supplies apply {
+        if((_x getVariable ["mil_groups", []]) isEqualTo []) then {
+            _x setVariable ["mil_groups", [_x, 5, 3, "SENTRY"] call btc_mil_fnc_create_group];
+        };
+    };
 };
 if (btc_p_animals_group_ratio > 0) then {
     if (_data_animals isNotEqualTo []) then {

@@ -76,7 +76,7 @@ class Rsc_btcJSON
 		{
 			idc = 1600;
 			text = "Delete"; 
-			x = 9.22 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+			x = 9.2 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
 			y = 25.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
 			w = 3 * GUI_GRID_CENTER_W;
 			h = 1.5 * GUI_GRID_CENTER_H;
@@ -85,7 +85,7 @@ class Rsc_btcJSON
 		{
 			idc = 1601;
 			text = "Copy"; 
-			x = 15.44 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+			x = 15.4 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
 			y = 25.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
 			w = 3 * GUI_GRID_CENTER_W;
 			h = 1.5 * GUI_GRID_CENTER_H;
@@ -103,7 +103,7 @@ class Rsc_btcJSON
 		{
 			idc = 1603;
 			text = "Rename"; 
-			x = 12.32 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+			x = 12.3 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
 			y = 25.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
 			w = 3 * GUI_GRID_CENTER_W;
 			h = 1.5 * GUI_GRID_CENTER_H;
@@ -116,7 +116,7 @@ class Rsc_btcJSON
 			y = 25.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
 			w = 3 * GUI_GRID_CENTER_W;
 			h = 1.5 * GUI_GRID_CENTER_H;
-		};	
+		};
 		class RscButton_2: RscJSONButton
 		{
 			idc = IDC_CANCEL;

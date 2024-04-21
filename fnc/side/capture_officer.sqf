@@ -54,22 +54,22 @@ private _pos2 = getPos _city2;
 [_taskID, 14, _city2, _city2 getVariable "name"] call btc_task_fnc_create;
 
 //// Create markers \\\\
-private _marker1 = createMarker [format ["sm_2_%1", _pos1], _pos1];
-_marker1 setMarkerType "hd_flag";
+private _marker1 = createMarkerLocal [format ["sm_2_%1", _pos1], _pos1];
+_marker1 setMarkerTypeLocal "hd_flag";
 [_marker1, "str_a3_campaign_b_m06_marker01"] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker1]; //Convoy start
 _marker1 setMarkerSize [0.6, 0.6];
 
-private _marker2 = createMarker [format ["sm_2_%1", _pos2], _pos2];
-_marker2 setMarkerType "hd_flag";
+private _marker2 = createMarkerLocal [format ["sm_2_%1", _pos2], _pos2];
+_marker2 setMarkerTypeLocal "hd_flag";
 [_marker2, "STR_BTC_HAM_SIDE_CONVOY_MRKEND"] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker2]; //Convoy end
 _marker2 setMarkerSize [0.6, 0.6];
 
-private _area = createMarker [format ["sm_%1", _pos2], _pos2];
-_area setMarkerShape "ELLIPSE";
-_area setMarkerBrush "SolidBorder";
-_area setMarkerSize [_radius/2, _radius/2];
-_area setMarkerAlpha 0.3;
-_area setmarkercolor "colorBlue";
+private _area = createMarkerLocal [format ["sm_%1", _pos2], _pos2];
+_area setMarkerShapeLocal "ELLIPSE";
+_area setMarkerBrushLocal "SolidBorder";
+_area setMarkerSizeLocal [_radius/2, _radius/2];
+_area setMarkerAlphaLocal 0.3;
+_area setmarkerColor "colorBlue";
 
 private _markers = [_marker1, _marker2, _area];
 
@@ -141,7 +141,7 @@ for "_i" from 1 to _convoyLength do {
     _trigger setVariable ["captive", _captive];
     _trigger setTriggerArea [15, 15, 0, false];
     _trigger setTriggerActivation [str btc_player_side, "PRESENT", true];
-    _trigger setTriggerStatements ["this", format ["_captive = thisTrigger getVariable 'captive'; deleteVehicle thisTrigger; doStop _captive; [_captive, true] call ace_captives_fnc_setSurrendered; ['%1', 'SUCCEEDED'] call BIS_fnc_taskSetState; [['%2', '%4'], 29, _captive] call btc_task_fnc_create; [['%3', '%4'], 21, btc_create_object_point, typeOf btc_create_object_point] call btc_task_fnc_create;", _surrender_taskID, _handcuff_taskID, _back_taskID, _taskID], ""];
+    _trigger setTriggerStatements ["this", format ["_captive = thisTrigger getVariable 'captive'; deleteVehicle thisTrigger; doStop _captive; [_captive, true] call ace_captives_fnc_setSurrendered; ['%1', 'SUCCEEDED'] call BIS_fnc_taskSetState; [['%2', '%4'], 29, _captive] call btc_task_fnc_create; [['%3', '%4'], 21, btc_log_point_obj, typeOf btc_log_point_obj] call btc_task_fnc_create;", _surrender_taskID, _handcuff_taskID, _back_taskID, _taskID], ""];
     _trigger attachTo [_captive, [0, 0, 0]];
 
     ["ace_captiveStatusChanged", {
@@ -167,7 +167,7 @@ for "_i" from 1 to _convoyLength do {
     }, [_captive, _taskID, _trigger]] call CBA_fnc_waitUntilAndExecute;
 
     [{
-        (_this select 0) inArea [getPosWorld btc_create_object_point, 100, 100, 0, false] ||
+        (_this select 0) inArea [getPosWorld btc_log_point_obj, 100, 100, 0, false] ||
         isNull (_this select 0)
     }, {
         [_this select 1, "SUCCEEDED"] call btc_task_fnc_setState;

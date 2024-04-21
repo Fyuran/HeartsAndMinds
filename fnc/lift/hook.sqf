@@ -51,7 +51,7 @@ if ((_bbr isEqualTo []) OR (_ropes_check select {!isNull _x} isEqualTo [])) then
     if (abs((_bbr select 0) select 0) > 5) then {
         _rope_length = 10 + abs((_bbr select 0) select 0);
     };
-    ([_cargo] call btc_log_fnc_get_corner_points) params [
+    ([_cargo] call btc_fnc_get_corner_points) params [
         "_rearCorner",
         "_rearCorner2",
         "_frontCorner",

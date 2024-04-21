@@ -19,7 +19,8 @@
 
 params[
 	["_category", "", [""]],
-	["_rawData", [], [[]]]
+	["_rawData", [], [[]]],
+	["_JSON", createHashMap, [createHashMap]]
 ];
 
 private _innerHash = createHashMap;
@@ -37,4 +38,4 @@ if(_rawData isNotEqualTo [""]) then {
 	};
 };
 
-btc_JSON set [_category, _innerHash];
+_JSON set [_category, _innerHash];

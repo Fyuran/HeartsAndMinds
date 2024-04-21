@@ -57,9 +57,12 @@ _helpers apply {_x hideObjectGlobal false};
 _placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]];
 [_placing_obj, [btc_log_yaw, btc_log_pitch, btc_log_roll]] call BIS_fnc_setObjectRotation;
 
+if(btc_debug) then {
+    [format["%1 picked up a %2", name player, typeOf _placing_obj], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+};
+
 private _currentWeapon = currentWeapon player;
 [player] call ace_weaponselect_fnc_putWeaponAway;
-[player, "forceWalk", "btc_log_placing", true] call ace_common_fnc_statusEffect_set;
 [player, "blockThrow", "btc_log_placing", true] call ace_common_fnc_statusEffect_set;
 
 //add actions to keys
@@ -67,6 +70,7 @@ private _leftActionEH = [player, "DefaultAction", {btc_log_placing}, {btc_log_pl
 private _keyDownEH = (findDisplay 46) displayAddEventHandler ["KeyDown", btc_log_fnc_place_key_down];
 private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChanged", btc_log_fnc_place_mouse_zchanged];
 
+["btc_log_place_pickedUp", [_placing_obj, player]] call CBA_fnc_serverEvent;
 [{
     !alive player || 
     player getVariable ["ACE_isUnconscious", false] || 
@@ -88,6 +92,7 @@ private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChang
 
         if(btc_debug) then {
             [format["triggered CBA_fnc_waitUntilAndExecute with %1", _this], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+            [format["%1 placed down a %2", name player, typeOf _placing_obj], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
         };
 
         private _helpers = _placing_obj getVariable ["btc_log_helpers", []];
@@ -95,8 +100,8 @@ private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChang
 
         detach _placing_obj;
         [player, _currentWeapon] call ace_weaponselect_fnc_selectWeaponMode;
-        [player, "forceWalk", "btc_log_placing", false] call ace_common_fnc_statusEffect_set;
         [player, "blockThrow", "btc_log_placing", false] call ace_common_fnc_statusEffect_set;
+        ["btc_log_place_placedDown", [_placing_obj, player]] call CBA_fnc_serverEvent;
 
         btc_log_placing_obj = objNull;
     }, _this] call CBA_fnc_execNextFrame;

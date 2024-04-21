@@ -61,7 +61,7 @@ if ([_active_city, _group, _area] call btc_patrol_fnc_playersInAreaCityGroup) ex
 //Sometimes the waypoint is completed but too far due to obstacle (water for island etc)
 if ((leader _group) distance _last_wp_pos > 100) then {
     if (btc_debug || btc_debug_log) then {
-        [format ["Patrol ID: %1, %2 inaccessible (end city ID: %3)", _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_city getVariable ["name", "no name"], _end_city getVariable ["id", 0]], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
+        [format ["Patrol ID: %1, %2 inaccessible (end city ID: %3)", _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_city getVariable ["name", "no name"], _end_city getVariable ["id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
     };
 
     //Dynamically create a balcklist of cities inaccessible from the starting city

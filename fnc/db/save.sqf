@@ -122,13 +122,19 @@ private _fobs = [];
     if !(isNull _flag) then {
         private _pos = getMarkerPos [_x, true];
         private _direction = getDir ((btc_fobs select 1) select _forEachIndex);
-        private _array = [_pos, _direction, markerText _x];
+        private _array = [_pos, _direction, markerText _x, [], [], _flag getVariable ["btc_log_resources", 0]];
 
-        private _jail = _flag getVariable ["btc_jail", objNull];
+		private _jail = _flag getVariable ["btc_jail", objNull];
         if(alive _jail) then {
             _array pushBack [getPosATL _jail, [vectorDir _jail, vectorUp _jail]];
         };
-        _fobs pushBack _array;
+
+		private _create_obj = _flag getVariable ["btc_log_create_obj", objNull];
+        if(alive _create_obj) then {
+            _array pushBack [getPosATL _create_obj, [vectorDir _create_obj, vectorUp _create_obj]];
+        };
+
+		_fobs pushBack _array;
     };
 } forEach (btc_fobs select 0);
 profileNamespace setVariable [format ["btc_hm_%1_fobs", _name], +_fobs];
@@ -206,6 +212,30 @@ private _array_obj = [];
     isNull isVehicleCargo _x
 });
 profileNamespace setVariable [format ["btc_hm_%1_objs", _name], +_array_obj];
+
+//Supplies
+private _array_fob_log_supplies = [];
+{
+	private _pos = getPosATL _x;
+	private _vectorDirAndUp = [vectorDir _x, vectorUp _x];
+	private _isClaimed = _x getVariable["btc_fob_log_isClaimed", false];
+    private _resources = _x getVariable ["btc_log_resources", 0];
+    
+	private _markers = [];
+	(_x getVariable ["markers", []]) apply {
+		private _marker = [];
+		_marker pushBack (getMarkerPos _x);
+		_marker pushBack (markerText _x);
+		_markers pushBack _marker;
+	};
+
+	_array_fob_log_supplies pushBack [_pos, _vectorDirAndUp, _resources, _isClaimed, _markers];
+} forEach (btc_log_fob_supply_objects select {
+	isNull objectParent _x &&
+	{!(isObjectHidden _x)} &&
+	{isNull isVehicleCargo _x}  
+});
+profileNamespace setVariable [format ["btc_hm_%1_fob_log_supplies", _name], +_array_fob_log_supplies];
 
 //Player Tags
 private _tags = btc_tags_player select {alive (_x select 0)};

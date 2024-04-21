@@ -42,6 +42,9 @@ if (isNil {_vehicle getVariable "btc_EDENinventory"}) then {
     if (isNil {_this getVariable "btc_EDEN_defaultSupply"}) then {
         _this setVariable ["btc_EDEN_defaultSupply", _this call ace_rearm_fnc_getSupplyCount, true];
     };
+    if(btc_p_veh_remove_eden_inventory) then {
+        [_veh, []] call btc_log_fnc_inventorySet;
+    };
 }, _vehicle] call CBA_fnc_waitUntilAndExecute;
 
 if (btc_veh_respawnable pushBackUnique _vehicle isEqualTo -1) exitWith {

@@ -3,7 +3,7 @@
 Function: btc_slot_fnc_loadPlayer
 
 Description:
-    Asks server if database exists for this current player and if it does, load it else just continue normally
+    Asks server if database exists for this current player and if it does, load it
 
 Parameters:
 
@@ -24,16 +24,10 @@ if(!alive player) exitWith {
         [format["%1 is null or not alive", name player], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };
 };
-
+btc_slot_data = nil; //make sure it's nil before executing anything
 [getPlayerUID player] remoteExecCall ["btc_slot_fnc_getData"];
 
 [{!isNil "btc_slot_data"}, {
-
-    if(isNil "btc_slot_data") exitWith {
-        if(btc_debug) then {
-            [format["btc_slot_data is still nil"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-        };
-    };
     if(!(btc_slot_data isEqualType createHashMap)) exitWith { //not a hashmap
         if(btc_debug) then {
             [format ["btc_slot_data not a HASHMAP"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;

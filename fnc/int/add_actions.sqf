@@ -56,47 +56,48 @@ _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title
 
 //Log point
 {
-    _x params ["_object", "_helipad"];
+    _x params ["_object", "_log_point"];
 
     //Logistic
     _action = ["Logistic", localize "STR_BTC_HAM_ACTION_LOC_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\L_ca.paa", {}, {true}] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Require_object", localize "STR_BTC_HAM_ACTION_LOGPOINT_REQOBJ", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\D_ca.paa", {
-        params ["", "", "_params"];
-        _params spawn btc_log_fnc_create
-    }, {true}, {}, [_helipad], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+        params ["_target", "", "_params"];
+        _params params ["_construction_array", "_log_point"];
+        [_target, _construction_array, _log_point] call btc_log_fnc_create;
+    }, {true}, {}, [btc_construction_array, _log_point], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Repair_wreck", localize "STR_BTC_HAM_ACTION_LOGPOINT_REPWRECK", "\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_repair_wreck
-    }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, [_log_point], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Refuel", localize "STR_BTC_HAM_ACTION_LOGPOINT_REFUELSOURCE", "\A3\ui_f\data\igui\cfg\simpleTasks\types\refuel_ca.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_refuelSource
-    }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, [_log_point], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Rearm", localize "STR_BTC_HAM_ACTION_LOGPOINT_REARMSOURCE", "\A3\ui_f\data\igui\cfg\simpleTasks\types\rearm_ca.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_rearmSource
-    }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, [_log_point], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
 
-	_action = ["Restore", "Restore Vehicle", "\A3\ui_f\data\igui\cfg\simpleTasks\types\rearm_ca.paa", {//localize "STR_BTC_HAM_ACTION_LOGPOINT_REARMSOURCE"
+	_action = ["Restore", localize "STR_BTC_HAM_ACTION_LOGPOINT_RESTORESOURCE", "\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_restoreVehicle
-    }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, [_log_point], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
 
     _action = ["Require_veh", localize "STR_BTC_HAM_ACTION_LOGPOINT_REQVEH", "\A3\ui_f\data\map\vehicleicons\iconCar_ca.paa", {
         params ["", "", "_params"];
         _params spawn btc_arsenal_fnc_garage
-    }, {(serverCommandAvailable "#logout" || !isMultiplayer) and btc_p_garage}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+    }, {(serverCommandAvailable "#logout" || !isMultiplayer) and btc_p_garage}, {}, [_log_point], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Require_delete", localize "STR_3DEN_Delete", "\z\ace\addons\arsenal\data\iconClearContainer.paa", {
-        params ["", "", "_params"];
-        _params call btc_log_fnc_delete
-    }, {true}, {}, [_helipad], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+        params ["_target", "", "_params"];
+        [_target, _params] call btc_log_fnc_delete
+    }, {true}, {}, _log_point, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToObject;
 
     //Tool
@@ -105,27 +106,27 @@ _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title
     _action = ["Copy_container", localize "STR_BTC_HAM_ACTION_COPYPASTE_COPY", "\A3\ui_f\data\igui\cfg\simpleTasks\types\download_ca.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_copy
-    }, {true}, {}, [_helipad], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, [_log_point], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Tool"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Paste_container", localize "STR_BTC_HAM_ACTION_COPYPASTE_PASTE", "\A3\ui_f\data\igui\cfg\simpleTasks\types\upload_ca.paa", {
         params ["", "", "_params"];
         [btc_copy_container, _params] call btc_log_fnc_paste
-    }, {!isNil "btc_copy_container"}, {}, _helipad, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+    }, {!isNil "btc_copy_container"}, {}, _log_point, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Tool"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Copy_inventory", localize "STR_BTC_HAM_ACTION_COPYPASTE_COPYI", "\A3\ui_f\data\igui\cfg\simpleTasks\types\download_ca.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_inventoryCopy
-    }, {true}, {}, [_helipad], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, [_log_point], [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Tool"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Paste_inventory", localize "STR_BTC_HAM_ACTION_COPYPASTE_PASTEI", "\A3\ui_f\data\igui\cfg\simpleTasks\types\upload_ca.paa", {
         params ["", "", "_params"];
         [btc_copy_inventory, _params] call btc_log_fnc_inventoryPaste
-    }, {!isNil "btc_copy_inventory"}, {}, _helipad, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+    }, {!isNil "btc_copy_inventory"}, {}, _log_point, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Tool"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Restore_inventory", localize "STR_BTC_HAM_ACTION_RESTOREI", "\A3\Ui_f\data\GUI\Cfg\KeyframeAnimation\IconCurve_CA.paa", {
         params ["", "", "_params"];
         _params call btc_log_fnc_inventoryRestore
-    }, {true}, {}, _helipad, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
+    }, {true}, {}, _log_point, [0, 0, 0.4], 5] call ace_interact_menu_fnc_createAction;
     [_object, 0, ["ACE_MainActions", "Tool"], _action] call ace_interact_menu_fnc_addActionToObject;
 
     //Bodybag
@@ -133,15 +134,17 @@ _action = ["Search_intel", localize "STR_A3_Showcase_Marksman_BIS_tskIntel_title
         _action = ["Bodybag", localize "STR_BTC_HAM_ACTION_LOGPOINT_BODYBAG", "\A3\Data_F_AoW\Logos\arma3_aow_logo_ca.paa", {
             params ["", "", "_params"];
             _params call btc_body_fnc_bagRecover;
-        }, {true}, {}, [_helipad], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
+        }, {true}, {}, [_log_point], [0, 0, 0], 5] call ace_interact_menu_fnc_createAction;
         [_object, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
     };
-} forEach [[btc_create_object, btc_create_object_point]];
+} forEach [[btc_log_create_obj, btc_log_point_obj]];
 
 //Place
 _action = ["Logistic", localize "STR_BTC_HAM_ACTION_LOC_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\L_ca.paa", {}, {true}] call ace_interact_menu_fnc_createAction;
 {[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach btc_log_def_loadable;
-_action = ["Place", localize "STR_ACE_Dragging_Carry", "\z\ace\addons\dragging\UI\icons\box_carry.paa", {[_target] call btc_log_fnc_place}, {!btc_log_placing && !(player getVariable ["ace_dragging_isCarrying", false])}] call ace_interact_menu_fnc_createAction;
+_action = ["Place", localize "STR_ACE_Dragging_Carry", "\z\ace\addons\dragging\UI\icons\box_carry.paa", {[_target] call btc_log_fnc_place}, 
+{!btc_log_placing && !(player getVariable ["ace_dragging_isCarrying", false])}, {}, [], [0,0,0], 10] call ace_interact_menu_fnc_createAction;
+
 {[_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;} forEach btc_log_def_placeable;
 
 //Shower
@@ -157,6 +160,35 @@ _action = ["Shower_act", getText(configfile >> "CfgVehicles" >> "DeconShower_02_
 //FOB
 _action = ["Mount_FOB", localize "STR_BTC_HAM_ACTION_FOB_MOUNT", "\A3\Ui_f\data\Map\Markers\NATO\b_hq.paa", {_target spawn btc_fob_fnc_create}, {!btc_log_placing && !(player getVariable ["ace_dragging_isCarrying", false])}] call ace_interact_menu_fnc_createAction;
 [btc_fob_mat, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
+
+private _action = ["btc_jail_placeJail", localize "STR_BTC_HAM_ACTION_PLACE_JAIL", "core\img\jail_captive.paa", {
+    [_player, _target] spawn btc_jail_fnc_createJail;
+}, {
+    (isNull (_target getVariable ["btc_jail", objNull])) && {([_player, _target] call ace_common_fnc_canInteractWith)}
+}] call ace_interact_menu_fnc_createAction;
+[btc_fob_flag, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
+
+_action = ["btc_jail_removeJail", localize "STR_BTC_HAM_ACTION_REMOVE_JAIL", "core\img\jail_captive_deny.paa", {
+    [_target] remoteExecCall ["btc_jail_fnc_removeJail_s", [0, 2] select isMultiplayer];
+}, {
+    (!isNull (_target getVariable ["btc_jail", objNull])) && {([_player, _target] call ace_common_fnc_canInteractWith)}
+}] call ace_interact_menu_fnc_createAction;
+[btc_fob_flag, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
+
+_action = ["btc_fob_log_createLogObj", localize "STR_BTC_HAM_ACTION_PLACE_LOG_OBJ", "\z\ace\addons\dragging\UI\icons\box_carry.paa", {
+    [_target] spawn btc_log_fob_fnc_logObj;
+}, {
+    (isNull (_target getVariable ["btc_log_create_obj", objNull])) && {([_player, _target] call ace_common_fnc_canInteractWith)}
+}] call ace_interact_menu_fnc_createAction;
+[btc_fob_flag, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
+
+_action = ["btc_fob_log_removeLogObj", localize "STR_BTC_HAM_ACTION_REMOVE_LOG_OBJ", "core\img\box_carry_deny.paa", {
+    [_target] remoteExecCall ["btc_log_fob_fnc_logObjRemove_s", [0, 2] select isMultiplayer];
+}, {
+    (!isNull (_target getVariable ["btc_log_create_obj", objNull])) && {([_player, _target] call ace_common_fnc_canInteractWith)}
+}] call ace_interact_menu_fnc_createAction;
+[btc_fob_flag, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
+
 _action = ["Dismantle_FOB", localize "STR_BTC_HAM_ACTION_FOB_DISMANTLE", "", {_target remoteExecCall ["btc_fob_fnc_dismantle_s", 2]}, {!(_target getVariable ["FOB_Event", false])}, {}, [], [0, 0, -2], 5] call ace_interact_menu_fnc_createAction;
 [btc_fob_flag, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 
@@ -219,19 +251,24 @@ private _action = ["Debug", "Debug Tools", "core\img\debug_icon.paa", {}, {(call
     //Debug-Cities
     _action = ["Debug_cities_off", "Cities", ["core\img\debug_cities.paa", "#006400"], { [false] call btc_debug_fnc_cities;}, {btc_debug_cities}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
-    _action = ["Debug_cities_on", "Cities", ["core\img\debug_cities.paa", "#FF0000"], {[true, "btc_debug_fnc_cities"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isDedicated];}, {!btc_debug_cities}] call ace_interact_menu_fnc_createAction;
+    _action = ["Debug_cities_on", "Cities", ["core\img\debug_cities.paa", "#FF0000"], {[true, "btc_debug_fnc_cities"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_cities}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Hideouts
     _action = ["Debug_hideouts_off", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#006400"], {[false] call btc_debug_fnc_hideouts;}, {btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
-    _action = ["Debug_hideouts_on", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#FF0000"], {[true, "btc_debug_fnc_hideouts"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isDedicated];}, {!btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
+    _action = ["Debug_hideouts_on", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#FF0000"], {[true, "btc_debug_fnc_hideouts"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Cache
     _action = ["Debug_cache_off", "Cache", ["core\img\debug_cache.paa", "#006400"], {[false] call btc_debug_fnc_cache;}, {btc_debug_cache}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
-    _action = ["Debug_cache_on", "Cache", ["core\img\debug_cache.paa", "#FF0000"], {[true, "btc_debug_fnc_cache"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isDedicated];}, {!btc_debug_cache}] call ace_interact_menu_fnc_createAction;
+    _action = ["Debug_cache_on", "Cache", ["core\img\debug_cache.paa", "#FF0000"], {[true, "btc_debug_fnc_cache"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_cache}] call ace_interact_menu_fnc_createAction;
     [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
-
+    //Debug-Fob Supplies
+    _action = ["Debug_fob_supplies_off", "FOB supplies", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", "#006400"], {[false] call btc_debug_fnc_fob_supplies;}, {btc_debug_fob_supplies}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    _action = ["Debug_fob_supplies_on", "FOB supplies", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", "#FF0000"], {[true, "btc_debug_fnc_fob_supplies"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_fob_supplies}] call ace_interact_menu_fnc_createAction;
+    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    
 //Re-deploy
 private _actions = [];
 _actions pushBack ["redeploy", localize "STR_BTC_HAM_ACTION_BIRESPAWN", "\A3\ui_f\data\igui\cfg\simpleTasks\types\run_ca.paa", {

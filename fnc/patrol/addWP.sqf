@@ -30,7 +30,9 @@ params [
 ];
 
 if (isNull _group) exitWith {
-    [format ["_group isNull %1, waypointStatements = %2 ", isNull _group, _waypointStatements], __FILE__] call btc_debug_fnc_message;
+    if(btc_debug) then {
+        [format ["_group isNull %1, waypointStatements = %2 ", isNull _group, _waypointStatements], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    };
 };
 
 private _vehicle = vehicle leader _group;
@@ -63,11 +65,11 @@ if (_vehicle isKindOf "Air") then {
 
             if (btc_debug) then {
                 private _patrol_id = _group getVariable ["btc_patrol_id", 0];
-                private _marker = createMarker [format ["Patrol_fant_%1_%2", _patrol_id, _i], _vec];
-                _marker setMarkerType "mil_dot";
-                _marker setMarkerText format ["FOB?:%1/%2", _patrol_id, _i];
-                _marker setMarkerColor "ColorGrey";
-                _marker setMarkerSize [0.2, 0.2];
+                private _marker = createMarkerLocal [format ["Patrol_fant_%1_%2", _patrol_id, _i], _vec];
+                _marker setMarkerTypeLocal "mil_dot";
+                _marker setMarkerTextLocal format ["FOB?:%1/%2", _patrol_id, _i];
+                _marker setMarkerColorLocal "ColorGrey";
+                _marker setMarkerSizeLocal [0.2, 0.2];
                 _marker setMarkerAlpha 0.5;
             };
         };
@@ -93,16 +95,16 @@ if (btc_debug) then {
         private _patrol_id = _group getVariable ["btc_patrol_id", 0];
         private _marker_color = (["ColorWhite", "ColorRed"] select (_patrol_id > 0));
 
-        private _marker = createMarker [format ["Patrol_fant_begin_%1", _patrol_id], [(_startPos select 0) + random 30, (_startPos select 1) + random 30, 0]];
-        _marker setMarkerType "mil_dot";
-        _marker setMarkerText format ["P:%1 START", _patrol_id];
-        _marker setMarkerColor _marker_color;
+        private _marker = createMarkerLocal [format ["Patrol_fant_begin_%1", _patrol_id], [(_startPos select 0) + random 30, (_startPos select 1) + random 30, 0]];
+        _marker setMarkerTypeLocal "mil_dot";
+        _marker setMarkerTextLocal format ["P:%1 START", _patrol_id];
+        _marker setMarkerColorLocal _marker_color;
         _marker setMarkerSize [0.5, 0.5];
 
-        _marker = createMarker [format ["Patrol_fant_end_%1", _patrol_id], [(_pos select 0) + random 30, (_pos select 1) + random 30, 0]];
-        _marker setMarkerType "mil_dot";
-        _marker setMarkerText format ["P:%1 END", _patrol_id];
-        _marker setMarkerColor _marker_color;
+        _marker = createMarkerLocal [format ["Patrol_fant_end_%1", _patrol_id], [(_pos select 0) + random 30, (_pos select 1) + random 30, 0]];
+        _marker setMarkerTypeLocal "mil_dot";
+        _marker setMarkerTextLocal format ["P:%1 END", _patrol_id];
+        _marker setMarkerColorLocal _marker_color;
         _marker setMarkerSize [0.5, 0.5];
 
         if(!(side _group isEqualTo civilian)) then {

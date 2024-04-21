@@ -6,7 +6,7 @@ Description:
     Creates FOB's jail
 
 Parameters:
-    _target -
+    _flag -
 
 Returns:
 
@@ -22,13 +22,13 @@ Author:
 #include "..\script_macros.hpp"
 
 params[
-    ["_target", objNull, [objNull]],
-    ["_pos", [0,0,0], [[]]],
-    ["_vectorDirAndUp", 0]
+    ["_flag", objNull, [objNull]],
+    ["_pos", [0,0,0], [[]], 3],
+    ["_vectorDirAndUp", [[0,1,0],[0,0,1]], [[]], 2]
 ];
 
-if(!alive _target) exitWith {
-    ["_target is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+if(!alive _flag) exitWith {
+    ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
 };
 
 if(btc_debug) then {
@@ -51,6 +51,6 @@ private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] ca
 _jailPositions pushBack getPosATL _jail; //add center of jail to list of available positions
 _jail setVariable ["btc_jail_positions", _jailPositions];
 
-_target setVariable ["btc_jail", _jail, true];
+_flag setVariable ["btc_jail", _jail, true];
 btc_jails pushBack _jail;
 publicVariable "btc_jails";

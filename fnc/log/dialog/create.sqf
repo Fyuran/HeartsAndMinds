@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    Giallustio
+    Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -31,32 +31,15 @@ btc_log_namespace setVariable ["btc_construction_array", _construction_array];
 btc_log_namespace setVariable ["btc_log_point_obj", _log_point];
 
 closeDialog 0;
-if ([_log_point] call btc_fnc_checkArea) exitWith {};
+if ([_log_point] call btc_fnc_isAreaOccupied) exitWith {};
+private _display = createDialog ["btc_log_dlg_create", false];
+private _main_class_ctrl = _display displayCtrl 71;
+private _sub_class_ctrl = _display displayCtrl 72;
+lbClear _main_class_ctrl;
+lbClear _sub_class_ctrl;
 
-disableSerialization;
-closeDialog 0;
-createDialog "btc_log_dlg_create";
-
-waitUntil {dialog};
-
-call btc_log_fnc_create_load;
-
-private _class = lbData [72, lbCurSel 72];
-private _selected = _class;
-private _new = _class createVehicleLocal getPosASL _log_point;
-
-while {dialog} do {
-    if (_class != lbData [72, lbCurSel 72]) then {
-        deleteVehicle _new;
-        sleep 0.1;
-        _class = lbData [72, lbCurSel 72];
-        _selected = _class;
-        _new = _class createVehicleLocal getPosASL _log_point;
-        _new setDir getDir _log_point;
-        _new setPosASL getPosASL _log_point;
-        _new enableSimulation false;
-        _new allowDamage false;
-    };
-    sleep 0.1;
+private _main_class = _construction_array param[0, [], [[]]];
+_main_class apply {
+    _main_class_ctrl lbAdd _x;
 };
-deleteVehicle _new;
+_main_class_ctrl lbSetCurSel 0;

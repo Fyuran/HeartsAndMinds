@@ -6,8 +6,7 @@ Description:
     Delete object created by logistic point.
 
 Parameters:
-    _object - Helipad where the object to delete is. [Object]
-    _blackList - Object can't be deleted. [Array]
+    _log_point - Helipad where the object to delete is. [Object]
 
 Returns:
 
@@ -17,16 +16,18 @@ Examples:
     (end)
 
 Author:
-    Giallustio
+    Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_object", objNull, [objNull]],
-    ["_blackList", [btc_log_create_obj], [[]]]
+    ["_create_obj", objNull, [objNull]],
+    ["_log_point", objNull, [objNull]]
 ];
 
-private _array = ((nearestObjects [_object, flatten (btc_construction_array select 1), 6]) select {!(
+private _blackList = [btc_log_create_obj, _create_obj];
+
+private _array = ((nearestObjects [_log_point, flatten (btc_construction_array select 1), 10]) select {!(
     _x isKindOf "ACE_friesBase" OR
     _x isKindOf "ace_fastroping_helper"
 )}) - _blackList;
@@ -38,4 +39,4 @@ if (_array isEqualTo []) exitWith {
     ] call CBA_fnc_notify;
 };
 
-[_array select 0] remoteExecCall ["btc_log_fnc_server_delete", [2]];
+[_array select 0, _create_obj] remoteExecCall ["btc_log_fnc_server_delete", [2]];

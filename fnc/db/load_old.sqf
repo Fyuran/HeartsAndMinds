@@ -247,13 +247,13 @@ private _markers_properties = +(profileNamespace getVariable [format ["btc_hm_%1
         ["_markerChannel", 0, [0]]
     ];
 
-    private _marker = createMarker [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
-    _marker setMarkerText _markerText;
-    _marker setMarkerColor _markerColor;
-    _marker setMarkerType _markerType;
-    _marker setMarkerSize _markerSize;
-    _marker setMarkerAlpha _markerAlpha;
-    _marker setMarkerBrush _markerBrush;
+    private _marker = createMarkerLocal [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
+    _marker setMarkerTextLocal _markerText;
+    _marker setMarkerColorLocal _markerColor;
+    _marker setMarkerTypeLocal _markerType;
+    _marker setMarkerSizeLocal _markerSize;
+    _marker setMarkerAlphaLocal _markerAlpha;
+    _marker setMarkerBrushLocal _markerBrush;
     _marker setMarkerDir _markerDir;
 
     _marker setMarkerShape _markerShape;

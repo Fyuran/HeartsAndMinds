@@ -25,7 +25,7 @@ params [
     ["_vehicle", objNull, [objNull]]
 ];
 
-([_vehicle] call btc_log_fnc_get_corner_points) params [
+([_vehicle] call btc_fnc_get_corner_points) params [
     "_rearCorner",
     "_rearCorner2",
     "_frontCorner",

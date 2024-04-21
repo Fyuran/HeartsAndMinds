@@ -32,7 +32,9 @@ private _return = false; //used to tell eventmanager event is not being handled 
 
 private _isUnderAttack = _building getVariable ["FOB_Event", false];
 if(_isUnderAttack) exitWith { //avoids multiple FOB events
-    [format["event fob attack already active on %1", _building getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    if(btc_debug) then {
+        [format["event fob attack already active on %1", _building getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
     _return
 };
 
@@ -41,7 +43,9 @@ private _nearCities = values btc_city_all select {
     {_x getVariable ["occupied", false] && !(_x getVariable ["active", false])}
 }; 
 if (_nearCities isEqualTo []) exitWith {
-    [format["_nearCities is empty, skipping FOB: %1", _building getVariable["FOB_name", ""]] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    if(btc_debug) then {
+        [format["_nearCities is empty, skipping FOB: %1", _building getVariable["FOB_name", ""]] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
     false
 };
 
@@ -76,7 +80,9 @@ switch true do {
 
 //Group spawning and victory condition manager
 [[_building, _flag, _nearCities], {
-    [format["%1 victory manager is on", (_this select 0) getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    if(btc_debug) then {
+        [format["%1 victory manager is on", (_this select 0) getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    };
     
     params["_building", "_flag", "_nearCities"];
 
@@ -104,7 +110,7 @@ switch true do {
 
     // TASK_SUCCEEDED when only a part of enemy troops are remaining
     [{// also has timeout in case of Arma's AI fuckery
-        ({alive _x} count (_this select 3)) <= (_this select 4) || !(alive _building)
+        ({alive _x} count (_this select 3)) <= (_this select 4) || !(alive (_this select 0))
     }, _statement, [_building, _flag, _groups, _units, floor((count _units)/2.5)], 
         300*(count _groups), _statement
     ] call CBA_fnc_waitUntilAndExecute;

@@ -48,9 +48,9 @@ if (btc_debug_log) then {
             [format ["POS %1 Still inside rock", _rpos], __FILE__, [false]] call btc_debug_fnc_message;
             if (btc_debug) then {
                 ["Still inside rock", __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-                private _marker = createMarker [format ["btc_inrock_%1", _rpos], _rpos];
-                _marker setMarkerType "mil_unknown";
-                _marker setMarkerText "In rock";
+                private _marker = createMarkerLocal [format ["btc_inrock_%1", _rpos], _rpos];
+                _marker setMarkerTypeLocal "mil_unknown";
+                _marker setMarkerTextLocal "In rock";
                 _marker setMarkerSize [0.5, 0.5];
             };
         };

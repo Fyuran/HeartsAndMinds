@@ -62,10 +62,10 @@ if (
     [_pos] call btc_deaf_fnc_earringing;
     [attachedObjects _cache, btc_cache_obj, btc_cache_markers] call CBA_fnc_deleteEntity;
 
-    private _marker = createMarker [format ["btc_cache_%1", btc_cache_n], btc_cache_pos];
-    _marker setMarkerType "hd_destroy";
+    private _marker = createMarkerLocal [format ["btc_cache_%1", btc_cache_n], btc_cache_pos];
+    _marker setMarkerTypeLocal "hd_destroy";
     [_marker, "STR_BTC_HAM_O_EH_HDCACHE_MRK", btc_cache_n] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker]; //Cached %1 destroyed
-    _marker setMarkerSize [1, 1];
+    _marker setMarkerSizeLocal [1, 1];
     _marker setMarkerColor "ColorRed";
 
     if (btc_debug_log) then {

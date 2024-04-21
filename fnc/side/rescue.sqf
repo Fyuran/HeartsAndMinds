@@ -90,14 +90,14 @@ private _triggers = [];
     _trigger setVariable ["unit", _x];
     _trigger setTriggerArea [20, 20, 0, false, 10];
     _trigger setTriggerActivation [str btc_player_side, "PRESENT", false];
-    _trigger setTriggerStatements ["this", format ["_unit = thisTrigger getVariable 'unit'; [_unit] join (thisList select 0); _unit setUnitPos 'UP'; ['%1', 'SUCCEEDED'] call BIS_fnc_taskSetState; [['%2', '%3'], 21, btc_create_object_point, typeOf btc_create_object_point, true] call btc_task_fnc_create;", _find_taskID, _back_taskID, _taskID], ""];
+    _trigger setTriggerStatements ["this", format ["_unit = thisTrigger getVariable 'unit'; [_unit] join (thisList select 0); _unit setUnitPos 'UP'; ['%1', 'SUCCEEDED'] call BIS_fnc_taskSetState; [['%2', '%3'], 21, btc_log_point_obj, typeOf btc_log_point_obj, true] call btc_task_fnc_create;", _find_taskID, _back_taskID, _taskID], ""];
     _trigger attachTo [_x, [0, 0, 0]];
     _triggers pushBack _trigger;
 } forEach units _group;
 
 waitUntil {sleep 5; 
     _taskID call BIS_fnc_taskCompleted ||
-    _units select {_x distance btc_create_object_point > 100} isEqualTo [] ||
+    _units select {_x distance btc_log_point_obj > 100} isEqualTo [] ||
     _units select {alive _x} isEqualTo []
 };
 
@@ -129,7 +129,7 @@ if (_units select {alive _x} isEqualTo []) then {
                 [_unitBodyBag_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
 
                 private _base_taskID = _taskID + "bs";
-                [[_base_taskID, _taskID], 35, btc_create_object_point, [([_patient] call ace_dogtags_fnc_getDogtagData) select 0, typeOf btc_create_object_point]] call btc_task_fnc_create;
+                [[_base_taskID, _taskID], 35, btc_log_point_obj, [([_patient] call ace_dogtags_fnc_getDogtagData) select 0, typeOf btc_log_point_obj]] call btc_task_fnc_create;
 
                 [_bodyBag, "Deleted", {
                     params [
@@ -151,7 +151,7 @@ if (_units select {alive _x} isEqualTo []) then {
         _taskID call BIS_fnc_taskCompleted ||
         {
             (([_x] call ace_dogtags_fnc_getDogtagData) select 0) in _dogTagList
-        } count (nearestObjects [btc_create_object_point, ["ACE_bodyBagObject"], 100]) >= count _units
+        } count (nearestObjects [btc_log_point_obj, ["ACE_bodyBagObject"], 100]) >= count _units
     };
     _rep = 40;
 };

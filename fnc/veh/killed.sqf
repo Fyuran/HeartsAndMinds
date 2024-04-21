@@ -33,8 +33,8 @@ params [
     ["_allowRepChange", true, [false]]
 ];
 
-private _marker = createMarker [format ["m_%1", _vehicle], getPos _vehicle];
-_marker setMarkerType "mil_box";
+private _marker = createMarkerLocal [format ["m_%1", _vehicle], getPos _vehicle];
+_marker setMarkerTypeLocal "mil_box";
 _marker setMarkerColor "ColorRed";
 [_marker, "STR_BTC_HAM_O_EH_VEHKILLED_MRK", getText (configOf _vehicle >> "displayName")] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker]; // %1 wreck
 

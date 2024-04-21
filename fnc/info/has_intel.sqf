@@ -39,7 +39,7 @@ if (
     if (_body isKindOf "Items_base_F") then {
         _body call CBA_fnc_deleteEntity;
     };
-    if (isServer) then    {
+    if (isServer) then {
         [_asker] call btc_info_fnc_give_intel;
     } else {
         [_asker] remoteExecCall ["btc_info_fnc_give_intel", 2];

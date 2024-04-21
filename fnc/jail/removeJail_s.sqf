@@ -6,7 +6,7 @@ Description:
     Deletes FOB's jail
 
 Parameters:
-    _target -
+    _flag -
 
 Returns:
 
@@ -22,10 +22,14 @@ Author:
 #include "..\script_macros.hpp"
 
 params[
-    ["_target", objNull, [objNull]]
+    ["_flag", objNull, [objNull]]
 ];
 
-private _jail = _target getVariable ["btc_jail", objNull];
+if(!alive _flag) exitWith {
+    ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+};
+
+private _jail = _flag getVariable ["btc_jail", objNull];
 if(!alive _jail) exitWith {};
 
 private _jailed = _jail getVariable ["btc_jailed", []];

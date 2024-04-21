@@ -58,7 +58,11 @@ addMissionEventHandler ["BuildingChanged", btc_eh_fnc_buildingChanged];
     ] call CBA_fnc_waitAndExecute;
 }] call CBA_fnc_addEventHandler;
 
-addMissionEventHandler ["HandleDisconnect", {[_this#2] call btc_slot_fnc_getData; false}];
+addMissionEventHandler ["HandleDisconnect", {
+    params ["_unit", "_id", "_uid", "_name"];
+    if(_unit in entities "HeadlessClient_F") exitWith {};
+    [_uid] call btc_slot_fnc_saveData; false
+}];
 
 if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {
@@ -140,21 +144,15 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
     btc_explosives pushBack _this;
 }] call CBA_fnc_addEventHandler; 
 
+//for FOB Log objs attachedObjects
+["ace_cargoUnloaded", {
+    params["_obj"];
+    
+    if(_obj in btc_log_fob_supply_objects) then {
+        _marker_flag = createVehicle ["FlagMarker_01_F", [0,0,0], [], 0, "CAN_COLLIDE"];
+        _marker_flag attachTo [_obj, [0,0,1]];
+    };
+}] call CBA_fnc_addEventHandler;
+
 //Sunrise or Sunset
 [abs btc_p_eh_sunriseorsunset] call btc_eh_fnc_setSunriseOrSunset;
-
-//FOBS ruins
-btc_fobs_ruins_eh = ["btc_fobs_reactivation", {
-    params["_actionObj", "_name", "_ruins", "_marker"];
-    _toRemove = nearestObjects [_ruins, ["WeaponHolderSimulated"], (boundingBox _ruins)#2 + 100, true];
-    _toRemove append (_toRemove apply {
-        _corpse = getCorpse _x;
-        if(!isPlayer [_corpse]) then {_corpse} else {};
-    });
-    _toRemove call CBA_fnc_deleteEntity;
-
-    btc_fobs_ruins deleteAt _name;
-    deleteMarker _marker;
-    deleteVehicle _actionObj;
-    deleteVehicle _ruins;
-}] call CBA_fnc_addEventHandler;

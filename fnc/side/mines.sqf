@@ -41,11 +41,11 @@ private _number_of_fences = 3 + floor random 4;
 private _area_size = _distance_between_fences * _number_of_fences;
 private _offset = _area_size + _distance_between_fences/2;
 
-private _area = createMarker [format ["sm_%1", _pos], _pos];
-_area setMarkerShape "RECTANGLE";
-_area setMarkerBrush "SolidBorder";
-_area setMarkerSize [_offset, _offset];
-_area setMarkerAlpha 0.3;
+private _area = createMarkerLocal [format ["sm_%1", _pos], _pos];
+_area setMarkerShapeLocal "RECTANGLE";
+_area setMarkerBrushLocal "SolidBorder";
+_area setMarkerSizeLocal [_offset, _offset];
+_area setMarkerAlphaLocal 0.3;
 _area setmarkercolor "colorBlue";
 
 //// Randomise composition \\\\

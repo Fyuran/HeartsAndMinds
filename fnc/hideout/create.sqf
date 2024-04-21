@@ -101,10 +101,10 @@ private _markers = [];
 {
     _x params ["_pos", "_marker_name"];
 
-    private _marker = createMarker [format ["%1", _pos], _pos];
-    _marker setMarkerType "hd_warning";
-    _marker setMarkerText _marker_name;
-    _marker setMarkerSize [0.5, 0.5];
+    private _marker = createMarkerLocal [format ["%1", _pos], _pos];
+    _marker setMarkerTypeLocal "hd_warning";
+    _marker setMarkerTextLocal _marker_name;
+    _marker setMarkerSizeLocal [0.5, 0.5];
     _marker setMarkerColor "ColorRed";
     _markers pushBack _marker;
 } forEach _markers_saved;

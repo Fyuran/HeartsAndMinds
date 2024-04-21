@@ -3,7 +3,7 @@
 Function: btc_info_fnc_path
 
 Description:
-    Show path of a patrol to set an amboush.
+    Show path of a patrol to set an ambush.
 
 Parameters:
     _unit - Unit to show path. [Object]
@@ -50,10 +50,10 @@ private _agent = calculatePath [_type, _behaviour, _startPos, _endPos];
         private _position = _path select (_i - 1);
         private _direction = _position getDir (_path select _i);
 
-        private _mrk = createMarker [format ["%1_%2", _taskID, _i], _position];
-        _mrk setMarkerType "hd_arrow";
-        _mrk setMarkerAlpha 0.7;
-        _mrk setMarkerColor _color;
+        private _mrk = createMarkerLocal [format ["%1_%2", _taskID, _i], _position];
+        _mrk setMarkerTypeLocal "hd_arrow";
+        _mrk setMarkerAlphaLocal 0.7;
+        _mrk setMarkerColorLocal _color;
         _mrk setMarkerDir _direction;
 
         if (btc_debug) then {
@@ -62,8 +62,8 @@ private _agent = calculatePath [_type, _behaviour, _startPos, _endPos];
     };
     if (btc_debug) then {
         {
-            private _mrk = createMarker [format ["%1_debug_%2", _taskID, _forEachIndex], _x];
-            _mrk setMarkerType "mil_dot";
+            private _mrk = createMarkerLocal [format ["%1_debug_%2", _taskID, _forEachIndex], _x];
+            _mrk setMarkerTypeLocal "mil_dot";
             _mrk setMarkerAlpha 0.3;
         } forEach _path;
     };

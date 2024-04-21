@@ -39,11 +39,11 @@ _pos = [_pos, 0, _city getVariable ["cachingRadius", 100], 20, false] call btc_f
 private _move_taskID = _taskID + "mv";
 [[_move_taskID, _taskID], 18, _pos, btc_supplies_cargo] call btc_task_fnc_create;
 
-private _area = createMarker [format ["sm_%1", _pos], _pos];
-_area setMarkerShape "ELLIPSE";
-_area setMarkerBrush "SolidBorder";
-_area setMarkerSize [30, 30];
-_area setMarkerAlpha 0.3;
+private _area = createMarkerLocal [format ["sm_%1", _pos], _pos];
+_area setMarkerShapeLocal "ELLIPSE";
+_area setMarkerBrushLocal "SolidBorder";
+_area setMarkerSizeLocal [30, 30];
+_area setMarkerAlphaLocal 0.3;
 _area setmarkercolor "colorBlue";
 
 private _type_cone = selectRandom btc_type_cones;

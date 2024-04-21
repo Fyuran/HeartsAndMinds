@@ -104,10 +104,10 @@ _expl3 attachTo [_suicider, [0.1, 0.1, 0.15], "Pelvis", true];
 [_expl1, _expl2, _expl3] remoteExecCall ["btc_ied_fnc_belt", 0];
 
 if (btc_debug) then {
-	private _marker = createMarker [format ["btc_ied_fob_suicider%1", _suicider], _safe_pos];
-	_marker setMarkerType "mil_warning";
-	_marker setMarkerColor "ColorOrange";
-	_marker setMarkerText "FOB Suicider";
+	private _marker = createMarkerLocal [format ["btc_ied_fob_suicider%1", _suicider], _safe_pos];
+	_marker setMarkerTypeLocal "hd_warning";
+	_marker setMarkerColorLocal "ColorOrange";
+	_marker setMarkerTextLocal "FOB Suicider";
 	_marker setMarkerSize [0.8, 0.8];
 };
 

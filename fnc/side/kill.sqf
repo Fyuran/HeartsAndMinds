@@ -118,7 +118,7 @@ private _globalVariableName = format ["btc_%1", _dogTag_taskID];
         _officer removeEventHandler ["Deleted", _ehDeleted];
 
         [_dogTag_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
-        [[_taskID + "bs", _taskID], 28, btc_create_object_point, [_officer_dogtagData select 0, typeOf btc_create_object_point]] call btc_task_fnc_create;
+        [[_taskID + "bs", _taskID], 28, btc_log_point_obj, [_officer_dogtagData select 0, typeOf btc_log_point_obj]] call btc_task_fnc_create;
         missionNamespace setVariable [_globalVariableName, _dogTag];
         [_dogTag, _taskID] remoteExecCall ["btc_eh_fnc_trackItem", [0, -2] select isDedicated, _officer];
      };
@@ -150,7 +150,7 @@ private _IDEH_HandleDisconnect = [missionNamespace, "HandleDisconnect", {
 waitUntil {sleep 5; 
     true in (
         (
-            allPlayers inAreaArray [getPosWorld btc_create_object_point, 100, 100]
+            allPlayers inAreaArray [getPosWorld btc_log_point_obj, 100, 100]
         ) apply {(missionNamespace getVariable [_globalVariableName, ""]) in itemCargo vehicle _x}
     ) ||
     _taskID call BIS_fnc_taskCompleted

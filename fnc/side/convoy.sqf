@@ -54,21 +54,21 @@ private _pos2 = getPos _city2;
 [_taskID, 12, _pos1, _city1 getVariable "name"] call btc_task_fnc_create;
 
 //// Create markers \\\\
-private _marker1 = createMarker [format ["sm_2_%1", _pos1], _pos1];
-_marker1 setMarkerType "hd_flag";
+private _marker1 = createMarkerLocal [format ["sm_2_%1", _pos1], _pos1];
+_marker1 setMarkerTypeLocal "hd_flag";
 [_marker1, "str_a3_campaign_b_m06_marker01"] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker1]; //Convoy start
 _marker1 setMarkerSize [0.6, 0.6];
 
-private _marker2 = createMarker [format ["sm_2_%1", _pos2], _pos2];
-_marker2 setMarkerType "hd_flag";
+private _marker2 = createMarkerLocal [format ["sm_2_%1", _pos2], _pos2];
+_marker2 setMarkerTypeLocal "hd_flag";
 [_marker2, "STR_BTC_HAM_SIDE_CONVOY_MRKEND"] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker2]; //Convoy end
 _marker2 setMarkerSize [0.6, 0.6];
 
-private _area = createMarker [format ["sm_%1", _pos2], _pos2];
-_area setMarkerShape "ELLIPSE";
-_area setMarkerBrush "SolidBorder";
-_area setMarkerSize [_radius/2, _radius/2];
-_area setMarkerAlpha 0.3;
+private _area = createMarkerLocal [format ["sm_%1", _pos2], _pos2];
+_area setMarkerShapeLocal "ELLIPSE";
+_area setMarkerBrushLocal "SolidBorder";
+_area setMarkerSizeLocal [_radius/2, _radius/2];
+_area setMarkerAlphaLocal 0.3;
 _area setmarkercolor "colorBlue";
 
 private _markers = [_marker1, _marker2, _area];

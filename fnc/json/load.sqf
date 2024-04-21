@@ -18,14 +18,17 @@
 	    Fyuran
 	
 ---------------------------------------------------------------------------- */
-#define MAPGET(ARG) btc_JSON get ARG
+#define MAPGET(ARG) btc_JSON getOrDefault [ARG, createHashMap]
 
 params[
 	["_name", worldName, [""]]
 ];
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
-[] call btc_json_fnc_request_data;
+btc_JSON = [] call btc_json_fnc_request_data;
+if(btc_JSON isEqualTo createHashMap) exitWith {
+	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_17", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+};
 
 // METADATA
 private _metadata = +(MAPGET(_name));
@@ -43,9 +46,9 @@ if (_metadata isNotEqualTo createHashMap) then {
 
 
 // CITIES
-private _cities = +(MAPGET("cities_status"));
-if (_cities isNotEqualTo createHashMap) then {
-	_cities apply {
+private _cities_status = +(MAPGET("cities_status"));
+if (_cities_status isNotEqualTo createHashMap) then {
+	_cities_status apply {
 		(values _y) params ((keys _y) apply {"_" + _x});// iterate through cities' data
 
 		private _city = btc_city_all get _id;
@@ -76,9 +79,9 @@ if (_cities isNotEqualTo createHashMap) then {
 	};
 };
 // HIDEOUTS
-private _hos = +(MAPGET("array_ho"));
-if (_hos isNotEqualTo createHashMap) then {
-	_hos apply {
+private _array_ho = +(MAPGET("array_ho"));
+if (_array_ho isNotEqualTo createHashMap) then {
+	_array_ho apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 		[_pos, _id_hideout, _rinf_time, _cap_time, _assigned_to, _markers_saved] call btc_hideout_fnc_create;
 	};
@@ -97,9 +100,9 @@ if (btc_hideouts isEqualTo []) then {
 };
 
 // CACHE
-private _cache = +(MAPGET("array_cache"));
-if (_cache isNotEqualTo createHashMap) then {
-	_cache apply {
+private _array_cache = +(MAPGET("array_cache"));
+if (_array_cache isNotEqualTo createHashMap) then {
+	_array_cache apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 		btc_cache_pos = _cache_pos;
 		btc_cache_n = _cache_n;
@@ -109,7 +112,7 @@ if (_cache isNotEqualTo createHashMap) then {
 		btc_cache_obj setVariable ["btc_cache_unitsSpawned", _cache_unitsSpawned];
 
 		if (btc_debug_log) then {
-			[format ["_cache = %1 at %2", _cache_n, _cache_pos], __FILE__, [false]] call btc_debug_fnc_message;
+			[format ["_array_cache = %1 at %2", _cache_n, _cache_pos], __FILE__, [false]] call btc_debug_fnc_message;
 		};
 
 		btc_cache_markers = [];
@@ -136,9 +139,9 @@ if (_fobs isNotEqualTo createHashMap) then {
 	_fobs apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 
-		[_pos, _direction, _FOB_name, _jailData] call btc_fob_fnc_create_s;
+		[_pos, _direction, _FOB_name, _jailData, _logObjData, _resources] call btc_fob_fnc_create_s;
 		if (btc_debug_log) then {
-			[format ["_fob = %1 at %2", _name, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+			[format ["_fob = %1 at %2", _FOB_name, _pos], __FILE__, [false]] call btc_debug_fnc_message;
 		};
 	};
 };
@@ -150,13 +153,13 @@ if(btc_fobs_ruins isNotEqualTo createHashMap) then {
         _ruin setDir _dir;
         _ruin setVariable["FOB_name", _name, true];
 
-        [objNull, _ruin] call btc_fob_fnc_reactivation;
+        [objNull, _ruin] call btc_fob_fnc_ruins;
     };
 };
 
 // VEHICLES
-private _vehs = +(MAPGET("array_veh"));
-if (_vehs isNotEqualTo createHashMap) then {
+private _array_veh = +(MAPGET("array_veh"));
+if (_array_veh isNotEqualTo createHashMap) then {
 	(getMissionLayerEntities "btc_vehicles" select 0) apply {
 		deleteVehicle _x
 	};
@@ -186,12 +189,12 @@ if (_vehs isNotEqualTo createHashMap) then {
 				[_veh, objNull, objNull, nil, false] call btc_veh_fnc_killed;
 			};
 		};
-	}, _vehs] call CBA_fnc_execNextFrame;
+	}, _array_veh] call CBA_fnc_execNextFrame;
 };
 
 // OBJECTS
-private _objs = +(MAPGET("array_obj"));
-if (_objs isNotEqualTo createHashMap) then {
+private _array_obj = +(MAPGET("array_obj"));
+if (_array_obj isNotEqualTo createHashMap) then {
 	[{
 		// Can't use ace_cargo for objects created during first frame.
 		_this apply {
@@ -206,7 +209,19 @@ if (_objs isNotEqualTo createHashMap) then {
 				[format ["_obj = %1 at %2", _type, _pos], __FILE__, [false]] call btc_debug_fnc_message;
 			};
 		};
-	}, _objs] call CBA_fnc_execNextFrame;
+	}, _array_obj] call CBA_fnc_execNextFrame;
+};
+
+//Supplies
+private _array_fob_log_supplies = +(MAPGET("array_fob_log_supplies"));
+if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
+	[{
+		_this apply {
+			(values _y) params ((keys _y) apply {"_" + _x});
+
+		    [objNull, _pos, _vectorDirAndUp, _resources, _isClaimed, _markers] call btc_log_fob_fnc_resupply_packed;
+		};
+	}, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
 };
 
 
@@ -238,18 +253,18 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 btc_slots_serialized = +(MAPGET("slots_serialized"));
 
 // MARKERS
-private _markers = +(MAPGET("player_markers"));
-if (_markers isNotEqualTo createHashMap) then {
+private _player_markers = +(MAPGET("player_markers"));
+if (_player_markers isNotEqualTo createHashMap) then {
 	{
 		(values _y) params ((keys _y) apply {"_" + _x});
 
-		private _marker = createMarker [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
-		_marker setMarkerText _markerText;
-		_marker setMarkerColor _markerColor;
-		_marker setMarkerType _markerType;
-		_marker setMarkerSize _markerSize;
-		_marker setMarkerAlpha _markerAlpha;
-		_marker setMarkerBrush _markerBrush;
+		private _marker = createMarkerLocal [format ["_USER_DEFINED #0/%1/%2", _forEachindex, _markerChannel], _markerPos, _markerChannel];
+		_marker setMarkerTextLocal _markerText;
+		_marker setMarkerColorLocal _markerColor;
+		_marker setMarkerTypeLocal _markerType;
+		_marker setMarkerSizeLocal _markerSize;
+		_marker setMarkerAlphaLocal _markerAlpha;
+		_marker setMarkerBrushLocal _markerBrush;
 		_marker setMarkerDir _markerDir;
 
 		if (btc_debug_log) then {
@@ -260,7 +275,7 @@ if (_markers isNotEqualTo createHashMap) then {
 		if (_markerPolyline isNotEqualTo []) then {
 			_marker setMarkerPolyline _markerPolyline;
 		};
-	} forEach _markers;
+	} forEach _player_markers;
 };
 
 //Explosives

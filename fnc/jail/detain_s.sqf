@@ -42,7 +42,7 @@ private _jailed = _jail getVariable ["btc_jailed", []];
 if(_captive in _jailed) exitWith {
     [ 
         [localize"STR_BTC_HAM_JAIL_ALREADY_JAILED", 1, [1,1,1,1]]
-    ] remoteExecCall ["CBA_fnc_notify", [0, -2] select isDedicated];
+    ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 };
 
 private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] call btc_fnc_circlePosAroundObj];

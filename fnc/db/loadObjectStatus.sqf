@@ -40,7 +40,7 @@ _object_data params [
     ["_properties", [], [[]]]
 ];
 
-private _obj = createVehicle [_type, ASLToATL _pos, [], 0, "CAN_COLLIDE"];
+private _obj = createVehicle [_type, [0,0,0], [], 0, "CAN_COLLIDE"];
 
 _obj setDir _dir;
 _obj setPosASL _pos;

@@ -33,11 +33,11 @@ if(isNull _ruins) exitWith {
     [format["_ruins is null"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
 };
 
-private _marker = createMarker [format["btc_fobs_ruins_%1", _name], getPosASL _ruins];
-_marker setMarkerSize [1, 1];
-_marker setMarkerType "b_hq";
-_marker setMarkerText format[localize "STR_BTC_HAM_ACTION_FOB_RUINS", _name];
-_marker setMarkerColor "ColorCIV";
+private _marker = createMarkerLocal [format["btc_fobs_ruins_%1", _name], getPosASL _ruins];
+_marker setMarkerSizeLocal [1, 1];
+_marker setMarkerTypeLocal "b_hq";
+_marker setMarkerTextLocal format[localize "STR_BTC_HAM_ACTION_FOB_RUINS", _name];
+_marker setMarkerColorLocal "ColorCIV";
 _marker setMarkerShape "ICON";
 
 private _flagPos = [_ruins] call btc_fnc_getBoundingCornersPos;

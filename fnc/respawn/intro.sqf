@@ -23,7 +23,7 @@ Author:
 
 params [
     ["_gear_object", btc_gear_object, [""]],
-    ["_create_object", btc_create_object, [objNull]]
+    ["_create_object", btc_log_create_obj, [objNull]]
 ];
 
 private _color = [1, 0.5, 0,1];

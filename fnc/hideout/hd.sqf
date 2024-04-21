@@ -53,10 +53,10 @@ if (
     [_instigator, _HIDEOUT_DESTROYED_] call btc_rep_fnc_change;
 
     private _id = _hideout getVariable "id";
-    private _marker = createMarker [format ["btc_hideout_%1_destroyed", _id], getPos _hideout];
-    _marker setMarkerType "hd_destroy";
+    private _marker = createMarkerLocal [format ["btc_hideout_%1_destroyed", _id], getPos _hideout];
+    _marker setMarkerTypeLocal "hd_destroy";
     [_marker, "STR_BTC_HAM_O_EH_HDHIDEOUT_MRK", _id] remoteExecCall ["btc_fnc_set_markerTextLocal", [0, -2] select isDedicated, _marker];
-    _marker setMarkerSize [1, 1];
+    _marker setMarkerSizeLocal [1, 1];
     _marker setMarkerColor "ColorRed";
 
     private _city = _hideout getVariable ["assigned_to", _hideout];

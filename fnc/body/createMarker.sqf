@@ -26,11 +26,11 @@ params [
 
 if (isNull _unit) exitwith {};
 
-private _marker = createMarker [
+private _marker = createMarkerLocal [
     format ["btc_body_dead_%1", {"btc_body_dead" in _x} count allMapMarkers],
     _unit
 ];
-_marker setMarkerType "KIA";
-_marker setMarkerSize [0.5, 0.5];
+_marker setMarkerTypeLocal "KIA";
+_marker setMarkerSizeLocal [0.5, 0.5];
 _marker setMarkerAlpha 0.5;
 _unit setVariable ["btc_body_deadMarker", _marker];

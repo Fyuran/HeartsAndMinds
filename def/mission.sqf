@@ -81,6 +81,7 @@ btc_p_veh_armed_ho = ("btc_p_veh_armed_ho" call BIS_fnc_getParamValue) isEqualTo
 btc_p_veh_armed_spawn_more = ("btc_p_veh_armed_spawn_more" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_patrol_max = "btc_p_patrol_max" call BIS_fnc_getParamValue;
 btc_p_civ_max_veh = "btc_p_civ_max_veh" call BIS_fnc_getParamValue;
+btc_p_veh_remove_eden_inventory = ("btc_p_veh_remove_eden_inventory" call BIS_fnc_getParamValue) isEqualTo 1;
 
 //<< Gameplay options >>
 btc_p_sea = ("btc_p_sea" call BIS_fnc_getParamValue) isEqualTo 1;
@@ -144,6 +145,7 @@ btc_debug_frames = 0;
 btc_debug_cities = false;
 btc_debug_hideouts = false;
 btc_debug_cache = false;
+btc_debug_fob_supplies = false;
 
 private _cfgVehicles = configFile >> "CfgVehicles";
 private _allClassVehicles = ("true" configClasses _cfgVehicles) apply {configName _x};
@@ -207,8 +209,13 @@ if (isServer) then {
     btc_ied_suic_spawned = - btc_ied_suic_time;
     btc_ied_offset = [0, -0.03, -0.07] select _p_ied_spot;
     btc_ied_list = [];
+    btc_fake_ied_list = [];
     btc_ied_range = 10;
     btc_ied_power = ["Bo_GBU12_LGB_MI10", "R_MRAAWS_HE_F"] select btc_p_ied_power;
+
+    //LOG
+    btc_log_namespace = true call CBA_fnc_createNamespace;
+    publicVariable "btc_log_namespace";
 
     //FOB
     btc_fobs = [[], [], [], [], []];
@@ -452,6 +459,12 @@ btc_fob_structure = "Land_Cargo_HQ_V1_F";
 btc_fob_flag = "Flag_Blue_F";
 btc_fob_id = 0;
 btc_fob_minDistance = 1500;
+btc_log_fob_create_obj = "CargoNet_01_box_F";
+btc_log_fob_create_objects = [];
+btc_log_fob_supply_objects = [];
+//PACKED - UNPACKED - EMPTY
+btc_log_fob_create_obj_resupply = ["Land_PaperBox_closed_F", "Land_PaperBox_open_full_F", "Land_PaperBox_01_open_empty_F"];
+btc_log_fob_max_resources = 200;
 
 //IED
 btc_type_ieds_ace = ["IEDLandBig_F", "IEDLandSmall_F"];
@@ -466,8 +479,9 @@ btc_int_hornRadius = 20;
 btc_int_hornDelay = time;
 
 //Info
-btc_info_intel_type = [80, 95];//cache - hd - both
+btc_info_intel_type = [30, 80, 95];//fob_supplies - cache - hd - >95 both
 btc_info_hideout_radius = 4000;
+btc_info_supply_radius = 100;
 btc_info_intels = ["Land_Camera_01_F", "Land_HandyCam_F", "Land_File1_F", "Land_FilePhotos_F", "Land_File2_F", "Land_File_research_F", "Land_MobilePhone_old_F", "Land_PortableLongRangeRadio_F", "Land_Laptop_02_unfolded_F"];
 private _mapsIntel = switch (worldName) do {
     case "Altis": {["Land_Map_altis_F", "Land_Map_unfolded_Altis_F"]};
@@ -521,33 +535,20 @@ btc_construction_array =
         "Supplies",
         "FOB",
         "Decontamination",
-        "Vehicle Logistic"
+        "Vehicle Logistic",
+        "Logistics supplies"
     ],
     [
+        
         [
             //"Fortifications"
-            "Land_BagBunker_Small_F",
-            "Land_BagFence_Corner_F",
-            "Land_BagFence_End_F",
-            "Land_BagFence_Long_F",
-            "Land_BagFence_Round_F",
-            "Land_BagFence_Short_F",
-            "Land_HBarrier_1_F",
-            "Land_HBarrier_3_F",
-            "Land_HBarrier_5_F",
-            "Land_HBarrierBig_F",
-            "Land_Razorwire_F",
-            "Land_CncBarrier_F",
-            "Land_CncBarrierMedium_F",
-            "Land_CncBarrierMedium4_F",
-            "Land_CncWall1_F",
-            "Land_CncWall4_F",
-            "Land_Mil_ConcreteWall_F",
-            "Land_Mil_WallBig_4m_F",
-            "Land_Mil_WallBig_Corner_F",
-            "Land_PortableLight_double_F",
-            "Land_Pod_Heli_Transport_04_medevac_black_F"
-        ],
+        ] + flatten(
+            ["""A3_Structures_F_Mil_Fortification""", 
+            """A3_Structures_F_Mil_BagFence""",
+            """ace_logistics_wirecutter""" //wire fences
+            ] apply {
+            format["%1 in (configSourceAddonList _x) && {getNumber (_x >> 'scope') > 0}", _x] configClasses (configFile >> "CfgVehicles") apply {configName _x};
+        }),
         [
             //"Static"
         ] + (_allClassSorted select {(
@@ -590,7 +591,13 @@ btc_construction_array =
             "ACE_Track",
             "B_Slingload_01_Ammo_F",
             "B_Slingload_01_Fuel_F"
-        ] + (_allClassSorted select {_x isKindOf "FlexibleTank_base_F"})
+        ] + (
+            _allClassSorted select {_x isKindOf "FlexibleTank_base_F"}
+        ),
+        [
+            //"Logistics supplies"
+            btc_log_fob_create_obj_resupply#0
+        ]
     ]
 ];
 
@@ -599,6 +606,17 @@ btc_construction_array =
     "_cContainers", "_cSupplies", "_cFOB",
     "_cDecontamination", "_cVehicle_logistic"
 ];
+btc_fob_construction_array = [
+    [
+        "Fortifications",
+        "Static"
+    ],
+    [
+        _cFortifications,
+        _cStatics
+    ]
+];  
+
 btc_log_def_loadable = flatten (btc_construction_array select 1) + flatten btc_supplies_mat + btc_type_hazmat;
 btc_log_def_can_load = _cContainers;
 btc_log_def_placeable = (_cFortifications + _cContainers + _cSupplies + _cFOB + _cDecontamination + _cVehicle_logistic + flatten btc_supplies_mat + btc_type_hazmat) select {
