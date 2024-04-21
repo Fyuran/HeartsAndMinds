@@ -35,7 +35,7 @@ if(_scroll > 0) then {
     btc_log_placing_d = btc_log_placing_d - 0.5;
 };
 
-if(btc_log_placing_d < 8) then {btc_log_placing_d = 8;}; //avoid collision with player
+if(btc_log_placing_d < 4) then {btc_log_placing_d = 4;}; //avoid collision with player
 if(btc_log_placing_d > 30) then {btc_log_placing_d = 30;}; //maximum distance
 btc_log_placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]];
 

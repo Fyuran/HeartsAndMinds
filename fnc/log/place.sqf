@@ -34,23 +34,19 @@ hint composeText [
     lineBreak,
     localize "STR_BTC_HAM_LOG_PLACE_HINT4", //SHIFT to increase the movement
     lineBreak,
-    localize "STR_BTC_HAM_LOG_PLACE_HINT5", //N to set to terrain normal
-    lineBreak,
     localize "STR_BTC_HAM_LOG_PLACE_HINT6" //T to reset height and orientation
 ];
-[localize "STR_BTC_HAM_LOG_PLACE_RELEASE", localize "STR_BTC_HAM_LOG_PLACE_TONORMAL"] call ace_interaction_fnc_showMouseHint;
+[localize "STR_BTC_HAM_LOG_PLACE_RELEASE", ""] call ace_interaction_fnc_showMouseHint;
 
 btc_log_placing_obj = _placing_obj;
 btc_log_placing = true;
 btc_log_yaw = 0;
 btc_log_roll = 0;
 btc_log_pitch = 0;
-btc_log_setToNormal = false;
-btc_log_placing_h = (_placing_obj modelToWorldVisual [0, 0, 0] select 2) - (player modelToWorldVisual [0, 0, 0] select 2);
-
+btc_log_placing_h = ((ASLtoAGL (eyePos player))#2) - 0.5;
 
 if(_bbr isEqualTo []) then {
-    _bbr = 0 boundingBoxReal btc_log_placing_obj;
+    _bbr = 0 boundingBoxReal _placing_obj;
 };
 btc_log_placing_d = 1.5 + abs(((_bbr select 1) select 1) - ((_bbr select 0) select 1));
 
@@ -59,6 +55,8 @@ private _helpers = _placing_obj getVariable ["btc_log_helpers", []];
 _helpers apply {_x hideObjectGlobal false};
 
 _placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]];
+[_placing_obj, [btc_log_yaw, btc_log_pitch, btc_log_roll]] call BIS_fnc_setObjectRotation;
+
 private _currentWeapon = currentWeapon player;
 [player] call ace_weaponselect_fnc_putWeaponAway;
 [player, "forceWalk", "btc_log_placing", true] call ace_common_fnc_statusEffect_set;
@@ -101,8 +99,6 @@ private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChang
         [player, "blockThrow", "btc_log_placing", false] call ace_common_fnc_statusEffect_set;
 
         btc_log_placing_obj = objNull;
-
-        btc_log_placing = false; // reset flag
     }, _this] call CBA_fnc_execNextFrame;
 
 }, [_placing_obj, _currentWeapon, _leftActionEH, _keyDownEH, _MouseZChangedEH]] call CBA_fnc_waitUntilAndExecute;

@@ -13,7 +13,7 @@ Returns:
 
 Examples:
     (begin example)
-        [btc_create_object_point] call btc_log_fnc_delete;
+        [btc_log_point_obj] call btc_log_fnc_delete;
     (end)
 
 Author:
@@ -23,7 +23,7 @@ Author:
 
 params [
     ["_object", objNull, [objNull]],
-    ["_blackList", [btc_create_object], [[]]]
+    ["_blackList", [btc_log_create_obj], [[]]]
 ];
 
 private _array = ((nearestObjects [_object, flatten (btc_construction_array select 1), 6]) select {!(

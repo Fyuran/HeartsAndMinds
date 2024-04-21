@@ -56,10 +56,12 @@ private _action = ["btc_fob_reactivate", localize "STR_BTC_HAM_ACTION_REPAIR_FOB
             ["_marker", "", [""]]
         ];
         _flag setFlagTexture "a3\data_f\flags\flag_blue_co.paa";
-        [_flag] spawn btc_fob_fnc_create;
         [_flag, 1, true] call BIS_fnc_animateFlag; 
         
-        ["btc_fobs_reactivation", [_actionObj, _name, _ruins, _marker]] call CBA_fnc_serverEvent;
+        deleteMarker _marker;
+        deleteVehicle _actionObj;
+        deleteVehicle _flag;
+        [_name, _ruins] remoteExecCall ["btc_fob_fnc_reactivation", [0, 2] select isMultiplayer];
     }, {
         _flag = (_this#0) param [2, objNull, [objNull]];
         [_flag, 0, true] call BIS_fnc_animateFlag;

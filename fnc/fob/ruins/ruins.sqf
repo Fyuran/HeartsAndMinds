@@ -1,18 +1,17 @@
 
 /* ----------------------------------------------------------------------------
-Function: btc_fob_fnc_reactivation
+Function: btc_fob_fnc_ruins
 
 Description:
-    Manages reactivation to repair disabled FOBs.
+    Manages ruins to repair disabled FOBs.
 
 Parameters:
-    _to - the ruins object. [Object]
 
 Returns:
 
 Examples:
     (begin example)
-        _result = [] call btc_fob_fnc_reactivation;
+        _result = [] call btc_fob_fnc_ruins;
     (end)
 
 Author:
@@ -45,8 +44,11 @@ private _flagPos = [_ruins] call btc_fnc_getBoundingCornersPos;
 _flagPos = selectRandom _flagPos;
 _flagPos set [2, 0];
 private _flag = createVehicle ["Flag_White_F", _flagPos, [], 0, "NONE"];
-[_flag, 0, true] call BIS_fnc_animateFlag;
 _flag allowDamage false;
+
+[{
+    [_this, 0, true] call BIS_fnc_animateFlag;
+}, _flag] call CBA_fnc_execNextFrame;
 
 private _actionPos = _flag modelToWorld((boundingCenter _flag) vectorDiff [0.2,0.75,6.4]); //position the action node at the base of the flag
 private _actionObj = createVehicle["CBA_NamespaceDummy", _actionPos, [], 0, "CAN_COLLIDE"];
