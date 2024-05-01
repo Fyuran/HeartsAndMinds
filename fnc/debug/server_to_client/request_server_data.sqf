@@ -26,8 +26,27 @@ params[
 private _hash = createHashMap;
 
 switch(_fncName) do {
-	case "btc_debug_fnc_fob_supplies": {
-		btc_debug_namespace setVariable ["fob_supplies", btc_log_fob_supply_objects, remoteExecutedOwner];
+	case "btc_debug_fnc_supplies": {
+		(values btc_city_all) apply {
+			private _data_supplies = _x getVariable "data_supplies";
+			if(_data_supplies isEqualTo []) then { continue };
+			private _occupied = _x getVariable "occupied";
+			if(!_occupied) then { continue };
+
+			private _id = _x getVariable "id";
+			_data_supplies apply {
+				private _innerHash = ["_id", "_pos", "_dir", "_resources", "_markers"] createHashMapFromArray ([_id] + _x);
+				_hash set [_id, _innerHash];
+			};
+		};
+		btc_debug_namespace setVariable ["unclaimed_supplies", _hash, remoteExecutedOwner];
+
+		_hash = createHashMap;
+		{
+			private _innerHash = ["_pos", "_resources"] createHashMapFromArray [getPosASL _x, _x getVariable "btc_log_resources"];
+			_hash set [_forEachIndex, _innerHash];
+		} forEach btc_log_fob_supply_objects;
+		btc_debug_namespace setVariable ["claimed_supplies", _hash, remoteExecutedOwner];
 	};
 	case "btc_debug_fnc_cache": {
 

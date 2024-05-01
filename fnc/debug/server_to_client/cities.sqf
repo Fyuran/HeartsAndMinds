@@ -29,7 +29,7 @@ if(isNil "btc_debug_namespace") exitWith {
 };
 
 
-(btc_debug_namespace getVariable "cities") apply {
+(btc_debug_namespace getVariable "cities") apply { //["_id", "_occupied", "_initialized", "_name", "_type", "_cachingRadius", "_hasBeach", "_pos"]
 	(values _y) params (keys _y);
 	private _markerVarName = format ["_loc_%1", _id];
 	private _marker = _y getOrDefault [_markerVarName, createMarkerLocal [_markerVarName, _pos], true];

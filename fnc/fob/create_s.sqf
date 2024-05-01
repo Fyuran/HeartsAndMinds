@@ -31,7 +31,7 @@ params [
     ["_FOB_name", "FOB ", [""]],
     ["_jailData", [], [[]]],
     ["_logObjData", [], [[]]],
-    ["_resources", -1, [0]]
+    ["_resources", btc_log_fob_max_resources, [0]]
 ];
 
 if(btc_debug) then {
@@ -54,13 +54,13 @@ if(_jailData isNotEqualTo []) then {
 };
 
 //LOG OBJ
-_flag setVariable ["btc_log_resources", _resources];
+_flag setVariable ["btc_log_resources", _resources, true];
 if(_logObjData isNotEqualTo []) then {
     _logObjData params [
         ["_pos", [0,0,0], [], 3],
         ["_vectorDirAndUp", [[0,1,0],[0,0,1]], [[]], 2]
     ];
-    [_flag, _pos, _vectorDirAndUp, _resources] call btc_log_fob_fnc_logObj_s;
+    [_flag, _pos, _vectorDirAndUp] call btc_log_fob_fnc_create_s;
 };
 
 (btc_fobs select 1) pushBack _building;
@@ -73,6 +73,7 @@ private _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addResp
 _building setVariable["FOB_Respawn_EH", _BISEH_return];
 _building setVariable["FOB_Flag", _flag];
 _flag setVariable["FOB", _building];
+_flag setVariable["FOB_name", _FOB_name, true];
 
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
 _building addEventHandler ["Killed", btc_fob_fnc_killed];

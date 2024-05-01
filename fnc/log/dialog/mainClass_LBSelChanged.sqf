@@ -1,19 +1,19 @@
 
 /* ----------------------------------------------------------------------------
-Function: btc_log_fnc_main_class_onLBSelChanged
+Function: btc_log_dialog_fnc_mainClass_LBSelChanged
 
 Description:
     Fill me when you edit me !
 
 Parameters:
-    _main_class - []
-    _sub_class - []
+    _main_classes - []
+    _sub_classes - []
 
 Returns:
 
 Examples:
     (begin example)
-        _result = [] call btc_log_fnc_main_class_onLBSelChanged;
+        _result = [] call btc_log_dialog_fnc_mainClass_LBSelChanged;
     (end)
 
 Author:
@@ -25,6 +25,14 @@ params [
     ["_lbCurSel", 0, [0]], //Returns the index of the selected item
     ["_lbSelection", [], [[]]] //Returns Array of selected rows indices in the given listbox
 ];
+if(!canSuspend) exitWith {
+    ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+};
+
+[{//retrieve tables
+    remoteExecutedOwner publicVariableClient "btc_log_dialog_tables";
+}] remoteExecCall ["call", [0, 2] select isMultiplayer];
+waitUntil {!isNil "btc_log_dialog_tables"};
 
 disableSerialization;
 if(isNull _main_class_ctrl) exitWith {
@@ -34,33 +42,22 @@ if(isNull _main_class_ctrl) exitWith {
 private _display = ctrlParent _main_class_ctrl;
 private _sub_class_ctrl = _display displayCtrl 72;
 
-private _create_obj = btc_log_namespace getVariable ["btc_log_create_obj", objNull];
-private _isFobLogObj = _create_obj getVariable ["btc_log_isFobLogObj", false];
-
-(btc_log_namespace getVariable ["btc_construction_array", []]) params [
-    ["_main_class", [], [[]]], 
-    ["_sub_class", [], [[]]]
+private _create_obj = btc_log_dialog_namespace getVariable ["btc_log_create_obj", objNull];
+(btc_log_dialog_namespace getVariable ["btc_construction_array", []]) params [
+    ["_main_classes", [], [[]]], 
+    ["_sub_classes", [], [[]]]
 ];
 
 private _var = _main_class_ctrl lbText _lbCurSel;
-private _id = _main_class find _var;
-private _category = _sub_class select _id;
+private _id = _main_classes find _var;
+private _category = _sub_classes select _id;
 lbClear _sub_class_ctrl;
 
-_lbData = [];
+private _lbData = [];
 _category apply {
-    private _displayName = getText (configFile >> "cfgVehicles" >> _x >> "displayName");
-    private _sideID = getNumber (configFile >> "cfgVehicles" >> _x >> "side");
-    if (not(_x isKindOf "Thing") && {not(_x isKindOf "Building")}) then { //some camo variations
-        _displayName = format["%1(%2)", _displayName, _sideID call BIS_fnc_sideType];
-    };
-    private _cost = 0;
-    if(_isFobLogObj) then {
-        private _obj = createVehicleLocal [_x, [0,0,0], [], 0, "CAN_COLLIDE"];
-        //sizeOf At least one object of the given classname has to be present in the current mission otherwise zero will be returned.
-        _cost = round(sizeOf _x)*2;
+    (btc_log_dialog_tables getOrDefault [_x, ["nil", -1]]) params ["_displayName", "_cost"];
+    if(_create_obj in btc_log_fob_create_objects) then {
         _displayName = _displayName insert [-1, format[" cost: %1", _cost]];
-        deleteVehicle _obj;
     };
     _lbData pushBackUnique [_displayName, _x, _cost];
 };

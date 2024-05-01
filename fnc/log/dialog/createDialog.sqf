@@ -1,6 +1,6 @@
 
 /* ----------------------------------------------------------------------------
-Function: btc_log_fnc_create
+Function: btc_log_dialog_fnc_createDialog
 
 Description:
     Fill me when you edit me !
@@ -12,7 +12,7 @@ Returns:
 
 Examples:
     (begin example)
-        _result = [] call btc_log_fnc_create;
+        _result = [] call btc_log_dialog_fnc_createDialog;
     (end)
 
 Author:
@@ -26,9 +26,9 @@ params [
     ["_log_point", btc_log_point_obj, [objNull]]
 ];
 
-btc_log_namespace setVariable ["btc_log_create_obj", _create_obj];
-btc_log_namespace setVariable ["btc_construction_array", _construction_array];
-btc_log_namespace setVariable ["btc_log_point_obj", _log_point];
+btc_log_dialog_namespace setVariable ["btc_log_create_obj", _create_obj];
+btc_log_dialog_namespace setVariable ["btc_construction_array", _construction_array];
+btc_log_dialog_namespace setVariable ["btc_log_point_obj", _log_point];
 
 closeDialog 0;
 if ([_log_point] call btc_fnc_isAreaOccupied) exitWith {};

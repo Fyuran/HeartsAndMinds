@@ -61,13 +61,17 @@ addMissionEventHandler ["BuildingChanged", btc_eh_fnc_buildingChanged];
 addMissionEventHandler ["HandleDisconnect", {
     params ["_unit", "_id", "_uid", "_name"];
     if(_unit in entities "HeadlessClient_F") exitWith {};
-    [_uid] call btc_slot_fnc_saveData; false
+    [_uid, _unit] call btc_slot_fnc_saveData; false
 }];
 
 if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {
         if ((allPlayers - entities "HeadlessClient_F") isEqualTo []) then {
-            [] call btc_db_fnc_save;
+            switch (btc_db_load) do {
+	            case 1: {[] call btc_db_fnc_save};
+                case 2: {[] call btc_json_fnc_save;};
+                default {[] call btc_db_fnc_save};
+	        };
         };
     }];
 };
@@ -116,7 +120,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
         params ["_unit"];
         if (
             ace_respawn_removedeadbodiesdisconnected &&
-            _unit in btc_body_deadPlayers
+            {_unit in btc_body_deadPlayers}
         ) then {
             deleteMarker (_unit getVariable ["btc_body_deadMarker", ""]);
             private _deadUnits  = [[[_unit]] call btc_body_fnc_get] call btc_body_fnc_create;
@@ -156,3 +160,21 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 
 //Sunrise or Sunset
 [abs btc_p_eh_sunriseorsunset] call btc_eh_fnc_setSunriseOrSunset;
+
+["btc_log_place_pickedUp", {
+    params ["_target", "_unit"];
+    
+    if(btc_debug) then {
+        [format["%1 picked up a %2", name _unit, typeOf _target], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+    };
+    _target setVariable ["btc_log_isBeingPlaced", true, true];
+}] call CBA_fnc_addEventHandler;
+
+["btc_log_place_placedDown", {
+    params ["_target", "_unit"];
+
+    if(btc_debug) then {
+        [format["%1 placed down a %2", name _unit, typeOf _target], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+    };
+    _target setVariable ["btc_log_isBeingPlaced", false, true];
+}] call CBA_fnc_addEventHandler;

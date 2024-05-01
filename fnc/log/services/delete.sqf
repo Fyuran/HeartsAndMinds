@@ -6,17 +6,18 @@ Description:
     Delete object created by logistic point.
 
 Parameters:
-    _log_point - Helipad where the object to delete is. [Object]
+    _obj - Object to delete. [Object]
+    _whiteList - Item can be deleted. [Array]
 
 Returns:
 
 Examples:
     (begin example)
-        [btc_log_point_obj] call btc_log_fnc_delete;
+        [cursorObject] call btc_log_fnc_delete;
     (end)
 
 Author:
-    Giallustio, Fyuran
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -25,18 +26,35 @@ params [
     ["_log_point", objNull, [objNull]]
 ];
 
+if(isNull _create_obj) exitWith {
+    ["_create_obj is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+};
+if(isNull _log_point) exitWith {
+    ["_log_point is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+};
+
+private _whiteList = btc_log_obj_created + btc_log_fob_supply_objects;
 private _blackList = [btc_log_create_obj, _create_obj];
 
-private _array = ((nearestObjects [_log_point, flatten (btc_construction_array select 1), 10]) select {!(
-    _x isKindOf "ACE_friesBase" OR
-    _x isKindOf "ace_fastroping_helper"
-)}) - _blackList;
+private _array = nearestObjects [_log_point, flatten (btc_construction_array select 1), 10] select {
+    if !(_x in _whiteList) exitWith {
+        [17] remoteExecCall ["btc_fnc_show_hint", remoteExecutedOwner];
+        false
+    };
+    true
+};
+_array = _array - _blackList;
 
 if (_array isEqualTo []) exitWith {
     [
         [localize "STR_BTC_HAM_LOG_DELETE"],
         ["<img size='1' image='\z\ace\addons\arsenal\data\iconClearContainer.paa' align='center'/>"]
-    ] call CBA_fnc_notify;
+    ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 };
 
-[_array select 0, _create_obj] remoteExecCall ["btc_log_fnc_server_delete", [2]];
+private _obj = _array#0; //delete first object found
+if(_create_obj in btc_log_fob_create_objects) then {
+    [_create_obj, _obj] call btc_log_fob_fnc_refund;
+};
+
+[_obj getVariable ["ace_cargo_loaded", []], attachedObjects _obj, _obj] call CBA_fnc_deleteEntity;

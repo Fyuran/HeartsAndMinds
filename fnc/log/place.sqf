@@ -21,8 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_placing_obj", objNull, [objNull]],
-    ["_bbr", [], [[]]]
+    ["_placing_obj", objNull, [objNull]]
 ];
 
 hint composeText [
@@ -45,9 +44,7 @@ btc_log_roll = 0;
 btc_log_pitch = 0;
 btc_log_placing_h = ((ASLtoAGL (eyePos player))#2) - 0.5;
 
-if(_bbr isEqualTo []) then {
-    _bbr = 0 boundingBoxReal _placing_obj;
-};
+private _bbr = 0 boundingBoxReal _placing_obj;
 btc_log_placing_d = 1.5 + abs(((_bbr select 1) select 1) - ((_bbr select 0) select 1));
 
 
@@ -56,10 +53,6 @@ _helpers apply {_x hideObjectGlobal false};
 
 _placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]];
 [_placing_obj, [btc_log_yaw, btc_log_pitch, btc_log_roll]] call BIS_fnc_setObjectRotation;
-
-if(btc_debug) then {
-    [format["%1 picked up a %2", name player, typeOf _placing_obj], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-};
 
 private _currentWeapon = currentWeapon player;
 [player] call ace_weaponselect_fnc_putWeaponAway;
@@ -89,11 +82,6 @@ private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChang
         (findDisplay 46) displayRemoveEventHandler ["KeyDown", _keyDownEH];
         (findDisplay 46) displayRemoveEventHandler ["MouseZChanged", _MouseZChangedEH];
         [] call ace_interaction_fnc_hideMouseHint;
-
-        if(btc_debug) then {
-            [format["triggered CBA_fnc_waitUntilAndExecute with %1", _this], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-            [format["%1 placed down a %2", name player, typeOf _placing_obj], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-        };
 
         private _helpers = _placing_obj getVariable ["btc_log_helpers", []];
         _helpers apply {_x hideObjectGlobal true};

@@ -54,7 +54,7 @@ private _cities_status = createHashMap;
 
 	private _hash = ["id", "name", "initialized", "spawn_more", "occupied",
 		"data_units", "has_ho", "ho_units_spawned", "ieds",
-		"has_suicider", "data_animals", "data_tags", "btc_rep_civKilled"] createHashMapFromArray [
+		"has_suicider", "data_animals", "data_tags", "data_supplies", "btc_rep_civKilled"] createHashMapFromArray [
 		_y getVariable ["id", -1],
 		_name,
 		_y getVariable ["initialized", false],
@@ -67,6 +67,7 @@ private _cities_status = createHashMap;
 		_y getVariable ["has_suicider", false],
 		_y getVariable ["data_animals", []],
     	_y getVariable ["data_tags", []],
+		_y getVariable ["data_supplies", []],
 		_y getVariable ["btc_rep_civKilled", []]
 	];
 
@@ -130,7 +131,7 @@ private _fobs = createHashMap;
     if !(isNull _flag) then {
         private _pos = getMarkerPos [_x, true];
         private _direction = getDir ((btc_fobs select 1) select _forEachIndex);
-        private _array = [_pos, _direction, markerText _x, [], [], _flag getVariable ["btc_log_resources", 0]];
+        private _array = [_pos, _direction, markerText _x, [], [], _flag getVariable ["btc_log_resources", -1]];
 
         private _hash = ["pos", "direction", "FOB_name", "jailData", "logObjData", "resources"] createHashMapFromArray _array;
 
@@ -208,20 +209,12 @@ private _array_obj = createHashMap;
 private _array_fob_log_supplies = createHashMap;
 {
 	private _pos = getPosATL _x;
-	private _vectorDirAndUp = [vectorDir _x, vectorUp _x];
-	private _isClaimed = _x getVariable["btc_fob_log_isClaimed", false];
+	private _dir = getDir _x;
 	private _resources = _x getVariable ["btc_log_resources", 0];
+	private _class = typeOf _x;
 
-	private _markers = [];
-	(_x getVariable ["markers", []]) apply {
-		private _marker = [];
-		_marker pushBack (getMarkerPos _x);
-		_marker pushBack (markerText _x);
-		_markers pushBack _marker;
-	};
-
-	private _hash = ["pos", "vectorDirAndUp", "resources", "isClaimed", "markers"]
-	createHashMapFromArray [_pos, _vectorDirAndUp, _resources, _isClaimed, _markers];
+	private _hash = ["pos", "dir", "resources", "class"]
+	createHashMapFromArray [_pos, _dir, _resources, _class];
 
 	_array_fob_log_supplies set [_forEachIndex, _hash];
 } forEach (btc_log_fob_supply_objects select {
@@ -264,6 +257,8 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 btc_slots_serialized = createHashMap;
 (allPlayers - entities "HeadlessClient_F") apply {
     if (!isNull _x) then {
+		private _uid = getPlayerUID _x;
+		if(_uid isEqualTo "_SP_PLAYER_") then { continue };
         [getPlayerUID _x] call btc_slot_fnc_saveData;
     };
 };

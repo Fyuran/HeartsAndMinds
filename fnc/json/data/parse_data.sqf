@@ -28,7 +28,7 @@ if(_rawData isNotEqualTo [""]) then {
 	private _rawData = _rawData joinString "";
 	_rawData = _rawData regexReplace ["\\\\", "\"];
 	if(btc_debug) then {
-		[format ["Parsing JSON data: %1", _rawData], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+		[format ["Parsing JSON data for %1", _category], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 	};
 	_rawData = parseSimpleArray _rawData;
 

@@ -14,7 +14,7 @@ Returns:
 
 Examples:
     (begin example)
-        [-10, player, 1] call btc_rep_fnc_change;
+        [player, _FOOD_GIVEN_] call btc_rep_fnc_change;
     (end)
 
 Author:
@@ -66,6 +66,7 @@ private _change = switch (_reason) do {
     case _FRIENDLY_KILLED_ : {[btc_rep_malus_civ_killed, format[localize"STR_BTC_HAM_REP_FRIENDLY_KILLED", _name]]};
     case _CAPTIVE_KILLED_ : {[btc_rep_malus_civ_killed, format[localize"STR_BTC_HAM_REP_CAPTIVE_KILLED", _name]]};
     case _FOB_DISMANTLED_ : {[floor(btc_rep_malus_fob_lost/2), format[localize"STR_BTC_HAM_REP_FOB_DISMANTLED", _name]]};
+    case _SUPPLIES_CLAIMED_ : {[btc_rep_bonus_supplies_claimed, format[localize"STR_BTC_HAM_REP_SUPPLIES_CLAIMED", _name]]};
     //SIDES
     case _SIDE_OFFICER_CAPTURED_ : {[50, format[localize"STR_BTC_HAM_REP_SIDE_OFFICER_CAPTURED", _name]]};
     case _SIDE_CHECKPOINT_DESTROYED_ : {[80, format[localize"STR_BTC_HAM_REP_SIDE_CHECKPOINT_DESTROYED", _name]]};

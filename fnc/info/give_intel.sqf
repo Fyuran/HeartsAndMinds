@@ -27,15 +27,15 @@ params [
 ];
 
 if (btc_hideouts isEqualTo []) then {_intelType = _cacheInt - 10;};
-btc_info_intel_type params ["_fob_suppliesInt", "_cacheInt", "_hoInt"];
+btc_info_intel_type params ["_suppliesInt", "_cacheInt", "_hoInt"];
 
 //btc_info_intel_type = [30, 80, 95];//fob_supplies - cache - hd - >95 both
 switch (true) do {
-    case (_intelType <= _fob_suppliesInt) : { //supplies
-        [] call btc_info_fnc_fob_supplies;
+    case (_intelType <= _suppliesInt) : { //supplies
+        [] call btc_info_fnc_supplies;
         [4] remoteExecCall ["btc_fnc_show_hint", _asker];
     };
-    case (_intelType > _fob_suppliesInt && {_intelType <= _cacheInt}) : { //cache
+    case (_intelType > _suppliesInt && {_intelType <= _cacheInt}) : { //cache
         [true] call btc_info_fnc_cache;
     };
     case (_intelType > _cacheInt && {_intelType < _hoInt}) : { //ho

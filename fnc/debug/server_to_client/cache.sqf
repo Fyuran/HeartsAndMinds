@@ -28,6 +28,7 @@ if(isNil "btc_debug_namespace") exitWith {
         __FILE__, nil, true] call btc_debug_fnc_message;
 };
 
+//["cache_n", "cache_pos"]
 private _hash = btc_debug_namespace getVariable "cache";
 private _cache_n = _hash get "cache_n";
 private _pos = _hash get "cache_pos";

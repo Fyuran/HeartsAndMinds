@@ -52,6 +52,7 @@ _flag allowDamage false;
 
 private _actionPos = _flag modelToWorld((boundingCenter _flag) vectorDiff [0.2,0.75,6.4]); //position the action node at the base of the flag
 private _actionObj = createVehicle["CBA_NamespaceDummy", _actionPos, [], 0, "CAN_COLLIDE"];
+[_actionObj, _flag] call BIS_fnc_attachToRelative;
 
 if(btc_debug) then {
     private _sphere = createVehicle ["Sign_Sphere25cm_F", _actionPos, [], 0, "CAN_COLLIDE"];

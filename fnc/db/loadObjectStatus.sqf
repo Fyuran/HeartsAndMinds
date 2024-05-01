@@ -43,7 +43,10 @@ _object_data params [
 private _obj = createVehicle [_type, [0,0,0], [], 0, "CAN_COLLIDE"];
 
 _obj setDir _dir;
-_obj setPosASL _pos;
+_height = getTerrainHeightASL _pos;
+if(_height >= 0) then { _obj setPosATL (ASLtoATL _pos) } else {
+    _obj setPosASL _pos;
+};
 _obj setVectorDirAndUp _vectorDirAndUp;
 
 if (_isContaminated) then {

@@ -19,7 +19,7 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#define DISTSQR (10 * 10)
+#define _DIST_ 10
 
 params [
     ["_remainEnemyUnits", [], [[], objNull]]
@@ -49,12 +49,12 @@ _groups apply {
 [_remainEnemyUnits, {
     _this apply {
         _action = ["btc_jail_captive", localize "STR_BTC_HAM_ACTION_DETAIN", "core\img\jail_captive.paa", {
-            _jail = btc_jails select (btc_jails findIf {(_target distanceSqr _x) <= DISTSQR });
+            _jail = btc_jails select (btc_jails findIf {(_target distance _x) <= _DIST_ });
 
             [_target, _player, _jail] remoteExecCall ["btc_jail_fnc_detain_s", [0, 2] select isMultiplayer];
             [_target, 0, ["ACE_MainActions","btc_jail_captive"]] remoteExecCall ["ace_interact_menu_fnc_removeActionFromObject", [0, -2] select isMultiplayer];
         }, {
-            btc_jails findIf {(_target distanceSqr _x) <= DISTSQR } != -1
+            btc_jails findIf {(_target distance _x) <= _DIST_ } != -1
         }] call ace_interact_menu_fnc_createAction;
 
         [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;

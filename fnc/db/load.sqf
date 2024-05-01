@@ -38,10 +38,9 @@ _cities_status apply {
     _x params ["_id", "_initialized", "_spawn_more", "_occupied", "_data_units", "_has_ho", "_ho_units_spawned", "_ieds", "_has_suicider",
         ["_data_animals", [], [[]]],
         ["_data_tags", [], [[]]],
+        ["_data_supplies", [], [[]]],
         ["_civKilled", [], [[]]]
     ];
-
-    private _city = btc_city_all get _id;
 
     _city setVariable ["initialized", _initialized];
     _city setVariable ["spawn_more", _spawn_more];
@@ -53,19 +52,22 @@ _cities_status apply {
     _city setVariable ["has_suicider", _has_suicider];
     _city setVariable ["data_animals", _data_animals];
     _city setVariable ["data_tags", _data_tags];
+    _city setVariable ["data_supplies", _data_supplies];
     _city setVariable ["btc_rep_civKilled", _civKilled];
 
-    if (btc_debug_log) then {
-        [format [
-            "ID: %1 - _initialized %2 _spawn_more %3 _occupied %4 count _data_units %5 _has_ho %6",
-            _id, _initialized, _spawn_more, 
-            _occupied, count _data_units, _has_ho  
-        ], __FILE__, [false]] call btc_debug_fnc_message;
-        [format [
-            "ID: %1 - _ho_units_spawned %2 count _ieds %3 _has_suicider %4 count _data_animals %5 count _data_tags %6 count _civKilled %7",
-            _id, _ho_units_spawned, count _ieds, _has_suicider,
-            count _data_animals, count _data_tags, count _civKilled  
-        ], __FILE__, [false]] call btc_debug_fnc_message;
+    _data_supplies apply {
+        _markers = _x param[3, [], [[]]];
+        _markers apply {
+            private _marker = createMarkerLocal[_x#0, _x#1];
+            _marker setMarkerTypeLocal "hd_unknown";
+            _marker setMarkerTextLocal format ["%1m", btc_info_supply_radius];
+            _marker setMarkerSizeLocal[0.4, 0.4];
+            _marker setMarkerAlphaLocal 0.35;
+            _marker setMarkerColor "ColorPink";
+        };
+    };
+    if (btc_debug) then {
+        [format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false]] call btc_debug_fnc_message;
     };
 };
 
@@ -158,9 +160,7 @@ private _objs = +(profileNamespace getVariable [format ["btc_hm_%1_objs", _name]
 private _array_fob_log_supplies = +(profileNamespace getVariable [format ["btc_hm_%1_fob_log_supplies", _name], []]);
 [{
     _this apply {
-        _args = [objNull];
-        _args append _x;
-        _args call btc_log_fob_fnc_resupply_packed;
+        _x call btc_log_resupply_fnc_claimed_create;
     };
 }, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
 

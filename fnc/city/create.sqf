@@ -60,4 +60,27 @@ if (btc_p_sea) then {
 
 [_city, _cachingRadius] call btc_city_fnc_setPlayerTrigger;
 
+//fob supplies
+private _data_supplies = [];
+private _supplyChance = (switch _type do {
+    case "Hill" : {0.2};
+    case "VegetationFir" : {0};
+    case "BorderCrossing" : {0};
+    case "NameLocal" : {0.3};
+    case "StrongpointArea" : {0.4};
+    case "NameVillage" : {0.3};
+    case "NameCity" : {0.4};
+    case "NameCityCapital" : {1};
+    case "Airport" : {0.3};
+    case "NameMarine" : {0};
+    default {0};
+});
+if(_supplyChance > (random 1)) then {
+    private _pos = [[_position select 0, _position select 1, getTerrainHeightASL _position], _cachingRadius/2, false, true] call btc_fnc_randomize_pos;
+    if(_pos isNotEqualTo []) then {
+        _data_supplies pushBack [_pos, random 360, btc_log_fob_max_resources, []];
+    };
+};
+_city setVariable ["data_supplies", _data_supplies];
+
 _city

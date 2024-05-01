@@ -1,6 +1,6 @@
 
 /* ----------------------------------------------------------------------------
-Function: btc_log_fob_fnc_logObjRemove_s
+Function: btc_log_fob_fnc_remove
 
 Description:
     Removes Log Obj safely
@@ -12,7 +12,7 @@ Returns:
 
 Examples:
     (begin example)
-        _result = [cursorObject] call btc_log_fob_fnc_logObjRemove_s;
+        _result = [cursorObject] call btc_log_fob_fnc_remove;
     (end)
 
 Author:
@@ -29,17 +29,16 @@ if(!alive _flag) exitWith {
 };
 
 private _create_obj = _flag getVariable ["btc_log_create_obj", objNull];
-private _resources = _create_obj getVariable ["btc_log_resources", 0];
-_flag setVariable ["btc_log_resources", _resources];
-
-private _log_point = _create_obj getVariable ["btc_log_point_obj", objNull];
 if(!alive _create_obj) exitWith {
     ["_create_obj is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
 };
 
-//for drawIcon3D
 btc_log_fob_create_objects deleteAt (btc_log_fob_create_objects find _create_obj);
 publicVariable "btc_log_fob_create_objects";
 
+(attachedObjects _create_obj) apply {deleteVehicle _x};
 deleteVehicle _create_obj;
-deleteVehicle _log_point;
+
+if(btc_debug) then {
+    [format["removed log_obj from %1", _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
+};

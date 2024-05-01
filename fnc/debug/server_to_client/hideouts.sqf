@@ -28,7 +28,7 @@ if(isNil "btc_debug_namespace") exitWith {
         __FILE__, nil, true] call btc_debug_fnc_message;
 };
 
-(btc_debug_namespace getVariable "hideouts") apply {
+(btc_debug_namespace getVariable "hideouts") apply { //["_id", "_pos"]
 		(values _y) params (keys _y);
 		private _markerVarName = format ["_hideout_loc_%1",  _pos];
 		private _marker = _y getOrDefault [_markerVarName, createMarkerLocal [_markerVarName, _pos], true];

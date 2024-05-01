@@ -56,25 +56,29 @@ if (_cities_status isNotEqualTo createHashMap) then {
 		_city setVariable ["initialized", _initialized];
 		_city setVariable ["spawn_more", _spawn_more];
 		_city setVariable ["occupied", _occupied];
-		_city setVariable ["data_animals", _data_animals];
-		_city setVariable ["data_tags", _data_tags];
 		_city setVariable ["data_units", _data_units];
 		_city setVariable ["has_ho", _has_ho];
 		_city setVariable ["ho_units_spawned", _ho_units_spawned];
 		_city setVariable ["ieds", _ieds];
 		_city setVariable ["has_suicider", _has_suicider];
+		_city setVariable ["data_animals", _data_animals];
+		_city setVariable ["data_tags", _data_tags];
+		_city setVariable ["data_supplies", _data_supplies];
 		_city setVariable ["btc_rep_civKilled", _civKilled];
 
+		_data_supplies apply {
+			_markers = _x param[3, [], [[]]];
+			_markers apply {
+				private _marker = createMarkerLocal[_x#0, _x#1];
+				_marker setMarkerTypeLocal "hd_unknown";
+				_marker setMarkerTextLocal format ["%1m", btc_info_supply_radius];
+				_marker setMarkerSizeLocal[0.4, 0.4];
+				_marker setMarkerAlphaLocal 0.35;
+				_marker setMarkerColor "ColorPink";
+			};
+		};
 		if (btc_debug) then {
-			private _marker = _city getVariable ["marker", ""];
-			if (_city getVariable ["occupied", false]) then {
-				_marker setMarkerColor (["colorRed", "ColorCIV"] select _initialized);
-			} else {
-				_marker setMarkerColor (["colorGreen", "ColorWhite"] select _initialized);
-			};
-			if (btc_debug_log) then {
-				[format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false]] call btc_debug_fnc_message;
-			};
+			[format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 		};
 	};
 };
@@ -182,7 +186,7 @@ if (_array_veh isNotEqualTo createHashMap) then {
 			_tagTexture, _properties] call btc_json_fnc_createVehicle;
 
 			if (btc_debug_log) then {
-				[format ["_veh = %1 at %2", _veh_type, _veh_pos], __FILE__, [false]] call btc_debug_fnc_message;
+				[format ["_veh = %1 at %2", _veh_type, _veh_pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 			};
 
 			if !(alive _veh) then {
@@ -219,7 +223,7 @@ if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
 		_this apply {
 			(values _y) params ((keys _y) apply {"_" + _x});
 
-		    [objNull, _pos, _vectorDirAndUp, _resources, _isClaimed, _markers] call btc_log_fob_fnc_resupply_packed;
+		    [_pos, _dir, _resources, _class] call btc_log_resupply_fnc_claimed_create;
 		};
 	}, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
 };

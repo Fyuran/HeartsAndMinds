@@ -64,8 +64,6 @@ _saveButton ctrlAddEventHandler ["ButtonClick", {
 	[] remoteExecCall ["btc_json_fnc_save", 2];
 	private _fileviewer = ctrlParent _delButton;
 	private _listBox = _fileviewer displayCtrl 1500;
-	_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
-	uiNamespace setVariable ["btc_JSON_fileviewer_textlbCurSel", _listBox lbText 0];
 }];
 
 //Copy Button
@@ -77,8 +75,6 @@ _copyButton ctrlAddEventHandler ["ButtonClick", {
 		[_path] remoteExecCall ["btc_json_fnc_copy_file", 2];
 		private _fileviewer = ctrlParent _delButton;
 		private _listBox = _fileviewer displayCtrl 1500;
-		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
-		uiNamespace setVariable ["btc_JSON_fileviewer_textlbCurSel", _listBox lbText 0];
 	};
 }];
 
@@ -91,8 +87,6 @@ _delButton ctrlAddEventHandler ["ButtonClick", {
 		[_path] remoteExecCall ["btc_json_fnc_delete_file", 2];
 		private _fileviewer = ctrlParent _delButton;
 		private _listBox = _fileviewer displayCtrl 1500;
-		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
-		uiNamespace setVariable ["btc_JSON_fileviewer_textlbCurSel", _listBox lbText 0];
 	};
 }];
 
@@ -105,8 +99,6 @@ _loadButton ctrlAddEventHandler ["ButtonClick", {
 		[_path] remoteExecCall ["btc_json_fnc_load_file", 2];
 		private _fileviewer = ctrlParent _delButton;
 		private _listBox = _fileviewer displayCtrl 1500;
-		_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
-		uiNamespace setVariable ["btc_JSON_fileviewer_textlbCurSel", _listBox lbText 0];
 	};
 }];
 
@@ -121,8 +113,6 @@ _renameButton ctrlAddEventHandler ["ButtonClick", {
 	ctrlSetFocus _rscEdit;
 	uiNamespace setVariable ["btc_JSON_fileviewer_rscEdit_fnc", "btc_json_fnc_rename_file"]; 
 	private _listBox = _fileviewer displayCtrl 1500;
-	_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
-	uiNamespace setVariable ["btc_JSON_fileviewer_textlbCurSel", _listBox lbText 0];
 }];
 //[message, header, okButton, cancelButton, parent, useParentBox, pause] call BIS_fnc_guiMessage
 //[text, title, buttonOK, buttonCancel, icon, parentDisplay] call BIS_fnc_3DENShowMessage

@@ -171,7 +171,7 @@ if (isServer) then {
     btc_info_fnc_cacheMarker = compileScript ["core\fnc\info\cacheMarker.sqf"];
     btc_info_fnc_path = compileScript ["core\fnc\info\path.sqf"];
     btc_info_fnc_createIntels = compileScript ["core\fnc\info\createIntels.sqf"];
-    btc_info_fnc_fob_supplies = compileScript ["core\fnc\info\fob_supplies.sqf"]; 
+    btc_info_fnc_supplies = compileScript ["core\fnc\info\supplies.sqf"]; 
 
     //JAIL
     btc_jail_fnc_setCaptives_s = compileScript ["core\fnc\jail\setCaptives_s.sqf"];
@@ -182,15 +182,22 @@ if (isServer) then {
     //LOG
     btc_log_fnc_createVehicle = compileScript ["core\fnc\log\createVehicle.sqf"];
     btc_log_fnc_init = compileScript ["core\fnc\log\init.sqf"];
-    btc_log_fnc_server_delete = compileScript ["core\fnc\log\services\server_delete.sqf"];
-    btc_log_fnc_create_s = compileScript ["core\fnc\log\dialog\create_s.sqf"];
+    btc_log_fnc_delete = compileScript ["core\fnc\log\services\delete.sqf"];
+    btc_log_fnc_create_s = compileScript ["core\fnc\log\services\create_s.sqf"];
     btc_log_fnc_server_repair_wreck = compileScript ["core\fnc\log\services\server_repair_wreck.sqf"];
-    btc_log_fob_fnc_logObj_s = compileScript ["core\fnc\log\fob_log\logObj_s.sqf"];
-    btc_log_fob_fnc_logObjRemove_s = compileScript ["core\fnc\log\fob_log\logObjRemove_s.sqf"];
-    btc_log_fob_fnc_resupply = compileScript ["core\fnc\log\fob_log\resupply.sqf"];
-    btc_log_fob_fnc_resupply_packed = compileScript ["core\fnc\log\fob_log\resupply_packed.sqf"];
-    btc_log_fob_fnc_resupply_unpacked = compileScript ["core\fnc\log\fob_log\resupply_unpacked.sqf"];
-    btc_log_fob_fnc_resupply_init = compileScript ["core\fnc\log\fob_log\resupply_init.sqf"]; 
+
+    btc_log_dialog_fnc_init_tables = compileScript ["core\fnc\log\dialog\init_tables.sqf"];
+
+    btc_log_fob_fnc_create_s = compileScript ["core\fnc\log\fob\create_s.sqf"];
+    btc_log_fob_fnc_remove = compileScript ["core\fnc\log\fob\remove.sqf"];
+    btc_log_fob_fnc_refund = compileScript ["core\fnc\log\fob\refund.sqf"];
+    btc_log_fob_fnc_payment = compileScript ["core\fnc\log\fob\payment.sqf"];
+
+    btc_log_resupply_fnc_doResupply = compileScript ["core\fnc\log\resupply\doResupply.sqf"];
+    btc_log_resupply_fnc_city_create = compileScript ["core\fnc\log\resupply\city_create.sqf"];
+    btc_log_resupply_fnc_claimed_create = compileScript ["core\fnc\log\resupply\claimed_create.sqf"];
+    btc_log_resupply_fnc_claim = compileScript ["core\fnc\log\resupply\claim.sqf"];
+    btc_log_resupply_fnc_delete = compileScript ["core\fnc\log\resupply\delete.sqf"];
 
     //MIL
     btc_mil_fnc_addWP = compileScript ["core\fnc\mil\addWP.sqf"];
@@ -396,7 +403,7 @@ if (!isDedicated) then {
     btc_debug_fnc_cities = compileScript ["core\fnc\debug\server_to_client\cities.sqf"];
     btc_debug_fnc_hideouts = compileScript ["core\fnc\debug\server_to_client\hideouts.sqf"];
     btc_debug_fnc_cache = compileScript ["core\fnc\debug\server_to_client\cache.sqf"];
-    btc_debug_fnc_fob_supplies = compileScript ["core\fnc\debug\server_to_client\fob_supplies.sqf"];
+    btc_debug_fnc_supplies = compileScript ["core\fnc\debug\server_to_client\supplies.sqf"];
     btc_debug_fnc_debug_mode = compileScript ["core\fnc\debug\debug_mode.sqf"]; 
 
     //DOOR
@@ -457,21 +464,19 @@ if (!isDedicated) then {
     btc_lift_fnc_shortcuts = compileScript ["core\fnc\lift\shortcuts.sqf"];
 
     //LOG
-    btc_log_fnc_create = compileScript ["core\fnc\log\dialog\create.sqf"];
-    btc_log_fnc_create_apply = compileScript ["core\fnc\log\dialog\create_apply.sqf"];
-    btc_log_fnc_main_class_onLBSelChanged = compileScript ["core\fnc\log\dialog\eh\main_class_onLBSelChanged.sqf"];
-    btc_log_fnc_sub_class_onLBSelChanged = compileScript ["core\fnc\log\dialog\eh\sub_class_onLBSelChanged.sqf"]; 
+    btc_log_dialog_fnc_createDialog = compileScript ["core\fnc\log\dialog\createDialog.sqf"];
+    btc_log_dialog_fnc_apply = compileScript ["core\fnc\log\dialog\apply.sqf"];
+    btc_log_dialog_fnc_mainClass_LBSelChanged = compileScript ["core\fnc\log\dialog\mainClass_LBSelChanged.sqf"];
+    btc_log_dialog_fnc_subClass_LBSelChanged = compileScript ["core\fnc\log\dialog\subClass_LBSelChanged.sqf"]; 
 
     btc_log_fnc_place = compileScript ["core\fnc\log\place.sqf"];
     btc_log_fnc_place_key_down = compileScript ["core\fnc\log\place_key_down.sqf"];
     btc_log_fnc_place_mouse_zchanged = compileScript ["core\fnc\log\place_mouse_zchanged.sqf"];
+    btc_log_fnc_drawResources3D = compileScript ["core\fnc\log\drawResources3D.sqf"];
 
-    btc_log_fob_fnc_logObj = compileScript ["core\fnc\log\fob_log\logObj.sqf"];
-    btc_log_fob_fnc_logObjActions = compileScript ["core\fnc\log\fob_log\logObjActions.sqf"];
-    btc_log_fob_fnc_resupplyActions = compileScript ["core\fnc\log\fob_log\resupplyActions.sqf"];
-    btc_log_fob_fnc_drawResources3D = compileScript ["core\fnc\log\fob_log\drawResources3D.sqf"];
-
-    btc_log_fnc_delete = compileScript ["core\fnc\log\services\delete.sqf"];
+    btc_log_fob_fnc_create = compileScript ["core\fnc\log\fob\create.sqf"];
+    btc_log_fob_fnc_actions = compileScript ["core\fnc\log\fob\actions.sqf"];
+    
     btc_log_fnc_place_create_camera = compileScript ["core\fnc\log\services\place_create_camera.sqf"];
     btc_log_fnc_repair_wreck = compileScript ["core\fnc\log\services\repair_wreck.sqf"];
     btc_log_fnc_copy = compileScript ["core\fnc\log\services\copy.sqf"];

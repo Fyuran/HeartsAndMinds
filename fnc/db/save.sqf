@@ -43,26 +43,20 @@ private _cities_status = [];
 
     private _city_status = [];
     _city_status pushBack _x;
-
     _city_status pushBack (_y getVariable "initialized");
-
     _city_status pushBack (_y getVariable "spawn_more");
     _city_status pushBack (_y getVariable "occupied");
-
     _city_status pushBack (_y getVariable "data_units");
-
     _city_status pushBack (_y getVariable ["has_ho", false]);
     _city_status pushBack (_y getVariable ["ho_units_spawned", false]);
     _city_status pushBack (_y getVariable ["ieds", []]);
     _city_status pushBack (_y getVariable ["has_suicider", false]);
     _city_status pushBack (_y getVariable ["data_animals", []]);
     _city_status pushBack (_y getVariable ["data_tags", []]);
+    _city_status pushBack (_y getVariable ["data_supplies", []]);
     _city_status pushBack (_y getVariable ["btc_rep_civKilled", []]);
 
     _cities_status pushBack _city_status;
-    if (btc_debug_log) then {
-        [format ["ID %1 - IsOccupied %2", _y getVariable "id", _y getVariable "occupied"], __FILE__, [false]] call btc_debug_fnc_message;
-    };
 } forEach btc_city_all;
 profileNamespace setVariable [format ["btc_hm_%1_cities", _name], +_cities_status];
 
@@ -122,7 +116,7 @@ private _fobs = [];
     if !(isNull _flag) then {
         private _pos = getMarkerPos [_x, true];
         private _direction = getDir ((btc_fobs select 1) select _forEachIndex);
-        private _array = [_pos, _direction, markerText _x, [], [], _flag getVariable ["btc_log_resources", 0]];
+        private _array = [_pos, _direction, markerText _x, [], [], _flag getVariable ["btc_log_resources", -1]];
 
 		private _jail = _flag getVariable ["btc_jail", objNull];
         if(alive _jail) then {
@@ -217,19 +211,11 @@ profileNamespace setVariable [format ["btc_hm_%1_objs", _name], +_array_obj];
 private _array_fob_log_supplies = [];
 {
 	private _pos = getPosATL _x;
-	private _vectorDirAndUp = [vectorDir _x, vectorUp _x];
-	private _isClaimed = _x getVariable["btc_fob_log_isClaimed", false];
-    private _resources = _x getVariable ["btc_log_resources", 0];
-    
-	private _markers = [];
-	(_x getVariable ["markers", []]) apply {
-		private _marker = [];
-		_marker pushBack (getMarkerPos _x);
-		_marker pushBack (markerText _x);
-		_markers pushBack _marker;
-	};
+	private _dir = getDir _x;
+	private _resources = _x getVariable ["btc_log_resources", 0];
+	private _class = typeOf _x;
 
-	_array_fob_log_supplies pushBack [_pos, _vectorDirAndUp, _resources, _isClaimed, _markers];
+	_array_fob_log_supplies pushBack [_pos, _dir, _resources, _class];
 } forEach (btc_log_fob_supply_objects select {
 	isNull objectParent _x &&
 	{!(isObjectHidden _x)} &&
@@ -262,8 +248,10 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 //Player slots
 btc_slots_serialized = createHashMap;
 (allPlayers - entities "HeadlessClient_F") apply {
-    if (alive _x) then {
-        [getPlayerUID _x] call btc_slot_fnc_getData;
+    if (!isNull _x) then {
+		private _uid = getPlayerUID _x;
+		if(_uid isEqualTo "_SP_PLAYER_") then { continue };
+        [getPlayerUID _x] call btc_slot_fnc_saveData;
     };
 };
 profileNamespace setVariable [format ["btc_hm_%1_slotsSerialized", _name], +btc_slots_serialized];

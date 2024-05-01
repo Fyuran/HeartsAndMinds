@@ -20,7 +20,8 @@ Author:
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_uid", "", [""]]
+    ["_uid", "", [""]],
+    ["_unit", objNull, [objNull]]
 ];
 
 if(_uid isEqualTo "") exitWith {
@@ -29,7 +30,9 @@ if(_uid isEqualTo "") exitWith {
     };
 };
 
-private _unit = _uid call BIS_fnc_getUnitByUID;
+if(isNull _unit) then {
+    _unit = _uid call BIS_fnc_getUnitByUID;
+};
 if(isNull _unit) exitWith {
     if(btc_debug) then {
         ["null _unit retrieved by _uid", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;

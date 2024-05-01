@@ -92,6 +92,7 @@ btc_p_fob_cap_time = "btc_p_fob_cap_time" call BIS_fnc_getParamValue;
 btc_p_fob_garrison = ("btc_p_fob_garrison" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_door_locks = ("btc_p_door_locks" call BIS_fnc_getParamValue) isEqualTo 1;
 btc_p_fob_disable_destruction = ("btc_p_fob_disable_destruction" call BIS_fnc_getParamValue) isEqualTo 1;
+btc_p_log_cost_multiplier = "btc_p_log_cost_multiplier" call BIS_fnc_getParamValue; 
 
 //<< Arsenal options >>
 btc_p_arsenal_Type = "btc_p_arsenal_Type" call BIS_fnc_getParamValue;
@@ -127,6 +128,7 @@ switch (btc_p_debug) do {
         btc_debug_log = true;
         btc_debug = true;
         btc_debug_graph = false;
+        btc_p_rep_notify = 0; //show all rep changes
         btc_debug_frames = 0;
     };
     case 2 : {
@@ -214,8 +216,9 @@ if (isServer) then {
     btc_ied_power = ["Bo_GBU12_LGB_MI10", "R_MRAAWS_HE_F"] select btc_p_ied_power;
 
     //LOG
-    btc_log_namespace = true call CBA_fnc_createNamespace;
-    publicVariable "btc_log_namespace";
+    btc_log_costTable = createHashMap;
+    btc_log_dialog_namespace = true call CBA_fnc_createNamespace;
+    publicVariable "btc_log_dialog_namespace";
 
     //FOB
     btc_fobs = [[], [], [], [], []];
@@ -536,6 +539,7 @@ btc_construction_array =
         "FOB",
         "Decontamination",
         "Vehicle Logistic",
+        "Communications",
         "Logistics supplies"
     ],
     [
@@ -595,6 +599,10 @@ btc_construction_array =
             _allClassSorted select {_x isKindOf "FlexibleTank_base_F"}
         ),
         [
+            //"Communications"
+            "TFAR_Land_Communication_F"
+        ],
+        [
             //"Logistics supplies"
             btc_log_fob_create_obj_resupply#0
         ]
@@ -604,20 +612,29 @@ btc_construction_array =
 (btc_construction_array select 1) params [
     "_cFortifications", "_cStatics", "_cAmmobox",
     "_cContainers", "_cSupplies", "_cFOB",
-    "_cDecontamination", "_cVehicle_logistic"
+    "_cDecontamination", "_cVehicle_logistic", 
+    "_cCommunications", "_cLogisticsSupplies"
 ];
 btc_fob_construction_array = [
     [
         "Fortifications",
-        "Static"
+        "Static",
+        "Communications"
     ],
     [
         _cFortifications,
-        _cStatics
+        _cStatics,
+        _cCommunications
     ]
 ];  
 
-btc_log_def_loadable = flatten (btc_construction_array select 1) + flatten btc_supplies_mat + btc_type_hazmat;
+btc_log_def_loadable = flatten ([
+    _cFortifications, _cStatics, _cAmmobox,
+    _cContainers, _cSupplies, _cFOB,
+    _cDecontamination, _cVehicle_logistic, 
+    _cLogisticsSupplies
+]) + flatten btc_supplies_mat + btc_type_hazmat;
+    
 btc_log_def_can_load = _cContainers;
 btc_log_def_placeable = (_cFortifications + _cContainers + _cSupplies + _cFOB + _cDecontamination + _cVehicle_logistic + flatten btc_supplies_mat + btc_type_hazmat) select {
     getNumber(_cfgVehicles >> _x >> "ace_dragging_canCarry") isEqualTo 0
@@ -670,13 +687,13 @@ btc_lift_fnc_getLiftable = {
                     _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car"];
                 };
                 case (_MaxCargoMass <= 4100) : {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Air", "Ship"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5);
+                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Air", "Ship"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5) + ((btc_construction_array select 1) select 8);
                 };
                 case (_MaxCargoMass <= 14000) : {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5);
+                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5) + ((btc_construction_array select 1) select 8);
                 };
                 default {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5);
+                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5) + ((btc_construction_array select 1) select 8);
                 };
             };
         };
@@ -754,6 +771,7 @@ btc_rep_bonus_removeTag = 3;
 btc_rep_bonus_removeTagLetter = 0.5;
 btc_rep_bonus_foodGive = 0.5;
 btc_rep_bonus_captive_detained = 5;
+btc_rep_bonus_supplies_claimed = 1;
 
 btc_rep_malus_civ_hd = - 2;
 btc_rep_malus_animal_hd = - 1;

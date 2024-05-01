@@ -32,6 +32,8 @@ if(!isNull _fileviewer) then {
 	private _listBox = _fileviewer displayCtrl 1500;
 	lbClear _listBox;
 	private _lbRows = _files apply {_listBox lbAdd _x};
+	_listBox lbSetCurSel 0; //When a row is removed, lbCurSel will still refer to deleted row
+	uiNamespace setVariable ["btc_JSON_fileviewer_textlbCurSel", _listBox lbText 0];
 };
 
 

@@ -35,6 +35,7 @@ setTimeMultiplier btc_p_acctime;
 [["btc_dty", "btc_m"], 1] call btc_task_fnc_create;
 
 [] call btc_eh_fnc_server;
+[] call btc_log_dialog_fnc_init_tables;
 [btc_ied_list] call btc_ied_fnc_fired_near;
 [] call btc_chem_fnc_checkLoop;
 [] call btc_chem_fnc_handleShower;

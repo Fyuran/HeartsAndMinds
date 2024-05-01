@@ -43,8 +43,11 @@ if (btc_debug) then {
 _city enableSimulation false;
 _city setVariable ["active", true];
 
+private _id = _city getVariable ["id", -1];
 private _data_units = _city getVariable ["data_units", []];
 private _data_animals = _city getVariable ["data_animals", []];
+private _data_supplies = _city getVariable ["data_supplies", []];
+private _supplies = _city getVariable ["supplies", []];
 private _type = _city getVariable ["type", ""];
 private _cachingRadius = _city getVariable ["cachingRadius", 100];
 private _has_en = _city getVariable ["occupied", false];
@@ -89,6 +92,14 @@ if (!(_city getVariable ["initialized", false])) then {
 };
 [_city, btc_ied_fnc_check] call btc_delay_fnc_exec;
 
+//supplies
+if(_has_en && {_data_supplies isNotEqualTo []}) then {
+    _supplies = _data_supplies apply {
+        ([_city, _x]) call btc_log_resupply_fnc_city_create;
+    };
+    _city setVariable ["supplies", _supplies];
+};
+
 private _delay = 0;
 if (_data_units isNotEqualTo []) then {
     {
@@ -120,6 +131,12 @@ if (_data_units isNotEqualTo []) then {
                 2 + round random 2,
                 [["PATROL", "SENTRY"] selectRandomWeighted [0.7, 0.3], "HOUSE"] select (_i <= _numberOfHouseGroup)
             ] call btc_mil_fnc_create_group;
+        };
+        if(_supplies isNotEqualTo []) then {
+            _supplies apply {
+                private _groups = [getPosASL _x, 5, 3, "SENTRY"] call btc_mil_fnc_create_group;
+                _groups apply {_x setVariable ["btc_city", _city]}; //create_group internally sets btc_city to obj if passed
+            };
         };
     };
 
@@ -155,14 +172,8 @@ if (_data_units isNotEqualTo []) then {
         });
         [+_housesEntrerable, round (_p_civ_group_ratio * _numberOfCivi), _city] call btc_civ_fnc_populate;
     };
-
-    private _fob_log_supplies = btc_log_fob_supply_objects select {(_x distanceSqr _city) < (_cachingRadius*_cachingRadius)};
-    _fob_log_supplies apply {
-        if((_x getVariable ["mil_groups", []]) isEqualTo []) then {
-            _x setVariable ["mil_groups", [_x, 5, 3, "SENTRY"] call btc_mil_fnc_create_group];
-        };
-    };
 };
+
 if (btc_p_animals_group_ratio > 0) then {
     if (_data_animals isNotEqualTo []) then {
         {

@@ -1,9 +1,8 @@
 
 /* ----------------------------------------------------------------------------
-Function: btc_log_fnc_create_apply
+Function: btc_log_dialog_fnc_apply
 
 Description:
-    Fill me when you edit me !
 
 Parameters:
     _log_point - Helipad where to create the object. [Object]
@@ -12,7 +11,7 @@ Returns:
 
 Examples:
     (begin example)
-        _result = [] call btc_log_fnc_create_apply;
+        _result = [] call btc_log_dialog_fnc_apply;
     (end)
 
 Author:
@@ -20,14 +19,14 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-private _create_obj = btc_log_namespace getVariable ["btc_log_create_obj", objNull];
-private _log_point = btc_log_namespace getVariable ["btc_log_point_obj", objNull];
+private _create_obj = btc_log_dialog_namespace getVariable ["btc_log_create_obj", objNull];
+private _log_point = btc_log_dialog_namespace getVariable ["btc_log_point_obj", objNull];
 
 if(isNull _log_point) exitWith {
     ["_log_point is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
 };
 
-private _obj = btc_log_namespace getVariable ["btc_log_curSel_obj", objNull];
+private _obj = btc_log_dialog_namespace getVariable ["btc_log_curSel_obj", objNull];
 if(!isNull _obj) then {
     deleteVehicle _obj;
 };
@@ -47,10 +46,9 @@ if(!isNull _obj) then {
         case(_class isEqualTo btc_supplies_cargo): {
             btc_supplies_mat params ["_food", "_water"];
             _position_world = getPosWorld _log_point;
-            _position_world params ["_xx", "_yy", "_zz"];
             [[
                 btc_supplies_cargo,
-                [_xx, _yy, _zz + 1.5], getDir _log_point,
+                _position_world vectorAdd [0,0, 1.5], getDir _log_point,
                 "",
                 [selectRandom _food, selectRandom _water] apply {[_x, "", []]},
                 [],

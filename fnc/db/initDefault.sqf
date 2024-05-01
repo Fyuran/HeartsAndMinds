@@ -42,32 +42,3 @@ setDate btc_startDate;
 if (isNil "btc_vehicles") then {
 	btc_vehicles = [];
 };
-
-//fob supplies
-(values btc_city_all) apply {
-	private _has_en = _x getVariable ["occupied", false];
-	if(!_has_en) then { continue };
-
-	private _type = _x getVariable ["type", ""];
-	private _cachingRadius = _x getVariable ["cachingRadius", 100];
-	
-	private _supplyChance = (switch _type do {
-		case "Hill" : {0.2};
-		case "VegetationFir" : {0};
-		case "BorderCrossing" : {0};
-		case "NameLocal" : {0.3};
-		case "StrongpointArea" : {0.4};
-		case "NameVillage" : {0.3};
-		case "NameCity" : {0.4};
-		case "NameCityCapital" : {1};
-		case "Airport" : {0.3};
-		case "NameMarine" : {0};
-		default {0};
-	});
-	if(_supplyChance > (random 1)) then {
-		private _supply_pos = [getPosATL _x, _cachingRadius, false, true] call btc_fnc_randomize_pos;
-		if(_supply_pos isNotEqualTo []) then {
-			private _supply_obj = [objNull, _supply_pos] call btc_log_fob_fnc_resupply_packed;
-		};
-	};
-};

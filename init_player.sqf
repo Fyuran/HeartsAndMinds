@@ -53,7 +53,7 @@ if(btc_p_intro) then {
         [] call btc_debug_fnc_debug_mode;
     };
 
-    [] call btc_log_fob_fnc_drawResources3D;
+    [] spawn btc_log_fnc_drawResources3D;
     
     if(btc_db_load>0 && {isMultiplayer}) then {
         [] call btc_slot_fnc_loadPlayer;

@@ -44,9 +44,6 @@ btc_jail_comp apply {
     _obj allowDamage false;
 };
 
-private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] call btc_fnc_circlePosAroundObj];
-_jailPositions pushBack getPosATL _jail; //add center of jail to list of available positions
-
 private _arrow = createVehicleLocal["Sign_Arrow_Large_Blue_F", [0,0,0], [], 0, "CAN_COLLIDE"];
 [_arrow, _jail] call BIS_fnc_attachToRelative;
 
@@ -56,7 +53,7 @@ private _new_pos_ATL = (_pos_ATL vectorAdd (_eyeDir vectorMultiply 14));
 _jail setPosATL _new_pos_ATL;
 
 private _attachedObjects = attachedObjects _jail;
-[_jail, _attachedObjects call btc_fnc_getCompositionBoundingBox] call btc_log_fnc_place;
+[_jail] call btc_log_fnc_place;
 waitUntil {!btc_log_placing};
 
 private _pos = getPosATL _jail;
