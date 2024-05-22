@@ -251,7 +251,7 @@ btc_slots_serialized = createHashMap;
     if (!isNull _x) then {
 		private _uid = getPlayerUID _x;
 		if(_uid isEqualTo "_SP_PLAYER_") then { continue };
-        [getPlayerUID _x] call btc_slot_fnc_saveData;
+        [_uid, _x] call btc_slot_fnc_saveData;
     };
 };
 profileNamespace setVariable [format ["btc_hm_%1_slotsSerialized", _name], +btc_slots_serialized];

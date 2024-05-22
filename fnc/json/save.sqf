@@ -259,7 +259,7 @@ btc_slots_serialized = createHashMap;
     if (!isNull _x) then {
 		private _uid = getPlayerUID _x;
 		if(_uid isEqualTo "_SP_PLAYER_") then { continue };
-        [getPlayerUID _x] call btc_slot_fnc_saveData;
+        [_uid, _x] call btc_slot_fnc_saveData;
     };
 };
 private _slots_serialized = +btc_slots_serialized;

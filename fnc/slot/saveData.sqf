@@ -20,11 +20,15 @@ Author:
 ---------------------------------------------------------------------------- */
 
 if(!params [
-    ["_player", "", ["", objNull]]
+    ["_uid", "", [""]],
+    ["_player", objNull, [objNull]]
+
 ]) exitWith {
     ["bad params", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
 };
-
+if(isNull _player) then {
+    _player = _uid call BIS_fnc_getUnitByUID;
+};
 
 private _data = createHashMapFromArray [
     ["previousPos", getPosASL _player],
