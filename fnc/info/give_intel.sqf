@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    Giallustio, Fyuran
+    Giallustio
 
 ---------------------------------------------------------------------------- */
 
@@ -26,24 +26,18 @@ params [
     ["_intelType", random 100, [0]]
 ];
 
-if (btc_hideouts isEqualTo []) then {_intelType = _cacheInt - 10;};
-btc_info_intel_type params ["_suppliesInt", "_cacheInt", "_hoInt"];
+if (btc_hideouts isEqualTo []) then {_intelType = (btc_info_intel_type select 0) - 10;};
 
-//btc_info_intel_type = [30, 80, 95];//fob_supplies - cache - hd - >95 both
 switch (true) do {
-    case (_intelType <= _suppliesInt) : { //supplies
-        [] call btc_info_fnc_supplies;
-        [4] remoteExecCall ["btc_fnc_show_hint", _asker];
-    };
-    case (_intelType > _suppliesInt && {_intelType <= _cacheInt}) : { //cache
+    case (_intelType < (btc_info_intel_type select 0)) : { //cache
         [true] call btc_info_fnc_cache;
     };
-    case (_intelType > _cacheInt && {_intelType < _hoInt}) : { //ho
+    case (_intelType > (btc_info_intel_type select 1) && _intelType < 101) : { //both
+        [true] call btc_info_fnc_cache;
         [] call btc_info_fnc_hideout;
         [5] remoteExecCall ["btc_fnc_show_hint", _asker];
     };
-    case (_intelType >= _hoInt) : { //all
-        [true] call btc_info_fnc_cache;
+    case (_intelType > (btc_info_intel_type select 0) && _intelType < (btc_info_intel_type select 1)) : { //hd
         [] call btc_info_fnc_hideout;
         [5] remoteExecCall ["btc_fnc_show_hint", _asker];
     };
