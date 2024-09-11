@@ -66,7 +66,7 @@ if (_cities_status isNotEqualTo createHashMap) then {
 		_city setVariable ["data_supplies", _data_supplies];
 		_city setVariable ["btc_rep_civKilled", _civKilled];
 
-		_data_supplies apply {
+		/*_data_supplies apply {
 			_markers = _x param[3, [], [[]]];
 			_markers apply {
 				private _marker = createMarkerLocal[_x#0, _x#1];
@@ -76,7 +76,7 @@ if (_cities_status isNotEqualTo createHashMap) then {
 				_marker setMarkerAlphaLocal 0.35;
 				_marker setMarkerColor "ColorPink";
 			};
-		};
+		};*/
 		if (btc_debug) then {
 			[format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 		};
