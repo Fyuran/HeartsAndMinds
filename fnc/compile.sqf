@@ -37,8 +37,7 @@ if (isServer) then {
     btc_fnc_getCompositionBoundingBox = compileScript ["core\fnc\common\getCompositionBoundingBox.sqf"];
     btc_fnc_getBoundingCornersPos = compileScript ["core\fnc\common\getBoundingCornersPos.sqf"];
     btc_fnc_show_custom_hint = compileScript ["core\fnc\common\show_custom_hint.sqf"];
-    btc_fnc_getAddonClasses = compileScript ["core\fnc\common\getAddonClasses.sqf"]; 
-    btc_fnc_typeText = compileScript ["core\fnc\common\typeText.sqf"];  
+    btc_fnc_getAddonClasses = compileScript ["core\fnc\common\getAddonClasses.sqf"];  
 
     //CHEM
     btc_chem_fnc_checkLoop = compileScript ["core\fnc\chem\checkLoop.sqf"];
@@ -387,6 +386,7 @@ if (!isDedicated) then {
     btc_fnc_isAreaOccupied = compileScript ["core\fnc\common\isAreaOccupied.sqf"];
     btc_fnc_typeOfPreview = compileScript ["core\fnc\common\typeOfPreview.sqf"];
     btc_fnc_get_corner_points = compileScript ["core\fnc\common\get_corner_points.sqf"];
+    btc_fnc_typeText = compileScript ["core\fnc\common\typeText.sqf"]; 
 
     //CHEM
     btc_chem_fnc_biopsy = compileScript ["core\fnc\chem\biopsy.sqf"];

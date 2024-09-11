@@ -50,7 +50,7 @@ _obj setDir _dir;
 private _marker_flag = createVehicle ["FlagMarker_01_F", [0,0,0], [], 0, "CAN_COLLIDE"];
 _marker_flag attachTo [_obj, [0,0,1]];
 
-_markers apply {
+/*_markers apply {
     private _marker = createMarkerLocal[_x#0, _x#1];
     if(_marker isNotEqualTo "") then {
         _marker setMarkerTypeLocal "hd_unknown";
@@ -59,7 +59,7 @@ _markers apply {
         _marker setMarkerAlphaLocal 0.35;
         _marker setMarkerColor "ColorPink";
     };
-};
+};*/
 
 
 [_obj, {
