@@ -26,7 +26,7 @@ Author:
 params ["_unit", "_causeOfDeath", "_killer", "_instigator"];
 
 private _unitSide = side group _unit;
-if ((_unitSide isNotEqualTo btc_enemy_side) && (_unitSide isNotEqualTo btc_player_side)) exitWith {hint format ["%1", _this]};
+if ((_unitSide isNotEqualTo btc_enemy_side) && (_unitSide isNotEqualTo btc_player_side)) exitWith {};
 
 if (_unitSide isEqualTo btc_enemy_side) then {
     if (random 100 > btc_info_intel_chance) then {
