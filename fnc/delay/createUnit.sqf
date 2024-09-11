@@ -51,7 +51,7 @@ btc_delay_time = btc_delay_time + btc_delay_unit;
         _unit moveInAny _vehicle;
     };
     
-    private _factionClass = getText(configFile >> "CfgVehicles" >> _x >> "faction");
+    private _factionClass = getText(configFile >> "CfgVehicles" >> _unit_type >> "faction");
     //remove military gear such as Binoculars and NVGs from civs
     if(getNumber(configFile >> "CfgFactionClasses" >> _factionClass >> "side") isEqualTo _CIV) then {
         private _linkedItems = getArray(configFile >> "CfgVehicles" >> _unit_type >> "linkedItems");
