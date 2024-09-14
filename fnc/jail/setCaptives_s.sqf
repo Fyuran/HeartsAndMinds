@@ -58,6 +58,7 @@ _groups apply {
         }] call ace_interact_menu_fnc_createAction;
 
         [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+        _x setSpeaker "NoVoice";
     };
 
 }] remoteExecCall ["call", [0, -2] select isDedicated];

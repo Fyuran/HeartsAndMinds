@@ -118,6 +118,7 @@ if (isServer) then {
     btc_eh_fnc_server = compileScript ["core\fnc\eh\server.sqf"];
     btc_eh_fnc_setSunriseOrSunset = compileScript ["core\fnc\eh\setSunriseOrSunset.sqf"]; 
     btc_eh_fnc_buildingChanged = compileScript ["core\fnc\eh\buildingChanged.sqf"];  
+    btc_eh_fnc_inventory = compileScript ["core\fnc\eh\inventory.sqf"];
 
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
