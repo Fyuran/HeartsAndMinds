@@ -2,7 +2,7 @@
 btc_version = [
     1,
     24,
-    0
+    2
 ];
 diag_log format (["=BTC= HEARTS AND MINDS VERSION %1.%2.%3"] + btc_version);
 
@@ -238,6 +238,21 @@ if (isServer) then {
     //Rep
     btc_rep_militia_call_time = 600;
     btc_rep_militia_called = - btc_rep_militia_call_time;
+    btc_scoreboard = createHashMapFromArray[
+        ["Cities Liberated", 0],
+        ["Caches Destroyed", 0],
+        ["Ally K.I.A.", 0],
+        ["FOBs lost", 0],
+        ["Hideouts destroyed", 0],
+        ["Reputation status", "Unknown"],
+        ["Days passed", 0],
+        ["Times saved", 0],
+        ["IEDs dismantled", 0],
+        ["Detained Captives", 0],
+        ["Civilian casualties", 0],
+        ["Hostiles pacified", 0],
+        ["Vehicles lost", 0]
+    ];
 
     //Chem
     btc_chem_decontaminate = [];
@@ -482,7 +497,7 @@ btc_int_hornRadius = 20;
 btc_int_hornDelay = time;
 
 //Info
-btc_info_intel_type = [30, 80, 95];//fob_supplies - cache - hd - >95 both
+btc_info_intel_type = [80, 95];//cache - hd - both
 btc_info_hideout_radius = 4000;
 btc_info_supply_radius = 100;
 btc_info_intels = ["Land_Camera_01_F", "Land_HandyCam_F", "Land_File1_F", "Land_FilePhotos_F", "Land_File2_F", "Land_File_research_F", "Land_MobilePhone_old_F", "Land_PortableLongRangeRadio_F", "Land_Laptop_02_unfolded_F"];

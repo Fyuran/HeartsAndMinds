@@ -20,6 +20,7 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
+#include "..\script_macros.hpp"
 
 params [
     ["_trigger", objNull, [objNull]],
@@ -41,3 +42,5 @@ if (_remainEnemyUnits isNotEqualTo []) then {
 if (btc_final_phase) then {
     btc_city_remaining = btc_city_remaining - [_city];
 };
+
+[_city getVariable ["name", ""], _CITY_LIBERATED_] call btc_rep_fnc_change;

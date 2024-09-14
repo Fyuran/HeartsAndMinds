@@ -39,7 +39,13 @@ params [
     ["_instigator", objNull, [objNull]]
 ];
 
-if (!isPlayer _instigator || {_dam <= 0.05}) exitWith {_dam};
+if (_dam <= 0.05) exitWith {_dam};
+if (
+    !isPlayer _instigator &&
+    _injurer isNotEqualTo btc_explosives_objectSide &&
+    !isPlayer _injurer
+) exitWith {_dam};
+
 private _isAgent = isAgent teamMember _unit;
 if (
     !_isAgent && {
