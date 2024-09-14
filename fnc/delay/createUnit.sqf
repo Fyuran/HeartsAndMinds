@@ -23,10 +23,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#define _EAST 0
-#define _WEST 1
-#define _IND 2
-#define _CIV 3
 
 btc_delay_time = btc_delay_time + btc_delay_unit;
 
@@ -50,18 +46,4 @@ btc_delay_time = btc_delay_time + btc_delay_unit;
     if (!isNull _vehicle) then {
         _unit moveInAny _vehicle;
     };
-    
-    private _factionClass = getText(configFile >> "CfgVehicles" >> _unit_type >> "faction");
-    //remove military gear such as Binoculars and NVGs from civs
-    if(getNumber(configFile >> "CfgFactionClasses" >> _factionClass >> "side") isEqualTo _CIV) then {
-        private _linkedItems = getArray(configFile >> "CfgVehicles" >> _unit_type >> "linkedItems");
-        private _linkedWeapons = getArray(configFile >> "CfgVehicles" >> _unit_type >> "weapons");
-        private _classes = (_linkedItems + _linkedWeapons) select {_x isKindOf ["Binoculars", configFile >> "CfgWeapons"]};
-        
-        _classes apply {
-            [_unit, _x] call CBA_fnc_removeWeapon;
-            [_unit, _x] call CBA_fnc_removeItem;
-        };
-    };
-
 }, _this, btc_delay_time - 0.01] call CBA_fnc_waitAndExecute;
