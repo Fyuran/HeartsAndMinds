@@ -18,17 +18,25 @@
 	    Fyuran
 	
 ---------------------------------------------------------------------------- */
-#define MAPGET(ARG) btc_JSON getOrDefault [ARG, createHashMap]
+#define MAPGET(ARG) btc_JSON getOrDefault [ARG, createHashMap, true]
+#define _ERROR_ -1
+#define _OK_ 0
+
+if(!canSuspend) exitWith {
+	if(btc_debug) then {
+		["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+	};
+};
 
 params[
 	["_name", worldName, [""]]
 ];
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
-btc_JSON = [] call btc_json_fnc_request_data;
-if(btc_JSON isEqualTo createHashMap) exitWith {
-	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_17", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
-};
+private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", _name], ""];
+"btc_ArmaToJSON" callExtension ["callbackData", [_saveFile]];
+
+waitUntil{!isNil "btc_JSON"};
 
 // METADATA
 private _metadata = +(MAPGET(_name));
@@ -64,7 +72,7 @@ if (_cities_status isNotEqualTo createHashMap) then {
 		_city setVariable ["data_animals", _data_animals];
 		_city setVariable ["data_tags", _data_tags];
 		_city setVariable ["data_supplies", _data_supplies];
-		_city setVariable ["btc_rep_civKilled", _civKilled];
+		_city setVariable ["btc_rep_civKilled", _btc_rep_civKilled];
 
 		/*_data_supplies apply {
 			_markers = _x param[3, [], [[]]];
@@ -88,6 +96,9 @@ if (_array_ho isNotEqualTo createHashMap) then {
 	_array_ho apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 		[_pos, _id_hideout, _rinf_time, _cap_time, _assigned_to, _markers_saved] call btc_hideout_fnc_create;
+		if (btc_debug) then {
+			[format ["_hideout = %1 at %2", _id_hideout, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+		};
 	};
 };
 private _select_ho = (btc_hideouts apply {
@@ -101,6 +112,9 @@ if (_select_ho isEqualTo - 1) then {
 
 if (btc_hideouts isEqualTo []) then {
 	[] spawn btc_fnc_final_phase;
+	if (btc_debug) then {
+		["activating final phase", __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+	};
 };
 
 // CACHE
@@ -115,8 +129,8 @@ if (_array_cache isNotEqualTo createHashMap) then {
 		[_cache_pos, btc_p_chem, [1, 0] select _isChem] call btc_cache_fnc_create;
 		btc_cache_obj setVariable ["btc_cache_unitsSpawned", _cache_unitsSpawned];
 
-		if (btc_debug_log) then {
-			[format ["_array_cache = %1 at %2", _cache_n, _cache_pos], __FILE__, [false]] call btc_debug_fnc_message;
+		if (btc_debug) then {
+			[format ["_array_cache = %1 at %2", _cache_n, _cache_pos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
 		};
 
 		btc_cache_markers = [];
@@ -144,8 +158,8 @@ if (_fobs isNotEqualTo createHashMap) then {
 		(values _y) params ((keys _y) apply {"_" + _x});
 
 		[_pos, _direction, _FOB_name, _jailData, _logObjData, _resources] call btc_fob_fnc_create_s;
-		if (btc_debug_log) then {
-			[format ["_fob = %1 at %2", _FOB_name, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+		if (btc_debug) then {
+			[format ["_fob = %1 at %2", _FOB_name, _pos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
 		};
 	};
 };
@@ -158,6 +172,10 @@ if(btc_fobs_ruins isNotEqualTo createHashMap) then {
         _ruin setVariable["FOB_name", _name, true];
 
         [objNull, _ruin] call btc_fob_fnc_ruins;
+
+		if (btc_debug) then {
+			[format ["_fob_ruins = %1 at %2", _name, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+		};
     };
 };
 
@@ -192,8 +210,13 @@ if (_array_veh isNotEqualTo createHashMap) then {
 			if !(alive _veh) then {
 				[_veh, objNull, objNull, nil, false] call btc_veh_fnc_killed;
 			};
+
+			if (btc_debug) then {
+				[format ["_veh = %1 at %2", _veh_type, _veh_pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+			};
 		};
 	}, _array_veh] call CBA_fnc_execNextFrame;
+
 };
 
 // OBJECTS
@@ -209,8 +232,8 @@ if (_array_obj isNotEqualTo createHashMap) then {
 				_isChem, _dogtagDataTaken, _flagTexture,
 			_turretMagazines, _customName, tagTexture, _properties]] call btc_db_fnc_loadObjectStatus;
 
-			if (btc_debug_log) then {
-				[format ["_obj = %1 at %2", _type, _pos], __FILE__, [false]] call btc_debug_fnc_message;
+			if (btc_debug) then {
+				[format ["_obj = %1 at %2", _type, _pos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
 			};
 		};
 	}, _array_obj] call CBA_fnc_execNextFrame;
@@ -224,6 +247,10 @@ if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
 			(values _y) params ((keys _y) apply {"_" + _x});
 
 		    [_pos, _dir, _resources, _class] call btc_log_resupply_fnc_claimed_create;
+
+			if (btc_debug) then {
+				[format ["_supply = %1 at %2", _class, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+			};
 		};
 	}, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
 };
@@ -271,8 +298,8 @@ if (_player_markers isNotEqualTo createHashMap) then {
 		_marker setMarkerBrushLocal _markerBrush;
 		_marker setMarkerDir _markerDir;
 
-		if (btc_debug_log) then {
-			[format ["_marker = %1 at %2[%3]", _markerText, _markerPos], __FILE__, [false]] call btc_debug_fnc_message;
+		if (btc_debug) then {
+			[format ["_marker = %1 at %2[%3]", _markerText, _markerPos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
 		};
 
 		_marker setMarkerShape _markerShape;
@@ -300,7 +327,15 @@ if (_explosives isNotEqualTo createHashMap) then {
 			_dir,
 			_pitch
 		];
+
+		if (btc_debug) then {
+			[format ["_veh = %1 at %2", _explosiveType, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+		};
 	};
 };
+
+//Scoreboard
+btc_scoreboard = +(MAPGET("scoreboard"));
+
 
 [["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;

@@ -1,4 +1,4 @@
-#define _DATAEXISTS_ 200
+#define _OK_ 0
 
 [] call compileScript ["core\fnc\city\init.sqf"];
 
@@ -18,9 +18,12 @@ switch (btc_db_load) do {
 	case 2: {
 		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
 		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params ["_result", "_returnCode"];
-		if (_returnCode isEqualTo _DATAEXISTS_) then {
-			[] call btc_json_fnc_load;
+		if (_returnCode isEqualTo _OK_) then {
+			[] spawn btc_json_fnc_load;
 		} else {
+			if(btc_debug) then {
+				[_result, __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+			};
 			[] call btc_db_fnc_initDefault;
 		};
 	};

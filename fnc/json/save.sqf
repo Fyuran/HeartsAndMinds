@@ -79,13 +79,9 @@ private _array_ho = createHashMap;
 {
 	(getPos _x) params ["_xx", "_yy"];
 
-	private _ho_markers = [];
-	{
-		private _marker = [];
-		_marker pushBack (getMarkerPos _x);
-		_marker pushBack (markerText _x);
-		_ho_markers pushBack _marker;
-	} forEach (_x getVariable ["markers", []]);
+	private _ho_markers = (_x getVariable ["markers", []]) apply {
+		[(getMarkerPos _x), (markerText _x)]
+	};
 
 	private _hash = [
 		"pos", "id_hideout", "rinf_time",
@@ -281,7 +277,7 @@ private _player_markers = createHashMap;
 });
 
 //Explosives
-private _explosives = [];
+private _explosives = createHashMap;
 btc_explosives apply {
     _x params ["_explosive", "_dir", "_pitch"];
     if (isNull _explosive) then {continue};
@@ -307,11 +303,15 @@ btc_explosives apply {
 	_explosives set [count _explosives, _hash];
 };
 
+//Scoreboard
+private _scoreboard = +btc_scoreboard;
+
 //Combine all together
 btc_JSON_save = [
 	_simpleData, _player_markers, _cities_status,
 	_array_ho, _array_cache, _fobs, _fobs_ruins,
-	_array_obj, _array_fob_log_supplies, _tags_properties, _respawn_tickets, _deadPlayers, _slots_serialized, _array_veh, _explosives] apply {
+	_array_obj, _array_fob_log_supplies, _tags_properties, _respawn_tickets, 
+	_deadPlayers, _slots_serialized, _array_veh, _explosives, _scoreboard] apply {
 		[_x] call btc_json_fnc_encodeJSON;// CBA_fnc_encodeJSON uses "format" which has a hard limit of 2048 chars
 	};
 
@@ -333,7 +333,8 @@ format["btc_hm_%1", _name] + " " +// btc_JSON_save fileName
 	"""deadPlayers""" + ":" + btc_JSON_save#11 + ", " +
     """slots_serialized""" + ": " + btc_JSON_save#12 + ", " +
     """array_veh""" + ":" + btc_JSON_save#13 + ", " +
-	"""explosives""" + ": " + btc_JSON_save#14 + 
+	"""explosives""" + ": " + btc_JSON_save#14 + ", " +
+	"""scoreboard""" + ": " + btc_JSON_save#15 +
     "
 }";
 
@@ -346,5 +347,7 @@ profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
 
 [[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_9", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
 [] call btc_json_fnc_fileviewer_r_server;
+
+saveProfileNamespace;
 
 _path

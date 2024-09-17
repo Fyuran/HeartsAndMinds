@@ -39,19 +39,50 @@ if(_instigator isEqualType "") then {
 
 private _change = switch (_reason) do {
     //BASIC
-    case _CACHE_DESTROYED_ : { [btc_rep_bonus_cache, format[localize"STR_BTC_HAM_REP_CACHE_DESTROYED", _name]] };
+    case _CITY_LIBERATED_ : {
+        ["Cities Liberated"] call btc_rep_fnc_addToScoreboard;
+        [0, format[localize"STR_BTC_HAM_REP_CITY_LIBERATED", _name]]
+    };
+    case _CACHE_DESTROYED_ : { 
+        ["Caches Destroyed"] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_bonus_cache, format[localize"STR_BTC_HAM_REP_CACHE_DESTROYED", _name]] 
+    };
     case _DOOR_FORCED_ : { [btc_rep_malus_breakDoor, format[localize"STR_BTC_HAM_REP_DOOR_FORCED", _name]] };
-    case _PLAYER_RESPAWNED_ : { [btc_rep_malus_player_respawn, format[localize"STR_BTC_HAM_REP_PLAYER_RESPAWNED", _name]] };
-    case _FOB_LOST_ : {[btc_rep_malus_fob_lost, format[localize"STR_BTC_HAM_REP_FOB_LOST", _name]]};
-    case _HIDEOUT_DESTROYED_ : {[btc_rep_bonus_hideout, localize"STR_BTC_HAM_REP_HIDEOUT_DESTROYED"]};
-    case _IED_REMOVED_ : {[btc_rep_bonus_IEDCleanUp, localize"STR_BTC_HAM_REP_IED_REMOVED", true]};
-    case _CAPTIVE_DETAINED_ : {[btc_rep_bonus_captive_detained, localize"STR_BTC_HAM_REP_CAPTIVE_DETAINED", true]};
+    case _PLAYER_RESPAWNED_ : { 
+        ["Ally K.I.A.", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_malus_player_respawn, format[localize"STR_BTC_HAM_REP_PLAYER_RESPAWNED", _name]] 
+    };
+    case _FOB_LOST_ : {
+        ["FOBs lost"] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_malus_fob_lost, format[localize"STR_BTC_HAM_REP_FOB_LOST", _name]]
+    };
+    case _HIDEOUT_DESTROYED_ : {
+        ["Hideouts destroyed"] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_bonus_hideout, localize"STR_BTC_HAM_REP_HIDEOUT_DESTROYED"]
+    };
+    case _IED_REMOVED_ : {
+        ["IEDs dismantled"] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_bonus_IEDCleanUp, localize"STR_BTC_HAM_REP_IED_REMOVED", true]
+    };
+    case _CAPTIVE_DETAINED_ : {
+        ["Detained Captives"] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_bonus_captive_detained, localize"STR_BTC_HAM_REP_CAPTIVE_DETAINED", true]
+    };
     case _FOOD_GIVEN_ : {[btc_rep_bonus_foodGive, localize"STR_BTC_HAM_REP_FOOD_GIVEN", true]};
-    case _CIV_KILLED_ : {[btc_rep_malus_civ_killed, localize"STR_BTC_HAM_REP_CIV_KILLED", true]};
-    case _HOSTILE_KILLED_ : {[btc_rep_bonus_mil_killed, localize"STR_BTC_HAM_REP_HOSTILE_KILLED", true]};
+    case _CIV_KILLED_ : {
+        ["Civilian casualties", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_malus_civ_killed, localize"STR_BTC_HAM_REP_CIV_KILLED", true]
+    };
+    case _HOSTILE_KILLED_ : {
+        ["Hostiles pacified", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_bonus_mil_killed, localize"STR_BTC_HAM_REP_HOSTILE_KILLED", true]
+    };
     case _BUILDING_DAMAGED_ : {[btc_rep_malus_building_damaged, localize"STR_BTC_HAM_REP_BUILDING_DAMAGED"]};
     case _BUILDING_DESTROYED_ : {[btc_rep_malus_building_destroyed, localize"STR_BTC_HAM_REP_BUILDING_DESTROYED"]};
-    case _EXPLOSIVE_DEFUSED_ : {[btc_rep_bonus_disarm, localize"STR_BTC_HAM_REP_EXPLOSIVE_DEFUSED", true]};
+    case _EXPLOSIVE_DEFUSED_ : {
+        ["IEDs dismantled", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_bonus_disarm, localize"STR_BTC_HAM_REP_EXPLOSIVE_DEFUSED", true]
+    };
     case _FOOD_REMOVED_ : {[btc_rep_malus_foodRemove * _instigator, localize"STR_BTC_HAM_REP_FOOD_REMOVED"]}; //_instigator is a multiplier in this case
     case _CIV_HURT_ : {[btc_rep_malus_civ_hd, localize"STR_BTC_HAM_REP_CIV_HURT", true]};
     case _ANIMAL_HURT_ : {[btc_rep_malus_animal_hd, localize"STR_BTC_HAM_REP_ANIMAL_HURT", true]};
@@ -61,7 +92,10 @@ private _change = switch (_reason) do {
     case _CIV_WHEEL_CHANGED_ : {[btc_rep_malus_wheelChange, localize"STR_BTC_HAM_REP_CIV_WHEEL_CHANGED"]};
     case _TAG_LETTER_REMOVED_ : {[btc_rep_bonus_removeTagLetter, localize"STR_BTC_HAM_REP_TAG_REMOVED"]};
     case _TAG_REMOVED_ : {[btc_rep_bonus_removeTag, localize"STR_BTC_HAM_REP_TAG_REMOVED", true]};
-    case _VEHICLE_LOST_: {[btc_rep_malus_veh_killed, localize"STR_BTC_HAM_REP_VEHICLE_LOST", [true, false] select isNull _instigator]};
+    case _VEHICLE_LOST_: {
+        ["Vehicles lost"] call btc_rep_fnc_addToScoreboard;
+        [btc_rep_malus_veh_killed, localize"STR_BTC_HAM_REP_VEHICLE_LOST", [true, false] select isNull _instigator]
+    };
     case _FRIENDLY_KILLED_ : {[btc_rep_malus_civ_killed, localize"STR_BTC_HAM_REP_FRIENDLY_KILLED", true]};
     case _CAPTIVE_KILLED_ : {[btc_rep_malus_civ_killed, localize"STR_BTC_HAM_REP_CAPTIVE_KILLED", true]};
     case _FOB_DISMANTLED_ : {[floor(btc_rep_malus_fob_lost/2), format[localize"STR_BTC_HAM_REP_FOB_DISMANTLED", _name]]};
@@ -114,8 +148,6 @@ if(_showNotification) then {
             _color = [_colorIntensity, 0, 0] call BIS_fnc_colorRGBtoHTML;
         };
 
-        private _posX = safeZoneW + (safeZoneX * 2.5);
-        private _posY = safeZoneH + (safeZoneY * 2);
         private _textArray = [
             [format["SITREP %1H:", [dayTime, "HH:MM"] call BIS_fnc_timeToString], "align = 'center' shadow = '1' size = '0.7' font = 'RobotoCondensed'", 0.5, 0.08],
             [toUpper _text, format["align = 'center' color = '%1' shadow = '1' size = '0.7' font = 'RobotoCondensed'", _color], 0.5, 0.08]
@@ -125,7 +157,7 @@ if(_showNotification) then {
             _textArray pushBack [toUpper _name,"align = 'center' shadow = '1' size = '0.7' font = 'RobotoCondensed'", 3, 0.2];
         };
 
-        [_posX, _posY, _textArray] remoteExec ["btc_fnc_typeText", [0, -2] select isDedicated];
+        [0.8, 1, _textArray] remoteExec ["btc_fnc_typeText", [0, -2] select isDedicated];
     };
 };
 

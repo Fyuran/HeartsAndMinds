@@ -178,3 +178,12 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
     };
     _target setVariable ["btc_log_isBeingPlaced", false, true];
 }] call CBA_fnc_addEventHandler;
+
+addMissionEventHandler ["ExtensionCallback", {
+	params ["_name", "_function", "_data"];
+
+    if(_name isEqualTo "btc_ArmaToJSON") then {
+        _data = _data regexReplace ["\\\\", "\"]; //remove trailing slashes from file paths
+        btc_JSON = call compile _data;
+    };
+}];

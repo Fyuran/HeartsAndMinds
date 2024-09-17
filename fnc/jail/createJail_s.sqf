@@ -54,3 +54,5 @@ _jail setVariable ["btc_jail_positions", _jailPositions];
 _flag setVariable ["btc_jail", _jail, true];
 btc_jails pushBack _jail;
 publicVariable "btc_jails";
+
+_jail

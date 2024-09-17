@@ -30,6 +30,7 @@ if(isNull _player) then {
     _player = _uid call BIS_fnc_getUnitByUID;
 };
 
+private _playerHash = (btc_slots_serialized getOrDefault [_uid, createHashMap, true]);
 private _data = createHashMapFromArray [
     ["previousPos", getPosASL _player],
     ["dir", getDir _player],
@@ -42,7 +43,9 @@ private _data = createHashMapFromArray [
         _player getVariable ["acex_field_rations_hunger", 0]
     ]],
     ["hasEarPlugsIn", [_player] call ace_hearing_fnc_hasEarPlugsIn],
-    ["uid", _uid]
+    ["uid", _uid],
+    ["name", name _player],
+    ["scoreboard",  _playerHash getOrDefault["scoreboard", createHashMap, true]]
 ];
 btc_slots_serialized set [_uid, _data];
 

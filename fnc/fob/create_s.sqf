@@ -45,12 +45,13 @@ private _flag = createVehicle [btc_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
 private _loudspeaker = createVehicle ["Land_Loudspeakers_F", _pos, [], 0, "CAN_COLLIDE"];
 
 //JAIL
+private _jail = objNull;
 if(_jailData isNotEqualTo []) then {
     _jailData params [
         ["_pos", [0,0,0], [], 3],
         ["_vectorDirAndUp", [[0,1,0],[0,0,1]], [[]], 2]
     ];
-    [_flag, _pos, _vectorDirAndUp] call btc_jail_fnc_createJail_s;
+    _jail = [_flag, _pos, _vectorDirAndUp] call btc_jail_fnc_createJail_s;
 };
 
 //LOG OBJ
@@ -165,4 +166,4 @@ _building setVariable["FOB_Triggers", [_alarmTrg, _destroyTrg]];
 
 (btc_fobs select 4) pushBack [_alarmTrg, _destroyTrg];
 
-[_marker, _building, _flag, _loudspeaker, jail]
+[_marker, _building, _flag, _loudspeaker, _jail]
