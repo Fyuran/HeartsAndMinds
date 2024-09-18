@@ -11,7 +11,7 @@ Returns:
 
 Examples:
     (begin example)
-        [] call btc_slot_fnc_saveData;
+        [getPlayerUID player, player] call btc_slot_fnc_saveData;
     (end)
 
 Author:
@@ -30,7 +30,6 @@ if(isNull _player) then {
     _player = _uid call BIS_fnc_getUnitByUID;
 };
 
-private _playerHash = (btc_slots_serialized getOrDefault [_uid, createHashMap, true]);
 private _data = createHashMapFromArray [
     ["previousPos", getPosASL _player],
     ["dir", getDir _player],
@@ -45,7 +44,7 @@ private _data = createHashMapFromArray [
     ["hasEarPlugsIn", [_player] call ace_hearing_fnc_hasEarPlugsIn],
     ["uid", _uid],
     ["name", name _player],
-    ["scoreboard",  _playerHash getOrDefault["scoreboard", createHashMap, true]]
+    ["btc_scoreboard",  _player getVariable["btc_scoreboard", createHashMap]]
 ];
 btc_slots_serialized set [_uid, _data];
 

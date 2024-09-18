@@ -11,7 +11,7 @@ Returns:
 
 Examples:
     (begin example)
-        [] call btc_slot_fnc_getData;
+        [getPlayerUID player] spawn btc_slot_fnc_getData;
     (end)
 
 Author:
@@ -23,26 +23,26 @@ params [
     ["_uid", "", [""]]
 ];
 
+if(!canSuspend) exitWith {
+	if(btc_debug) then {
+		["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+	};
+};
+
 if(_uid isEqualTo "") exitWith {
     if(btc_debug) then {
         ["invalid _uid", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
     };
 };
-if(isNil "btc_slots_serialized") exitWith {
-    if(btc_debug) then {
-        ["btc_slots_serialized is nil", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-    };
-};
 
-btc_slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
+if(remoteExecutedOwner isNotEqualTo 0) then { //relay back data to requesting client
+    waitUntil{btc_hasLoadedDB};
 
-if(isRemoteExecuted && {remoteExecutedOwner isNotEqualTo 0}) then { //relay back data to requesting client
-    remoteExecutedOwner publicVariableClient "btc_slot_data";
+    private _slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
+    ["btc_slot_loadPlayer", _slot_data, remoteExecutedOwner] call CBA_fnc_ownerEvent;
+
     if(btc_debug) then {
         private _unit = _uid call BIS_fnc_getUnitByUID;
         [format ["%1(%2) retrieving data", name _unit, _uid], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
     };
-
 };
-
-btc_slot_data

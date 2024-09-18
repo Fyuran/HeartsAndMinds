@@ -304,6 +304,8 @@ btc_explosives apply {
 };
 
 //Scoreboard
+private _timesSaved = btc_scoreboard getOrDefault ["Times saved", 0];
+btc_scoreboard set ["Times saved", _timesSaved + 1];
 private _scoreboard = +btc_scoreboard;
 
 //Combine all together
@@ -334,7 +336,7 @@ format["btc_hm_%1", _name] + " " +// btc_JSON_save fileName
     """slots_serialized""" + ": " + btc_JSON_save#12 + ", " +
     """array_veh""" + ":" + btc_JSON_save#13 + ", " +
 	"""explosives""" + ": " + btc_JSON_save#14 + ", " +
-	"""scoreboard""" + ": " + btc_JSON_save#15 +
+	"""btc_scoreboard""" + ": " + btc_JSON_save#15 +
     "
 }";
 

@@ -34,15 +34,15 @@ params[
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
 private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", _name], ""];
-"btc_ArmaToJSON" callExtension ["callbackData", [_saveFile]];
-
-waitUntil{!isNil "btc_JSON"};
+btc_JSON = [_saveFile] call btc_json_fnc_request_data;
+if(btc_JSON isEqualTo "") exitWith {
+		[[_result, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+};
 
 // METADATA
 private _metadata = +(MAPGET(_name));
 private _btc_ho_sel = -1;
 if (_metadata isNotEqualTo createHashMap) then {
-	
 	_metadata apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 		setDate _date;
@@ -335,7 +335,9 @@ if (_explosives isNotEqualTo createHashMap) then {
 };
 
 //Scoreboard
-btc_scoreboard = +(MAPGET("scoreboard"));
+btc_scoreboard = +(MAPGET("btc_scoreboard"));
 
 
 [["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
+
+btc_hasLoadedDB = true;

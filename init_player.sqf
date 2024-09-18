@@ -55,7 +55,8 @@ if(btc_p_intro) then {
 
     [] spawn btc_log_fnc_drawResources3D;
     
-    if(btc_db_load>0 && {isMultiplayer}) then {
-        [] call btc_slot_fnc_loadPlayer;
+    if(btc_db_load > 0) then {
+        ["btc_slot_loadPlayer", {_this call btc_slot_fnc_loadPlayer}] call CBA_fnc_addEventHandler;
+        [getPlayerUID player] remoteExec ["btc_slot_fnc_getData", 2];
     };
 }] call CBA_fnc_waitUntilAndExecute;

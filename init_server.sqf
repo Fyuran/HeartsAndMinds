@@ -19,6 +19,7 @@ switch (btc_db_load) do {
 		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
 		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params ["_result", "_returnCode"];
 		if (_returnCode isEqualTo _OK_) then {
+			btc_hasLoadedDB = false;
 			[] spawn btc_json_fnc_load;
 		} else {
 			if(btc_debug) then {
