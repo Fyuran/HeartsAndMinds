@@ -17,55 +17,52 @@
 	
 ---------------------------------------------------------------------------- */
 
+#include "\z\ace\addons\medical\script_component.hpp"
+
 params [["_unit", objNull, [objNull]]];
 
-private _state = [];
-private _vars = [];
+private _state = createHashMap;
+
 [
-    ["ace_medical_bloodVolume", 6.0 ],
-    ["ace_medical_heartRate", 80],
-    ["ace_medical_bloodPressure", [80, 120]],
-    ["ace_medical_peripheralResistance", 100],
-    
-    
-    ["ace_medical_hemorrhage", 0],
-    ["ace_medical_pain", 0],
-    ["ace_medical_inPain", false],
-    ["ace_medical_painSuppress", 0],
-    ["ace_medical_openWounds", createHashMap],
-    ["ace_medical_bandagedWounds", createHashMap],
-    ["ace_medical_stitchedWounds", createHashMap],
-    ["ace_medical_fractures", [0,0,0,0,0,0]],
-    
-    
-    ["ace_medical_tourniquets", [0,0,0,0,0,0]],
-    ["ace_medical_occludedMedications", []],
-    ["ace_medical_ivBags", []],
-    ["ace_medical_triageLevel", 0],
-    ["ace_medical_triageCard", []],
-    ["ace_medical_bodyPartDamage", [0,0,0,0,0,0]]
-    
-    
+    [VAR_BLOOD_VOL, DEFAULT_BLOOD_VOLUME],
+    [VAR_HEART_RATE, DEFAULT_HEART_RATE],
+    [VAR_BLOOD_PRESS, [80, 120]],
+    [VAR_PERIPH_RES, DEFAULT_PERIPH_RES],
+    // State transition should handle this
+    // [VAR_CRDC_ARRST, false],
+    [VAR_HEMORRHAGE, 0],
+    [VAR_PAIN, 0],
+    [VAR_IN_PAIN, false],
+    [VAR_PAIN_SUPP, 0],
+    [VAR_OPEN_WOUNDS, createHashMap],
+    [VAR_BANDAGED_WOUNDS, createHashMap],
+    [VAR_STITCHED_WOUNDS, createHashMap],
+    [VAR_FRACTURES, DEFAULT_FRACTURE_VALUES],
+    // State transition should handle this
+    // [VAR_UNCON, false],
+    [VAR_TOURNIQUET, DEFAULT_TOURNIQUET_VALUES],
+    [QEGVAR(medical,occludedMedications), nil],
+    [QEGVAR(medical,ivBags), nil],
+    [QEGVAR(medical,triageLevel), 0],
+    [QEGVAR(medical,triageCard), []],
+    [QEGVAR(medical,bodyPartDamage), [0,0,0,0,0,0]]
+    // Time needs to be converted
+    // [VAR_MEDICATIONS, []]
 ] apply {
-    _x params ["_var"];
-    private _var = _unit getVariable _x;
-    if(_var isEqualType createHashMap) then {
-        _var = _var toArray false;
-    };
-    _vars pushBack _var;
+	_x params ["_key", "_value"];
+	_state set[_key, _unit getVariable _x];
 };
-_state pushBack _vars;
 
-private _medications = _unit getVariable ["ace_medical_medications", []];
+
+private _medications = _unit getVariable [VAR_MEDICATIONS, []];
 _medications apply {
-    if(count _x >= 1) then {
-        _x set [1, _x#1 - CBA_missionTime];
-    };
+	_x set[1, _x#1 - CBA_missionTime];
 };
-_state pushBack [_medications];
+_state set[VAR_MEDICATIONS, _medications];
 
 
-private _currentState = [_unit, ace_medical_STATE_MACHINE] call CBA_statemachine_fnc_getCurrentState;
-_state pushBack _currentState;
+private _currentState = [_unit, GVAR(STATE_MACHINE)] call CBA_statemachine_fnc_getCurrentState;
+_state set[QGVAR(statemachineState), _currentState];
+
 
 _state

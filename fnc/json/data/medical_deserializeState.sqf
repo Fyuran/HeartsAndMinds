@@ -19,26 +19,19 @@
 	Author: BaerMitUmlaut, Fyuran
 	
 ---------------------------------------------------------------------------- */
+#include "\z\ace\addons\medical\script_component.hpp"
 
 params [
     ["_unit", objNull, [objNull]], 
-    ["_state", [], [[]]]
+    ["_state", createHashMap, [createHashMap]]
 ];
-_state params [
-    ["_vars", [], [[]], 18],
-    ["_medications", [], [[]]],
-    ["_targetState", "Default", [""]]
-];
-
-if (canSuspend) exitWith {
-    [btc_json_fnc_medical_deserializeState, _this] call CBA_fnc_directCall
-};
 
 if (isNull _unit) exitWith {};
-if (!local _unit) exitWith { diag_log text format ['[%1] (%2) %3: %4', toUpper 'ace', 'JSON medical', 'ERROR', format["unit [%1] is not local", _unit]] };
+if (!local _unit) exitWith { ERROR_1("unit [%1] is not local",_unit) };
 
-if !(_unit getVariable ["ace_medical_initialized", false]) exitWith {
-    ["ace_medical_status_initialized", {
+// If unit is not initialized yet, wait until event is raised
+if !(_unit getVariable [QGVAR(initialized), false]) exitWith {
+    [QEGVAR(medical_status,initialized), {
         params ["_unit"];
         _thisArgs params ["_target"];
 
@@ -49,44 +42,87 @@ if !(_unit getVariable ["ace_medical_initialized", false]) exitWith {
     }, _this] call CBA_fnc_addEventHandlerArgs;
 };
 
-_vars set [8, createHashMapFromArray (_vars#8)];
-_vars set [9, createHashMapFromArray (_vars#9)];
-_vars set [10, createHashMapFromArray (_vars#10)];
+// Migration from old array wounding storage serialized in old versions (<= 3.16.0)
+[VAR_OPEN_WOUNDS, VAR_BANDAGED_WOUNDS, VAR_STITCHED_WOUNDS] apply {
+    if ((_state getOrDefault [_x, createHashMap]) isEqualType []) then {
+        private _migratedWounds = createHashMap;
 
-{
-    private _value = _vars select _forEachindex;
+        (_state get _x) apply {
+            _x params ["_class", "_bodyPartIndex", "_amountOf", "_bleeding", "_damage"];
 
-    _unit setVariable [_x, _value, true];
-} forEach [
-    "ace_medical_bloodVolume", "ace_medical_heartRate",
-    "ace_medical_bloodPressure", "ace_medical_peripheralResistance",
-    "ace_medical_hemorrhage", "ace_medical_pain",
-    "ace_medical_inPain", "ace_medical_painSuppress",
-    "ace_medical_openWounds", "ace_medical_bandagedWounds",
-    "ace_medical_stitchedWounds", "ace_medical_fractures",
-    "ace_medical_tourniquets", "ace_medical_occludedMedications",
-    "ace_medical_ivBags", "ace_medical_triageLevel",
-    "ace_medical_triageCard", "ace_medical_bodyPartDamage" 
-];
+            private _partWounds = _migratedWounds getOrDefault [ALL_BODY_PARTS select _bodyPartIndex, [], true];
+            _partWounds pushBack [_class, _amountOf, _bleeding, _damage];
+        };
 
-
-_unit setVariable ["ace_medical_lastWakeUpCheck", nil];
-
-{
-    if(count _x >= 1) then {
-        _x set [1, _x#1 + CBA_missionTime];
+        _state set [_x, _migratedWounds];
     };
-} forEach _medications;
-_unit setVariable ["ace_medical_medications", _medications, true];
+};
 
+// Set medical variables
+ [
+    [VAR_BLOOD_VOL, DEFAULT_BLOOD_VOLUME],
+    [VAR_HEART_RATE, DEFAULT_HEART_RATE],
+    [VAR_BLOOD_PRESS, [80, 120]],
+    [VAR_PERIPH_RES, DEFAULT_PERIPH_RES],
+    // State transition should handle this
+    // [VAR_CRDC_ARRST, false],
+    [VAR_HEMORRHAGE, 0],
+    [VAR_PAIN, 0],
+    [VAR_IN_PAIN, false],
+    [VAR_PAIN_SUPP, 0],
+    [VAR_OPEN_WOUNDS, createHashMap],
+    [VAR_BANDAGED_WOUNDS, createHashMap],
+    [VAR_STITCHED_WOUNDS, createHashMap],
+    [VAR_FRACTURES, DEFAULT_FRACTURE_VALUES],
+    // State transition should handle this
+    // [VAR_UNCON, false],
+    [VAR_TOURNIQUET, DEFAULT_TOURNIQUET_VALUES],
+    [QEGVAR(medical,occludedMedications), nil],
+    [QEGVAR(medical,ivBags), nil],
+    [QEGVAR(medical,triageLevel), 0],
+    [QEGVAR(medical,triageCard), []],
+    [QEGVAR(medical,bodyPartDamage), [0,0,0,0,0,0]]
+    // Offset needs to be converted
+    // [VAR_MEDICATIONS, []]
+] apply {
+    _x params ["_key", "_default"];
+    private _value = _state getOrDefault [_x, _default];
 
-[_unit] call ace_medical_engine_fnc_updateDamageEffects;
-[_unit] call ace_medical_status_fnc_updateWoundBloodLoss;
+    // Handle wound hashmaps deserialized as CBA_namespaces
+    if (typeName _value == "LOCATION") then {
+        private _keys = allVariables _value;
+        private _values = _keys apply {_value getVariable _x};
+        _value = _keys createHashMapFromArray _values;
+    };
 
+    // Treat null as nil
+    if (_value isEqualTo objNull) then {
+        _value = _default;
+    };
 
-private _currentState = [_unit, ace_medical_STATE_MACHINE] call CBA_statemachine_fnc_getCurrentState;
-[_unit, ace_medical_STATE_MACHINE, _currentState, _targetState] call CBA_statemachine_fnc_manualTransition;
+    _unit setVariable [_key, _value, true];
+};
 
+// Reset timers
+_unit setVariable [QEGVAR(medical,lastWakeUpCheck), nil];
+
+// Convert medications offset to time
+private _medications = _state getOrDefault [VAR_MEDICATIONS, []];
+_medications apply {
+    _x set [1, _x#1 + CBA_missionTime];
+};
+_unit setVariable [VAR_MEDICATIONS, _medications, true];
+
+// Update effects
+[_unit] call EFUNC(medical_engine,updateDamageEffects);
+[_unit] call EFUNC(medical_status,updateWoundBloodLoss);
+
+// Transition within statemachine
+private _currentState = [_unit, GVAR(STATE_MACHINE)] call CBA_statemachine_fnc_getCurrentState;
+private _targetState = _state getOrDefault [QGVAR(statemachineState), "Default"];
+[_unit, GVAR(STATE_MACHINE), _currentState, _targetState] call CBA_statemachine_fnc_manualTransition;
+
+// Manually call wake up tranisition if necessary
 if (_currentState in ["Unconscious", "CardiacArrest"] && {_targetState in ["Default", "Injured"]}) then {
-    [_unit, false] call ace_medical_status_fnc_setUnconsciousState;
+    [_unit, false] call EFUNC(medical_status,setUnconsciousState);
 };
