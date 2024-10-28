@@ -1,6 +1,6 @@
 enableSaving [false, false];
 
- call compileScript ["core\def\mission.sqf"]; 
+ call compileScript ["def.sqf"]; 
  call compileScript ["define_mod.sqf"];
 
 if (isServer) then {

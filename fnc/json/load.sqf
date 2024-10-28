@@ -18,6 +18,7 @@
 	    Fyuran
 	
 ---------------------------------------------------------------------------- */
+#define MAPCHECK(ARG) if(MAPGET(ARG) isEqualType []) then {createHashMap} else {MAPGET(ARG)}
 #define MAPGET(ARG) btc_JSON getOrDefault [ARG, createHashMap, true]
 #define _ERROR_ -1
 #define _OK_ 0
@@ -34,13 +35,13 @@ params[
 [["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
 
 private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", _name], ""];
-btc_JSON = [_saveFile] call btc_json_fnc_request_data;
+btc_JSON = fromJSON([_saveFile] call btc_json_fnc_request_data);
 if(btc_JSON isEqualTo "") exitWith {
 		[[_result, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
 };
 
 // METADATA
-private _metadata = +(MAPGET(_name));
+private _metadata = +(MAPCHECK(_name));
 private _btc_ho_sel = -1;
 if (_metadata isNotEqualTo createHashMap) then {
 	_metadata apply {
@@ -54,7 +55,7 @@ if (_metadata isNotEqualTo createHashMap) then {
 
 
 // CITIES
-private _cities_status = +(MAPGET("cities_status"));
+private _cities_status = +(MAPCHECK("cities_status"));
 if (_cities_status isNotEqualTo createHashMap) then {
 	_cities_status apply {
 		(values _y) params ((keys _y) apply {"_" + _x});// iterate through cities' data
@@ -91,7 +92,7 @@ if (_cities_status isNotEqualTo createHashMap) then {
 	};
 };
 // HIDEOUTS
-private _array_ho = +(MAPGET("array_ho"));
+private _array_ho = +(MAPCHECK("array_ho"));
 if (_array_ho isNotEqualTo createHashMap) then {
 	_array_ho apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
@@ -118,7 +119,7 @@ if (btc_hideouts isEqualTo []) then {
 };
 
 // CACHE
-private _array_cache = +(MAPGET("array_cache"));
+private _array_cache = +(MAPCHECK("array_cache"));
 if (_array_cache isNotEqualTo createHashMap) then {
 	_array_cache apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
@@ -152,7 +153,7 @@ if (_array_cache isNotEqualTo createHashMap) then {
 };
 
 // FOBS
-private _fobs = +(MAPGET("fobs"));
+private _fobs = +(MAPCHECK("fobs"));
 if (_fobs isNotEqualTo createHashMap) then {
 	_fobs apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
@@ -163,7 +164,7 @@ if (_fobs isNotEqualTo createHashMap) then {
 		};
 	};
 };
-btc_fobs_ruins = +(MAPGET("fobs_ruins"));
+btc_fobs_ruins = +(MAPCHECK("fobs_ruins"));
 if(btc_fobs_ruins isNotEqualTo createHashMap) then {
     btc_fobs_ruins apply { // _[key,[_pos, _dir, _typeOf]]
 		(values _y) params ((keys _y) apply {"_" + _x});
@@ -180,7 +181,7 @@ if(btc_fobs_ruins isNotEqualTo createHashMap) then {
 };
 
 // VEHICLES
-private _array_veh = +(MAPGET("array_veh"));
+private _array_veh = +(MAPCHECK("array_veh"));
 if (_array_veh isNotEqualTo createHashMap) then {
 	(getMissionLayerEntities "btc_vehicles" select 0) apply {
 		deleteVehicle _x
@@ -220,7 +221,7 @@ if (_array_veh isNotEqualTo createHashMap) then {
 };
 
 // OBJECTS
-private _array_obj = +(MAPGET("array_obj"));
+private _array_obj = +(MAPCHECK("array_obj"));
 if (_array_obj isNotEqualTo createHashMap) then {
 	[{
 		// Can't use ace_cargo for objects created during first frame.
@@ -240,7 +241,7 @@ if (_array_obj isNotEqualTo createHashMap) then {
 };
 
 //Supplies
-private _array_fob_log_supplies = +(MAPGET("array_fob_log_supplies"));
+private _array_fob_log_supplies = +(MAPCHECK("array_fob_log_supplies"));
 if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
 	[{
 		_this apply {
@@ -257,7 +258,7 @@ if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
 
 
 //Player Tags 
-private _tags_properties = +(MAPGET("tags_properties"));
+private _tags_properties = +(MAPCHECK("tags_properties"));
 private _id = ["ace_tagCreated", {
     params ["_tag", "_texture", "_object"];
     btc_tags_player pushBack [_tag, _texture, _object];
@@ -274,17 +275,17 @@ _tags_properties apply {
 
 //Player respawn tickets and bodies
 if (btc_p_respawn_ticketsAtStart >= 0) then {
-    btc_respawn_tickets = +(MAPGET("respawn_tickets"));
+    btc_respawn_tickets = +(MAPCHECK("respawn_tickets"));
 
-    private _deadBodyPlayers = +(MAPGET("deadPlayers"));
+    private _deadBodyPlayers = +(MAPCHECK("deadPlayers"));
     btc_body_deadPlayers  = [values _deadBodyPlayers] call btc_body_fnc_create;
 };
 
 // PLAYERS
-btc_slots_serialized = +(MAPGET("slots_serialized"));
+btc_slots_serialized = +(MAPCHECK("slots_serialized"));
 
 // MARKERS
-private _player_markers = +(MAPGET("player_markers"));
+private _player_markers = +(MAPCHECK("player_markers"));
 if (_player_markers isNotEqualTo createHashMap) then {
 	{
 		(values _y) params ((keys _y) apply {"_" + _x});
@@ -310,7 +311,7 @@ if (_player_markers isNotEqualTo createHashMap) then {
 };
 
 //Explosives
-private _explosives = +(MAPGET("explosives"));
+private _explosives = +(MAPCHECK("explosives"));
 if (_explosives isNotEqualTo createHashMap) then {
 	btc_explosives = _explosives apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
@@ -335,7 +336,7 @@ if (_explosives isNotEqualTo createHashMap) then {
 };
 
 //Scoreboard
-btc_scoreboard = +(MAPGET("btc_scoreboard"));
+btc_scoreboard = +(MAPCHECK("btc_scoreboard"));
 
 
 [["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;

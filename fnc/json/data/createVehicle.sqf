@@ -80,14 +80,27 @@ if (unitIsUAV _veh) then {
     createVehicleCrew _veh;
 };
 
-if (_veh_allHitPointsDamage isNotEqualTo []) then {
-    {//Disable explosion effect on vehicle creation
-        [_veh, _forEachindex, _x, false] call ace_repair_fnc_setHitPointDamage;
-    } forEach (_veh_allHitPointsDamage select 2);
-    if ((_veh_allHitPointsDamage select 2) select {_x < 1} isEqualTo []) then {
-        _veh setDamage [1, false];
-    };
+
+if(_allHitPointsDamage isNotEqualTo []) then {
+	private _allHitPoints = getAllHitPointsDamage _object;
+	_allHitPoints set [2, _allHitPointsDamage];
+	_allHitPoints params[
+		["_hitpoints", [],[[]]],
+		["_selections", [], [[]]],
+		["_damage", [],[]]
+	];
+	{
+		private _hitpoint = _hitpoints select _forEachIndex;
+		if(_hitpoint isNotEqualTo "") then {
+			_object setHitPointDamage [_hitpoint, _x, false, objNull, objNull, true]; //for hitpoints
+		};
+		private _selection = _selections select _forEachIndex;
+		if(_selection isNotEqualTo "") then {
+			_object setHit [_selection, _x, false, objNull, objNull, true]; //for selections
+		};
+	}forEach _damage;
 };
+
 
 if (_flagTexture isNotEqualTo "") then {
     _veh forceFlagTexture _flagTexture;

@@ -35,7 +35,8 @@ Author:
 params [
     ["_factions", [], [[]]],
     ["_en_AA", false, [false]],
-    ["_en_tank", false, [false]]
+    ["_en_tank", false, [false]],
+    ["_en_air", false, [false]]
 ];
 
 private _side = [];
@@ -96,12 +97,22 @@ _side = [east, west, independent, civilian] select getNumber (_cfgFactionClasses
             _allclass_f select {(_x isKindOf "Car") || (_x isKindOf "Truck") || (_x isKindOf "Truck_F")}
         }
     );
+
+    
     _type_motorized_armed append (
-        _allclass_f select {
-            ((_x isKindOf "Air") || (_x isKindOf "Helicopter") || (_x isKindOf "Tank") || (_x isKindOf "Car")) &&
-            {_x call BIS_fnc_allTurrets isNotEqualTo []}
+        if(_en_air) then {
+            _allclass_f select {
+                ((_x isKindOf "Air") || (_x isKindOf "Helicopter") || (_x isKindOf "Tank") || (_x isKindOf "Car")) &&
+                {_x call BIS_fnc_allTurrets isNotEqualTo []}
+            }
+        } else {
+            _allclass_f select {
+                ((_x isKindOf "Tank") || (_x isKindOf "Car")) &&
+                {_x call BIS_fnc_allTurrets isNotEqualTo []}
+            }
         }
     );
+
     _type_motorized_armed_ground append (
         _allclass_f select {
             ((_x isKindOf "Tank") || (_x isKindOf "Car")) &&

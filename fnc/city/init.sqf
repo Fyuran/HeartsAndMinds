@@ -63,12 +63,21 @@ _locationsNames apply {
 
         if (btc_city_blacklist find _name >= 0) exitWith {};
 
-        /*
-        //if you want a safe area
-        if ((getMarkerPos "YOUR_MARKER_AREA") inArea [_position, 500, 500, 0, false]) exitWith {};
-        */
+        private _hasFound = false;
+        btc_city_blacklist_pos apply {
+            if(_position inArea _x) exitWith {
+                _hasFound = true;
+            };
+        };
 
-        [_position, _type, _name, _cachingRadius, false] call btc_city_fnc_create;
+        if(!_hasFound) then {
+            [_position, _type, _name, _cachingRadius, false] call btc_city_fnc_create;
+        } else {
+            if(btc_debug) then {
+                [format ["%1 has been blacklisted", _name], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
+            };
+        };
+        
     };
 };
 

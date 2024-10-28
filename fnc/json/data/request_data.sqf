@@ -48,12 +48,12 @@ if(_pieces <= -1) exitWith {
 private _rawData = "";
 
 for "_i" from 0 to (_pieces - 1) do {
-	("btc_ArmaToJSON" callExtension ["getData", [_saveFile, str _i]]) params [["_piece", "", ["", 123]], "_returnCode", "_errorCode"];
+	("btc_ArmaToJSON" callExtension ["getDataPiece", [_saveFile, str _i]]) params [["_piece", "", ["", 123]], "_returnCode", "_errorCode"];
 	if (btc_debug) then {
 		[format ["Loading JSON Data returned for %1(%2)", _i + 1, _piece], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 	};
 	_rawData = _rawData + _piece;
 };
-_rawData = _rawData regexReplace ["\\\\", "\"]; //remove trailing slashes from file paths
+//_rawData = _rawData regexReplace ["\\\\", "\"]; //remove trailing slashes from file paths
 
-call compile _rawData;
+_rawData;

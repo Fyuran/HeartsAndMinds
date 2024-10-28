@@ -308,6 +308,27 @@ private _timesSaved = btc_scoreboard getOrDefault ["Times saved", 0];
 btc_scoreboard set ["Times saved", _timesSaved + 1];
 private _scoreboard = +btc_scoreboard;
 
+/* btc_JSON_save = createHashMapFromArray[
+	[_name, _simpleData],
+	["player_markers", _player_markers],
+	["cities_status", _cities_status],
+	["array_ho", _array_ho],
+	["array_cache", _array_cache],
+	["fobs", _fobs],
+	["fobs_ruins", _fobs_ruins],
+	["array_obj", _array_obj],
+	["array_fob_log_supplies", _array_fob_log_supplies],
+	["tags_properties", _tags_properties],
+	["respawn_tickets", _respawn_tickets],
+	["deadPlayers", _deadPlayers],
+	["slots_serialized", _slots_serialized],
+	["array_veh", _array_veh],
+	["explosives", _explosives],
+	["btc_scoreboard", _scoreboard]
+];
+private _path = "btc_ArmaToJSON" callExtension format["%1 %2", format["btc_hm_%1", worldName], (toJSON(btc_JSON_save))];
+ */
+
 //Combine all together
 btc_JSON_save = [
 	_simpleData, _player_markers, _cities_status,
@@ -341,7 +362,7 @@ format["btc_hm_%1", _name] + " " +// btc_JSON_save fileName
 }";
 
 private _path = "btc_ArmaToJSON" callExtension _json;
-if(_path isEqualTo "") exitWith {
+if(_path isEqualTo "" || isNil "_path") exitWith {
 	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
 	[format["Invalid _path, could not save file."], __FILE__, nil, true] call btc_debug_fnc_message;
 };

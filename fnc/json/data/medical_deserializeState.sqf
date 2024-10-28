@@ -23,11 +23,12 @@
 
 params [
     ["_unit", objNull, [objNull]], 
-    ["_state", createHashMap, [createHashMap]]
+    ["_state", createHashMap, [createHashMap,[]]]
 ];
 
 if (isNull _unit) exitWith {};
 if (!local _unit) exitWith { ERROR_1("unit [%1] is not local",_unit) };
+if(_state isEqualType []) then {_state = createHashMap;};  //fromJSON defaults empty objects to array, pretty fucking stupid
 
 // If unit is not initialized yet, wait until event is raised
 if !(_unit getVariable [QGVAR(initialized), false]) exitWith {

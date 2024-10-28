@@ -36,8 +36,20 @@ if(_uid isEqualTo "") exitWith {
 };
 
 if(remoteExecutedOwner isNotEqualTo 0) then { //relay back data to requesting client
-    waitUntil{btc_hasLoadedDB};
+    private _retries = 0;
+    waitUntil{
+        _retries = _retries + 1; 
+        sleep 1;
+        btc_hasLoadedDB || _retries >= 10
+    };
 
+    if(_retries >= 10) exitWith {
+        if(btc_debug) then {
+            private _unit = _uid call BIS_fnc_getUnitByUID;
+            [format ["%1(%2) failed to retrieve data after %3 tries", name _unit, _uid, _retries], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
+        };
+    };
+    
     private _slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
     ["btc_slot_loadPlayer", _slot_data, remoteExecutedOwner] call CBA_fnc_ownerEvent;
 
