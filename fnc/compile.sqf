@@ -74,8 +74,6 @@ if (isServer) then {
     btc_deaf_fnc_earringing = compileScript ["core\fnc\deaf\earringing.sqf"];
 
     //DB
-    btc_db_fnc_save = compileScript ["core\fnc\db\save.sqf"];
-    btc_db_fnc_delete = compileScript ["core\fnc\db\delete.sqf"];
     btc_db_fnc_initDefault = compileScript ["core\fnc\db\initDefault.sqf"];
     btc_db_fnc_loadObjectStatus = compileScript ["core\fnc\db\loadObjectStatus.sqf"];
     btc_db_fnc_saveObjectStatus = compileScript ["core\fnc\db\saveObjectStatus.sqf"];
@@ -298,6 +296,10 @@ if (isServer) then {
     btc_veh_fnc_propertiesSet = compileScript ["core\fnc\veh\propertiesSet.sqf"];
     btc_veh_fnc_add = compileScript ["core\fnc\veh\add.sqf"];
     btc_veh_fnc_inventoryRestore = compileScript ["core\fnc\veh\inventoryRestore.sqf"];
+    btc_veh_fnc_getCargo = compileScript ["core\fnc\veh\getCargo.sqf"];
+    btc_veh_fnc_getData = compileScript ["core\fnc\veh\getData.sqf"];
+    btc_veh_fnc_loadCargo = compileScript ["core\fnc\veh\loadCargo.sqf"];
+    btc_veh_fnc_loadData = compileScript ["core\fnc\veh\loadData.sqf"];
 };
 
 /////////////////////EVERYONE\\\\\\\\\\\\\\\\\\\\\

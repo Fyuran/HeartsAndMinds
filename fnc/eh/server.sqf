@@ -68,9 +68,8 @@ if (btc_p_auto_db) then {
     addMissionEventHandler ["HandleDisconnect", {
         if ((allPlayers - entities "HeadlessClient_F") isEqualTo []) then {
             switch (btc_db_load) do {
-	            case 1: {[] call btc_db_fnc_save};
-                case 2: {[] call btc_json_fnc_save;};
-                default {[] call btc_db_fnc_save};
+	            case 1: {[] call btc_json_fnc_save};
+                default {};
 	        };
         };
     }];

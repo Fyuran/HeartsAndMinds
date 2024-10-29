@@ -5,22 +5,10 @@
 ["Initialize", [true]] call BIS_fnc_dynamicGroups;
 switch (btc_db_load) do {
 	case 1: {
-		if (profileNamespace getVariable [format ["btc_hm_%1_db", worldName], false]) then {
-			if ((profileNamespace getVariable [format ["btc_hm_%1_version", worldName], 1.13]) in [btc_version select 1, 22.1]) then {
-				[] call compileScript ["core\fnc\db\load.sqf"];
-			} else {
-				[] call compileScript ["core\fnc\db\load_old.sqf"];
-			};
-		} else {
-			[] call btc_db_fnc_initDefault;
-		};
-	};
-	case 2: {
 		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
 		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params ["_result", "_returnCode"];
 		if (_returnCode isEqualTo _OK_) then {
-			btc_hasLoadedDB = false;
-			[] spawn btc_json_fnc_load;
+			[] call btc_json_fnc_load;
 		} else {
 			if(btc_debug) then {
 				[_result, __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;

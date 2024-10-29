@@ -20,7 +20,7 @@ Author:
 ---------------------------------------------------------------------------- */
 
 if (btc_debug) then {
-	[format["Database loading falling through to defaults"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+	[format["No valid save found, reverting to defaults"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };
 
 if (btc_hideout_n > 0) then {

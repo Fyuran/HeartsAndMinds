@@ -156,44 +156,17 @@ btc_fobs_ruins apply {
 //Vehicles status
 private _array_veh = createHashMap;
 private _vehicles = btc_vehicles - [objNull];
-private _vehiclesNotInCargo = _vehicles select {isNull isVehicleCargo _x && {isNull isVehicleCargo attachedTo _x}};
-private _vehiclesInCargo = _vehicles - _vehiclesNotInCargo;
 {
-	(_x call btc_db_fnc_saveObjectStatus) params [
-		"_type", "_pos", "_dir", "_PLACEHOLDER1", "_cargo",
-		"_inventory", "_vectorDirAndUp", "_PLACEHOLDER2", "_PLACEHOLDER3",
-		["_flagTexture", "", [""]],
-		["_turretMagazines", [], [[]]],
-		"_PLACEHOLDER4",
-		["_tagTexture", "", [""]],
-		["_properties", [], [[]]]
-	];
-	private _hash = [
-		"veh_type", "veh_pos", "veh_dir", "veh_fuel", "veh_allHitPointsDamage", "veh_cargo",
-		"veh_inventory", "EDENinventory", "vectorDirAndUp",
-		"flagTexture", "turretMagazines",
-		"tagTexture", "properties"
-	]createHashMapFromArray[
-		_type, getPosATL _x, _dir, fuel _x, getAllHitPointsDamage _x,
-		_cargo, _inventory, _x getVariable ["btc_EDENinventory", []], _vectorDirAndUp,
-		_flagTexture, _turretMagazines, _tagTexture, _properties
-	];
-	_array_veh set [_forEachIndex, _hash];
-} forEach (_vehiclesNotInCargo + _vehiclesInCargo);
+	private _hash = [_x] call btc_veh_fnc_getData;
+	_array_veh set[_forEachIndex, _hash];
+} forEach _vehicles;
 
 //Log Objects status
 private _array_obj = createHashMap;
 {
 	if !(!alive _x || isNull _x) then {
-		private _data = [_x] call btc_db_fnc_saveObjectStatus;
-
-			private _hash =
-			["type", "pos", "dir", "", "cargo",
-				"inventory", "vectorDirAndUp", "isChem", "dogtagDataTaken",
-					"flagTexture", "turretMagazines", "customName", "tagTexture",
-						"properties"
-			] createHashMapFromArray _data;
-			_array_obj set [_forEachindex, _hash];
+		private _hash = [_x] call btc_veh_fnc_getData;
+		_array_obj set[_forEachIndex, _hash];
 	};
 } forEach (btc_log_obj_created select {
 	isNull objectParent _x &&

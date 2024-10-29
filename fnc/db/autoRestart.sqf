@@ -33,7 +33,7 @@ private _serverCommand = if (_p_autoRestartType in [1, 3]) then {
 };
 
 if (_p_autoRestartType > 2) then {
-    [] call btc_db_fnc_save;
+    [] call btc_json_fnc_save;
 };
 
 if !(_serverCommandPassword serverCommand _serverCommand) then {

@@ -20,16 +20,17 @@
 #define _OK_ 0
 
 if(!params[
-	["_saveFile", "", [""]]
+	["_saveFile", "", [""]],
+	["_category", "", [""]]
 ]) exitWith {
-	[format["Invalid _saveFile"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+	[format["Invalid params"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };
 
 //check if valid data inside JSON exists
-("btc_ArmaToJSON" callExtension ["getPieces", [_saveFile]]) params [["_pieces", -1, ["", 123]], "_returnCode", "_errorCode"];
+("btc_ArmaToJSON" callExtension ["getPiecesByCategory", [_saveFile, _category]]) params [["_pieces", -1, ["", 123]], "_returnCode", "_errorCode"];
 private _piecesExist = (_returnCode == _OK_) && {(_errorCode == _OK_)};
 if (btc_debug) then {
-	[_pieces, __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+	[format["%1, pieces:%2", _category, _pieces], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 };
 if(!_piecesExist) exitWith {
 	""
@@ -50,7 +51,7 @@ private _rawData = "";
 for "_i" from 0 to (_pieces - 1) do {
 	("btc_ArmaToJSON" callExtension ["getDataPiece", [_saveFile, str _i]]) params [["_piece", "", ["", 123]], "_returnCode", "_errorCode"];
 	if (btc_debug) then {
-		[format ["Loading JSON Data returned for %1(%2)", _i + 1, _piece], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+		[format ["Loading JSON Data returned for %1(%2)", _category, _piece], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
 	};
 	_rawData = _rawData + _piece;
 };
