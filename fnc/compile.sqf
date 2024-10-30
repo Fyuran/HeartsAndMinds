@@ -37,7 +37,8 @@ if (isServer) then {
     btc_fnc_getCompositionBoundingBox = compileScript ["core\fnc\common\getCompositionBoundingBox.sqf"];
     btc_fnc_getBoundingCornersPos = compileScript ["core\fnc\common\getBoundingCornersPos.sqf"];
     btc_fnc_show_custom_hint = compileScript ["core\fnc\common\show_custom_hint.sqf"];
-    btc_fnc_getAddonClasses = compileScript ["core\fnc\common\getAddonClasses.sqf"];  
+    btc_fnc_getAddonClasses = compileScript ["core\fnc\common\getAddonClasses.sqf"];
+    btc_fnc_getFilteredLoadout = compileScript ["core\fnc\common\getFilteredLoadout.sqf"];
 
     //CHEM
     btc_chem_fnc_checkLoop = compileScript ["core\fnc\chem\checkLoop.sqf"];
