@@ -27,7 +27,7 @@ params[
 
 private _weap_configs = [];
 if(_regex isNotEqualTo "true") then {
-	_weap_configs = format['(getNumber(_x >> "scope") == 2) && {(configName _x) regexMatch "%1"}', _regex] configClasses (configFile >> _cfg);
+	_weap_configs = '(getNumber(_x >> "scope") == 2) && {(configName _x) regexMatch _regex}' configClasses (configFile >> _cfg);
 } else {
 	_weap_configs = '(getNumber(_x >> "scope") == 2)' configClasses (configFile >> _cfg);
 };

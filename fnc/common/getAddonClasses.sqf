@@ -18,16 +18,19 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-if(!params[
-    ["_addon", "", [""]]
-]) exitWith {
-    [format["invalid params: %1", _this], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+params[
+    ["_addon", "", [""]],
+    ["_cfg", "CfgWeapons", [""]]
+];
+
+private _configs = [];
+if(_cfg isNotEqualTo "all") then {
+    _configs = 'getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> _cfg);
+} else {
+    _configs append ('getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> "CfgMagazines"));
+    _configs append ('getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> "CfgWeapons"));
 };
 
-private _configs = "
-getNumber (_x >> 'scope') == 2 && 
-{(configSourceAddonList _x) isEqualTo [_addon]}
-" configClasses (configFile >> "CfgWeapons");
 private _classes = _configs apply {configName _x};
 
 _classes
