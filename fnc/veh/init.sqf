@@ -28,12 +28,6 @@ params [
 if (isNil "btc_actions_veh") then {btc_actions_veh = [];};
 if ((btc_actions_veh pushBackUnique _type) isEqualTo -1) exitWith {};
 
-[{ace_common_settingsInitFinished}, {
-    if(btc_p_veh_remove_eden_inventory) then {
-        [_this, []] call btc_log_fnc_inventorySet;
-    };
-}, _vehicle] call CBA_fnc_waitUntilAndExecute;
-
 switch true do {
     case (_type isKindOf "UGV_02_Base_F") : {};
     case (_type isKindOf "StaticWeapon") : {};

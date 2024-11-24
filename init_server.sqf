@@ -11,7 +11,7 @@ switch (btc_db_load) do {
 			[] call btc_json_fnc_load;
 		} else {
 			if(btc_debug) then {
-				[_result, __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
+				[format["JSON: %1", _result], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
 			};
 			[] call btc_db_fnc_initDefault;
 		};

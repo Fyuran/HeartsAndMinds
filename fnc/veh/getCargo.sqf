@@ -24,70 +24,83 @@ params[
 ];
 
 private _return = createHashMap;
+private _objectContainers = everyContainer _object;
+private _dummyHoldersClasses = [];
+_objectContainers apply {
+    _dummyHoldersClasses pushBackUnique _x#0;
+};
 
 //ace containers parsing
-private _items = (_object getVariable["ace_cargo_loaded", []]) apply {
+private _ace_items = (_object getVariable["ace_cargo_loaded", []]) apply {
     if(_x isEqualType objNull) then {
         [typeOf _x, _x]
     } else {
         [_x, ""] //ace_cargo also stores class names in addition to objects
     };
     
-}; //return array similiar to everyContainer cmd
-private _itemsData = _items apply {
-    _x params["_class", "_obj"];
-    if(_obj isEqualType objNull) then {
-	    createHashMapFromArray[[_class, [_obj] call btc_veh_fnc_getCargo]]
+}; //return array similar to everyContainer cmd
+private _aceCargo = [];
+{
+    _x params["_class", "_ref"];
+    if(_ref isEqualType objNull) then {
+	    _aceCargo pushBack [_class, [_ref] call btc_veh_fnc_getCargo];
     } else {
-        createHashMapFromArray[[_class, createHashMap]]
+        _aceCargo pushBack [_class, createHashMap]; //empty JSON object
     };
-};
-_return set ["ace_containers", _itemsData];
+} forEach _ace_items;
+_return set ["ace_containers", _aceCargo];
 
-//arma containers parsing
-_items = everyContainer _object;
-_itemsData = _items apply {
-	createHashMapFromArray[[_x#0, [_x#1] call btc_veh_fnc_getCargo]]
-};
-_return set ["containers", _itemsData];
+//containers parsing
+private _containers = [];
+{
+    _x params["_class", "_refObj"];
+	_containers pushBack [_class, [_refObj] call btc_veh_fnc_getCargo];
+}forEach _objectContainers;
+
+_return set ["containers", _containers];
 
 //itemCargo parsing
-private _cargo = itemCargo _object;
-_cargo = _cargo call BIS_fnc_consolidateArray;
-private _itemsHash = createHashMapFromArray _cargo;
-_return set ["itemCargo", _itemsHash];
+private _itemCargo = itemCargo _object;
+_itemCargo = _itemCargo call BIS_fnc_consolidateArray;
+//remove item holders
+_itemCargo = _itemCargo select {
+    _x params["_class"];
+    !(_class in _dummyHoldersClasses);
+};
+private _itemsCargoHash = createHashMapFromArray _itemCargo;
+_return set ["itemCargo", _itemsCargoHash];
 
 
-//backpack parsing
-_cargo = getBackpackCargo _object;
-_cargo params[["_items", []], ["_counts", []]];
-_itemsHash = createHashMap;
+/* //backpack parsing
+private _backpacksCargo = getBackpackCargo _object;
+_backpacksCargo params[["_backpacks", []], ["_counts", []]];
+private _backpacksCargoHash = createHashMap;
 {
-	_itemsHash set [_x, _counts#_forEachIndex];
-}forEach _items;
+	_backpacksCargoHash set [_x, _counts#_forEachIndex];
+}forEach _backpacks;
 
-_return set ["backpackCargo", _itemsHash];
+_return set ["backpackCargo", _backpacksCargoHash]; */
 
 
 //magazines parsing
-_cargo = getMagazineCargo _object;
-_cargo params[["_items", []], ["_counts", []]];
-_itemsHash = createHashMap;
+private _magazineCargo = getMagazineCargo _object;
+_magazineCargo params[["_magazines", []], ["_counts", []]];
+private _magazinesCargoHash = createHashMap;
 {
-	_itemsHash set [_x, _counts#_forEachIndex];
-}forEach _items;
+	_magazinesCargoHash set [_x, _counts#_forEachIndex];
+}forEach _magazines;
 
-_return set ["magazineCargo", _itemsHash];
+_return set ["magazineCargo", _magazinesCargoHash];
 
 //weapons parsing
-_cargo = getWeaponCargo _object;
-_cargo params[["_items", []], ["_counts", []]];
-_itemsHash = createHashMap;
+private _weaponsCargo = getWeaponCargo _object;
+_weaponsCargo params[["_weapons", []], ["_counts", []]];
+private _weaponsCargoHash = createHashMap;
 {
-	_itemsHash set [_x, _counts#_forEachIndex];
-}forEach _items;
+	_weaponsCargoHash set [_x, _counts#_forEachIndex];
+}forEach _weapons;
 
-_return set ["weaponCargo", _itemsHash];
+_return set ["weaponCargo", _weaponsCargoHash];
 
 
 //ace_cargo_customName

@@ -87,10 +87,6 @@ if (unitIsUAV _object) then {
     createVehicleCrew _object;
 };
 
-if (_cargo isNotEqualTo []) then {
-    [_object, _cargo] call btc_veh_fnc_loadCargo;
-};
-
 if (_customName isNotEqualTo "") then {
     _object setVariable ["ace_cargo_customName", _customName, true];
 };
@@ -121,3 +117,6 @@ if(_allHitPointsDamage isNotEqualTo []) then {
 	}forEach _damage;
 };
 
+if (_cargo isNotEqualTo []) then {
+    [_object, _cargo] call btc_veh_fnc_loadCargo;
+};

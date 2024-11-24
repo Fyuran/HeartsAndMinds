@@ -90,6 +90,7 @@ if (isServer) then {
     btc_json_fnc_encodeJSON = compileScript ["core\fnc\json\data\encodeJSON.sqf"];
     btc_json_fnc_parse_data = compileScript ["core\fnc\json\data\parse_data.sqf"];
     btc_json_fnc_request_data = compileScript["core\fnc\json\data\request_data.sqf"];
+    btc_json_fnc_request_data_category = compileScript["core\fnc\json\data\request_data_category.sqf"];
     btc_json_fnc_delete_file = compileScript ["core\fnc\json\ui\delete.sqf"];
     btc_json_fnc_rename_file = compileScript ["core\fnc\json\ui\rename.sqf"];
     btc_json_fnc_copy_file = compileScript ["core\fnc\json\ui\copy.sqf"];

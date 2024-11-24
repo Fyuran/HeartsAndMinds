@@ -281,29 +281,8 @@ private _timesSaved = btc_scoreboard getOrDefault ["Times saved", 0];
 btc_scoreboard set ["Times saved", _timesSaved + 1];
 private _scoreboard = +btc_scoreboard;
 
-/* btc_JSON_save = createHashMapFromArray[
-	[_name, _simpleData],
-	["player_markers", _player_markers],
-	["cities_status", _cities_status],
-	["array_ho", _array_ho],
-	["array_cache", _array_cache],
-	["fobs", _fobs],
-	["fobs_ruins", _fobs_ruins],
-	["array_obj", _array_obj],
-	["array_fob_log_supplies", _array_fob_log_supplies],
-	["tags_properties", _tags_properties],
-	["respawn_tickets", _respawn_tickets],
-	["deadPlayers", _deadPlayers],
-	["slots_serialized", _slots_serialized],
-	["array_veh", _array_veh],
-	["explosives", _explosives],
-	["btc_scoreboard", _scoreboard]
-];
-private _path = "btc_ArmaToJSON" callExtension format["%1 %2", format["btc_hm_%1", worldName], (toJSON(btc_JSON_save))];
- */
-
 //Combine all together
-btc_JSON_save = [
+private _JSON_data = [
 	_simpleData, _player_markers, _cities_status,
 	_array_ho, _array_cache, _fobs, _fobs_ruins,
 	_array_obj, _array_fob_log_supplies, _tags_properties, _respawn_tickets, 
@@ -311,35 +290,36 @@ btc_JSON_save = [
 		[_x] call btc_json_fnc_encodeJSON;// CBA_fnc_encodeJSON uses "format" which has a hard limit of 2048 chars
 	};
 
-private _json =
-format["btc_hm_%1", _name] + " " +// btc_JSON_save fileName
+btc_JSON_save =
+format["btc_hm_%1", _name] + " " +// _JSON_data fileName
 "{
     " + endl +
-    format ["""%1""", _name] + ":" + btc_JSON_save#0 + ", " +
-    """player_markers""" + ":" + btc_JSON_save#1 + ", " +
-    """cities_status""" + ":" + btc_JSON_save#2 + ", " +
-    """array_ho""" + ":" + btc_JSON_save#3 + ", " +
-    """array_cache""" + ":" + btc_JSON_save#4 + ", " +
-    """fobs""" + ":" + btc_JSON_save#5 + ", " +
-	"""fobs_ruins""" + ":" + btc_JSON_save#6 + ", " +
-    """array_obj""" + ":" + btc_JSON_save#7 + ", " +
-	"""array_fob_log_supplies""" + ":" + btc_JSON_save#8 + ", " +
-	"""tags_properties""" + ":" + btc_JSON_save#9 + ", " +
-	"""respawn_tickets""" + ":" + btc_JSON_save#10 + ", " +
-	"""deadPlayers""" + ":" + btc_JSON_save#11 + ", " +
-    """slots_serialized""" + ": " + btc_JSON_save#12 + ", " +
-    """array_veh""" + ":" + btc_JSON_save#13 + ", " +
-	"""explosives""" + ": " + btc_JSON_save#14 + ", " +
-	"""btc_scoreboard""" + ": " + btc_JSON_save#15 +
+    format ["""%1""", _name] + ":" + _JSON_data#0 + ", " +
+    """player_markers""" + ":" + _JSON_data#1 + ", " +
+    """cities_status""" + ":" + _JSON_data#2 + ", " +
+    """array_ho""" + ":" + _JSON_data#3 + ", " +
+    """array_cache""" + ":" + _JSON_data#4 + ", " +
+    """fobs""" + ":" + _JSON_data#5 + ", " +
+	"""fobs_ruins""" + ":" + _JSON_data#6 + ", " +
+    """array_obj""" + ":" + _JSON_data#7 + ", " +
+	"""array_fob_log_supplies""" + ":" + _JSON_data#8 + ", " +
+	"""tags_properties""" + ":" + _JSON_data#9 + ", " +
+	"""respawn_tickets""" + ":" + _JSON_data#10 + ", " +
+	"""deadPlayers""" + ":" + _JSON_data#11 + ", " +
+    """slots_serialized""" + ": " + _JSON_data#12 + ", " +
+    """array_veh""" + ":" + _JSON_data#13 + ", " +
+	"""explosives""" + ": " + _JSON_data#14 + ", " +
+	"""btc_scoreboard""" + ": " + _JSON_data#15 +
     "
 }";
 
-private _path = "btc_ArmaToJSON" callExtension _json;
+private _path = "btc_ArmaToJSON" callExtension btc_JSON_save;
 if(_path isEqualTo "" || isNil "_path") exitWith {
 	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
 	[format["Invalid _path, could not save file."], __FILE__, nil, true] call btc_debug_fnc_message;
 };
 profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
+profileNamespace setVariable [format["btc_hm_%1_saveJSON", worldName], btc_JSON_save];
 
 [[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_9", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
 [] call btc_json_fnc_fileviewer_r_server;

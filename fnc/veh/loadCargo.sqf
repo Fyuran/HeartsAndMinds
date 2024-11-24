@@ -67,26 +67,42 @@ _object setVariable ["ace_cargo_customName", _ace_cargo_customName, true];
 
 //bis inventory
 if(_containers isNotEqualTo []) then {
-	private _containerReferences = everyContainer _object; //returns [["CLASS", REF TO CONTAINER]]
-	_containers apply {
-		_x params[
-			["_index", "", [""]], 
-			["_content", createHashMap, [createHashMap]]
+	[{ace_common_settingsInitFinished}, {
+		params[
+			["_object", objNull, [objNull]],
+			["_containers", [],[[]]]
 		];
-		_content apply {
-			private _class = _x;
-			private _filteredRefs = (_containerReferences select {(_x#0) isEqualTo _class}) apply {_x#1};
-			_filteredRefs resize (count((keys _content) select {_x isEqualTo _class})); //adjust so that we don't apply data to other items of the same class
-			{
-				[_x, _y] call btc_veh_fnc_loadCargo;		
-			}forEach _filteredRefs;
-		};
 
-	};
+		private _parsedContainers = []; //blacklist containers that already have their content added
+		_containers apply {
+			_x params[
+				["_class", "", [""]], 
+				["_content", createHashMap, [createHashMap]]
+			];
+			if(_class isKindOf "Bag_Base") then {
+				_object addBackpackCargoGlobal[_class, 1];
+			} else {
+				_object addItemCargoGlobal[_class, 1];
+			};
+
+			private _objContainers = (everyContainer _object) - _parsedContainers;
+			private _matchingContainer = (_objContainers select {(_x#0) isEqualTo _class}) select 0; // select first pair
+			_parsedContainers pushBackUnique _matchingContainer;
+
+			private _objRef = _matchingContainer select 1; //select the object reference
+			
+			[_objRef, _content] call btc_veh_fnc_loadCargo;	
+		};
+	}, [_object, _containers], 30] call CBA_fnc_waitUntilAndExecute;
 };
 
 if(_ace_containers isNotEqualTo []) then {
 	[{ace_common_settingsInitFinished}, {
+		params[
+			["_object", objNull, [objNull]],
+			["_ace_containers", [],[[]]]
+		];
+		
 		//ace cargo
 		private _loaded = _object getVariable ["ace_cargo_loaded", []];
 		if (_loaded isNotEqualTo []) then {
@@ -101,21 +117,18 @@ if(_ace_containers isNotEqualTo []) then {
 		// Reset loaded list
 		_object setVariable ["ace_cargo_loaded", [], true];
 		
-			_ace_containers apply {
-				_x params[
-					["_index", "", [""]], 
-					["_content", createHashMap, [createHashMap]]
-				];
+		_ace_containers apply {
+			_x params[
+				["_class", "", [""]], 
+				["_content", createHashMap, [createHashMap]]
+			];
 
-				_content apply {
-					private _class = _x;
-					if([_class, _object, true] call ace_cargo_fnc_canLoadItemIn) then {
-						private _ace_cargo = createVehicle [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
-						[_ace_cargo, _object, true] call ace_cargo_fnc_loadItem;
-						[_ace_cargo, _y] call btc_veh_fnc_loadCargo;
-					};
-				};
+			if([_class, _object, true] call ace_cargo_fnc_canLoadItemIn) then {
+				private _ace_cargo = createVehicle [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
+				[_ace_cargo, _object, true] call ace_cargo_fnc_loadItem;
+				[_ace_cargo, _content] call btc_veh_fnc_loadCargo;
 			};
+		};
 		
 	}, [_object, _ace_containers], 30] call CBA_fnc_waitUntilAndExecute;
 };
