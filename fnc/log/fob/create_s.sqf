@@ -30,8 +30,7 @@ if(!alive _flag) exitWith {
     ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
 };
 
-_pos set [2, 0];
-private _create_obj = createVehicle [btc_log_fob_create_obj, _pos, [], 0, "CAN_COLLIDE"];
+private _create_obj = createVehicle [btc_log_fob_create_obj_class, _pos, [], 0, "CAN_COLLIDE"];
 private _log_point = createVehicle ["Land_HelipadSquare_F", _pos, [], 0, "CAN_COLLIDE"];
 _log_point attachTo [_create_obj, [8,8,0]];
 _create_obj setVectorDirAndUp _vectorDirAndUp;

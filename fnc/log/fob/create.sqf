@@ -31,7 +31,8 @@ if(!canSuspend) exitWith {
     ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
 };
 
-private _create_obj = createVehicleLocal [btc_log_fob_create_obj, [0,0,0], [], 0, "CAN_COLLIDE"];
+private _create_obj = createVehicleLocal [btc_log_fob_create_obj_class, [0,0,0], [], 0, "CAN_COLLIDE"];
+_create_obj enableSimulation false;
 private _log_point = createVehicleLocal ["Land_HelipadSquare_F", [0,0,0], [], 0, "CAN_COLLIDE"];
 _log_point attachTo [_create_obj, [8,8,0]];
 

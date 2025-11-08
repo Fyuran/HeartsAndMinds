@@ -38,10 +38,11 @@ if(isNull _flag) exitWith {
 private _jail = createVehicleLocal["CBA_NamespaceDummy", [0,0,0], [], 0, "CAN_COLLIDE"];
 btc_jail_comp apply {
     private _obj = createVehicleLocal[_x#0, _x#1, [], 0, "CAN_COLLIDE"];
+    _obj allowDamage false;
+    _obj enableSimulation false;
     _obj setPosATL _x#1;
     _obj setDir _x#2;
     [_obj, _jail] call BIS_fnc_attachToRelative;
-    _obj allowDamage false;
 };
 
 private _arrow = createVehicleLocal["Sign_Arrow_Large_Blue_F", [0,0,0], [], 0, "CAN_COLLIDE"];

@@ -46,10 +46,9 @@ if(!_canAfford) exitWith {};
 
 private _obj = createVehicle [_class, _log_point, [], 0, "CAN_COLLIDE"];
 _obj setDir getDir _log_point;
-_pos = getPosATL _log_point;
-_pos set [2,0]; //make sure it's sitting level to ground
-_obj setVectorUp (surfaceNormal _pos);
-_obj setPosATL _pos;
+private _startPos = getPosASL _log_point;
+private _firstLineIntersect = (lineIntersectsSurfaces [_startPos vectorAdd [0, 0, 100], _startPos vectorAdd [0, 0, -50], _obj, _log_point, true, 1, "GEOM", "FIRE", true]) select 0;
+_obj setPosASL (_firstLineIntersect)#0;
 
 if (unitIsUAV _obj) then {
     createVehicleCrew _obj;

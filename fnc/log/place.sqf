@@ -42,17 +42,19 @@ btc_log_placing = true;
 btc_log_yaw = 0;
 btc_log_roll = 0;
 btc_log_pitch = 0;
-btc_log_placing_h = ((ASLtoAGL (eyePos player))#2) - 0.5;
+btc_log_placing_h = (player worldToModel (positionCameraToWorld [0, 0, 0]))#2;
 
 private _bbr = 0 boundingBoxReal _placing_obj;
-btc_log_placing_d = 1.5 + abs(((_bbr select 1) select 1) - ((_bbr select 0) select 1));
+btc_log_placing_d = 10;
 
 
 private _helpers = _placing_obj getVariable ["btc_log_helpers", []];
 _helpers apply {_x hideObjectGlobal false};
 
 _placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]];
+_placing_obj enableSimulation false;
 [_placing_obj, [btc_log_yaw, btc_log_pitch, btc_log_roll]] call BIS_fnc_setObjectRotation;
+_placing_obj setPosWorld getPosWorld _placing_obj;
 
 private _currentWeapon = currentWeapon player;
 [player] call ace_weaponselect_fnc_putWeaponAway;
@@ -87,6 +89,7 @@ private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChang
         _helpers apply {_x hideObjectGlobal true};
 
         detach _placing_obj;
+        _placing_obj enableSimulation true;
         [player, _currentWeapon] call ace_weaponselect_fnc_selectWeaponMode;
         [player, "blockThrow", "btc_log_placing", false] call ace_common_fnc_statusEffect_set;
         ["btc_log_place_placedDown", [_placing_obj, player]] call CBA_fnc_serverEvent;

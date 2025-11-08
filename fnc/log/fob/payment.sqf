@@ -51,7 +51,7 @@ _flag setVariable ["btc_log_resources", _payment, true];
 ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 
 if(btc_debug) then {
-    [format["paid %1 from %2", _payment, _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
+    [format["paid %1 from %2", _cost, _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
 };
 
 true
