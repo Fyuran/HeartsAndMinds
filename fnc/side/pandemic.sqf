@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_side_fnc_pandemic
 
@@ -16,29 +16,55 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
-    ["_taskID", "btc_side", [""]]
+    ["_taskID", "btc_side", [""]],
+	["_selectedPos", [0, 0, 0], [[]], [2,3]]
 ];
 
+//// Choose a City\\\\
 private _minNumberOfSubTask = 2;
-private _useful = values btc_city_all select {
-    !(_x getVariable ["type", ""] in ["NameMarine", "StrongpointArea"]) &&
-    {!(_x getVariable ["active", false])} &&
-    {
-        private _city = _x;
-        ({
-            (_x select 0) isEqualTo 6 &&
-            {(_x select 3) isEqualTo civilian}
-        } count (_city getVariable ["data_units", []])) >= _minNumberOfSubTask
-    }
+private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
+	values btc_city_all select {
+        !(_x getVariable ["type", ""] in ["NameMarine", "StrongpointArea"]) &&
+        {!(_x getVariable ["active", false])} &&
+        {
+            private _city = _x;
+            ({
+                (_x select 0) isEqualTo 6 &&
+                {(_x select 3) isEqualTo civilian}
+            } count (_city getVariable ["data_units", []])) >= _minNumberOfSubTask
+        }
+	};
+} else {
+	private _temp = values btc_city_all select {(_x distance2D _selectedPos) <= _S_RADIUS 
+    && {!(_x getVariable ["active", false])}
+    &&  {
+            private _city = _x;
+            ({
+                (_x select 0) isEqualTo 6 &&
+                {(_x select 3) isEqualTo civilian}
+            } count (_city getVariable ["data_units", []])) >= _minNumberOfSubTask
+        }
+    };
+	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
-if (_useful isEqualTo []) exitWith {[] spawn btc_side_fnc_create;};
-private _city = selectRandom _useful;
+if (_usefuls isEqualTo []) exitWith {
+	["No valid city found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
+
+private _city = if (_selectedPos isEqualTo [0,0,0]) then {
+	selectRandom _usefuls;
+} else {
+	_usefuls#0;
+};
+if(isNil "_city") exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
+
 private _dataCivilian = (_city getVariable ["data_units", []]) select {
     (_x select 0) isEqualTo 6 &&
     {(_x select 3) isEqualTo civilian}

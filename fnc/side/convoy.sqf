@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_side_fnc_convoy
 
@@ -16,40 +16,48 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
-    ["_taskID", "btc_side", [""]]
+    ["_taskID", "btc_side", [""]],
+	["_selectedPos", [0, 0, 0], [[]], [2,3]]
 ];
 
 //// Choose two Cities \\\\
-private _usefuls = values btc_city_all select {
-    !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"]) &&
-    !(_x getVariable ["occupied", false])
+private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
+	values btc_city_all select {
+        !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"]) &&
+        _x getVariable ["occupied", false]
+	};
+} else {
+	private _temp = values btc_city_all select {(_x distance2D _selectedPos) <= _S_RADIUS};
+	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
-if (_usefuls isEqualTo []) exitWith {[] spawn btc_side_fnc_create;};
-private _city2 = selectRandom _usefuls;
+if (_usefuls isEqualTo []) exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
 
-private _area = (getNumber (configFile >> "CfgWorlds" >> worldName >> "MapSize"))/4;
-private _cities = values btc_city_all select {_x distance _city2 > _area};
-_usefuls = _cities select {
-    !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"]) &&
-    _x getVariable ["occupied", false]
+private _city = if (_selectedPos isEqualTo [0,0,0]) then {
+	selectRandom _usefuls;
+} else {
+	_usefuls#0;
 };
-if (_usefuls isEqualTo []) exitWith {[] spawn btc_side_fnc_create;};
-private _city1 = selectRandom _usefuls;
+if(isNil "_city") exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
 
 //// Find Road \\\\
-private _radius = (_city1 getVariable ["cachingRadius", 0])/2;
-private _roads = _city1 nearRoads (_radius * 2);
-_roads = _roads select {(_x distance _city1 > _radius) && isOnRoad _x};
-if (_roads isEqualTo []) exitWith {[] spawn btc_side_fnc_create;};
+private _worldArea = (getNumber (configFile >> "CfgWorlds" >> worldName >> "MapSize"))/4;
+private _distantCities = values btc_city_all select {(_x distance2D _city) > _worldArea};
+private _roads = (selectRandom _distantCities) nearRoads _S_RADIUS;
+if (_roads isEqualTo []) exitWith {
+	["No valid roads found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
 private _road = selectRandom _roads;
 private _pos1 = getPosATL _road;
-private _pos2 = getPos _city2;
+private _pos2 = getPos _city;
 
 [_taskID, 12, _pos1, _city1 getVariable "name"] call btc_task_fnc_create;
 

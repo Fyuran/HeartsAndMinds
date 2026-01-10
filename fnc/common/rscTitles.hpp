@@ -1,4 +1,3 @@
-import RscDynamicText from RscTitles;
 class btc_RscDynamicText : RscDynamicText {
     onload = "uiNamespace setVariable ['btc_dynamicText',_this select 0];";
     class controls : controls {

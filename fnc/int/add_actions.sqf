@@ -15,19 +15,37 @@ Examples:
     (end)
 
 Author:
-    Giallustio
+    Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
+private _action = [];
+
+//GM Side Menu
+if (isClass (configFile >> "CfgPatches" >> "btc_gm")) then { //btc_toolchain addon has a similiar menu but it's barely compatible with H&M
+    btc_gm_sides_menu = false;
+};
+_action = ["btc_gm_side_menu", format["%1 Menu", localize "STR_BTC_HAM_DOC_SIDEMISSION_TITLE"], "core\img\sides_menu.paa", {
+    [] call btc_side_fnc_dialog;
+}, {(call BIS_fnc_admin) == 2 || isServer}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions", "btc_ace_Actions"], _action] call ace_interact_menu_fnc_addActionToObject;
+
+//Side missions
+_action = ["side_mission", localize "STR_BTC_HAM_DOC_SIDEMISSION_TITLE", "\A3\ui_f\data\igui\cfg\simpleTasks\types\whiteboard_ca.paa", {}, {player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+_action = ["side_mission_abort", localize "STR_BTC_HAM_ACTION_SIDEMISSION_ABORT", "\A3\ui_f\data\igui\cfg\simpleTasks\types\exit_ca.paa", {[player call BIS_fnc_taskCurrent] call btc_task_fnc_abort}, {true}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions", "side_mission"], _action] call ace_interact_menu_fnc_addActionToObject;
+_action = ["side_mission_request", localize "STR_BTC_HAM_ACTION_SIDEMISSION_REQ", "\A3\ui_f\data\igui\cfg\simpleTasks\types\default_ca.paa", {[] remoteExecCall ["btc_side_fnc_create", 2]}, {true}] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions", "side_mission"], _action] call ace_interact_menu_fnc_addActionToObject;
+
 //Captive units
 ["btc_info_jailed_cond", {!(_this#1 getVariable ["btc_info_isDetained", false])}] call ace_common_fnc_addCanInteractWithCondition;
-private _action = [];
 
 //Database
 if(btc_db_load == 1) then { // If is JSON
     _action = ["request_json_fileviewer", "JSON File Viewer", "core\img\json.paa", {
         [{[] call btc_json_fnc_fileviewer;}] call CBA_fnc_execNextFrame; //without this, game will crash
     }, {(call BIS_fnc_admin) == 2 || isServer}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions"], _action] call ace_interact_menu_fnc_addActionToObject;
 };
 
 //Intel
@@ -233,47 +251,39 @@ _action = ["Civil_Go_away", localize "STR_BTC_HAM_ACTION_ORDERS_GOAWAY", "\A3\ui
     [_x, 0, ["ACE_MainActions", "ACE_SendAway"]] call ace_interact_menu_fnc_removeActionFromClass;
 } forEach btc_civ_type_units;
 
-//Side missions
-_action = ["side_mission", localize "STR_BTC_HAM_DOC_SIDEMISSION_TITLE", "\A3\ui_f\data\igui\cfg\simpleTasks\types\whiteboard_ca.paa", {}, {player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
-_action = ["side_mission_abort", localize "STR_BTC_HAM_ACTION_SIDEMISSION_ABORT", "\A3\ui_f\data\igui\cfg\simpleTasks\types\exit_ca.paa", {[player call BIS_fnc_taskCurrent] call btc_task_fnc_abort}, {player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions", "side_mission"], _action] call ace_interact_menu_fnc_addActionToObject;
-_action = ["side_mission_request", localize "STR_BTC_HAM_ACTION_SIDEMISSION_REQ", "\A3\ui_f\data\igui\cfg\simpleTasks\types\default_ca.paa", {[] remoteExec ["btc_side_fnc_create", 2]}, {player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions", "side_mission"], _action] call ace_interact_menu_fnc_addActionToObject;
-
 //Debug
 private _action = ["Debug", "Debug Tools", "core\img\debug_icon.paa", {}, {(call BIS_fnc_admin) == 2 || btc_debug}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+[player, 1, ["ACE_SelfActions", "btc_ace_Actions"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Mode
     _action = ["Debug_off", "Debug", ["core\img\debug_on.paa", "#006400"], {[false] call btc_debug_fnc_debug_mode;}, {btc_debug}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Debug_on", "Debug", ["core\img\debug_on.paa", "#FF0000"], {[] call btc_debug_fnc_debug_mode;}, {!btc_debug}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Graph
     _action = ["Debug_graph_off", "FPS Graph", ["\a3\Ui_f\data\GUI\Rsc\RscDisplayMissionEditor\iconCamera_ca.paa", "#006400"], {btc_debug_graph = !btc_debug_graph}, {btc_debug_graph}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Debug_graph_on", "FPS Graph", ["\a3\Ui_f\data\GUI\Rsc\RscDisplayMissionEditor\iconCamera_ca.paa", "#FF0000"], {btc_debug_graph = true; 73001 cutRsc ["TER_fpscounter", "PLAIN"];}, {!btc_debug_graph && {btc_debug}}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Cities
     _action = ["Debug_cities_off", "Cities", ["core\img\debug_cities.paa", "#006400"], { [false] call btc_debug_fnc_cities;}, {btc_debug_cities}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Debug_cities_on", "Cities", ["core\img\debug_cities.paa", "#FF0000"], {[true, "btc_debug_fnc_cities"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_cities}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Hideouts
     _action = ["Debug_hideouts_off", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#006400"], {[false] call btc_debug_fnc_hideouts;}, {btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Debug_hideouts_on", "Hideouts", ["\a3\ui_f\data\Map\Markers\Military\warning_CA.paa", "#FF0000"], {[true, "btc_debug_fnc_hideouts"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_hideouts}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Cache
     _action = ["Debug_cache_off", "Cache", ["core\img\debug_cache.paa", "#006400"], {[false] call btc_debug_fnc_cache;}, {btc_debug_cache}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Debug_cache_on", "Cache", ["core\img\debug_cache.paa", "#FF0000"], {[true, "btc_debug_fnc_cache"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_cache}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     //Debug-Fob Supplies
     _action = ["Debug_fob_supplies_off", "FOB supplies", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", "#006400"], {[false] call btc_debug_fnc_supplies;}, {btc_debug_fob_supplies}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     _action = ["Debug_fob_supplies_on", "FOB supplies", ["\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", "#FF0000"], {[true, "btc_debug_fnc_supplies"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];}, {!btc_debug_fob_supplies}] call ace_interact_menu_fnc_createAction;
-    [player, 1, ["ACE_SelfActions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
+    [player, 1, ["ACE_SelfActions", "btc_ace_Actions", "Debug"], _action] call ace_interact_menu_fnc_addActionToObject;
     
 //Re-deploy
 private _actions = [];
@@ -340,13 +350,13 @@ _action = ["env_menu", localize "str_a3_credits_environment", "", {}, {player ge
 _action = ["set_day", localize "STR_BTC_HAM_ACTION_SET_DAY", "\A3\Ui_f\data\GUI\Rsc\RscDisplayArsenal\Watch_ca.paa", {
     private _hour = date call BIS_fnc_sunriseSunsetTime select 0;
     ((_hour + 1 - dayTime + 24) % 24) remoteExecCall ["skipTime", 2];
-}, {btc_p_change_time && player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
+}, {true}] call ace_interact_menu_fnc_createAction;
 [btc_gear_object, 0, ["ACE_MainActions", "env_menu"], _action] call ace_interact_menu_fnc_addActionToObject;
 _action = ["set_night", localize "STR_BTC_HAM_ACTION_SET_NIGHT", "\A3\Ui_f\data\GUI\Rsc\RscDisplayArsenal\Watch_ca.paa", {
     private _hour = date call BIS_fnc_sunriseSunsetTime select 1;
     ((_hour + 1 - dayTime + 24) % 24) remoteExecCall ["skipTime", 2];
-}, {btc_p_change_time && player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
+}, {true}] call ace_interact_menu_fnc_createAction;
 
 [btc_gear_object, 0, ["ACE_MainActions", "env_menu"], _action] call ace_interact_menu_fnc_addActionToObject;
-_action = ["set_weather", localize "STR_BTC_HAM_ACTION_CHANGE_WEATHER", "a3\3den\data\attributes\slidertimeday\sun_ca.paa", {[] remoteExecCall ["btc_fnc_changeWeather", 2]}, {btc_p_change_weather && player getVariable ["side_mission", false]}] call ace_interact_menu_fnc_createAction;
+_action = ["set_weather", localize "STR_BTC_HAM_ACTION_CHANGE_WEATHER", "a3\3den\data\attributes\slidertimeday\sun_ca.paa", {[] remoteExecCall ["btc_fnc_changeWeather", 2]}, {true}] call ace_interact_menu_fnc_createAction;
 [btc_gear_object, 0, ["ACE_MainActions","env_menu"], _action] call ace_interact_menu_fnc_addActionToObject;

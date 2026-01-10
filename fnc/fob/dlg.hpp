@@ -45,7 +45,6 @@ class btc_fob_create {
     };
 };
 
-import RscPicture;
 class btc_UI_RscProgress: RscProgress
 {
     x = 0.903625 * safezoneW + safezoneX;

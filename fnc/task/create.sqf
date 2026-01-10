@@ -1,16 +1,17 @@
 
 /* ----------------------------------------------------------------------------
 Function: btc_task_fnc_create
+Date: 2025/12
 
 Description:
     Create the task server side and add description to each client and JIP client.
 
 Parameters:
-    _task_ids - ID of the task. [String]
+    _task - ID of the task. [String, Array]
     _description - Number of the corresponding description. [Number]
     _destination - Destination of the task. [Object or Array]
     _location - Custom information to fill the task description. [String or Array]
-    _isCurrent - Set task as current. [Boolean]
+    _setCurrent - Set task as current. [Boolean]
     _showNotification - Show notification. [Boolean]
 
 Returns:
@@ -22,16 +23,16 @@ Examples:
     (end)
 
 Author:
-    Giallustio
+    Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_task_ids", "btc_dft", ["", []]],
+    ["_task", "btc_dft", ["", []]],
     ["_description", 0, [0]],
     ["_destination", objNull, [objNull, []]],
     ["_location", "", ["", []]],
-    ["_isCurrent", false, [false]],
+    ["_setCurrent", false, [false]],
     ["_showNotification", true, [true]]
 ];
 
@@ -40,9 +41,25 @@ if (_destination in values btc_city_all) then {
 };
 
 private _jipID = "";
-if(!(_task_ids call BIS_fnc_taskExists)) then {
-    [btc_player_side, _task_ids, nil, _destination, ["CREATED", "ASSIGNED" ] select _isCurrent] call BIS_fnc_taskCreate;
-   _jipID = [_task_ids, btc_player_side, _description, _destination, 2, _showNotification, _location] remoteExecCall ["btc_task_fnc_setDescription", [0, -2] select isDedicated, true];
+if(_task isEqualType "") then {
+    if(!(_task call BIS_fnc_taskExists)) then {
+        [btc_player_side, _task, nil, _destination, ["CREATED", "ASSIGNED" ] select _setCurrent] call BIS_fnc_taskCreate;
+        _jipID = [_task, btc_player_side, _description, _destination, 2, _showNotification, _location] remoteExecCall ["btc_task_fnc_setDescription", [0, -2] select isDedicated, true];
+    };
+} else {
+    if ((count _task) > 2) exitWith {
+        [["bad task array: %1", _task], 6] call btc_tools_fnc_debug;
+    };
+    _task params [
+        ["_child", "", [""]], 
+        ["_parent", "", [""]]
+    ];
+    if (_parent call BIS_fnc_taskExists) then { //parent task has to be valid in order to add a child
+        if (!(_child call BIS_fnc_taskExists)) then {
+            [btc_player_side, _task, nil, _destination, ["CREATED", "ASSIGNED" ] select _setCurrent] call BIS_fnc_taskCreate;
+            _jipID = [_task, btc_player_side, _description, _destination, 2, _showNotification, _location] remoteExecCall ["btc_task_fnc_setDescription", [0, -2] select isDedicated, true];
+        };
+    };
 };
 
 _jipID

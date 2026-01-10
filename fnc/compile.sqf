@@ -269,6 +269,7 @@ if (isServer) then {
     btc_side_fnc_EMP = compileScript ["core\fnc\side\EMP.sqf"];
     btc_side_fnc_removeRubbish = compileScript ["core\fnc\side\removeRubbish.sqf"];
     btc_side_fnc_pandemic = compileScript ["core\fnc\side\pandemic.sqf"];
+    btc_side_fnc_dialog = compileScript ["core\fnc\side\dialog.sqf"];
 
     //SPECT
     btc_spect_fnc_checkLoop = compileScript ["core\fnc\spect\checkLoop.sqf"];

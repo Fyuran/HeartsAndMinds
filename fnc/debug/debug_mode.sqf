@@ -29,7 +29,7 @@ if (_isEnable) then {
 
 	private _mapSingleClick = addMissionEventHandler ["MapSingleClick", {
 		params ["_units", "_pos", "_alt", "_shift"];
-		if ( alive player && {!_alt && !_shift}) then {
+		if (alive player && {!_alt && !_shift}) then {
 			vehicle player setPos _pos;
 		};
 	}];

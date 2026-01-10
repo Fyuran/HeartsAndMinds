@@ -29,7 +29,7 @@
 
 #define _CACHE_DESTROYED_ 200
 #define _HIDEOUT_DESTROYED_ 201
-#define _IED_DEFUSED_ 202
+#define _IED_REMOVED_ 202
 #define _EXPLOSIVE_DEFUSED_ 203
 #define _CAPTIVE_DETAINED_ 204
 #define _FOOD_GIVEN_ 205
@@ -74,3 +74,6 @@
 //btc_shortcuts
 #define _BTC_PLAY_FBSOUND_ true    //set false if you do not want a "key-pressed-feedback" (sound)
 #define _BTC_FBSOUND_ "ClickSoft"  //really quiet sound
+
+//Sides
+#define _S_RADIUS 800

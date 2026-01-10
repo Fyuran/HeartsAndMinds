@@ -1,4 +1,3 @@
-import Default from CfgNotifications;
 class CfgNotifications {
     class WarningDescription : Default {
         colorIconPicture[] = {"(profilenamespace getvariable ['IGUI_WARNING_RGB_R',0.8])","(profilenamespace getvariable ['IGUI_WARNING_RGB_G',0.5])","(profilenamespace getvariable ['IGUI_WARNING_RGB_B',0.0])",1};

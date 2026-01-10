@@ -72,9 +72,9 @@ switch (_description) do {
     };
     case 3 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_SUPPLIES_DESC", _location],
-            format [localize "STR_BTC_HAM_SIDE_SUPPLIES_TITLE", _location],
-            format [localize "STR_BTC_HAM_SIDE_SUPPLIES_TITLE", _location]
+            format [localize "STR_BTC_HAM_SIDE_SUPPLY_DESC", _location],
+            format [localize "STR_BTC_HAM_SIDE_SUPPLY_TITLE", _location],
+            format [localize "STR_BTC_HAM_SIDE_SUPPLY_TITLE", _location]
         ];
         _type = "container";
     };
@@ -97,9 +97,9 @@ switch (_description) do {
     };
     case 6 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_CONQUER_DESC", _location],
-            format [localize "STR_BTC_HAM_SIDE_CONQUER_TITLE", _location],
-            format [localize "STR_BTC_HAM_SIDE_CONQUER_TITLE", _location]
+            format [localize "STR_BTC_HAM_SIDE_GET_CITY_DESC", _location],
+            format [localize "STR_BTC_HAM_SIDE_GET_CITY_TITLE", _location],
+            format [localize "STR_BTC_HAM_SIDE_GET_CITY_TITLE", _location]
         ];
         _type = "attack";
     };
@@ -115,9 +115,9 @@ switch (_description) do {
     case 8 : {
         _location params ["_loc", "_unitType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_CIVTREAT_DESC", _loc]) + ([_unitType] call btc_fnc_typeOfPreview),
-            format [localize "STR_BTC_HAM_SIDE_CIVTREAT_TITLE", _loc],
-            format [localize "STR_BTC_HAM_SIDE_CIVTREAT_TITLE", _loc]
+            (format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_DESC", _loc]) + ([_unitType] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_TITLE", _loc],
+            format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_TITLE", _loc]
         ];
         _type = "heal";
     };
@@ -132,18 +132,18 @@ switch (_description) do {
     case 10 : {
         _location params ["_loc", "_vehicleType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_CIVTREATBOAT_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
-            format [localize "STR_BTC_HAM_SIDE_CIVTREATBOAT_TITLE", _loc],
-            format [localize "STR_BTC_HAM_SIDE_CIVTREATBOAT_TITLE", _loc]
+            (format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_TITLE", _loc],
+            format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_TITLE", _loc]
         ];
         _type = "heal";
     };
     case 11 : {
         _location params ["_loc", "_vehicleType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_UNDERWATER_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
-            format [localize "STR_BTC_HAM_SIDE_UNDERWATER_TITLE", _loc],
-            format [localize "STR_BTC_HAM_SIDE_UNDERWATER_TITLE", _loc]
+            (format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_TITLE", _loc],
+            format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_TITLE", _loc]
         ];
         _type = "destroy";
     };
@@ -157,17 +157,17 @@ switch (_description) do {
     };
     case 13 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_RESC_DESC", _location],
-            format [localize "STR_BTC_HAM_SIDE_RESC_TITLE", _location],
-            format [localize "STR_BTC_HAM_SIDE_RESC_TITLE", _location]
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_DESC", _location],
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_TITLE", _location],
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_TITLE", _location]
         ];
         _type = "heli";
     };
     case 14 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_CAPOFF_DESC", _location],
-            format [localize "STR_BTC_HAM_SIDE_CAPOFF_TITLE", _location],
-            format [localize "STR_BTC_HAM_SIDE_CAPOFF_TITLE", _location]
+            format [localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_DESC", _location],
+            format [localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_TITLE", _location],
+            format [localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_TITLE", _location]
         ];
         _type = "run";
     };
@@ -198,33 +198,33 @@ switch (_description) do {
     };
     case 18 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_SUPPLIES_MOVE_DESC" + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_SUPPLIES_MOVE_TITLE",
-            localize "STR_BTC_HAM_SIDE_SUPPLIES_MOVE_TITLE"
+            localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_TITLE",
+            localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_TITLE"
         ];
         _type = "move";
     };
     case 19 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_SUPPLIES_UNLOAD_DESC" + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_SUPPLIES_UNLOAD_TITLE",
-            localize "STR_BTC_HAM_SIDE_SUPPLIES_UNLOAD_TITLE"
+            localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_TITLE",
+            localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_TITLE"
         ];
         _type = "box";
     };
     case 20 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_RESC_FIND_DESC" + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_RESC_FIND_TITLE",
-            localize "STR_BTC_HAM_SIDE_RESC_FIND_TITLE"
+            localize "STR_BTC_HAM_SIDE_RESCUE_FIND_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_RESCUE_FIND_TITLE",
+            localize "STR_BTC_HAM_SIDE_RESCUE_FIND_TITLE"
         ];
         _type = "scout";
     };
     case 21 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_RESC_BACK_DESC" + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_RESC_BACK_TITLE",
-            localize "STR_BTC_HAM_SIDE_RESC_BACK_TITLE"
+            localize "STR_BTC_HAM_SIDE_RESCUE_BACK_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_RESCUE_BACK_TITLE",
+            localize "STR_BTC_HAM_SIDE_RESCUE_BACK_TITLE"
         ];
         _type = "move";
     };
@@ -246,9 +246,9 @@ switch (_description) do {
     };
     case 24 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_CAPOFF_SURRENDER_DESC" + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_CAPOFF_SURRENDER_TITLE",
-            localize "STR_BTC_HAM_SIDE_CAPOFF_SURRENDER_TITLE"
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_TITLE",
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_TITLE"
         ];
         _type = "surrender";
     };
@@ -289,59 +289,59 @@ switch (_description) do {
     };
     case 29 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_CAPOFF_HANDCUFF_DESC",
-            localize "STR_BTC_HAM_SIDE_CAPOFF_HANDCUFF_TITLE",
-            localize "STR_BTC_HAM_SIDE_CAPOFF_HANDCUFF_TITLE"
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_HANDCUFF_DESC",
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_HANDCUFF_TITLE",
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_HANDCUFF_TITLE"
         ];
         _type = "handcuff";
     };
     case 30 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_CHEM_DESC", _location] + (["B_W_Soldier_CBRN_F"] call btc_fnc_typeOfPreview),
-            format [localize "STR_BTC_HAM_SIDE_CHEM_TITLE", _location],
-            format [localize "STR_BTC_HAM_SIDE_CHEM_TITLE", _location]
+            format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_DESC", _location] + (["B_W_Soldier_CBRN_F"] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_TITLE", _location],
+            format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_TITLE", _location]
         ];
         _type = "danger";
     };
     case 31 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_CHEM_BRING_DESC") + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_CHEM_BRING_TITLE",
-            localize "STR_BTC_HAM_SIDE_CHEM_BRING_TITLE"
+            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_TITLE",
+            localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_TITLE"
         ];
         _type = "container";
     };
     case 32 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_CHEM_LOCATE_DESC") + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_CHEM_LOCATE_TITLE",
-            localize "STR_BTC_HAM_SIDE_CHEM_LOCATE_TITLE"
+            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_TITLE",
+            localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_TITLE"
         ];
         _type = "search";
     };
     case 33 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_CHEM_MOVE_DESC") + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_CHEM_MOVE_TITLE",
-            localize "STR_BTC_HAM_SIDE_CHEM_MOVE_TITLE"
+            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_TITLE",
+            localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_TITLE"
         ];
         _type = "move";
     };
     case 34 : {
         _location params ["_pilotName", "_typeOf_pilot"];
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_RESC_BODYBAG_DESC", _pilotName] + ([_typeOf_pilot] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_RESC_BODYBAG_TITLE",
-            localize "STR_BTC_HAM_SIDE_RESC_BODYBAG_TITLE"
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_DESC", _pilotName] + ([_typeOf_pilot] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_TITLE",
+            localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_TITLE"
         ];
         _type = "interact";
     };
     case 35 : {
         _location params ["_pilotName", "_base"];
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_RESC_BRING_DESC", _pilotName] + ([_base] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_RESC_BRING_TITLE",
-            localize "STR_BTC_HAM_SIDE_RESC_BRING_TITLE"
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_BRING_DESC", _pilotName] + ([_base] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_RESCUE_BRING_TITLE",
+            localize "STR_BTC_HAM_SIDE_RESCUE_BRING_TITLE"
         ];
         _type = "move";
     };
@@ -363,17 +363,17 @@ switch (_description) do {
     };
     case 38 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_RUBBISH_DESC", _location] + (["B_APC_Tracked_01_CRV_F"] call btc_fnc_typeOfPreview),
-            format [localize "STR_BTC_HAM_SIDE_RUBBISH_TITLE", _location],
-            format [localize "STR_BTC_HAM_SIDE_RUBBISH_TITLE", _location]
+            format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_DESC", _location] + (["B_APC_Tracked_01_CRV_F"] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_TITLE", _location],
+            format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_TITLE", _location]
         ];
         _type = "use";
     };
     case 39 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_RUBBISH_SPOT_DESC") + ([_location] call btc_fnc_typeOfPreview),
-            localize "STR_BTC_HAM_SIDE_RUBBISH_SPOT_TITLE",
-            localize "STR_BTC_HAM_SIDE_RUBBISH_SPOT_TITLE"
+            (localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_TITLE",
+            localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_TITLE"
         ];
         _type = "move";
     };

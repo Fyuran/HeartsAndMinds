@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_side_fnc_chemicalLeak
 
@@ -16,22 +16,36 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
-    ["_taskID", "btc_side", [""]]
+    ["_taskID", "btc_side", [""]],
+	["_selectedPos", [0, 0, 0], [[]], [2,3]]
 ];
 
-private _useful = values btc_city_all select {
-    !(_x getVariable ["occupied", false]) &&
-    !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"])
+private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
+	values btc_city_all select {
+        !(_x getVariable ["occupied", false]) &&
+        !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"])
+	};
+} else {
+	private _temp = values btc_city_all select {(_x distance2D _selectedPos) <= _S_RADIUS};
+	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
-if (_useful isEqualTo []) then {_useful = values btc_city_all;};
+if (_usefuls isEqualTo []) exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
 
-private _city = selectRandom _useful;
+private _city = if (_selectedPos isEqualTo [0,0,0]) then {
+	selectRandom _usefuls;
+} else {
+	_usefuls#0;
+};
+if(isNil "_city") exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
 private _pos = [getPos _city, 0, _city getVariable ["cachingRadius", 100], 30, false] call btc_fnc_findsafepos;
 
 [_taskID, 30, _city, _city getVariable "name"] call btc_task_fnc_create;

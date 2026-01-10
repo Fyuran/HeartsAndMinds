@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_side_fnc_removeRubbish
 
@@ -16,28 +16,53 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
-    ["_taskID", "btc_side", [""]]
+    ["_taskID", "btc_side", [""]],
+	["_selectedPos", [0, 0, 0], [[]], [2,3]]
 ];
 
+//// Choose a City\\\\
 private _minNumberOfSubTask = 2;
-private _useful = values btc_city_all select {
-    !(_x getVariable ["type", ""] in ["NameMarine", "StrongpointArea"]) &&
-    {
-        private _city = _x;
-        ({
-            isOnRoad (_x select 0) ||
-            {((_x select 0) nearRoads 6) isNotEqualTo []} // Most IED are just next to road
-        } count (_city getVariable ["ieds", []])) >= _minNumberOfSubTask
-    }
+private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
+	values btc_city_all select {
+            !(_x getVariable ["type", ""] in ["NameMarine", "StrongpointArea"]) &&
+            {
+                private _city = _x;
+                ({
+                    isOnRoad (_x select 0) ||
+                    {((_x select 0) nearRoads 6) isNotEqualTo []} // Most IED are just next to road
+                } count (_city getVariable ["ieds", []])) >= _minNumberOfSubTask
+            }
+	};
+} else {
+	private _temp = values btc_city_all select {(_x distance2D _selectedPos) <= _S_RADIUS &&
+        {
+            private _city = _x;
+            ({
+                isOnRoad (_x select 0) ||
+                {((_x select 0) nearRoads 6) isNotEqualTo []} // Most IED are just next to road
+            } count (_city getVariable ["ieds", []])) >= _minNumberOfSubTask
+        }
+    };
+	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
-if (_useful isEqualTo []) exitWith {[] spawn btc_side_fnc_create;};
-private _city = selectRandom _useful;
+if (_usefuls isEqualTo []) exitWith {
+	["No valid city found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
+
+private _city = if (_selectedPos isEqualTo [0,0,0]) then {
+	selectRandom _usefuls;
+} else {
+	_usefuls#0;
+};
+if(isNil "_city") exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
+
 private _ieds = (_city getVariable ["ieds", []]) select {
     isOnRoad (_x select 0) ||
     {((_x select 0) nearRoads 6) isNotEqualTo []}

@@ -11,4 +11,20 @@ class CfgSounds {
 		sound[] = {"core\sounds\barracks.ogg", 1, 1};
 		titles[] = {};
 	};
+	class button_cancel {
+		sound[] = {"core\sounds\button_cancel.ogg", 1, 1};
+		titles[] = {};
+	};
+	class button_error {
+		sound[] = {"core\sounds\button_error.ogg", 1, 1};
+		titles[] = {};
+	};
+	class button_release {
+		sound[] = {"core\sounds\button_release.ogg", 1, 1};
+		titles[] = {};
+	};
+	class button_rollover {
+		sound[] = {"core\sounds\button_rollover.ogg", 1, 1};
+		titles[] = {};
+	};
 };

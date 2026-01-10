@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_side_fnc_hostage
 
@@ -16,24 +16,37 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
-    ["_taskID", "btc_side", [""]]
+    ["_taskID", "btc_side", [""]],
+	["_selectedPos", [0, 0, 0], [[]], [2,3]]
 ];
 
-//// Choose an occupied City \\\\
-private _useful = values btc_city_all select {
-    _x getVariable ["occupied", false] &&
-    !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"])
+//// Choose a occupied City\\\\
+private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
+	values btc_city_all select {
+        _x getVariable ["occupied", false] &&
+        !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"])
+	};
+} else {
+	private _temp = values btc_city_all select {(_x distance2D _selectedPos) <= _S_RADIUS && {_x getVariable ["occupied", false]}};
+	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
+};
+if (_usefuls isEqualTo []) exitWith {
+	["No valid occupied city found"] remoteExecCall ["hint", remoteExecutedOwner];
 };
 
-if (_useful isEqualTo []) exitWith {[] spawn btc_side_fnc_create;};
-
-private _city = selectRandom _useful;
+private _city = if (_selectedPos isEqualTo [0,0,0]) then {
+	selectRandom _usefuls;
+} else {
+	_usefuls#0;
+};
+if(isNil "_city") exitWith {
+	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+};
 
 //// Randomise position \\\\
 private _houses = ([getPos _city, 100] call btc_fnc_getHouses) select 0;
