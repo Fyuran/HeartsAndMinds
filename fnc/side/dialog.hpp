@@ -45,7 +45,7 @@ class btc_gm_sidesmenu {
 			h = 0.044 * safezoneH;
 			colorText[] = {1,1,1,1};
 			soundClick[] = {"", 1, 1};
-			onLoad = "(_this select 0) ctrlEnable false;"
+			onLoad = "(_this select 0) ctrlEnable false;";
 			colorBackground[] = {0.023,0.572,0.243,1};
 			sizeEx = 1.5 * GUI_GRID_H;
 		};
