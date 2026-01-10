@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_killed
 
@@ -25,7 +25,6 @@ Author:
     Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_struc", objNull, [objNull]],
@@ -40,13 +39,11 @@ private _fob_index = (_fobs select 1) find _struc;
 private _fob = (_fobs select 1) deleteAt _fob_index; //FOB_structure
 private _fob_name = _fob getVariable ["FOB_name", "UNKNOWN"];
 
-if (btc_debug) then {
-    [format ["%1", _fob_name], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
-
-    private _triggerMrks = (_fob getVariable["alarmTrgMarker", []]) + (_fob getVariable["destroyTrgMarker", []]);
-    _triggerMrks apply {deleteMarker _x};
-};
-
+#ifdef BTC_DEBUG_FOB
+[["%1: fob %2 killed", _fob_name], 2, "fob"] call btc_debug_fnc_message;
+private _triggerMrks = (_fob getVariable["alarmTrgMarker", []]) + (_fob getVariable["destroyTrgMarker", []]);
+_triggerMrks apply {deleteMarker _x};
+#endif
 deleteMarker ((_fobs select 0) deleteAt _fob_index); //Markers
 
 private _flag = ((_fobs select 2) deleteAt _fob_index); //Flags

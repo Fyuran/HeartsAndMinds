@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_tag_fnc_initArea
 
@@ -96,13 +96,13 @@ for "_i" from 1 to _n do {
             _array pushBack [_sel_pos, [_v1, _v2], "a3\structures_f_epb\civ\graffiti\data\graffiti_ca.paa", selectRandom btc_type_tags];
         };
 
-        if (btc_debug) then {
-            private _marker = createMarkerLocal [format ["btc_tag_%1", _sel_pos], _sel_pos];
-            _marker setMarkerTypeLocal "mil_dot";
-            _marker setMarkerColorLocal "ColorGreen";
-            _marker setMarkerTextLocal "Tag";
-            _marker setMarkerSize [0.8, 0.8];
-        };
+        #ifdef BTC_DEBUG_TAG
+        private _marker = createMarkerLocal [format ["btc_tag_%1", _sel_pos], _sel_pos];
+        _marker setMarkerTypeLocal "mil_dot";
+        _marker setMarkerColorLocal "ColorGreen";
+        _marker setMarkerTextLocal "Tag";
+        _marker setMarkerSize [0.8, 0.8];
+        #endif
     };
 };
 

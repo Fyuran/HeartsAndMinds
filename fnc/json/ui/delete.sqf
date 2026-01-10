@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_delete_file
 	
@@ -24,10 +25,9 @@ params[
 	["_custom_hint", "", [""]]
 ];
 
-if (btc_debug) then {
-	[format ["Deleting JSON file for %1", _path], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: Deleting JSON file for %2", __FILE_NAME__, _path], 2, "json/ui"] call btc_debug_fnc_message;
+#endif
 private _returnString = ("btc_ArmaToJSON" callExtension ["deleteFile", [_path]]) select 0;
 
 if(_custom_hint isEqualTo "") then {

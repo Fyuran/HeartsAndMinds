@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_tag_fnc_eh
 
@@ -19,7 +19,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params ["_tag", "_texture", "_object", "_unit"];
 

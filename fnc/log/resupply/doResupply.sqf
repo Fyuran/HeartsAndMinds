@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_resupply_fnc_doResupply
 
@@ -25,7 +25,9 @@ params[
 ];
 
 if(!alive _supply) exitWith {
-    ["_supply is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _supply is null or not alive", __FILE_NAME__], 6, "log/resupply"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _index = btc_log_fob_create_objects findIf {(_supply distance _x) <= _DIST_};
@@ -72,6 +74,6 @@ _flag setVariable ["btc_log_resources", _fob_resources + _payment, true];
     [format [localize "STR_BTC_HAM_LOG_ACTION_REFUND", _payment], 1, [1,1,1,1]]
 ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 
-if(btc_debug) then {
-    [format["%1 resupplied to %2", _payment, _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
+#ifdef BTC_DEBUG_LOG
+[["%1: %2 resupplied to %3", __FILE_NAME__, _payment, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/resupply"] call btc_debug_fnc_message;  
+#endif

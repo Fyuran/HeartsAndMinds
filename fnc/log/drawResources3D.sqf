@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fnc_drawResources3D
 
@@ -21,7 +21,9 @@ Author:
 #define CONSTANT_K 10
 
 if(!canSuspend) exitWith {
-    ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log"] call btc_debug_fnc_message;
+    #endif
 };
 
 [{

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_veh_fnc_addRespawn
 
@@ -21,7 +21,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_vehicle", objNull, [objNull]],
@@ -45,9 +44,9 @@ if (isNil {_vehicle getVariable "btc_EDENinventory"}) then {
 }, _vehicle] call CBA_fnc_waitUntilAndExecute;
 
 if (btc_veh_respawnable pushBackUnique _vehicle isEqualTo -1) exitWith {
-    if (btc_debug || btc_debug_log) then {
-        ["Vehicle added more than once in btc_veh_respawnable", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    }; 
+    #ifdef BTC_DEBUG_VEH
+    [["%1: Vehicle added more than once in btc_veh_respawnable", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _type = typeOf _vehicle;

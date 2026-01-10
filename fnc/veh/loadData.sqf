@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_veh_fnc_loadData
 
@@ -24,14 +24,14 @@ if(!params[
 	["_object", objNull, [objNull]],
 	["_hash", createHashMap, [createHashMap]]
 ]) exitWith {
-	if (btc_debug) then {
-		[format ["bad params"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_VEH
+	[["%1: bad params", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;	
+	#endif
 };
 if(!alive _object) exitWith {
-	if (btc_debug) then {
-		[format ["_object is dead or null"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_VEH
+	[["_object is dead or null", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	#endif
 };
 
 /*
@@ -60,9 +60,9 @@ if(!alive _object) exitWith {
 (values _hash) params ((keys _hash) apply {"_" + _x});
 
 if((typeOf _object) isNotEqualTo _typeOf) exitWith {
-	if (btc_debug) then {
-		[format ["_object type not same type as data"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_VEH
+	[["%1: _object type not same type as data", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	#endif
 };
 
 _object forceFlagTexture _forcedFlagTexture;

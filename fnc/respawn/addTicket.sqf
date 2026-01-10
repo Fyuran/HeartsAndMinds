@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_respawn_fnc_addTicket
 
@@ -38,9 +38,9 @@ if (_player isNotEqualTo objNull) then {
     private _ticketValue = [_player, _ticket] call BIS_fnc_respawnTickets;
     [24, _ticketValue] remoteExecCall ["btc_fnc_show_hint", _player];
 
-    if (btc_debug_log) then {
-        [format ["_ticketValue %1 _ticket %2 _uid %3", _ticketValue, _ticket, _uid], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_RESPAWN
+    [["%1: _ticketValue %2 _ticket %3 _uid %4", __FILE_NAME__, _ticketValue, _ticket, _uid], 2, "respawn"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _ticketValue = _ticket + (btc_respawn_tickets getOrDefault [_uid, btc_p_respawn_ticketsAtStart]);

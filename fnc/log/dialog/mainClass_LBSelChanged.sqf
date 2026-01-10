@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_dialog_fnc_mainClass_LBSelChanged
 
@@ -26,7 +26,9 @@ params [
     ["_lbSelection", [], [[]]] //Returns Array of selected rows indices in the given listbox
 ];
 if(!canSuspend) exitWith {
-    ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;
+    #endif
 };
 
 [{//retrieve tables
@@ -36,7 +38,9 @@ waitUntil {!isNil "btc_log_dialog_tables"};
 
 disableSerialization;
 if(isNull _main_class_ctrl) exitWith {
-    ["_main_class_ctrl is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    ["_main_class_ctrl is null", __FILE_NAME__, 6] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _display = ctrlParent _main_class_ctrl;

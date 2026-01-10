@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_resupply_fnc_claim
 
@@ -23,13 +23,15 @@ if(!params[
     ["_from", objNull, [objNull]],
     ["_player", objNull, [objNull]]
 ]) exitWith{
-    ["bad params", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message; 
+    #ifdef BTC_DEBUG_LOG
+    [["%1: bad params", __FILE_NAME__], 6, "log/resupply"] call btc_debug_fnc_message;
+    #endif
 };
 
 //remove data about the claimed object
 private _city = _from getVariable ["btc_city", objNull];
 if(isNull _city) exitWith {
-    ["_city is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    ["_city is null", __FILE_NAME__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
 };
 private _data_supplies = _city getVariable ["data_supplies", []];
 private _supplies = _city getVariable ["supplies", []];
@@ -52,6 +54,6 @@ private _pos = getPosATL _from;
 (attachedObjects _from) apply {deleteVehicle _x};
 deleteVehicle _from;
 
-if(btc_debug) then {
-    [format["claimed supply at %1[%2]", _city getVariable["id", -1], _pos], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
+#ifdef BTC_DEBUG_LOG
+[["%1: claimed supply at %2[%3]", __FILE_NAME__, _city getVariable["id", -1], _pos], 2, "log/resupply"] call btc_debug_fnc_message;  
+#endif

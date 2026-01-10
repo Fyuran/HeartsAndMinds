@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_jail_fnc_setCaptives_s
 
@@ -26,7 +26,7 @@ params [
 ];
 
 if(!canSuspend) exitWith {
-  ["must be called with spawn", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+  [["%1: must be called with spawn", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
 };
 
 if(_remainEnemyUnits isEqualTo []) exitWith {};
@@ -36,7 +36,11 @@ if(_remainEnemyUnits isEqualType objNull) then {
 
 private _groups = [];
 _remainEnemyUnits apply {_groups pushBackUnique group _x};
-if (_groups isEqualTo []) exitWith {["no groups found", __FILE__, [false, true, true], true] call btc_debug_fnc_message;};
+if (_groups isEqualTo []) exitWith {
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: no groups found", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    #endif
+};
 _groups apply {
     if(!local _x) then { //in case group has been transfered to headless client, give it back to server
         _x setGroupOwner ([0, 2] select isDedicated);
@@ -78,6 +82,6 @@ _remainEnemyUnits apply {
     [_unit, true] call ace_captives_fnc_setSurrendered;
 };
 
-if(btc_debug) then {
-	[format["setting captive to %1", _remainEnemyUnits], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_JAIL
+[["%1: setting captive to %2", __FILE_NAME__, _remainEnemyUnits], 2, "jail"] call btc_debug_fnc_message;
+#endif

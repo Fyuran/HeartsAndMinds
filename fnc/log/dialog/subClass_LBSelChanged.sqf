@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_dialog_fnc_subClass_LBSelChanged
 
@@ -27,7 +27,9 @@ params [
 
 disableSerialization;
 if(isNull _sub_class_ctrl) exitWith {
-    ["_sub_class_ctrl is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _sub_class_ctrl is null", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _log_point = btc_log_dialog_namespace getVariable ["btc_log_point_obj", objNull];

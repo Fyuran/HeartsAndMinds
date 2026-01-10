@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_civ_fnc_add_leaflets
 
@@ -43,7 +43,6 @@ if ((_uav getVariable ["btc_leaflets_eh_added" , -1]) isEqualTo -1) then {
     private _id_f = _uav addEventHandler ["Fired", btc_civ_fnc_leaflets];
     _uav setVariable ["btc_leaflets_eh_added", _id_f];
 
-    if (btc_debug) then {
-        [format ["EventHandler ID: %1", _id_f], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-    };
-};
+    #ifdef BTC_DEBUG_CIV
+    [["%1: EventHandler ID: %2", __FILE_NAME__, _id_f], 2, "civ"] call btc_debug_fnc_message;
+    #endif};

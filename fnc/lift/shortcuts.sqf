@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_lift_fnc_shortcuts
 
@@ -18,8 +18,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-
-#include "..\script_macros.hpp"
 
 private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
 [

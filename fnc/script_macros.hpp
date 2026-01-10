@@ -1,4 +1,4 @@
-//#include "..\script_macros.hpp"
+#include "script_debug.hpp"
 #include "\x\cba\addons\main\script_macros_mission.hpp"
 #include "\a3\editor_f\Data\Scripts\dikCodes.h"
 

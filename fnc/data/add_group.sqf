@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_data_fnc_add_group
 
@@ -25,9 +25,9 @@ params [
     ["_group", grpNull, [grpNull]]
 ];
 
-if (btc_debug_log) then {
-    [format ["%1", _group], __FILE__, [false]] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_DATA
+[["%1: %2", __FILE_NAME__, _group], 2, "data"] call btc_debug_fnc_message;
+#endif
 _group setVariable ["no_cache", nil];
 [_group] call CBA_fnc_clearWaypoints;
 
@@ -54,14 +54,11 @@ if (_city getVariable ["active", false]) then {
 
     _data_units pushBack _data_group;
     _city setVariable ["data_units", _data_units];
-    if (btc_debug_log) then {
-        [format ["PUSHBACK = %1", _data_group], __FILE__, [false]] call btc_debug_fnc_message;
-    };
-};
+        #ifdef BTC_DEBUG_DATA
+        [["%1: PUSHBACK = %2", __FILE_NAME__, _data_group], 2, "data"] call btc_debug_fnc_message;
+    
+    #endif};
 
 if (btc_final_phase) then {
     btc_city_remaining pushBack _city;
-};
-if (btc_debug_log) then {
-    [format ["END = %1", []], __FILE__, [false]] call btc_debug_fnc_message;
 };

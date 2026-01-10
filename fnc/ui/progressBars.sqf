@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ui_fnc_progressBars
 
@@ -26,7 +26,11 @@ if(!params[
 	["_barName", "PLACEHOLDER", [""]],
 	["_showProgress", true, [false]],
 	["_max_cap_time", 1, [0]]
-]) exitWith {["Attempted to pass ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;};
+]) exitWith {
+	#ifdef BTC_DEBUG_UI
+	[["%1: bad params", __FILE_NAME__], 6, "ui"] call btc_debug_fnc_message;  
+	#endif
+};
 
 disableSerialization;
 
@@ -34,7 +38,9 @@ BTC_UI_PROGRESS_DISPLAY_INDEX = missionNamespace getVariable ["BTC_UI_PROGRESS_D
 
 private _handle = _object getVariable ["btc_ui_progressionHandle", scriptNull];
 if(!scriptDone _handle) exitWith {
-	[format["progress bar on %1 is already active", _barName], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+	#ifdef BTC_DEBUG_UI
+	[["%1: progress bar on %2 is already active", __FILE_NAME__, _barName], 2, "ui"] call btc_debug_fnc_message;
+	#endif
 };
 
 // (ctrlPosition _text) params ["_textX", "_textY", "_textWidth", "_textHeight"];
@@ -48,7 +54,9 @@ private _handle = [_object, _barName, _showProgress, _max_cap_time] spawn {
 	private _display = [] call BIS_fnc_displayMission; //returns display 46
 
 	if(isNull _display) exitWith {
-		[format["display 46 is null"], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+		#ifdef BTC_DEBUG_UI
+		[["%1: display 46 is null", __FILE_NAME__], 6, "ui"] call btc_debug_fnc_message;
+		#endif
 	};
 	_bar =  _display ctrlCreate ["btc_UI_RscProgress", -1];
 	if(!_showProgress) then {_bar progressSetPosition 1};	

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_cache_fnc_hd
 
@@ -25,7 +25,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_cache", objNull, [objNull]],
@@ -68,10 +67,9 @@ if (
     _marker setMarkerSizeLocal [1, 1];
     _marker setMarkerColor "ColorRed";
 
-    if (btc_debug_log) then {
-        [format ["DESTROYED: ID %1 POS %2", btc_cache_n, btc_cache_pos], __FILE__, [false]] call btc_debug_fnc_message;
-    };
-
+    #ifdef BTC_DEBUG_CACHE
+    [["%1: DESTROYED: ID %2 POS %3", __FILE_NAME__, btc_cache_n, btc_cache_pos], 2, "cache"] call btc_debug_fnc_message;
+    #endif
     [_instigator, _CACHE_DESTROYED_] call btc_rep_fnc_change;
 
     [btc_cache_n + 1, btc_cache_pictures] call btc_cache_fnc_init;

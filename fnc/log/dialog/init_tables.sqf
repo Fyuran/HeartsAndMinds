@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_dialog_fnc_init_tables
 
@@ -25,10 +25,14 @@ Author:
     ["_sub_classes", [], [[]]]
 ];
 if(btc_construction_array isEqualTo []) exitWith {
-    ["btc_construction_array is empty no cost table initialized", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: btc_construction_array is empty no cost table initialized", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;
+    #endif
 };
 if(count _main_classes isNotEqualTo count _sub_classes) exitWith {
-    ["btc_construction_array: different sizes of main_classes and sub_classes", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: btc_construction_array: different sizes of main_classes and sub_classes", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _tables = createHashMap;
@@ -57,8 +61,7 @@ private _cfg = configFile >> "CfgVehicles";
 	_tables set [_x, [_displayName, _cost]];
 };
 
-if(btc_debug_log) then {
-    [format["btc_log_dialog_tables initialized"], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_LOG
+[["%1: btc_log_dialog_tables initialized", __FILE_NAME__], 2, "log/dialog"] call btc_debug_fnc_message;
+#endif
 missionNamespace setVariable ["btc_log_dialog_tables", _tables];

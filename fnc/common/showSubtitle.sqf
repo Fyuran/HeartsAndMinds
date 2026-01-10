@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_showSubtitle
 
@@ -26,7 +26,6 @@ Author:
     Thomas Ryan
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 disableSerialization;
 // Create display and control

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_chem_fnc_damageLoop
 
@@ -45,12 +45,11 @@ private _handle = [{
         [_thisType, _thisId] call CBA_fnc_removeEventHandler;
         [_handle] call CBA_fnc_removePerFrameHandler;
 
-        if (btc_debug || btc_debug_log) then {
-            [format ["Stop: %1", _handle], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
-        };
-    };
+        #ifdef BTC_DEBUG_CHEM
+        [["%1: Stop: %2", __FILE_NAME__, _handle], 2, "chem"] call btc_debug_fnc_message;
+        #endif};
 }, [_handle, _unit]] call CBA_fnc_addEventHandlerArgs;
 
-if (btc_debug || btc_debug_log) then {
-    [format ["Start: %1", _handle], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_CHEM
+[["%1: Start: %2", __FILE_NAME__, _handle], 2, "chem"] call btc_debug_fnc_message;
+#endif

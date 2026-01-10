@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_circlePosAroundObj
 
@@ -20,7 +20,6 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params[
     ["_object", objNull, [objNull]],
@@ -29,11 +28,14 @@ params[
 ];
 
 if(isNull _object) exitWith {
-    ["_object is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
-    []
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: _object is null", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    #endif[]
 };
 if(_radius <= 0) then {
-    ["invalid _radius equal or below zero", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: invalid _radius equal or below zero", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    #endif
     _radius = 2;
 };
 

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_slot_fnc_saveData
 
@@ -24,7 +24,9 @@ if(!params [
     ["_player", objNull, [objNull]]
 
 ]) exitWith {
-    ["bad params", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: bad params", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;  
+    #endif
 };
 if(isNull _player) then {
     _player = _uid call BIS_fnc_getUnitByUID;
@@ -49,8 +51,7 @@ private _data = createHashMapFromArray [
 btc_slots_serialized set [_uid, _data];
 
 
-if(btc_debug) then {
-    [format ["%1(%2) saving data", name _player, _uid], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_SLOT
+[["%1: %2(%3) saving data", __FILE_NAME__, name _player, _uid], 2, "slot"] call btc_debug_fnc_message;
+#endif
 [_uid, _data]

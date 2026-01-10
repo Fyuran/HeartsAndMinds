@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fob_fnc_create
 
@@ -25,10 +25,14 @@ params[
 ];
 
 if(!alive _flag) exitWith {
-    ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 if(!canSuspend) exitWith {
-    ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _create_obj = createVehicleLocal [btc_log_fob_create_obj_class, [0,0,0], [], 0, "CAN_COLLIDE"];

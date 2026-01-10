@@ -1,50 +1,55 @@
-
+#include "..\script_macros.hpp"
+#define __CHAT__ 1
+#define __LOGS__ 2
+#define __ERROR__ 4
+#define __GLOBAL__ 8
 /* ----------------------------------------------------------------------------
 Function: btc_debug_fnc_message
 
 Description:
-    Fill me when you edit me !
+    Reports diagnostics information to rpt and user screen
 
 Parameters:
     _message - [String]
-    _folder - [String]
-    _type - [Array]
+    _mode - [Array]
+    _file - [String]
 
 Returns:
 
 Examples:
     (begin example)
-        error = [format[""], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+        [["Hello World"], 1, "debug"] call btc_debug_fnc_message;
     (end)
 
 Author:
-    Vdauphin, Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
 params [
-    ["_message", "BTC Message debug", [""]],
-    ["_folder", __FILE__, [""]],
-    ["_type", [], [[]]],
-    ["_isError", false, [false]]
+    ["_message", ["BTC Message debug"], [[""]]],
+    ["_mode", 0, [123]],
+    ["_title", "DEBUG", [""]]
 ];
-
-_type params[
-    ["_useChat", btc_debug, [true]],
-    ["_useLog", btc_debug_log, [true]],
-    ["_global", true, [true]]
-];
-
-private _startPosition = _folder find "fnc";
-if (_startPosition isEqualTo -1) then {
-    _startPosition = (_folder find worldName) + count worldName;
+if (mode <= 0 || mode > 15) exitWith {
+    #ifdef BTC_DEBUG_DEBUG
+    [["%1: invalid mode: %2 passed to btc_debug_fnc_message", __FILE_NAME__, _mode], 6, "debug"] call btc_debug_fnc_message;  
+    #endif
 };
 
-_folder = _folder select [_startPosition, (_folder find ".sqf") - _startPosition];
+private _useChat = [_mode, __CHAT__] call BIS_fnc_bitflagsCheck;
+private _useLogs = [_mode, __LOGS__] call BIS_fnc_bitflagsCheck;
+private _isError = [_mode, __ERROR__] call BIS_fnc_bitflagsCheck;
+private _global = [_mode, __GLOBAL__] call BIS_fnc_bitflagsCheck;
+
+if(_title isNotEqualTo "DEBUG") then {
+    _title = format["[BTC] (hem-%1)", toUpper _title];
+};
+
 if(!_isError) then {
-    [_message, _folder, [_useChat, _useLog, _global]] call CBA_fnc_debug;
-} else {
-    ["%2: %1", _message, _folder] remoteExecCall ["BIS_fnc_error", 0];
-    [_message, _folder, [_useChat, _useLog, true]] call CBA_fnc_debug;
+    [format _message, _title, [_useChat, _useLogs, _global]] call CBA_fnc_debug2;
+} else { //it's an error message
+    ["%1", format _message] remoteExecCall ["BIS_fnc_error", 0];
+    [format _message, _title, [_useChat, _useLogs, _global]] call CBA_fnc_debug2;
 };
 

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_ammoUsage
 
@@ -30,8 +30,7 @@ params [
 private _weapons = getArray (configFile >> "CfgVehicles" >> _typeOf_unit >> "weapons");
 private _weapons_ammoUsage = [_weapons, _itemType_ammo_usageAllowed] call btc_arsenal_fnc_ammoUsage;
 
-// if (btc_debug_log) then {
-//     [format ["%1 Weapons: %2 isAmmoUsage: %3", _typeOf_unit, _weapons, _weapons_ammoUsage], __FILE__, [false]] call btc_debug_fnc_message;
-// };
-
+// #ifdef BTC_DEBUG
+// [format ["%1 Weapons: %2 isAmmoUsage: %3", _typeOf_unit, _weapons, _weapons_ammoUsage], __FILE_NAME__, [false]] call btc_debug_fnc_message;
+// #endif
 _weapons_ammoUsage isNotEqualTo []

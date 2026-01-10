@@ -1,3 +1,4 @@
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_debug_fnc_debug_mode
 	
@@ -60,7 +61,7 @@ if (_isEnable) then {
 	
 	removeMissionEventHandler ["MapSingleClick", _mapSingleClick];
 	if(!([_perFrameHandler] call CBA_fnc_removePerFrameHandler)) then {
-		[format["Couldn't remove a CBA_perFrameHandler"],__FILE__, nil, true] call btc_debug_fnc_message;
+			[["%1: Couldn't remove a CBA_perFrameHandler",__FILE_NAME__], 6, "debug"] call btc_debug_fnc_message;
 	};
 	((findDisplay 12) displayCtrl 51) ctrlRemoveEventHandler ["Draw", _mapOnDraw];
 

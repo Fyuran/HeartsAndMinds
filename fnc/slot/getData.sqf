@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_slot_fnc_getData
 
@@ -24,15 +24,15 @@ params [
 ];
 
 if(!canSuspend) exitWith {
-	if(btc_debug) then {
-		["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_SLOT
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+	#endif
 };
 
 if(_uid isEqualTo "") exitWith {
-    if(btc_debug) then {
-        ["invalid _uid", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: invalid _uid", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    #endif
 };
 
 if(remoteExecutedOwner isNotEqualTo 0) then { //relay back data to requesting client
@@ -44,17 +44,17 @@ if(remoteExecutedOwner isNotEqualTo 0) then { //relay back data to requesting cl
     };
 
     if(_retries >= 10) exitWith {
-        if(btc_debug) then {
-            private _unit = _uid call BIS_fnc_getUnitByUID;
-            [format ["%1(%2) failed to retrieve data after %3 tries", name _unit, _uid, _retries], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
+        #ifdef BTC_DEBUG_SLOT
+        private _unit = _uid call BIS_fnc_getUnitByUID;
+        [["%1: %2(%3) failed to retrieve data after %4 retries", __FILE_NAME__, name _unit, _uid, _retries], 6, "slot"] call btc_debug_fnc_message;
+        #endif
         };
-    };
     
     private _slot_data = btc_slots_serialized getOrDefault [_uid, createHashMap];
     ["btc_slot_loadPlayer", _slot_data, remoteExecutedOwner] call CBA_fnc_ownerEvent;
 
-    if(btc_debug) then {
+        #ifdef BTC_DEBUG_SLOT
         private _unit = _uid call BIS_fnc_getUnitByUID;
-        [format ["%1(%2) retrieving data", name _unit, _uid], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
-    };
+        [["%1: %2(%3) retrieving data", __FILE_NAME__, name _unit, _uid], 2, "slot"] call btc_debug_fnc_message;
+        #endif
 };

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_patrol_fnc_init
 
@@ -57,8 +57,8 @@ private _waypointStatements = format ["[group this, %1, %2, %3, %4] call btc_pat
 
 [_group, _pos, _waypointStatements, _isBoat] call btc_patrol_fnc_addWP;
 
-if (btc_debug_log) then {
-    if (!isNil {_group getVariable "btc_patrol_id"}) then {
-        [format ["ID: %1, End city ID: %2", _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_cityID], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+#ifdef BTC_DEBUG_PATROL
+if (!isNil {_group getVariable "btc_patrol_id"}) then {
+    [["%1: ID: %2, End city ID: %3", __FILE_NAME__, _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_cityID], 2, "patrol"] call btc_debug_fnc_message;
 };
+#endif

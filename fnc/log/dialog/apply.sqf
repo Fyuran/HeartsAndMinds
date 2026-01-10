@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_dialog_fnc_apply
 
@@ -23,7 +23,9 @@ private _create_obj = btc_log_dialog_namespace getVariable ["btc_log_create_obj"
 private _log_point = btc_log_dialog_namespace getVariable ["btc_log_point_obj", objNull];
 
 if(isNull _log_point) exitWith {
-    ["_log_point is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _log_point is null", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _obj = btc_log_dialog_namespace getVariable ["btc_log_curSel_obj", objNull];

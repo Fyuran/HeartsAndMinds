@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_jail_fnc_createJail_s
 
@@ -19,7 +19,6 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params[
     ["_flag", objNull, [objNull]],
@@ -28,13 +27,14 @@ params[
 ];
 
 if(!alive _flag) exitWith {
-    ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    #endif
 };
 
-if(btc_debug) then {
-    [format["btc_jail_fnc_createJail_s: %1", _this],
-            __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;  
-};
+#ifdef BTC_DEBUG_JAIL
+[["%1: btc_jail_fnc_createJail_s: %2", __FILE_NAME__, _this], 2, "jail"] call btc_debug_fnc_message;  
+#endif
 
 private _jail = createVehicle["CBA_NamespaceDummy", [0,0,0], [], 0, "CAN_COLLIDE"];
 btc_jail_comp apply {

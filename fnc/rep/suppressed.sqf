@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_suppressed
 
@@ -23,7 +23,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_civ", objNull, [objNull]],
@@ -59,7 +58,7 @@ if (
         [getPos _civ] remoteExecCall ["btc_rep_fnc_eh_effects", 2];
     };
 
-    if (btc_debug_log) then {
-        [format ["GREP %1 THIS = %2", btc_global_reputation, _this], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_REP
+    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+    #endif
 };

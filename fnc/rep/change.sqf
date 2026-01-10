@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_change
 
@@ -21,7 +21,6 @@ Author:
     Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_instigator", objNull, [objNull, 0, ""]],
@@ -130,10 +129,9 @@ _change params [
 ];
 btc_global_reputation = btc_global_reputation + _rep_amount;
 
-if (btc_debug) then {
-    [format ["GLOBAL %1 - CHANGE %2 - REASON %3 - INSTIGATOR %4", btc_global_reputation, _rep_amount, _reason, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_REP
+[["%1: GLOBAL %2 - CHANGE %3 - REASON %4 - INSTIGATOR %5", __FILE_NAME__, btc_global_reputation, _rep_amount, _reason, _name], 3, "rep"] call btc_debug_fnc_message;
+#endif
 //abs rep var to make sure even negative changes are displayed
 if(_showNotification) then {
     if ((btc_p_rep_notify != -1) && {(abs _rep_amount) >= btc_p_rep_notify}) then {

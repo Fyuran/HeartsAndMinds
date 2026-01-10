@@ -1,4 +1,4 @@
-    
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_reactivation
 

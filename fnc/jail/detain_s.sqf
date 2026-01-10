@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_jail_fnc_detain_s
 
@@ -20,7 +20,6 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_captive", objNull, [objNull]],
@@ -29,13 +28,19 @@ params [
 ];
 
 if(isNull _jail) exitWith {
-    ["_jail is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: _jail is null", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    #endif
 };
 if(!alive _captive) exitWith {
-    ["_captive dead or null", __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: _captive dead or null", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    #endif
 };
 if(side _captive == btc_player_side) exitWith {
-    ["_captive side is equal to player side", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: _captive side is equal to player side", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _jailed = _jail getVariable ["btc_jailed", []];
@@ -66,6 +71,6 @@ _captive setPos (_jailPositions select (count _jailed % count _jailPositions));
 [remoteExecutedOwner, selectRandom[81,96]] call btc_info_fnc_give_intel;
 [_player, _CAPTIVE_DETAINED_] call btc_rep_fnc_change;
 
-if(btc_debug) then {
-	[format["%1 detained %2 to %3", _player, _captive, getPos _jail], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_JAIL
+[["%1: %2 detained %3 to %4", __FILE_NAME__, _player, _captive, getPos _jail], 2, "jail"] call btc_debug_fnc_message;
+#endif

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_send
 
@@ -25,7 +25,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_start", objNull, [objNull]],

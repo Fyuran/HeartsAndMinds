@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_getCompositionBoundingBox
 
@@ -18,7 +18,6 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_objs", [], [[], objNull]]
@@ -42,12 +41,11 @@ private _compositionCenter = [ //retrieve centroid
 
 private _centerDummy = createVehicle["CBA_NamespaceDummy", [0,0,0], [], 0, "CAN_COLLIDE"];
 _centerDummy setPosASL _compositionCenter;
-if(btc_debug) then {
-    private _sphere = createVehicle ["Sign_Sphere25cm_F", _centerDummy, [], 0, "CAN_COLLIDE"];
-    _sphere setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,1,1,ca)'];
-    _sphere attachTo [_centerDummy];
-};
-
+#ifdef BTC_DEBUG_COMMON
+private _sphere = createVehicle ["Sign_Sphere25cm_F", _centerDummy, [], 0, "CAN_COLLIDE"];
+_sphere setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,1,1,ca)'];
+_sphere attachTo [_centerDummy];
+#endif
 private _boundingCorners = [];
 _objs apply {
     private _model = _x;
@@ -67,10 +65,10 @@ _objs apply {
 
     ] apply {
         _boundingCorners pushBackUnique ((_model modelToWorldWorld _x)vectorDiff _compositionCenter);
-        if(btc_debug) then {
-            private _sphere = createVehicle ["Sign_Sphere25cm_F", _model modelToWorldVisual _x, [], 0, "CAN_COLLIDE"];
-            _sphere attachTo [_centerDummy];
-        };
+        #ifdef BTC_DEBUG_COMMON
+        private _sphere = createVehicle ["Sign_Sphere25cm_F", _model modelToWorldVisual _x, [], 0, "CAN_COLLIDE"];
+        _sphere attachTo [_centerDummy];
+        #endif
     };
 };
 
@@ -99,48 +97,48 @@ private _lowestRelPos = [_lowestX, _lowestY, _lowestZ];
 private _highestRelPos = [_highestX, _highestY, _highestZ];
 private _boundingBoxSize = _lowestRelPos vectorDiff _highestRelPos; 
 
-if (btc_debug) then {
-    #define A		(_centerDummy modelToWorldVisual [_lowestX,_lowestY,_lowestZ])
-    #define B		(_centerDummy modelToWorldVisual [_highestX,_lowestY,_lowestZ])
-    #define C		(_centerDummy modelToWorldVisual [_highestX,_lowestY,_highestZ])
-    #define D		(_centerDummy modelToWorldVisual [_lowestX,_lowestY,_highestZ])
-    #define E		(_centerDummy modelToWorldVisual [_lowestX,_highestY,_lowestZ])
-    #define F		(_centerDummy modelToWorldVisual [_highestX,_highestY,_lowestZ])
-    #define G		(_centerDummy modelToWorldVisual [_highestX,_highestY,_highestZ])
-    #define H		(_centerDummy modelToWorldVisual [_lowestX,_highestY,_highestZ])
-    #define PURPLE  [1, 0, 1, 1]
-    btc_debug_corners = _boundingCorners apply {
-        [ASLtoAGL _compositionCenter, _centerDummy modelToWorldVisual _x, [1,1,0,1]];
-    };
-    btc_debug_lowestPos = _centerDummy modelToWorldVisual _lowestRelPos;
-    btc_debug_highestPos = _centerDummy modelToWorldVisual _highestRelPos;
-	drawBoundingBox_edges = [
-		[A, B, PURPLE],
-		[B, C, PURPLE],
-		[C, D, PURPLE],
-		[D, A, PURPLE],
-		[E, F, PURPLE],
-		[F, G, PURPLE],
-		[G, H, PURPLE],
-		[H, E, PURPLE],
-		[A, E, PURPLE],
-		[B, F, PURPLE],
-		[C, G, PURPLE],
-		[D, H, PURPLE] 
-	];
-
-    removeMissionEventHandler["Draw3D", missionNamespace getVariable ["btc_compositionboundingsize_eh", -1]];
-    btc_compositionboundingsize_eh = addMissionEventHandler ["Draw3D", {
-            drawLine3D [btc_debug_lowestPos, btc_debug_highestPos, [1, 0, 0, 1]];
-            drawBoundingBox_edges apply {
-                _screenPosition = worldToScreen _x#0;
-                if (_screenPosition isEqualTo []) then { continue };
-                drawLine3D _x;
-            };
-    }];
+#ifdef BTC_DEBUG_COMMON
+#define A		(_centerDummy modelToWorldVisual [_lowestX,_lowestY,_lowestZ])
+#define B		(_centerDummy modelToWorldVisual [_highestX,_lowestY,_lowestZ])
+#define C		(_centerDummy modelToWorldVisual [_highestX,_lowestY,_highestZ])
+#define D		(_centerDummy modelToWorldVisual [_lowestX,_lowestY,_highestZ])
+#define E		(_centerDummy modelToWorldVisual [_lowestX,_highestY,_lowestZ])
+#define F		(_centerDummy modelToWorldVisual [_highestX,_highestY,_lowestZ])
+#define G		(_centerDummy modelToWorldVisual [_highestX,_highestY,_highestZ])
+#define H		(_centerDummy modelToWorldVisual [_lowestX,_highestY,_highestZ])
+#define PURPLE  [1, 0, 1, 1]
+btc_debug_corners = _boundingCorners apply {
+    [ASLtoAGL _compositionCenter, _centerDummy modelToWorldVisual _x, [1,1,0,1]];
 };
+btc_debug_lowestPos = _centerDummy modelToWorldVisual _lowestRelPos;
+btc_debug_highestPos = _centerDummy modelToWorldVisual _highestRelPos;
+drawBoundingBox_edges = [
+    [A, B, PURPLE],
+    [B, C, PURPLE],
+    [C, D, PURPLE],
+    [D, A, PURPLE],
+    [E, F, PURPLE],
+    [F, G, PURPLE],
+    [G, H, PURPLE],
+    [H, E, PURPLE],
+    [A, E, PURPLE],
+    [B, F, PURPLE],
+    [C, G, PURPLE],
+    [D, H, PURPLE] 
+];
 
+removeMissionEventHandler["Draw3D", missionNamespace getVariable ["btc_compositionboundingsize_eh", -1]];
+btc_compositionboundingsize_eh = addMissionEventHandler ["Draw3D", {
+        drawLine3D [btc_debug_lowestPos, btc_debug_highestPos, [1, 0, 0, 1]];
+        drawBoundingBox_edges apply {
+            _screenPosition = worldToScreen _x#0;
+            if (_screenPosition isEqualTo []) then { continue };
+            drawLine3D _x;
+        };
+}];
+#endif
 private _return = [_lowestRelPos, _highestRelPos, vectorMagnitude _boundingBoxSize];
-if(btc_debug) then {_return pushBack _centerDummy};
-
+#ifdef BTC_DEBUG_COMMON
+_return pushBack _centerDummy;
+#endif
 _return

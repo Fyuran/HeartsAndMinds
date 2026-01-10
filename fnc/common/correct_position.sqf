@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_correct_position
 
@@ -26,17 +26,24 @@ params[
     ["_showHelpers", false, [false]]
 ];
 
-if(isNull _object) exitWith {["Invalid _object param", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(isNull _object) exitWith {
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: Invalid _object param", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    #endif
+};
 
-_LOD = abs _LOD; //prevent negative LODs
 //LOD types
-// 0 -"Memory"
+// 0 - "Memory"
 // 1 - "Geometry"
 // 2 - "FireGeometry"
 // 3 - "LandContact"
 // 4 - "HitPoints"
 // 5 - "ViewGeometry"
-if(_LOD > 5) exitWith {[format["Invalid _LOD: %1, must be between 0 and 5 (included)", _LOD], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(_LOD < 0 || _LOD > 5) exitWith {
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: Invalid _LOD: %2, must be between 0 and 5 (included)", __FILE_NAME__, _LOD], 6, "common"] call btc_debug_fnc_message;
+    #endif
+};
 
 private _boundingBox = boundingBoxReal [_object, _LOD]; //[[xmin, ymin, zmin], [xmax, ymax, zmax], boundingSphereDiameter].
 _boundingBox#0 params ["_xMin", "_yMin", "_zMin"];

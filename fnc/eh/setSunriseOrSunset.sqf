@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_eh_fnc_setSunriseOrSunset
 
@@ -33,11 +33,9 @@ if(_isSunrise isEqualType 0) then {
 	_isSunrise = [false, true] select _isSunrise;
 };
 
-if(btc_debug) then {
-	[format["Added CBA PFH %1 preserver", ["Night", "Day"] select _isSunrise], 
-	__FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_EH
+[["%1: Added CBA PFH %2 preserver", __FILE_NAME__, ["Night", "Day"] select _isSunrise], 2, "eh"] call btc_debug_fnc_message;
+#endif
 btc_sunrise_nightfall_handle = [{
 
 	_currentDate = date;
@@ -54,9 +52,8 @@ btc_sunrise_nightfall_handle = [{
 		_nextDate = [_currentDate, _dateOffset + 0.1, "h"] call BIS_fnc_calculateDateTime; //add 0.1 to offset in order to avoid triggering condition
 
 		setDate _nextDate;		
-		if(btc_debug) then {
-			[format ["Date: %1 has been changed to %2", _currentDate, _nextDate],
-			 __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
-		};
+		#ifdef BTC_DEBUG_EH
+		[["%1: Date: %2 has been changed to %3", __FILE_NAME__, _currentDate, _nextDate], 2, "eh"] call btc_debug_fnc_message;
+		#endif
 	};
 }, [60, 1] select btc_debug, _isSunrise] call CBA_fnc_addPerFrameHandler;

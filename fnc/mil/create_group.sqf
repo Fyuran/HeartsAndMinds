@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_create_group
 
@@ -103,8 +103,7 @@ for "_i" from 1 to _numberOfGroup do {
     [_group, _hashMapGroup, _n, _pos_iswater] call btc_mil_fnc_createUnits;
 };
 
-if (btc_debug_log) then {
-    [format ["_this = %1 ; POS %2 UNITS N %3", _this, _pos, _n], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_MIL
+[["%1: _this = %2 ; POS %3 UNITS N %4", __FILE_NAME__, _this, _pos, _n], 2, "mil"] call btc_debug_fnc_message;
+#endif
 _groups

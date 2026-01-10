@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_int_fnc_shortcuts
 
@@ -18,8 +18,6 @@ Author:
     1kuemmel1
 
 ---------------------------------------------------------------------------- */
-
-#include "..\script_macros.hpp"
 
 private _menuString = "Hearts and Minds " + localize "STR_BTC_HAM_ACTION_ORDERS_MAIN";
 //Order Stop

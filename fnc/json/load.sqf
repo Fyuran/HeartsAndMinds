@@ -1,3 +1,4 @@
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_load
 	
@@ -93,10 +94,9 @@ if (_cities_status isNotEqualTo createHashMap) then {
 				_marker setMarkerColor "ColorPink";
 			};
 		};*/
-		if (btc_debug) then {
-			[format ["_city = %1 at %2", _name, getPosASL _city], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-		};
-	};
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _city = %2 at %3", __FILE_NAME__, _name, getPosASL _city], 2, "json"] call btc_debug_fnc_message;
+		#endif};
 };
 
 // HIDEOUTS
@@ -105,10 +105,9 @@ if (_array_ho isNotEqualTo createHashMap) then {
 	_array_ho apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 		[_pos, _id_hideout, _rinf_time, _cap_time, _assigned_to, _markers_saved] call btc_hideout_fnc_create;
-		if (btc_debug) then {
-			[format ["_hideout = %1 at %2", _id_hideout, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-		};
-	};
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _hideout = %2 at %3", __FILE_NAME__, _id_hideout, _pos], 2, "json"] call btc_debug_fnc_message;
+		#endif};
 };
 
 private _select_ho = (btc_hideouts apply {
@@ -122,10 +121,9 @@ if (_select_ho isEqualTo - 1) then {
 
 if (btc_hideouts isEqualTo []) then {
 	[] spawn btc_fnc_final_phase;
-	if (btc_debug) then {
-		["activating final phase", __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
-};
+	#ifdef BTC_DEBUG_JSON
+	[["%1: activating final phase", __FILE_NAME__], 2, "json"] call btc_debug_fnc_message;
+	#endif};
 
 // CACHE
 private _array_cache = +(MAPCHECK("array_cache"));
@@ -139,10 +137,9 @@ if (_array_cache isNotEqualTo createHashMap) then {
 		[_cache_pos, btc_p_chem, [1, 0] select _isChem] call btc_cache_fnc_create;
 		btc_cache_obj setVariable ["btc_cache_unitsSpawned", _cache_unitsSpawned];
 
-		if (btc_debug) then {
-			[format ["_array_cache = %1 at %2", _cache_n, _cache_pos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
-		};
-
+		#ifdef BTC_DEBUG_JSON
+		[["%1: %2 _array_cache = %3 at %4", __FILE_NAME__, _cache_n, _cache_pos], 2, "json"] call btc_debug_fnc_message;
+		#endif
 		btc_cache_markers = [];
 		_cache_markers apply {
 			_x params ["_pos", "_marker_name"];
@@ -169,9 +166,9 @@ if (_fobs isNotEqualTo createHashMap) then {
 		(values _y) params ((keys _y) apply {"_" + _x});
 
 		[_pos, _direction, _FOB_name, _jailData, _logObjData, _resources] call btc_fob_fnc_create_s;
-		if (btc_debug) then {
-			[format ["_fob = %1 at %2", _FOB_name, _pos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
-		};
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _fob = %2 at %3", __FILE_NAME__, _FOB_name, _pos], 2, "json"] call btc_debug_fnc_message;
+		#endif
 	};
 };
 btc_fobs_ruins = +(MAPCHECK("fobs_ruins"));
@@ -183,9 +180,9 @@ if(btc_fobs_ruins isNotEqualTo createHashMap) then {
         _ruin setVariable["FOB_name", _name, true];
 		[objNull, _ruin] call btc_fob_fnc_ruins;
 
-		if (btc_debug) then {
-			[format ["_fob_ruins = %1 at %2", _name, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-		};
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _fob_ruins = %2 at %3", __FILE_NAME__, _name, _pos], 2, "json"] call btc_debug_fnc_message;
+		#endif
 	};
 };
 
@@ -213,10 +210,9 @@ if (_array_veh isNotEqualTo createHashMap) then {
 		_object call btc_veh_fnc_add;
 		_object setVectorDirAndUp (_y get "vectorDirAndUp");
 
-		if (btc_debug) then {
-			[format ["_veh(%1) = %2 at %3", _x, _typeOf, _position], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-		};
-
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _veh(%2) = %3 at %4", __FILE_NAME__, _x, _typeOf, _position], 2, "json"] call btc_debug_fnc_message;
+		#endif
 		[_object, _y] call btc_veh_fnc_loadData;
 	};
 }, _array_veh] call CBA_fnc_execNextFrame;
@@ -239,10 +235,9 @@ private _array_obj = +(MAPCHECK("array_obj"));
 		};
 		_object setVectorDirAndUp (_y get "vectorDirAndUp");
 
-		if (btc_debug) then {
-			[format ["_obj(%1) = %2 at %3", _x, _typeOf, _position], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
-		};
-
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _obj(%2) = %3 at %4", __FILE_NAME__, _x, _typeOf, _position], 2, "json"] call btc_debug_fnc_message;
+		#endif
 		[_object, _y] call btc_veh_fnc_loadData;
 	};
 }, _array_obj] call CBA_fnc_execNextFrame;
@@ -257,9 +252,9 @@ if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
 
 			[_pos, _dir, _resources, _class] call btc_log_resupply_fnc_claimed_create;
 
-			if (btc_debug) then {
-				[format ["_supply = %1 at %2", _class, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-			};
+			#ifdef BTC_DEBUG_JSON
+			[["%1: _supply = %2 at %3", __FILE_NAME__, _class, _pos], 2, "json"] call btc_debug_fnc_message;
+			#endif
 		};
 	}, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
 };
@@ -308,10 +303,9 @@ if (_player_markers isNotEqualTo createHashMap) then {
 		_marker setMarkerBrushLocal _markerBrush;
 		_marker setMarkerDir _markerDir;
 
-		if (btc_debug) then {
-			[format ["_marker = %1 at %2[%3]", _markerText, _markerPos], __FILE__, [false, btc_debug_log]] call btc_debug_fnc_message;
-		};
-
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _marker = %2 at %3[%4]", __FILE_NAME__, _markerText, _markerPos], 2, "json"] call btc_debug_fnc_message;
+		#endif
 		_marker setMarkerShape _markerShape;
 		if (_markerPolyline isNotEqualTo []) then {
 			_marker setMarkerPolyline _markerPolyline;
@@ -338,10 +332,10 @@ if (_explosives isNotEqualTo createHashMap) then {
 			_pitch
 		];
 
-		if (btc_debug) then {
-			[format ["_veh = %1 at %2", _explosiveType, _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
+		#ifdef BTC_DEBUG_JSON
+		[["%1: _veh = %2 at %3", __FILE_NAME__, _explosiveType, _pos], 2, "json"] call btc_debug_fnc_message;
+		#endif
 		};
-	};
 };
 
 

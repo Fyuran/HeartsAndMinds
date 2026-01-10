@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_info_fnc_has_intel
 
@@ -26,10 +26,9 @@ params [
     ["_asker", objNull, [objNull]]
 ];
 
-if (btc_debug_log) then {
-    [format ["%1", _body getVariable "intel"], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_INFO
+[["%1: body intel check for %2", __FILE_NAME__, _body getVariable "intel"], 2, "info"] call btc_debug_fnc_message;
+#endif
 if (
     _body isKindOf "Items_base_F" || (
     _body getVariable ["intel", false] &&

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_getBoundingCornersPos
 
@@ -46,13 +46,13 @@ _objs apply {
 
     ] apply {
         _boundingCorners pushBackUnique (_model modelToWorldWorld _x);
-        if(btc_debug) then {
-            private _pos = _model modelToWorldVisual _x;
-            if(_pos#2 < 0) then {_pos set [2,0]};
-            private _sphere = createVehicle ["Sign_Sphere25cm_F", _model modelToWorldVisual _x, [], 0, "CAN_COLLIDE"];
-            _sphere attachTo [_model];
+        #ifdef BTC_DEBUG_COMMON
+        private _pos = _model modelToWorldVisual _x;
+        if(_pos#2 < 0) then {_pos set [2,0]};
+        private _sphere = createVehicle ["Sign_Sphere25cm_F", _model modelToWorldVisual _x, [], 0, "CAN_COLLIDE"];
+        _sphere attachTo [_model];
+        #endif
         };
-    };
 };
 
 _boundingCorners

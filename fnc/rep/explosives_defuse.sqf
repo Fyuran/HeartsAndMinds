@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_explosives_defuse
 
@@ -20,7 +20,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_ied", objNull, [objNull]],

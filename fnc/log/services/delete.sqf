@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fnc_delete
 
@@ -27,10 +27,14 @@ params [
 ];
 
 if(isNull _create_obj) exitWith {
-    ["_create_obj is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    #endif
 };
 if(isNull _log_point) exitWith {
-    ["_log_point is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _log_point is null", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _whiteList = btc_log_obj_created + btc_log_fob_supply_objects;

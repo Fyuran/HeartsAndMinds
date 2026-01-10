@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_slot_fnc_getPlayableSlots
 
@@ -20,12 +20,16 @@ Author:
 
 ---------------------------------------------------------------------------- */
 if(isNil "btc_db_missionPlayerSlots") exitWith {
-    [format["btc_db_missionPlayerSlots has not been defined in mission.sqf"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: btc_db_missionPlayerSlots has not been defined in mission.sqf", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _cfg = (missionconfigfile >> "mission" >> "Mission" >> "Entities");
 if(!isClass _cfg) exitWith {
-    [format["mission.sqm was not included in description.ext"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: mission.sqm was not included in description.ext", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    #endif
 };
 private _subClasses = _cfg call BIS_fnc_getCfgSubClasses;
 private _slots = [];

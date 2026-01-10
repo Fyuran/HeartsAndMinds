@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_info_fnc_troops
 
@@ -52,7 +52,8 @@ if (_is_real) then {
     };
 };
 
-if (btc_debug) then {_text = _text + " - " + str _is_real};
-
+#ifdef BTC_DEBUG_INFO
+_text = _text + " - " + str _is_real;
+#endif
 [name _man, _text] call btc_fnc_showSubtitle;
 player createDiaryRecord ["btc_diarylog", [str(mapGridPosition player) + " - " + name _man, _text]];

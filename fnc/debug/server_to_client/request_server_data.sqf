@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_debug_fnc_request_server_data
 
@@ -83,7 +83,9 @@ switch(_fncName) do {
 		btc_debug_namespace setVariable ["hideouts", _hash, remoteExecutedOwner];
 	};
 	default {
-		[format["bad switch case: %1 _fncName", _fncName], __FILE__, nil, true] call btc_debug_fnc_message;
+		#ifdef BTC_DEBUG_DEBUG
+		[["%1: bad switch case: fnc - %2", __FILE_NAME__, _fncName], 6, "debug/server_to_client"] call btc_debug_fnc_message;
+		#endif
 	};
 };
 

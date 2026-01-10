@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fob_fnc_payment
 
@@ -27,10 +27,14 @@ params[
 
 private _flag = _create_obj getVariable ["btc_log_fob_flag", objNull];
 if(isNull _create_obj) exitWith {
-    ["_create_obj is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 if(isNull _flag) exitWith {
-    ["_flag is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _flag is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _resources = _flag getVariable ["btc_log_resources", -1];
@@ -50,8 +54,7 @@ _flag setVariable ["btc_log_resources", _payment, true];
     [format [localize "STR_BTC_HAM_LOG_ACTION_ACQUIRE", _cost], 1, [1,1,1,1]]
 ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 
-if(btc_debug) then {
-    [format["paid %1 from %2", _cost, _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
-
+#ifdef BTC_DEBUG_LOG
+[["%1: paid %2 from %3", __FILE_NAME__, _cost, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/fob"] call btc_debug_fnc_message;  
+#endif
 true

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_initArea
 
@@ -47,10 +47,9 @@ private _array = _city getVariable ["ieds", []];
 
         _array pushBack [_sel_pos, selectRandom btc_model_ieds, _dir, _x];
 
-        if (btc_debug_log) then {
-            [format ["_this = %1  POS %2 N %3(%4)", _this, _sel_pos, _i, _n], __FILE__, [false]] call btc_debug_fnc_message;
-        };
-    };
+        #ifdef BTC_DEBUG_IED
+        [["%1: ied area _this = %2 POS %3 N %4(%5)", __FILE_NAME__, _this, _sel_pos, _i, _n], 2, "ied"] call btc_debug_fnc_message;
+        #endif};
 } forEach [true, false];
 
 _city setVariable ["ieds", _array];

@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_load_file
 	
@@ -24,10 +25,9 @@ params[
 	["_custom_hint", "", [""]]
 ];
 
-if (btc_debug) then {
-	[format ["btc_hm_%1_saveFile JSON set to %2", worldName, _path], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: btc_hm_%2_saveFile JSON set to %3", __FILE_NAME__, worldName, _path], 2, "json/ui"] call btc_debug_fnc_message;
+#endif
 profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
 
 if(_custom_hint isEqualTo "") then {

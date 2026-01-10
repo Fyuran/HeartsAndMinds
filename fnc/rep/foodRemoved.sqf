@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_foodRemoved
 
@@ -22,7 +22,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params ["_caller", "_target", "_listOfItemsToRemove",
     ["_numberOfItems", 2, [0]]

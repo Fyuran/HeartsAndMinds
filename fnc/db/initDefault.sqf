@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_db_fnc_initDefault
 
@@ -19,10 +19,9 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-if (btc_debug) then {
-	[format["No valid save found, reverting to defaults"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_DB
+[["%1: No save found, initializing to defaults", __FILE_NAME__], 3, "db"] call btc_debug_fnc_message;
+#endif
 if (btc_hideout_n > 0) then {
 	for "_i" from 1 to btc_hideout_n do {
 		[] call btc_hideout_fnc_create;

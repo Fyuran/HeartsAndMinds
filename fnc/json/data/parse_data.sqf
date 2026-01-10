@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_parse_data
 	
@@ -27,9 +28,9 @@ private _innerHash = createHashMap;
 if(_rawData isNotEqualTo [""]) then {
 	private _rawData = _rawData joinString "";
 	_rawData = _rawData regexReplace ["\\\\", "\"];
-	if(btc_debug) then {
-		[format ["Parsing JSON data for %1", _category], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_JSON
+	[["%1: Parsing JSON data for %2", __FILE_NAME__, _category], 2, "json/data"] call btc_debug_fnc_message;
+	#endif
 	_rawData = parseSimpleArray _rawData;
 
 	_rawData apply {

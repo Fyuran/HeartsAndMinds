@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_destroyTrg
 
@@ -24,11 +24,15 @@ params[
 ];
 
 if (isNull _fob_trg) exitWith {
-	["_fob_trg is ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_FOB
+    [["%1: _fob_trg is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    #endif
 };
 private _building = _fob_trg getVariable ["btc_fob_structure", ObjNull];
 if (isNull _building) exitWith {
-	["_building is ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_FOB
+	[["%1: _building is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    #endif
 };
 
 //If all units inside are ACE_isUnconscious, abort check

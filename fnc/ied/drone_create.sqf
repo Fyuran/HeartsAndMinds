@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_drone_create
 
@@ -29,10 +29,9 @@ params [
     ["_rpos", [], [[]]]
 ];
 
-if (btc_debug_log) then {
-    [format ["_name = %1 _area %2", _city getVariable ["name", "name"], _area], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_IED
+[["%1: _name = %2 _area %3", __FILE_NAME__, _city getVariable ["name", "name"], _area], 2, "ied"] call btc_debug_fnc_message;
+#endif
 if (_rpos isEqualTo []) then {
     _rpos = [position _city, _area] call btc_fnc_randomize_pos;
 };

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_create_patrol
 
@@ -36,10 +36,9 @@ if (_random isEqualTo 0) then {
     _random = selectRandom [1, 2];
 };
 
-if (btc_debug_log) then {
-    [format ["_random = %1 _active_city %2 _area %3 btc_patrol_active = %4", _random, _active_city, _area, count btc_patrol_active], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_MIL
+[["%1: _random = %2 _active_city %3 _area %4 btc_patrol_active = %5", __FILE_NAME__, _random, _active_city, _area, count btc_patrol_active], 2, "mil"] call btc_debug_fnc_message;
+#endif
 //Remove if too far from player
 if ([_active_city, grpNull, _area] call btc_patrol_fnc_playersInAreaCityGroup) exitWith {
     _group call CBA_fnc_deleteEntity;

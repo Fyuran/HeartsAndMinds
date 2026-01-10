@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_unit_killed
 
@@ -21,7 +21,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params ["_unit", "_causeOfDeath", "_killer", "_instigator"];
 

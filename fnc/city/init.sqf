@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_city_fnc_init
 
@@ -73,11 +73,10 @@ _locationsNames apply {
         if(!_hasFound) then {
             [_position, _type, _name, _cachingRadius, false] call btc_city_fnc_create;
         } else {
-            if(btc_debug) then {
-                [format ["%1 has been blacklisted", _name], __FILE__, [btc_debug, true, false]] call btc_debug_fnc_message;
-            };
+            #ifdef BTC_DEBUG_CITY
+            [["%1: %2 has been blacklisted", __FILE_NAME__, _name], 2, "city"] call btc_debug_fnc_message;
+            #endif
         };
-        
     };
 };
 
@@ -94,7 +93,9 @@ if !(isNil "btc_custom_loc") then {
     {_x call btc_city_fnc_create;} forEach btc_custom_loc;
 };
 
-if(btc_city_all isEqualTo []) then {
-    [format["btc_city_all is empty"], __FILE__, [false, btc_debug_log, true], true] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_CITY
+    if(btc_city_all isEqualTo []) then {
+        [["%1: btc_city_all is empty", __FILE_NAME__], 7, "city"] call btc_debug_fnc_message;
+    };
+#endif
 

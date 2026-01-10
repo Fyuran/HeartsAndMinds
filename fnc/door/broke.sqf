@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_door_fnc_broke
 
@@ -23,7 +23,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_house", objNull, [objNull]],

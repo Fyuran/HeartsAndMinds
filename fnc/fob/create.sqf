@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_create
 
@@ -25,9 +25,9 @@ params [
 ];
 
 if(!canSuspend) exitWith {
-    if(btc_debug) then {
-        ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_FOB
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    #endif
 };
 
 //if (((position _mat) isFlatEmpty [1, 0, 0.9, 1, 0, false, _mat]) isEqualTo []) exitWith {(localize "STR_BTC_HAM_O_FOB_CREATE_H_AREA") call CBA_fnc_notify;};

@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_event_fnc_attackFOBChance
 
@@ -25,11 +25,13 @@ params[
 
 private _fobs = btc_fobs param [1, [], [[]]]; //btc_fobs syntax is [[markers...],[fob_structures..]...]
 if(_fobs isEqualTo []) exitWith {
-    ["btc_fobs is empty", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: btc_fobs is empty", __FILE_NAME__], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif
 };
 
 // if (_city inArea [getMarkerPos "btc_base", btc_fob_minDistance, btc_fob_minDistance, 0, false]) exitWith {
-//     [format["%1 is too close to btc_base, aborting", getPosASL _city], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+//     [format["%1 is too close to btc_base, aborting", getPosASL _city], __FILE_NAME__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
 // };
 
 private _nearCities = values btc_city_all select {

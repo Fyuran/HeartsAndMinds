@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_ruins
 
@@ -30,7 +30,9 @@ if(!isNull _fob) then { //validates calls from db_load
     btc_fobs_ruins set [_name, [_pos, getDir _fob, typeOf _ruins, _name]];
 };
 if(isNull _ruins) exitWith {
-    [format["_ruins is null"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_FOB
+    [["%1: _ruins is null", __FILE_NAME__], 6, "fob/ruins"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _marker = createMarkerLocal [format["btc_fobs_ruins_%1", _name], getPosASL _ruins];
@@ -54,12 +56,11 @@ private _actionPos = _flag modelToWorld((boundingCenter _flag) vectorDiff [0.2,0
 private _actionObj = createVehicle["CBA_NamespaceDummy", _actionPos, [], 0, "CAN_COLLIDE"];
 [_actionObj, _flag] call BIS_fnc_attachToRelative;
 
-if(btc_debug) then {
-    private _sphere = createVehicle ["Sign_Sphere25cm_F", _actionPos, [], 0, "CAN_COLLIDE"];
-    _sphere setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,1,1,ca)'];
-    _sphere attachTo [_actionObj];
-};
-
+#ifdef BTC_DEBUG_FOB
+private _sphere = createVehicle ["Sign_Sphere25cm_F", _actionPos, [], 0, "CAN_COLLIDE"];
+_sphere setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,1,1,ca)'];
+_sphere attachTo [_actionObj];
+#endif
 //Actions
 [_actionObj, _name, _flag, _ruins, _marker] remoteExecCall ["btc_fob_fnc_reactivationActions", [0, -2] select isDedicated, _flag];
 

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_civ_fnc_leaflets
 
@@ -26,10 +26,9 @@ params [
     ["_weapon", "", [""]]
 ];
 
-if (btc_debug) then {
-    [format ["%1 fired with %2", typeOf _uav, _weapon], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_CIV
+[["%1: %2 fired with %3", typeOf _uav, _weapon], 2, "civ"] call btc_debug_fnc_message;
+#endif
 if (_weapon isEqualTo "Bomb_Leaflets") then {
     [getPos _uav] remoteExecCall ["btc_civ_fnc_evacuate", 2];
 };

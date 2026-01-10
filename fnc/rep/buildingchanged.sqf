@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_buildingchanged
 
@@ -21,7 +21,6 @@ Author:
     mtusnio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_from", objNull, [objNull]],
@@ -63,8 +62,7 @@ if (!_skipCategories) then {
     } forEach btc_buildings_categories_multipliers;
 };
 
-if (btc_debug) then {
-    [format ["%1 to %2. Malus: %3", _classname, typeOf _to, _malus], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_REP
+[["%1: %2 to %3. Malus: %4", __FILE_NAME__, _classname, typeOf _to, _malus], 2, "rep"] call btc_debug_fnc_message;
+#endif
 [objNull, [_BUILDING_DAMAGED_, _BUILDING_DESTROYED_] select _isRuin] call btc_rep_fnc_change;

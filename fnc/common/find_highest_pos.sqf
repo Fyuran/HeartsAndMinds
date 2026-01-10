@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_find_highest_pos
 
@@ -29,17 +29,28 @@ params[
     ["_showHelpers", false, [false]]
 ];
 
-if(isNull _building) exitWith {["Invalid _building param", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(isNull _building) exitWith {
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: Invalid _building param", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    #endif
+};
 
-_LOD = abs _LOD; //prevent negative LODs
 //LOD types
 // 0 - ClipVisual (can significantly reduce bounding box's size on buildings)
 // 1 - ClipShadow
 // 2 - ClipGeometry
 // 3 - ClipGeneral (same type that is used in the main syntax)
-if(_LOD > 3) exitWith {[format["Invalid _LOD: %1, must be between 0 and 3 (included)", _LOD], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(_LOD < 0 || _LOD > 3) exitWith {
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: Invalid _LOD: %2, must be between 0 and 3 (included)", __FILE_NAME__, _LOD], 6, "common"] call btc_debug_fnc_message;
+    #endif
+};
 
-if(_detail <= 0) exitWith {[format["Invalid _detail: %1, must be above zero", _detail], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(_detail <= 0) exitWith {
+    #ifdef BTC_DEBUG_COMMON
+    [["%1: Invalid _detail: %2, must be above zero", __FILE_NAME__, _detail], 6, "common"] call btc_debug_fnc_message;
+    #endif
+};
 
 private _boundingBox = _LOD boundingBox _building; //[[xmin, ymin, zmin], [xmax, ymax, zmax], boundingSphereDiameter].
 _boundingBox#0 params ["_xMin", "_yMin", "_zMin"];

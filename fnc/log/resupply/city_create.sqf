@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_resupply_fnc_city_create
 
@@ -33,7 +33,9 @@ _data params [
 ];
 
 if(isNull _city) exitWith {
-    ["_city is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _city is null", __FILE_NAME__], 6, "log/resupply"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _obj = createVehicle [btc_log_fob_create_obj_resupply#0, _pos, [], 0, "CAN_COLLIDE"];
@@ -75,8 +77,7 @@ _marker_flag attachTo [_obj, [0,0,1]];
 
 }] remoteExecCall ["call", [0, -2] select isDedicated, _obj];
 
-if(btc_debug) then {
-    [format["created UNCLAIMED supply at %1[%2]", _city getVariable["id", -1], _pos], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
-
+#ifdef BTC_DEBUG_LOG
+[["%1: created UNCLAIMED supply at %2[%3]", __FILE_NAME__, _city getVariable["id", -1], _pos], 2, "log/resupply"] call btc_debug_fnc_message;  
+#endif
 _obj

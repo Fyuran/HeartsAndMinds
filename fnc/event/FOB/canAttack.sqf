@@ -1,6 +1,6 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
-Function: btc_event_fnc_canAttackFOB
+Function: btc_event_fnc_canFOBBeAttacked
 
 Description:
    Initiates a check that will determine if this FOB is a potential target for the FOB Attack Event.
@@ -13,7 +13,7 @@ Returns:
 
 Examples:
     (begin example)
-        [cursorObject] call btc_event_fnc_canAttackFOB;
+        [cursorObject] call btc_event_fnc_canFOBBeAttacked;
     (end)
 
 Author:
@@ -25,16 +25,18 @@ Author:
 if(!params[
 	["_building", ObjNull, [ObjNull]]
 ]) exitWith {
-    ["_building is null", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message; 
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: _building is null", __FILE_NAME__], 6, "event/FOB"] call btc_debug_fnc_message; 
+    #endif
     false
 };
 private _return = false; //used to tell eventmanager event is not being handled anymore
 
 private _isUnderAttack = _building getVariable ["FOB_Event", false];
 if(_isUnderAttack) exitWith { //avoids multiple FOB events
-    if(btc_debug) then {
-        [format["event fob attack already active on %1", _building getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: event fob attack already active on %2", __FILE_NAME__, _building getVariable["FOB_name", ""]], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif
     _return
 };
 
@@ -43,9 +45,9 @@ private _nearCities = values btc_city_all select {
     {_x getVariable ["occupied", false] && !(_x getVariable ["active", false])}
 }; 
 if (_nearCities isEqualTo []) exitWith {
-    if(btc_debug) then {
-        [format["_nearCities is empty, skipping FOB: %1", _building getVariable["FOB_name", ""]] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: _nearCities is empty, skipping FOB: %2", __FILE_NAME__, _building getVariable["FOB_name", ""]], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif
     false
 };
 
@@ -80,10 +82,9 @@ switch true do {
 
 //Group spawning and victory condition manager
 [[_building, _flag, _nearCities], {
-    if(btc_debug) then {
-        [format["%1 victory manager is on", (_this select 0) getVariable["FOB_name", ""]], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    };
-    
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: %2 victory manager is on", __FILE_NAME__, (_this select 0) getVariable["FOB_name", ""]], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif
     params["_building", "_flag", "_nearCities"];
 
     _units = [];

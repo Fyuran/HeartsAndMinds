@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_civ_fnc_get_weapons
 
@@ -37,10 +37,9 @@ if (_units isEqualTo []) then {
 };
 
 {
-    if (btc_debug_log) then {
-        [format ["%1 - %2", _x, side _x], __FILE__, [false]] call btc_debug_fnc_message;
-    };
-
+    #ifdef BTC_DEBUG_CIV
+    [["%1: %2 - %3", __FILE_NAME__, _x, side _x], 2, "civ"] call btc_debug_fnc_message;
+    #endif
     private _unit = _x;
 
     [_unit, "", 2] call ace_common_fnc_doAnimation;

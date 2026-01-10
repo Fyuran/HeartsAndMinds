@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_check_cap
 
@@ -40,8 +40,8 @@ if (_cap_to isEqualTo []) exitWith {};
         };
     } else {
         _closest setVariable ["occupied", true];
-        if (btc_debug) then {
-            (format ["loc_%1", _closest getVariable "id"]) setMarkerColor "ColorRed";
-        };
+        #ifdef BTC_DEBUG_MIL
+        (format ["loc_%1", _closest getVariable "id"]) setMarkerColor "ColorRed";
+        #endif
     };
 } forEach _cap_to;

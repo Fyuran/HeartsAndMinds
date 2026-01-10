@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_isAreaOccupied
 
@@ -27,9 +27,11 @@ params [
     ["_distance", 5, [0]]
 ];
 
+#ifdef BTC_DEBUG_COMMON
 if(_pos isEqualTo []) then {
-    ["_pos is invalid", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    [["%1: _pos is invalid", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;  
 };
+#endif
 
 private _obj = objNull;
 if(_pos isEqualType objNull) then {

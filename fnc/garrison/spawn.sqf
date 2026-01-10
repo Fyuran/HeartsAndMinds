@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_garrison_fnc_spawn
 
@@ -27,13 +27,20 @@ params [
 	["_type_units", btc_type_units, [[]]],
 	["_outsideOnly", false, [true]]
 ];
-if(isNull _building) exitWith {["Invalid _building param", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
-if(_type_units isEqualTo []) exitWith {["_type_units is empty", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;};
+if(isNull _building) exitWith {
+	#ifdef BTC_DEBUG_GARRISON
+	[["%1: Invalid _building param", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+	#endif};
+if(_type_units isEqualTo []) exitWith {
+	#ifdef BTC_DEBUG_GARRISON
+	[["%1: _type_units is empty", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+	#endif
+};
 
 if ((count (_building buildingPos -1)) <= 0) exitWith {
-	if(btc_debug) then {
-		[format["No suitable positions found for garrison"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_GARRISON
+	[["%1: no suitable positions found for garrison", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+	#endif
 };
 
 [[_side, _building, _type_units, _outsideOnly], {
@@ -46,40 +53,41 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 			private _surface = (lineIntersectsSurfaces [_pos, _pos vectorAdd [0,0,5], objNull, objNull, true, 1, "GEOM"]);
 			_surface isEqualTo []
 		};
+		#ifdef BTC_DEBUG_GARRISON
 		if(_buildingPositions isEqualTo []) then {
-			[format["No suitable outside positions found for garrison"], __FILE__, [false, btc_debug_log, false], true] call btc_debug_fnc_message;
+			[["%1: no suitable positions found for outside only garrison", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
 		};
+		#endif
 	};
 
-	if(btc_debug) then {
-		btc_garrison_buildingPos_debug_objects = [];
-		(_building buildingPos -1) apply {
-			private _sphere = createVehicle ["Sign_Sphere25cm_F", _x, [], 0, "CAN_COLLIDE"];
-			private _pos = _x;
-			private _higherPos = _pos vectorAdd [0,0,5];
-			private _intersect = (lineIntersectsSurfaces [ATLtoASL _pos, ATLtoASL _higherPos, _sphere, objNull, true, 1, "GEOM"]) param[0, []];
-			if (_intersect isNotEqualTo []) then {
-				_sphere setVariable ["btc_debug_ceiling", ASLtoATL (_intersect#0)];
-			};
-			btc_garrison_buildingPos_debug_objects pushBack _sphere;
+	#ifdef BTC_DEBUG_GARRISON
+	btc_garrison_buildingPos_debug_objects = [];
+	(_building buildingPos -1) apply {
+		private _sphere = createVehicle ["Sign_Sphere25cm_F", _x, [], 0, "CAN_COLLIDE"];
+		private _pos = _x;
+		private _higherPos = _pos vectorAdd [0,0,5];
+		private _intersect = (lineIntersectsSurfaces [ATLtoASL _pos, ATLtoASL _higherPos, _sphere, objNull, true, 1, "GEOM"]) param[0, []];
+		if (_intersect isNotEqualTo []) then {
+			_sphere setVariable ["btc_debug_ceiling", ASLtoATL (_intersect#0)];
 		};
-
-		btc_garrison_buildingPos_debug_eh = addMissionEventHandler ["Draw3D", {
-			btc_garrison_buildingPos_debug_objects apply {
-				_pos = getPosATLVisual _x;
-				_top = _pos vectorAdd [0,0,5];
-				_ceiling = _x getVariable ["btc_debug_ceiling", []];
-				if(_ceiling isNotEqualTo []) then {
-					drawLine3D [_pos, _ceiling, [1,0,0,1]];
-					_x setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,0,1)'];
-				} else {
-					drawLine3D [_pos, _top, [0,1,0,1]];
-					_x setObjectTextureGlobal [0,'#(argb,8,8,3)color(0,1,0,1)'];
-				};
-			};
-		}];
+		btc_garrison_buildingPos_debug_objects pushBack _sphere;
 	};
 
+	btc_garrison_buildingPos_debug_eh = addMissionEventHandler ["Draw3D", {
+		btc_garrison_buildingPos_debug_objects apply {
+			_pos = getPosATLVisual _x;
+			_top = _pos vectorAdd [0,0,5];
+			_ceiling = _x getVariable ["btc_debug_ceiling", []];
+			if(_ceiling isNotEqualTo []) then {
+				drawLine3D [_pos, _ceiling, [1,0,0,1]];
+				_x setObjectTextureGlobal [0,'#(argb,8,8,3)color(1,0,0,1)'];
+			} else {
+				drawLine3D [_pos, _top, [0,1,0,1]];
+				_x setObjectTextureGlobal [0,'#(argb,8,8,3)color(0,1,0,1)'];
+			};
+		};
+	}];
+	#endif
 	private _group = createGroup _side;
 	_buildingPositions apply {
 		private _unit = _group createUnit [selectRandom _type_units, _x, [], 0, "CAN_COLLIDE"];
@@ -106,10 +114,10 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 
 	// 	(leader _group) setVariable ["acex_headless_blacklist", true];
 	// } else {
-	// 	if(btc_debug) then {
-	// 		[format["No suitable positions found for static"], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-	// 	};
-	// };
+	// 	#ifdef BTC_DEBUG
+	// 	[format["No suitable positions found for static"], __FILE_NAME__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
+	// 	#endif// 
+	//};
 
 	(leader _group) setVariable ["acex_headless_blacklist", true];
 

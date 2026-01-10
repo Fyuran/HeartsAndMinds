@@ -1,3 +1,4 @@
+#include "fnc\script_macros.hpp"
 #define _OK_ 0
 
 [] call compileScript ["core\fnc\city\init.sqf"];
@@ -6,14 +7,13 @@
 switch (btc_db_load) do {
 	case 1: {
 		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
-		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params ["_result", "_returnCode"];
+		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params [["_result", -1], ["_returnCode", -1]];
 		if (_returnCode isEqualTo _OK_) then {
 			[] call btc_json_fnc_load;
 		} else {
-			if(btc_debug) then {
-				[format["JSON: %1", _result], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-			};
-			[] call btc_db_fnc_initDefault;
+			#ifdef BTC_DEBUG
+			[["%1: JSON load failed, result: %2, returnCode %3", __FILE_NAME__, [_result, -1] select {isNil "_result"}, _returnCode], 2] call btc_debug_fnc_message;
+			#endif[] call btc_db_fnc_initDefault;
 		};
 	};
 	default {

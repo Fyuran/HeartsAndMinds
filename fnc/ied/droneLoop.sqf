@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_droneLoop
 
@@ -41,9 +41,9 @@ Author:
                 _trigger pushBack ([_driver_drone] call btc_ied_fnc_drone_active);
             };
 
-            if (btc_debug) then {
-                hint format ["Distance with UAV IED : %1", (_array select 0) distance (vehicle _driver_drone)];
-            };
+            #ifdef BTC_DEBUG_IED
+            hint format ["Distance with UAV IED : %1", (_array select 0) distance (vehicle _driver_drone)];
+            #endif
             (vehicle _driver_drone) doMove (ASLtoAGL getPosASL (_array select 0));
         };
         _this call btc_ied_fnc_droneLoop;
@@ -51,8 +51,8 @@ Author:
         deleteVehicle (_trigger deleteAt 0);
         _group setVariable ["btc_ied_drone", false];
 
-        if (btc_debug_log) then {
-            [format ["_driver_drone = %1 POS %2 END LOOP", _driver_drone, getPos _driver_drone], __FILE__, [false]] call btc_debug_fnc_message;
-        };
+        #ifdef BTC_DEBUG_IED
+        [["%1: _driver_drone = %2 POS %3 END LOOP", __FILE_NAME__, _driver_drone, getPos _driver_drone], 2, "ied"] call btc_debug_fnc_message;
+        #endif
     };
 }, _this, 5] call CBA_fnc_waitAndExecute;

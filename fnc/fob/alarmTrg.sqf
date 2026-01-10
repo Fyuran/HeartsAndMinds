@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_alarmTrg
 
@@ -18,7 +18,6 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params[
     ["_fob_trg", ObjNull, [ObjNull]],
@@ -27,26 +26,31 @@ params[
 
 //hint format["%1", _thisList];
 if (isNull _fob_trg) exitWith {
-	["_fob_trg is ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_FOB
+	[["%1: _fob_trg is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _building = _fob_trg getVariable ["btc_fob_structure", ObjNull];
 if (isNull _building) exitWith {
-    ["_building is ObjNull", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_FOB
+    [["%1: _building is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _cooldown = _building getVariable["btc_fob_cooldown", -1];
 if(_cooldown > CBA_missionTime) exitWith {
-    if(btc_debug) then {
-        [format["Not ready yet: CD:%1, CBA_missionTime: %2, Remaining: %3", 
-            _cooldown, CBA_missionTime, _cooldown - CBA_missionTime],
-                 __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_FOB
+    [["%1: Not ready yet: CD:%2, CBA_missionTime: %3, Remaining: %4", 
+        _cooldown, CBA_missionTime, _cooldown - CBA_missionTime], 2, "fob"] call btc_debug_fnc_message;    
+    #endif
 };
 
 private _FOB_Event = _building getVariable ["FOB_Event", false];
 private _FOB_Name = _building getVariable["FOB_name",""];
-[format["%1: alarm triggered", _FOB_name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+#ifdef BTC_DEBUG_FOB
+[["%1: %2 alarm triggered", __FILE_NAME__, _FOB_name], 2, "fob"] call btc_debug_fnc_message;
+#endif
  
 //Notification sound
 ["WarningDescriptionAudio", ["", format[

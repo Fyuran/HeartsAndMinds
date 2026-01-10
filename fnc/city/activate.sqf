@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_city_fnc_activate
 
@@ -36,10 +36,9 @@ params [
     ["_p_patrol_max", btc_p_patrol_max, [0]]
 ];
 
-if (btc_debug) then {
-    _city setVariable ["serverTime", serverTime];
-};
-
+#ifdef BTC_DEBUG_CITY
+_city setVariable ["serverTime", serverTime];
+#endif
 _city enableSimulation false;
 _city setVariable ["active", true];
 
@@ -79,10 +78,10 @@ if (!(_city getVariable ["initialized", false])) then {
         _numberOfIED = _numberOfIED * 2;
     };
 
-    if (btc_debug_log) then {
-        [format ["_numberOfIED %1 - p %2", _numberOfIED, _numberOfIED * btc_p_ied], __FILE__, [false]] call btc_debug_fnc_message;
-    };
-
+        #ifdef BTC_DEBUG_CITY
+        [["%1: _numberOfIED %2 - p %3", __FILE_NAME__, _numberOfIED, _numberOfIED * btc_p_ied], 2, "city"] call btc_debug_fnc_message;
+    
+    #endif
     _numberOfIED = _numberOfIED * btc_p_ied / 2;
     if (_numberOfIED > 0) then {
         [[_city, _spawningRadius, _numberOfIED + (random _numberOfIED)], btc_ied_fnc_initArea] call btc_delay_fnc_exec;
@@ -386,7 +385,7 @@ if(_has_en) then {
 };
 
 
-if (btc_debug || btc_debug_log) then {
-    private _id = _city getVariable "id";
-    [format ["%1 - %2ms", _id, (serverTime - (_city getVariable ["serverTime", serverTime])) * 1000] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_CITY
+private _id = _city getVariable "id";
+[["%1: %2 - %3ms", __FILE_NAME__, _id, (serverTime - (_city getVariable ["serverTime", serverTime])) * 1000] , 3, "city"] call btc_debug_fnc_message;
+#endif

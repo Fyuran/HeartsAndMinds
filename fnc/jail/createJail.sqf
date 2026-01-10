@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_jail_fnc_createJail
 
@@ -19,20 +19,25 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params[
     ["_flag", objNull, [objNull]]
 ];
 
 if(!canSuspend) exitWith {
-    ["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    #endif
 };
 if(!alive player) exitWith {
-    ["player is dead", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: player is dead", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    #endif
 };
 if(isNull _flag) exitWith {
-    ["null _flag param", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: null _flag", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _jail = createVehicleLocal["CBA_NamespaceDummy", [0,0,0], [], 0, "CAN_COLLIDE"];

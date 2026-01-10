@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_eh_fnc_server
 
@@ -18,7 +18,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 addMissionEventHandler ["BuildingChanged", btc_eh_fnc_buildingChanged];
 ["ace_explosives_defuse", btc_rep_fnc_explosives_defuse] call CBA_fnc_addEventHandler;
@@ -163,17 +162,17 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 ["btc_log_place_pickedUp", {
     params ["_target", "_unit"];
     
-    if(btc_debug) then {
-        [format["%1 picked up a %2", name _unit, typeOf _target], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_EH
+    [["%1: %2 picked up a %3", __FILE_NAME__, name _unit, typeOf _target], 2, "eh"] call btc_debug_fnc_message;
+    #endif
     _target setVariable ["btc_log_isBeingPlaced", true, true];
 }] call CBA_fnc_addEventHandler;
 
 ["btc_log_place_placedDown", {
     params ["_target", "_unit"];
 
-    if(btc_debug) then {
-        [format["%1 placed down a %2", name _unit, typeOf _target], __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_EH
+    [["%1: %2 placed down a %3", __FILE_NAME__, name _unit, typeOf _target], 2, "eh"] call btc_debug_fnc_message;
+    #endif
     _target setVariable ["btc_log_isBeingPlaced", false, true];
 }] call CBA_fnc_addEventHandler;

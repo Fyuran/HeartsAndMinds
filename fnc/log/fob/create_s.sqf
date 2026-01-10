@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fob_fnc_create_s
 
@@ -27,7 +27,9 @@ params[
 ];
 
 if(!alive _flag) exitWith {
-    ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _create_obj = createVehicle [btc_log_fob_create_obj_class, _pos, [], 0, "CAN_COLLIDE"];
@@ -46,8 +48,7 @@ publicVariable "btc_log_fob_create_objects";
 
 [_create_obj, _log_point] remoteExecCall ["btc_log_fob_fnc_actions", [0, -2] select isDedicated, _create_obj];
 
-if(btc_debug) then {
-    [format["created log_obj at %1", _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
-
+#ifdef BTC_DEBUG_LOG
+[["%1: created log_obj at %2", __FILE_NAME__, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/fob"] call btc_debug_fnc_message;  
+#endif
 _create_obj

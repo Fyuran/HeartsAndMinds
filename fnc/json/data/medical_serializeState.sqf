@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_medical_serializeState
 	

@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_create
 
@@ -35,26 +35,19 @@ params [
     ["_ied_list", btc_ied_list, [[]]]
 ];
 
-if (btc_debug_log) then {
-    [format ["%1", _this], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
 private _wreck = createSimpleObject [_type, _pos];
 _wreck setPosATL [_pos select 0, _pos select 1, 0];
 _wreck setDir _dir;
 _wreck setVectorUp surfaceNormal _pos;
 
-if (btc_debug) then {
-    private _marker = createMarkerLocal [format ["btc_ied_%1", _pos], _pos];
-    _marker setMarkerTypeLocal "hd_warning";
-    _marker setMarkerColorLocal (["ColorBlue", "ColorRed"] select _active);
-    _marker setMarkerTextLocal (["IED (fake)", "IED"] select _active);
-    _marker setMarkerSize [0.8, 0.8];
-};
-if (btc_debug_log) then {
-    [format ["IED = POS %1 N %2", _pos, count _ied_list], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_IED
+[["%1: created IED with %2", __FILE_NAME__, _this], 2, "ied"] call btc_debug_fnc_message;
+private _marker = createMarkerLocal [format ["btc_ied_%1", _pos], _pos];
+_marker setMarkerTypeLocal "hd_warning";
+_marker setMarkerColorLocal (["ColorBlue", "ColorRed"] select _active);
+_marker setMarkerTextLocal (["IED (fake)", "IED"] select _active);
+_marker setMarkerSize [0.8, 0.8];
+#endif
 if !(_active) exitWith {[_wreck, _type, objNull]};
 
 private _ied = createMine [selectRandom btc_type_ieds_ace, [_pos select 0, _pos select 1, btc_ied_offset], [], 2];

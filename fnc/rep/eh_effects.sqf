@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_eh_effects
 
@@ -46,6 +46,7 @@ if (btc_global_reputation < (btc_rep_level_low + 100)) then {
     };
 };
 
-if (btc_debug_log) then {
-    [format ["REP = %1 - RANDOM = %2 - RINF TIME = %3 - MILITIA/WEAPONS = %4/%5", _rep, _random, time > (btc_rep_militia_called + btc_rep_militia_call_time), _random > 3, _random > 4], __FILE__, [false]] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_REP
+[["%1: REP = %2 - RANDOM = %3 - RINF TIME = %4 - MILITIA/WEAPONS = %5/%6", __FILE_NAME__, 
+_rep, _random, time > (btc_rep_militia_called + btc_rep_militia_call_time), _random > 3, _random > 4], 2, "rep"] call btc_debug_fnc_message;
+#endif

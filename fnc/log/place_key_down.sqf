@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fnc_place_key_down
 
@@ -23,7 +23,6 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_display", displayNull, [displayNull]],
@@ -66,11 +65,10 @@ if (_keyPressed) then {
     btc_log_placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]];
     [btc_log_placing_obj, [btc_log_yaw, btc_log_pitch, btc_log_roll]] call BIS_fnc_setObjectRotation;
 
-    if(btc_debug) then {
-        [format["key %1(turbo:%2) pressed, rotating by [%3, %4, %5], height set to [%6]", 
-        _key, _turbo isEqualTo 1, btc_log_yaw, btc_log_pitch, btc_log_roll, btc_log_placing_h],
-        __FILE__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_LOG
+    [["%1: key %2(turbo:%3) pressed, rotating by [%4, %5, %6], height set to [%7]", __FILE_NAME__, 
+    _key, _turbo isEqualTo 1, btc_log_yaw, btc_log_pitch, btc_log_roll, btc_log_placing_h], 2, "log"] call btc_debug_fnc_message;
+    #endif
 };
 
 _keyPressed

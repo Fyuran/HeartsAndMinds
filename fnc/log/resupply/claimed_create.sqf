@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_resupply_fnc_claimed_create
 
@@ -71,8 +71,7 @@ playSound3D ["a3\missions_f_bootcamp\data\sounds\assemble_target.wss", _obj, fal
 
 }] remoteExecCall ["call", [0, -2] select isDedicated, _obj];
 
-if(btc_debug) then {
-    [format["created CLAIMED supply at [%1]r:%2", _pos, _resources], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
-
+#ifdef BTC_DEBUG_LOG
+[["%1: created CLAIMED supply at [%2]r:%3", __FILE_NAME__, _pos, _resources], 2, "log/resupply"] call btc_debug_fnc_message;  
+#endif
 _obj

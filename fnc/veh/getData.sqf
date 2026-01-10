@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_veh_fnc_getData
 
@@ -23,9 +23,9 @@ params[
 	["_object", objNull, [objNull]]
 ];
 if(!alive _object) exitWith {
-	if (btc_debug) then {
-		[format ["_object is dead or null"], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-	};
+	#ifdef BTC_DEBUG_VEH
+	[["%1: _object is dead or null", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	#endif
 };
 
 private _turretsMagazines = magazinesAllTurrets _object;

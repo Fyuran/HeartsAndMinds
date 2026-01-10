@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_patrol_fnc_WPCheck
 
@@ -37,18 +37,17 @@ _citiesID params [
     ["_end_cityID", 0, [0]]
 ];
 
-if (btc_debug) then {
-    if (!isNil {_group getVariable "btc_patrol_id"}) then {
-        private _patrol_id = _group getVariable ["btc_patrol_id", -1];
-        deleteMarker format ["Patrol_fant_begin_%1", _patrol_id];
-        deleteMarker format ["Patrol_fant_end_%1", _patrol_id];
-        for "_i" from 0 to 1 step 0.2 do {
-            deleteMarker format ["Patrol_fant_%1_%2", _patrol_id, _i];
-        };
-        btc_patrols_pos deleteAt _patrol_id;
+#ifdef BTC_DEBUG_PATROL
+if (!isNil {_group getVariable "btc_patrol_id"}) then {
+    private _patrol_id = _group getVariable ["btc_patrol_id", -1];
+    deleteMarker format ["Patrol_fant_begin_%1", _patrol_id];
+    deleteMarker format ["Patrol_fant_end_%1", _patrol_id];
+    for "_i" from 0 to 1 step 0.2 do {
+        deleteMarker format ["Patrol_fant_%1_%2", _patrol_id, _i];
     };
+    btc_patrols_pos deleteAt _patrol_id;
 };
-
+#endif
 private _start_city = btc_city_all get _start_cityID;
 private _active_city = btc_city_all get _active_cityID;
 private _end_city = btc_city_all get _end_cityID;
@@ -60,10 +59,9 @@ if ([_active_city, _group, _area] call btc_patrol_fnc_playersInAreaCityGroup) ex
 
 //Sometimes the waypoint is completed but too far due to obstacle (water for island etc)
 if ((leader _group) distance _last_wp_pos > 100) then {
-    if (btc_debug || btc_debug_log) then {
-        [format ["Patrol ID: %1, %2 inaccessible (end city ID: %3)", _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_city getVariable ["name", "no name"], _end_city getVariable ["id", 0]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-    };
-
+    #ifdef BTC_DEBUG_PATROL
+    [["%1: Patrol ID: %2, %3 inaccessible (end city ID: %4)", __FILE_NAME__, _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_city getVariable ["name", "no name"], _end_city getVariable ["id", 0]], 2, "patrol"] call btc_debug_fnc_message;
+    #endif
     //Dynamically create a balcklist of cities inaccessible from the starting city
     private _cities_inaccessible = _start_city getVariable ["btc_cities_inaccessible", []];
     _cities_inaccessible pushBack _end_city;

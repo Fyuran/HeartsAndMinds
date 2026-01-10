@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_event_fnc_attackFOBspawn
 
@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    Giallustio
+    Giallustio, Fyuran
 
 ---------------------------------------------------------------------------- */
 #include "..\..\script_macros.hpp"
@@ -25,7 +25,12 @@ Author:
 if(!params[
     ["_building", objNull, [objNull]],
     ["_nearCities", [], [[]]]
-]) exitWith {["Bad params", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message; false};
+]) exitWith {
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: Bad params", __FILE_NAME__], 6, "event/FOB"] call btc_debug_fnc_message;
+    #endif
+    false
+};
 
 private _nearCities = [_nearCities, [_building], { _input0 distance2D _x }, "ASCEND"] call BIS_fnc_sortBy;
 private _countCities = count _nearCities;
@@ -38,13 +43,15 @@ for "_i" from 0 to _maxGrps do {
 
     _grp = [_city, _building, _FOB_ATTACK_PATROL_TYPE_] call btc_mil_fnc_send;
     _groups pushBack _grp;
-    [format["%1 is being sent to %2, distance: %3", _grp, _building getVariable["FOB_name", ""], _city distance2D _building] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif 
     if(count _groups >= _FOB_MAX_GROUPS_) then {break;};
     _grp = [_city, _building, _FOB_ATTACK_PATROL_TYPE_] call btc_mil_fnc_send;
     _groups pushBack _grp;
-   
-   [format["%1 is being sent to %2, distance: %3", _grp, _building getVariable["FOB_name", ""], _city distance2D _building] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+   #ifdef BTC_DEBUG_EVENT
+   [["%1: %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif
     if(count _groups >= _FOB_MAX_GROUPS_) then {break;};
 };
 
@@ -52,7 +59,9 @@ if (btc_global_reputation < btc_rep_level_veryLow) then {
     private _city = selectRandom _nearCities;
     _grp = [_city, _building] call btc_ied_fnc_suicider_fob_create;
     _groups pushBack _grp;
-    [format["%1 SUICIDER is being sent to %2, distance: %3", _grp, _building getVariable["FOB_name", ""], _city distance2D _building] , __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_EVENT
+    [["%1: SUICIDER %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call btc_debug_fnc_message;
+    #endif
 };
 
 _groups

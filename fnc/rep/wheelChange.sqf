@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_wheelChange
 
@@ -21,7 +21,6 @@ Author:
     Vdauphin
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     "_object",
@@ -42,6 +41,6 @@ private _instigator = nearestObject [_object, btc_player_type];
     _CIV_WHEEL_CHANGED_
 ] call btc_rep_fnc_change;
 
-if (btc_debug_log) then {
-    [format ["THIS = %1 _instigator = %2", _this, _instigator], __FILE__, [false]] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_REP
+[["%1: THIS = %2 _instigator = %3", __FILE_NAME__, _this, _instigator], 2, "rep"] call btc_debug_fnc_message;
+#endif

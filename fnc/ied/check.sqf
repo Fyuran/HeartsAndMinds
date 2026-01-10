@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_check
 
@@ -29,10 +29,9 @@ if (_array isEqualTo []) exitWith {};
 
 private _ieds = _array apply {_x call btc_ied_fnc_create};
 
-if (btc_debug || btc_debug_log) then {
-    [format ["START CITY ID %1", _city getVariable "id"], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_IED
+[["%1: IED CHECK OF CITY ID %2", __FILE_NAME__, _city getVariable "id"], 2, "ied"] call btc_debug_fnc_message;
+#endif
 private _ieds_check = _ieds select {(_x select 2) isNotEqualTo objNull};
 
 [_city, _ieds, _ieds_check] call btc_ied_fnc_checkLoop;

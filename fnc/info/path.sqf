@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_info_fnc_path
 
@@ -56,17 +56,17 @@ private _agent = calculatePath [_type, _behaviour, _startPos, _endPos];
         _mrk setMarkerColorLocal _color;
         _mrk setMarkerDir _direction;
 
-        if (btc_debug) then {
-            _mrk setMarkerText format ["%1°", floor _direction];
-        };
+        #ifdef BTC_DEBUG_INFO
+        _mrk setMarkerText format ["%1°", floor _direction];
+        #endif
     };
-    if (btc_debug) then {
-        {
-            private _mrk = createMarkerLocal [format ["%1_debug_%2", _taskID, _forEachIndex], _x];
-            _mrk setMarkerTypeLocal "mil_dot";
-            _mrk setMarkerAlpha 0.3;
-        } forEach _path;
-    };
+    #ifdef BTC_DEBUG_INFO
+    {
+        private _mrk = createMarkerLocal [format ["%1_debug_%2", _taskID, _forEachIndex], _x];
+        _mrk setMarkerTypeLocal "mil_dot";
+        _mrk setMarkerAlpha 0.3;
+    } forEach _path;
+    #endif
 }, [_taskID]] call CBA_fnc_addBISEventHandler;
 
 _agent

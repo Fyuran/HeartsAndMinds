@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_json_fnc_createVehicle
 
@@ -59,7 +59,9 @@ _properties params [
 ];
 
 if(_veh_pos isEqualTo [0,0,0]) exitWith {
-    [format ["invalid _veh_pos"], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_JSON
+    [["%1: invalid _veh_pos", __FILE_NAME__], 6, "json/data"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _veh  = createVehicle [_veh_type, _veh_pos, [], 0, "CAN_COLLIDE"];

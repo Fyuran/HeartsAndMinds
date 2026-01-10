@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_slot_fnc_loadPlayer
 
@@ -21,26 +21,24 @@ Author:
 if(!params[
     ["_slot_data", createHashMap, [createHashMap]]
 ]) exitWith { //empty hashmap
-    if(btc_debug) then {
-        [format ["no data found for %1(%2)", name player, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-    };
-};
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: no data found for %2(%3)", __FILE_NAME__, name player, getPlayerUID player], 6, "slot"] call btc_debug_fnc_message;
+    #endif};
 
 if(!alive player) exitWith {
-    if(btc_debug) then {
-        [format["%1 is null or not alive", name player], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: %2 is null or not alive", __FILE_NAME__, name player], 6, "slot"] call btc_debug_fnc_message;
+    #endif
 };
 
 (values _slot_data) params ((keys _slot_data) apply {"_" + _x});
-if(btc_debug) then {
-    [format ["%1(%2) with: %3", name player, _uid, _slot_data], __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_SLOT
+[format ["%1(%2) with: %3", name player, _uid, _slot_data], __FILE_NAME__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;
+#endif
 if((_uid isNotEqualTo "") && {_uid isNotEqualTo (getPlayerUID player)}) exitWith { //just check for mismatch, ignore empty string
-    if(btc_debug) then {
-        [format ["%1, different uid! %2, %3", name player, _uid, getPlayerUID player], __FILE__, [btc_debug, btc_debug_log, true], false] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_SLOT
+    [["%1: %2, different uid! %3, %4", __FILE_NAME__, name player, _uid, getPlayerUID player], 6, "slot"] call btc_debug_fnc_message;
+    #endif
 };
 player setDir _dir; //keep setDir above setPos to sync direction between clients https://community.bistudio.com/wiki/setDir
 player setPosASL _previousPos;

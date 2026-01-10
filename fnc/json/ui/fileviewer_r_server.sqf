@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_fileviewer_r_server
 	
@@ -20,12 +21,11 @@
 
 private _files = ("btc_ArmaToJSON" callExtension ["retrieveList", []]) select 0;
 if(_files isEqualTo "" or isNil "_files") exitWith {
-	[format["No valid JSON files found"], __FILE__, nil, false] call btc_debug_fnc_message;
+	[["%1: No valid JSON files found", __FILE_NAME__], 6, "json/ui"] call btc_debug_fnc_message;
 };
 _files = parseSimpleArray _files;
 
-if(btc_debug) then {
-	[format["Broadcasting %1 to clientID: %2", _files, remoteExecutedOwner], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: Broadcasting %2 to clientID: %3", __FILE_NAME__, _files, remoteExecutedOwner], 2, "json/ui"] call btc_debug_fnc_message;
+#endif
 [_files] remoteExecCall ["btc_json_fnc_fileviewer_r_client", remoteExecutedOwner];

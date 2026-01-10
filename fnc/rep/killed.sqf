@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_killed
 
@@ -20,7 +20,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params ["_unit", "_causeOfDeath", "_killer", "_instigator"];
 
@@ -55,7 +54,7 @@ if (
         };
     };
 
-    if (btc_debug_log) then {
-        [format ["GREP %1 THIS = %2", btc_global_reputation, _this], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_REP
+    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+    #endif
 };

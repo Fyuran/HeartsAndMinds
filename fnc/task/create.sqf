@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_task_fnc_create
 Date: 2025/12
@@ -48,7 +48,9 @@ if(_task isEqualType "") then {
     };
 } else {
     if ((count _task) > 2) exitWith {
-        [["bad task array: %1", _task], 6] call btc_tools_fnc_debug;
+        #ifdef BTC_DEBUG_SIDE
+        [["%1: bad task array: %2", __FILE_NAME__, _task], 6, "side"] call btc_debug_fnc_message;
+        #endif
     };
     _task params [
         ["_child", "", [""]], 

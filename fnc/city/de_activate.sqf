@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_city_fnc_de_activate
 
@@ -26,12 +26,10 @@ params [
 
 if !(_city getVariable ["active", false]) exitWith {};
 
-if (btc_debug) then {
-    private _id = _city getVariable "id";
-    [str _id, __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
-
-//Save all and delete
+#ifdef BTC_DEBUG_CITY
+private _id = _city getVariable "id";
+[["%1: deactivated city %2", __FILE_NAME__, str _id], 3, "city"] call btc_debug_fnc_message;
+#endif
 private _cachingRadius = _city getVariable ["cachingRadius", 0];
 private _has_en = _city getVariable ["occupied", false];
 
@@ -105,13 +103,12 @@ _supplies apply {
 _city setVariable ["supplies", []];
 
 
-if (btc_debug_log) then {
-    [format ["count data_units = %1", count _data_units], __FILE__, [false]] call btc_debug_fnc_message;
-    [format ["count data_animals = %1", count _data_animals], __FILE__, [false]] call btc_debug_fnc_message;
-    [format ["count data_tags = %1", count _data_tags], __FILE__, [false]] call btc_debug_fnc_message;
-    [format ["count data_supplies = %1", count (_city getVariable ["data_supplies", []])], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_CITY
+[["%1: count data_units = %2", __FILE_NAME__, count _data_units], 2, "city"] call btc_debug_fnc_message;
+[["%1: count data_animals = %2", __FILE_NAME__, count _data_animals], 2, "city"] call btc_debug_fnc_message;
+[["%1: count data_tags = %2", __FILE_NAME__, count _data_tags], 2, "city"] call btc_debug_fnc_message;
+[["%1: count data_supplies = %2", __FILE_NAME__, count (_city getVariable ["data_supplies", []])], 2, "city"] call btc_debug_fnc_message;
+#endif
 _city setVariable ["has_suicider", _has_suicider];
 _city setVariable ["data_units", _data_units];
 _city setVariable ["data_animals", _data_animals];

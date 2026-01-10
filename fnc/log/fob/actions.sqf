@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fob_fnc_actions
 
@@ -26,10 +26,14 @@ params[
 ];
 
 if(isNull _create_obj) exitWith {
-    ["_create_obj is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;
+    #endif
 };
 if(isNull _log_point) exitWith {
-    ["_log_point is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _log_point is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _action = ["Logistic_FOB", localize "STR_BTC_HAM_ACTION_LOC_MAIN", "\A3\ui_f\data\igui\cfg\simpleTasks\letters\L_ca.paa", {}, {true}] call ace_interact_menu_fnc_createAction;

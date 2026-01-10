@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_veh_fnc_add
 
@@ -42,9 +42,9 @@ if (isNil {_veh getVariable "btc_EDENinventory"}) then {
 }, _veh] call CBA_fnc_waitUntilAndExecute;
 
 if (btc_vehicles pushBackUnique _veh isEqualTo -1) exitWith {
-    if (btc_debug || btc_debug_log) then {
-        ["Vehicle added more than once in btc_vehicles", __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-    }; 
+    #ifdef BTC_DEBUG_VEH
+    [["%1: Vehicle added more than once in btc_vehicles", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+    #endif
 };
 
 _veh setVariable ["btc_dont_delete", true];

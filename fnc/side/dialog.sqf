@@ -1,4 +1,4 @@
-#define BTC_DEBUG
+#include "..\script_macros.hpp"
 #include "\a3\ui_f\hpp\definecommongrids.inc"
 /* ----------------------------------------------------------------------------
 Date: 2025/12
@@ -34,14 +34,8 @@ btc_side_list apply {
             localize format["STR_BTC_HAM_SIDE_%1_DESC_SIMPLE", toUpper _x]
         ]
     ];
-    #ifdef BTC_DEBUG
-    [[
-        "%1 row data is %2", _x,
-        format["[%1, %2, %3]",
-            _x,
-            localize format["STR_BTC_HAM_SIDE_%1_DESC_SIMPLE", toUpper _x]
-        ]
-    ], 2] call btc_tools_fnc_debug;
+    #ifdef BTC_DEBUG_SIDE
+    [["%1: %2 row data is %3", __FILE_NAME__, _x, localize format["STR_BTC_HAM_SIDE_%1_DESC_SIMPLE", toUpper _x]], 2, "side"] call btc_debug_fnc_message;
     #endif
 };
 
@@ -87,8 +81,8 @@ _button ctrlAddEventHandler ["ButtonClick", {
     };
 
     private _map = createDialog ["RscMap", true];
-    #ifdef BTC_DEBUG
-    [["%1 map loaded, lbCurSel: %2, fnc: %3", _map, (lbCurSel _listbox), _fnc], 3] call btc_tools_fnc_debug;
+    #ifdef BTC_DEBUG_SIDE
+    [["%1: %2 map loaded, lbCurSel: %3, fnc: %4", __FILE_NAME__, _map, (lbCurSel _listbox), _fnc], 3, "side"] call btc_debug_fnc_message;
     #endif
     private _infoText = _map ctrlCreate ["RscCenterText", 1001];
     //private _infoTextW = 0.37125 * safezoneW;
@@ -118,8 +112,8 @@ _button ctrlAddEventHandler ["ButtonClick", {
             ["_side", "", [""]]
         ];
         private _fnc = format["btc_side_fnc_%1", _side];
-        #ifdef BTC_DEBUG
-        [["clicked on %1, %2 side, remoteExecCall: %2", _pos, _side, _fnc], 3] call btc_tools_fnc_debug;
+        #ifdef BTC_DEBUG_SIDE
+        [["%1: clicked on %2, %3 side, remoteExecCall: %4", __FILE_NAME__, _pos, _side, _fnc], 3, "side"] call btc_debug_fnc_message;
         #endif
         [format["btc_side_%1", _side], _pos] remoteExec [_fnc, 2];
         removeMissionEventHandler ["MapSingleClick", _thisEventHandler];

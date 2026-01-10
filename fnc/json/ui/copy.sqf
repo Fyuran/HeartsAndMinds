@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_copy_file
 	
@@ -24,10 +25,9 @@ params[
 	["_custom_hint", "", [""]]
 ];
 
-if (btc_debug) then {
-	[format ["Copying JSON file to %1", _path], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: Copying JSON file to %2", __FILE_NAME__, _path], 2, "json/ui"] call btc_debug_fnc_message;
+#endif
 private _returnString = ("btc_ArmaToJSON" callExtension ["copyFile", [_path]]) select 0;
 
 if(_custom_hint isEqualTo "") then {

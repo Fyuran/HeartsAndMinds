@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_patrol_fnc_addWP
 
@@ -30,9 +30,9 @@ params [
 ];
 
 if (isNull _group) exitWith {
-    if(btc_debug) then {
-        [format ["_group isNull %1, waypointStatements = %2 ", isNull _group, _waypointStatements], __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_PATROL
+    [["%1: _group isNull %2, waypointStatements = %3 ", __FILE_NAME__, isNull _group, _waypointStatements], 6, "patrol"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _vehicle = vehicle leader _group;
@@ -63,16 +63,16 @@ if (_vehicle isKindOf "Air") then {
             };
             [_group, _vec, -1, "MOVE", _behaviorMode, _combatMode, "LIMITED", "STAG COLUMN", format["[group this, %1] call btc_patrol_fnc_WPFOBCheck", _isBoat], [0, 0, 0], 50] call CBA_fnc_addWaypoint;
 
-            if (btc_debug) then {
-                private _patrol_id = _group getVariable ["btc_patrol_id", 0];
-                private _marker = createMarkerLocal [format ["Patrol_fant_%1_%2", _patrol_id, _i], _vec];
-                _marker setMarkerTypeLocal "mil_dot";
-                _marker setMarkerTextLocal format ["FOB?:%1/%2", _patrol_id, _i];
-                _marker setMarkerColorLocal "ColorGrey";
-                _marker setMarkerSizeLocal [0.2, 0.2];
-                _marker setMarkerAlpha 0.5;
+            #ifdef BTC_DEBUG_PATROL
+            private _patrol_id = _group getVariable ["btc_patrol_id", 0];
+            private _marker = createMarkerLocal [format ["Patrol_fant_%1_%2", _patrol_id, _i], _vec];
+            _marker setMarkerTypeLocal "mil_dot";
+            _marker setMarkerTextLocal format ["FOB?:%1/%2", _patrol_id, _i];
+            _marker setMarkerColorLocal "ColorGrey";
+            _marker setMarkerSizeLocal [0.2, 0.2];
+            _marker setMarkerAlpha 0.5;
+            #endif
             };
-        };
     };
 
     private _roadBlackList = [];
@@ -90,27 +90,27 @@ if (_vehicle isKindOf "Air") then {
     [_group, _pos, -1, "MOVE", "UNCHANGED", "NO CHANGE", "UNCHANGED", "NO CHANGE", _waypointStatements, [0, 0, 0], 50] call CBA_fnc_addWaypoint;
 };
 
-if (btc_debug) then {
-    if (!isNil {_group getVariable "btc_patrol_id"}) then {
-        private _patrol_id = _group getVariable ["btc_patrol_id", 0];
-        private _marker_color = (["ColorWhite", "ColorRed"] select (_patrol_id > 0));
+#ifdef BTC_DEBUG_PATROL
+if (!isNil {_group getVariable "btc_patrol_id"}) then {
+    private _patrol_id = _group getVariable ["btc_patrol_id", 0];
+    private _marker_color = (["ColorWhite", "ColorRed"] select (_patrol_id > 0));
 
-        private _marker = createMarkerLocal [format ["Patrol_fant_begin_%1", _patrol_id], [(_startPos select 0) + random 30, (_startPos select 1) + random 30, 0]];
-        _marker setMarkerTypeLocal "mil_dot";
-        _marker setMarkerTextLocal format ["P:%1 START", _patrol_id];
-        _marker setMarkerColorLocal _marker_color;
-        _marker setMarkerSize [0.5, 0.5];
+    private _marker = createMarkerLocal [format ["Patrol_fant_begin_%1", _patrol_id], [(_startPos select 0) + random 30, (_startPos select 1) + random 30, 0]];
+    _marker setMarkerTypeLocal "mil_dot";
+    _marker setMarkerTextLocal format ["P:%1 START", _patrol_id];
+    _marker setMarkerColorLocal _marker_color;
+    _marker setMarkerSize [0.5, 0.5];
 
-        _marker = createMarkerLocal [format ["Patrol_fant_end_%1", _patrol_id], [(_pos select 0) + random 30, (_pos select 1) + random 30, 0]];
-        _marker setMarkerTypeLocal "mil_dot";
-        _marker setMarkerTextLocal format ["P:%1 END", _patrol_id];
-        _marker setMarkerColorLocal _marker_color;
-        _marker setMarkerSize [0.5, 0.5];
+    _marker = createMarkerLocal [format ["Patrol_fant_end_%1", _patrol_id], [(_pos select 0) + random 30, (_pos select 1) + random 30, 0]];
+    _marker setMarkerTypeLocal "mil_dot";
+    _marker setMarkerTextLocal format ["P:%1 END", _patrol_id];
+    _marker setMarkerColorLocal _marker_color;
+    _marker setMarkerSize [0.5, 0.5];
 
-        if(!(side _group isEqualTo civilian)) then {
-            btc_patrols_pos set [_patrol_id,[_startPos, _pos]];
-            publicVariable "btc_patrols_pos";
-        };
-
+    if(!(side _group isEqualTo civilian)) then {
+        btc_patrols_pos set [_patrol_id,[_startPos, _pos]];
+        publicVariable "btc_patrols_pos";
     };
+
 };
+#endif

@@ -1,3 +1,4 @@
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_typeText
 
@@ -35,9 +36,9 @@ Author:
 
 ---------------------------------------------------------------------------- */
 if(!canSuspend) exitWith {
-	if(btc_debug) then {
-		["Called in a non suspended envinronment", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
-	};
+#ifdef BTC_DEBUG_COMMON
+[["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+#endif
 };
 
 btc_info_typeTextHandle = missionNamespace getVariable ["btc_info_typeTextHandle", scriptNull];

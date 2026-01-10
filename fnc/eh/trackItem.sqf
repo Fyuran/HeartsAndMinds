@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_eh_fnc_trackItem
 
@@ -41,10 +41,9 @@ params [
         _unit removeItem _dogTag;
     };
 
-    if (btc_debug) then {
-        [format ["_thisArgs %1, items %2", _thisArgs, items _unit], __FILE__, [btc_debug, true]] call btc_debug_fnc_message;
-    };
-}, [_dogTag, _taskID]] call CBA_fnc_addBISEventHandler;
+    #ifdef BTC_DEBUG_EH
+    [["%1: _thisArgs %2, items %3", __FILE_NAME__, _thisArgs, items _unit], 2, "eh"] call btc_debug_fnc_message;
+    #endif}, [_dogTag, _taskID]] call CBA_fnc_addBISEventHandler;
 
 [_objt, "Deleted", {
     params [

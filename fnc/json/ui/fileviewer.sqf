@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_fileviewer
 	
@@ -21,7 +22,11 @@
 disableSerialization;
 
 private _display = [] call BIS_fnc_displayMission;
-if(isNull _display) exitWith {[format["Could not find display 46: %1", _display], __FILE__, nil, true] call btc_debug_fnc_message;};
+if(isNull _display) exitWith {
+	#ifdef BTC_DEBUG_JSON
+	[["%1: Could not find display 46", __FILE_NAME__], 6, "json/ui"] call btc_debug_fnc_message;
+	#endif
+};
 
 private _fileviewer = _display createDisplay "Rsc_btcJSON";
 private _exitButton = _fileviewer displayCtrl 2;

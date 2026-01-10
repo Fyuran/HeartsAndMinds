@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_hh
 
@@ -19,7 +19,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_healer", objNull, [objNull]]
@@ -28,7 +27,7 @@ params [
 if (isPlayer _healer) then {
     [_healer, _CIV_HEALED_] call btc_rep_fnc_change;
 
-    if (btc_debug_log) then {
-        [format ["GREP %1 THIS = %2", btc_global_reputation, _this], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_REP
+    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+    #endif
 };

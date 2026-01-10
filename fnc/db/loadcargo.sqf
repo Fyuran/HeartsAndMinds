@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_db_fnc_loadCargo
 
@@ -38,10 +38,9 @@ Author:
         private _l = createVehicle [_type, getPosATL _obj, [], 0, "CAN_COLLIDE"];
         [_l] call btc_log_fnc_init;
         private _isloaded = [_l, _obj, false] call ace_cargo_fnc_loadItem;
-        if (btc_debug_log) then {
-            [format ["Object loaded: %1 in veh/container %2 IsLoaded: %3", _l, _obj, _isloaded], __FILE__, [false]] call btc_debug_fnc_message;
-        };
-
+        #ifdef BTC_DEBUG_DB
+        [["%1: Object loaded: %2 in veh/container %3 IsLoaded: %4", __FILE_NAME__, _l, _obj, _isloaded], 2, "db"] call btc_debug_fnc_message;
+        #endif
         [_l, _inventory] call btc_log_fnc_inventorySet;
 
         if (_isContaminated) then {

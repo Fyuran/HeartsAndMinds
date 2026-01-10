@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_hideout_fnc_hd
 
@@ -25,7 +25,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_hideout", objNull, [objNull]],
@@ -74,9 +73,9 @@ if (
 
     //Notification
     [2, count btc_hideouts] remoteExecCall ["btc_fnc_show_hint", 0];
-    if (btc_debug_log) then {
-        [format ["_this = %1 ; POS %2 ID %3", _this, getPos _hideout, _id], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_HIDEOUT
+    [["%1: _this = %2 ; POS %3 ID %4", __FILE_NAME__, _this, getPosASL _hideout, _id], 2, "hideout"] call btc_debug_fnc_message;
+    #endif
 } else {
     0
 };

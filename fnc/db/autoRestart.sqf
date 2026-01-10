@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_db_fnc_autoRestart
 
@@ -37,5 +37,5 @@ if (_p_autoRestartType > 2) then {
 };
 
 if !(_serverCommandPassword serverCommand _serverCommand) then {
-    ["Invalid password", __FILE__, [true, true, true]] call btc_debug_fnc_message;
+    [["%1: Invalid password", __FILE_NAME__], 2, "db"] call btc_debug_fnc_message;
 };

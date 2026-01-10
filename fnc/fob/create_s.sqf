@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_create_s
 
@@ -23,7 +23,6 @@ Author:
     Giallustio
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params [
     ["_pos", [], [[]]],
@@ -34,11 +33,9 @@ params [
     ["_resources", btc_log_fob_max_resources, [0]]
 ];
 
-if(btc_debug) then {
-    [format["%1", _this],
-            __FILE__, [false, btc_debug_log, false], false] call btc_debug_fnc_message;  
-};
-
+#ifdef BTC_DEBUG_FOB
+[["%1: %2", _this], 2, "fob"] call btc_debug_fnc_message;  
+#endif
 private _building = createVehicle [btc_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
 _building setDir _direction;
 private _flag = createVehicle [btc_fob_flag, _pos, [], 0, "CAN_COLLIDE"];
@@ -90,7 +87,9 @@ _marker setMarkerShape "ICON";
 //Garrison
 if(btc_p_fob_garrison) then {
     if (btc_type_friendly_units isEqualTo []) exitWith {
-        ["no suitable classes found for fob garrison", __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+        #ifdef BTC_DEBUG_FOB
+        [["%1: no suitable classes found for fob garrison"], 6, "fob"] call btc_debug_fnc_message;
+        #endif
     };
     [{[_this, btc_player_side, btc_type_friendly_units, true] call btc_garrison_fnc_spawn;}, _building] call CBA_fnc_execNextFrame;
 };
@@ -109,7 +108,7 @@ private _alarmTrgStatementOn = "
 ";
 _alarmTrg setTriggerStatements ["this", _alarmTrgStatementOn, ""];
 
-if (btc_debug) then {
+#ifdef BTC_DEBUG_FOB
     private _marker = createMarkerLocal [format ["fob_%1", _FOB_name],_alarmTrg];
     _marker setMarkerShapeLocal "ELLIPSE";
     _marker setMarkerBrushLocal "SolidBorder";
@@ -127,8 +126,7 @@ if (btc_debug) then {
     };
     _marke setMarkerText format [_spaces + "%1: alarm trigger range", _FOB_name];
     _building setVariable["alarmTrgMarker", [_marker, _marke]];
-};
-
+#endif
 //Destroy FOB Trigger
 private _destroyTrg = createTrigger ["EmptyDetector", _pos, false];
 _destroyTrg setTriggerArea [_conquestRadius, _conquestRadius, 0, false];
@@ -140,7 +138,7 @@ private _destroyTrgStatementOn = "
 _destroyTrg setTriggerStatements ["this && {round (CBA_missionTime % 1) == 0}", _destroyTrgStatementOn, ""];
 _destroyTrg setTriggerInterval 0.2;
 
-if (btc_debug) then {
+#ifdef BTC_DEBUG_FOB
     private _marker = createMarkerLocal [format ["fob_c%1", _FOB_name],_destroyTrg];
     _marker setMarkerShapeLocal "ELLIPSE";
     _marker setMarkerBrushLocal "SolidBorder";
@@ -158,8 +156,7 @@ if (btc_debug) then {
     };
     _marke setMarkerText format [_spaces + "%1: conquest range", _FOB_name];
     _building setVariable["destroyTrgMarker", [_marker, _marke]];
-};
-
+#endif
 _alarmTrg setVariable["btc_fob_structure", _building];
 _destroyTrg setVariable["btc_fob_structure", _building];
 _building setVariable["FOB_Triggers", [_alarmTrg, _destroyTrg]];

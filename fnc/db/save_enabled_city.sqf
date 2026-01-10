@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_db_fnc_save_enabled_city
 
@@ -25,12 +25,10 @@ params [
     ["_city", objNull, [objNull]]
 ];
 
-if (btc_debug) then {
-    private _id = _city getVariable "id";
-    [str _id, __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
-
-//Save all
+#ifdef BTC_DEBUG_DB
+private _id = _city getVariable "id";
+[["%1: saving active city %2", __FILE_NAME__, str _id], 2, "db"] call btc_debug_fnc_message;
+#endif
 private _cachingRadius = _city getVariable ["cachingRadius", 0];
 
 private _pos_city = getPosWorld _city;
@@ -82,12 +80,6 @@ private _data_tags = [];
 
 (btc_vehicles inAreaArray [_pos_city, _cachingRadius, _cachingRadius]) apply {
     [_x] call btc_tag_fnc_vehicle; 
-};
-
-if (btc_debug_log) then {
-    [format ["count data_units = %1", count _data_units], __FILE__, [false]] call btc_debug_fnc_message;
-    [format ["count data_animals = %1", count _data_animals], __FILE__, [false]] call btc_debug_fnc_message;
-    [format ["count data_tags = %1", count _data_tags], __FILE__, [false]] call btc_debug_fnc_message;
 };
 
 _city setVariable ["has_suicider", _has_suicider];

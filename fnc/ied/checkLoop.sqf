@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_checkLoop
 
@@ -68,8 +68,7 @@ Author:
 
     _city setVariable ["ieds", _data];
 
-    if (btc_debug || btc_debug_log) then {
-        [format ["END CITY ID %1", _city getVariable "id"], __FILE__, [btc_debug, btc_debug_log]] call btc_debug_fnc_message;
-    };
-
+    #ifdef BTC_DEBUG_IED
+    [["%1: IED LOOP OF CITY ID %1", __FILE_NAME__, _city getVariable "id"], 2, "ied"] call btc_debug_fnc_message;
+    #endif
 }, _this, 1] call CBA_fnc_waitAndExecute;

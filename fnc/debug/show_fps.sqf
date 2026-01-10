@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fnc_debug_marker_show_fps
 
@@ -44,17 +44,17 @@ private _handle = [{
 	_FPS = round diag_fps;
 
 	_markerText = format[ "%1: %2 fps", _sourcestr, _FPS];
-	if(btc_debug) then {
-		_units = {local _x} count entities "CAManBase";
-		_groups = {local _x} count allGroups;
-		_vehicles = {local _x} count vehicles;
-		_agents = {local (agent _x)} count agents;
-		
-		_markerText = _markerText insert[-1, format[
-			" -DEBUG: units:%1, groups:%2, vehicles:%3, agents:%4",
-			_units, _groups, _vehicles, _agents
-		]];
-	};
+	#ifdef BTC_DEBUG_DEBUG
+	_units = {local _x} count entities "CAManBase";
+	_groups = {local _x} count allGroups;
+	_vehicles = {local _x} count vehicles;
+	_agents = {local (agent _x)} count agents;
+	
+	_markerText = _markerText insert[-1, format[
+		" -DEBUG: units:%1, groups:%2, vehicles:%3, agents:%4",
+		_units, _groups, _vehicles, _agents
+	]];
+	#endif
 	_marker setMarkerTextLocal _markerText;
 	
 	_markerColor = switch(true) do {

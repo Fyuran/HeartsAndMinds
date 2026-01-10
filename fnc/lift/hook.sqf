@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_lift_fnc_hook
 
@@ -72,10 +72,9 @@ if ((_bbr isEqualTo []) OR (_ropes_check select {!isNull _x} isEqualTo [])) then
     ropeCreate [_chopper, "slingload0", _support, [_frontCorner2 select 0, _frontCorner2 select 1, _bbr_z], _rope_length];
 };
 
-if (btc_debug) then {
-    [format ["boundingBoxReal : %1 rope length : %2", _bbr, _rope_length], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_LIFT
+[["%1: boundingBoxReal : %2 rope length : %3", __FILE_NAME__, _bbr, _rope_length], 2, "lift"] call btc_debug_fnc_message;
+#endif
 private _max_cargo  = getNumber (configOf _chopper >> "slingLoadMaxCargoMass");
 private _mass = getMass _cargo;
 

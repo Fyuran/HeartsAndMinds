@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_getPlayersClasses
 
@@ -21,7 +21,9 @@ Author:
 ---------------------------------------------------------------------------- */
 private _missionCfg = (missionconfigfile >> "mission" >> "Mission" >> "Entities");
 if(!isClass _missionCfg) exitWith {
-    [format["mission.sqm was not included in description.ext"], __FILE__, [btc_debug, btc_debug_log, true], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_MIL
+    [["%1: mission.sqm was not included in description.ext", __FILE_NAME__], 6, "mil"] call btc_debug_fnc_message;
+    #endif
 };
 
 private _playerUnitsClasses = [];

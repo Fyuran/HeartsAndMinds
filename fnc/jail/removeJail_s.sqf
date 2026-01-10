@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_jail_fnc_removeJail_s
 
@@ -19,14 +19,15 @@ Author:
     Fyuran
 
 ---------------------------------------------------------------------------- */
-#include "..\script_macros.hpp"
 
 params[
     ["_flag", objNull, [objNull]]
 ];
 
 if(!alive _flag) exitWith {
-    ["_flag is null or not alive", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;  
+    #ifdef BTC_DEBUG_JAIL
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _jail = _flag getVariable ["btc_jail", objNull];

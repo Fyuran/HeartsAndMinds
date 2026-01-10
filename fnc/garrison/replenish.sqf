@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_fob_fnc_replenishGarrison
 
@@ -27,9 +27,9 @@ params[
 ];
 _buildingPos = _building getVariable ["btc_mil_garrison_pos", []];
 if(_buildingPos isEqualTo []) exitWith {
-    if(btc_debug) then {
-        [format ["%1(%2) has no positions available", _building, getPosASL _building], __FILE__, [btc_debug, btc_debug_log], true] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_GARRISON
+    [["%1: %2(%3) has no positions available", __FILE_NAME__, _building, getPosASL _building], 7, "garrison"] call btc_debug_fnc_message;
+    #endif
 };
 
 _garrisonUnits = (units(_building getVariable["btc_mil_garrison_group", []])) select {alive _x};

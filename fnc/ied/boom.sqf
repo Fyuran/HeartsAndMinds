@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_boom
 
@@ -26,10 +26,9 @@ params [
     ["_ied", objNull, [objNull]]
 ];
 
-if (btc_debug_log) then {
-    [format ["%1 - POS %2", [_wreck, _ied], getPos _wreck], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_IED
+[["%1: %2 - POS %3", __FILE_NAME__, [_wreck, _ied], getPos _wreck], 2, "ied"] call btc_debug_fnc_message;
+#endif
 private _pos = getPos _ied;
 deleteVehicle _ied;
 btc_ied_power createVehicle _pos;

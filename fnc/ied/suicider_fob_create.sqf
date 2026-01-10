@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_suicider_fob_create
 
@@ -89,8 +89,9 @@ _suicider addEventHandler ["Killed", {
 	(attachedObjects _unit) call CBA_fnc_deleteEntity;
 	[_pos] call btc_deaf_fnc_earringing;
 	[_pos] remoteExecCall ["btc_ied_fnc_effects", [0, -2] select isDedicated];
-
-	[format["FOB suicider %1 blew sky fucking high", _suicider], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+	#ifdef BTC_DEBUG_IED
+	[["%1: FOB suicider %2 blew sky fucking high", __FILE_NAME__, _suicider], 2, "ied"] call btc_debug_fnc_message;
+	#endif
 }];
 
 //Eye-candy
@@ -103,12 +104,11 @@ private _expl3 = "DemoCharge_Remote_Ammo" createVehicle (position _suicider);
 _expl3 attachTo [_suicider, [0.1, 0.1, 0.15], "Pelvis", true];
 [_expl1, _expl2, _expl3] remoteExecCall ["btc_ied_fnc_belt", 0];
 
-if (btc_debug) then {
-	private _marker = createMarkerLocal [format ["btc_ied_fob_suicider%1", _suicider], _safe_pos];
-	_marker setMarkerTypeLocal "hd_warning";
-	_marker setMarkerColorLocal "ColorOrange";
-	_marker setMarkerTextLocal "FOB Suicider";
-	_marker setMarkerSize [0.8, 0.8];
-};
-
+#ifdef BTC_DEBUG_IED
+private _marker = createMarkerLocal [format ["btc_ied_fob_suicider%1", _suicider], _safe_pos];
+_marker setMarkerTypeLocal "hd_warning";
+_marker setMarkerColorLocal "ColorOrange";
+_marker setMarkerTextLocal "FOB Suicider";
+_marker setMarkerSize [0.8, 0.8];
+#endif
 _group

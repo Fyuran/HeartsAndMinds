@@ -1,3 +1,4 @@
+#include "script_macros.hpp"
 /////////////////////SERVER\\\\\\\\\\\\\\\\\\\\\
 if (isServer) then {
     //BODY
@@ -122,7 +123,7 @@ if (isServer) then {
 
     //EVENT
     btc_event_fnc_eventManager = compileScript ["core\fnc\event\eventManager.sqf"];
-    btc_event_fnc_canAttackFOB = compileScript ["core\fnc\event\FOB\canAttack.sqf"];
+    btc_event_fnc_canFOBBeAttacked = compileScript ["core\fnc\event\FOB\canAttack.sqf"];
     btc_event_fnc_attackFOBChance = compileScript ["core\fnc\event\FOB\chance.sqf"];
     btc_event_fnc_attackFOBspawn = compileScript ["core\fnc\event\FOB\spawn.sqf"];
 
@@ -324,7 +325,7 @@ btc_civ_fnc_add_weapons = compileScript ["core\fnc\civ\add_weapons.sqf"];
 
 //CHEM
 btc_chem_fnc_damage = compileScript ["core\fnc\chem\damage.sqf"];
-btc_chem_fnc_deconShowerAnimLarge = {(_this select 0) setVariable ["BIN_Shower_Stop",false]; _this call BIN_fnc_deconShowerAnimLarge;};
+btc_chem_fnc_deconShowerAnimLarge = {(_this select 0) setVariable ["BIN_Shower_Stop",false, "."]; _this call BIN_fnc_deconShowerAnimLarge;};
 btc_chem_fnc_damageLoop = compileScript ["core\fnc\chem\damageLoop.sqf"];
 
 //DOOR
@@ -332,6 +333,7 @@ btc_door_fnc_broke = compileScript ["core\fnc\door\broke.sqf"];
 
 //DEBUG
 btc_debug_fnc_message = compileScript ["core\fnc\debug\message.sqf"];
+CBA_fnc_debug2 = compileScript ["core\fnc\debug\cba_fnc_debug2.sqf"];
 
 //EH
 btc_eh_fnc_trackItem = compileScript ["core\fnc\eh\trackItem.sqf"];

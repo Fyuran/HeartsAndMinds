@@ -1,3 +1,4 @@
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_save
 	
@@ -23,10 +24,9 @@ params [
 	["_name", worldName, [""]]
 ];
 
-if (btc_debug) then {
-	[format ["Saving btc_JSON_save data for %1", _name], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: Saving btc_JSON_save data for %2", __FILE_NAME__, _name], 2, "json"] call btc_debug_fnc_message;
+#endif
 [[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_8", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
 
 //METADATA
@@ -316,7 +316,9 @@ format["btc_hm_%1", _name] + " " +// _JSON_data fileName
 private _path = "btc_ArmaToJSON" callExtension btc_JSON_save;
 if(_path isEqualTo "" || isNil "_path") exitWith {
 	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
-	[format["Invalid _path, could not save file."], __FILE__, nil, true] call btc_debug_fnc_message;
+	#ifdef BTC_DEBUG_JSON
+	[["%1: Invalid _path, could not save file.", __FILE_NAME__], 6, "json"] call btc_debug_fnc_message;
+	#endif
 };
 profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
 profileNamespace setVariable [format["btc_hm_%1_saveJSON", worldName], btc_JSON_save];

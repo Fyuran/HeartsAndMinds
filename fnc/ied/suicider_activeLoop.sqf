@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_ied_fnc_suicider_activeLoop
 
@@ -35,8 +35,7 @@ Author:
         deleteVehicle _trigger;
         group _suicider setVariable ["suicider", false];
 
-        if (btc_debug_log) then {
-            [format ["_suicider = %1 POS %2 END LOOP", _suicider, getPos _suicider], __FILE__, [false]] call btc_debug_fnc_message;
-        };
-    };
+        #ifdef BTC_DEBUG_IED
+        [["%1: _suicider = %2 POS %3 END LOOP", __FILE_NAME__, _suicider, getPos _suicider], 2, "ied"] call btc_debug_fnc_message;
+        #endif};
 }, _this, 0.5] call CBA_fnc_waitAndExecute;

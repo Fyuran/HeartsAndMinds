@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_eh_fnc_CuratorObjectPlaced
 
@@ -28,11 +28,7 @@ params [
 
 if !((_object_placed isKindOf "allVehicles") || (_object_placed isKindOf "Module_F")) then {
     [_object_placed] remoteExecCall ["btc_log_fnc_init", 2];
-
-    if (btc_debug_log) then {
-        [format ["OBJECT %1", _object_placed], __FILE__, [false]] call btc_debug_fnc_message;
-    };
-    if (btc_debug) then {
-        [str _object_placed, __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_EH
+    [["%1: CURATOR OBJECT PLACED %2 INIT", __FILE_NAME__, _object_placed], 2, "eh"] call btc_debug_fnc_message;    
+    #endif
 };

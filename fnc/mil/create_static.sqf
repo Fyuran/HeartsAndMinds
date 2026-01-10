@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_mil_fnc_create_static
 
@@ -41,8 +41,7 @@ _group setVariable ["btc_city", _city];
 _group setBehaviour "COMBAT";
 _group setCombatMode "RED";
 
-if (btc_debug_log) then {
-    [format ["POS %1", _pos], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_MIL
+[["%1: POS %2", __FILE_NAME__, _pos], 2, "mil"] call btc_debug_fnc_message;
+#endif
 _group

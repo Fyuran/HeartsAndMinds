@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_rep_fnc_call_militia
 
@@ -36,10 +36,9 @@ if (_hideouts isNotEqualTo []) then {
     if (_hideouts isNotEqualTo []) then {_start_pos = selectRandom _hideouts};
 };
 
-if (btc_debug_log) then {
-    [format ["_start_pos : %1 (HIDEOUTS)", _start_pos], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_REP
+[["%1: _start_pos : %2 (HIDEOUTS)", __FILE_NAME__, _start_pos], 2, "rep"] call btc_debug_fnc_message;
+#endif
 if (_start_pos isEqualTo objNull) then {
     _start_pos = [_pos, values btc_city_all select {
         !(_x getVariable ["active", false]) &&
@@ -49,20 +48,19 @@ if (_start_pos isEqualTo objNull) then {
 
 private _ratio = if (_pos distance _start_pos > 1000) then {0.2} else {0.6};
 
-if (btc_debug_log) then {
-    [format ["POS : %1 STARTPOS : %2 - RATIO = %3", _pos, _start_pos, _ratio], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_REP
+[["%1: POS : %2 STARTPOS : %3 - RATIO = %4", __FILE_NAME__, _pos, _start_pos, _ratio], 2, "rep"] call btc_debug_fnc_message;
+#endif
 if ((random 1) > _ratio) then { //MOT
     [_start_pos, _pos, 1] call btc_mil_fnc_send;
 
-    if (btc_debug_log) then {
-        [format ["MOT %1 POS %2", _group, _pos], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_REP
+    [["%1: MOT %2 POS %3", __FILE_NAME__, _group, _pos], 2, "rep"] call btc_debug_fnc_message;
+    #endif
 } else { //INF
     [_start_pos, _pos, 0, "", "WEDGE"] call btc_mil_fnc_send;
 
-    if (btc_debug_log) then {
-        [format ["INF %1", _group], __FILE__, [false]] call btc_debug_fnc_message;
-    };
+    #ifdef BTC_DEBUG_REP
+    [["%1: INF %2", __FILE_NAME__, _group], 2, "rep"] call btc_debug_fnc_message;
+    #endif
 };

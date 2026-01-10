@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_debug_fnc_hideouts
 
@@ -24,8 +24,9 @@ params[
 ];
 
 if(isNil "btc_debug_namespace") exitWith {
-    [format["btc_debug_namespace isNil something went wrong with PublicVariableClient in request_server_data"], 
-        __FILE__, nil, true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_DEBUG
+    [["%1: btc_debug_namespace isNil something went wrong with PublicVariableClient in request_server_data", __FILE_NAME__], 6, "debug/server_to_client"] call btc_debug_fnc_message;
+    #endif
 };
 
 (btc_debug_namespace getVariable "hideouts") apply { //["_id", "_pos"]

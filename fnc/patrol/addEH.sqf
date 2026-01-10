@@ -1,3 +1,4 @@
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_patrol_fnc_addEH
 

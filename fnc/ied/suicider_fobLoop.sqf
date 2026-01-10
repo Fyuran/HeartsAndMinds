@@ -1,3 +1,4 @@
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_ied_fnc_suicider_fobLoop
 	
@@ -36,7 +37,9 @@ _group = group _suicider;
 
 // Explosion on death is handled by Killed EH in btc_ied_fnc_suicider_fob_create
 if (alive _building) then {
-	[format["FOB %1 suicider %2 activated", _building getVariable["FOB_name",""], _suicider], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
+	#ifdef BTC_DEBUG_IED
+	[["%1: FOB %2 suicider %3 activated", __FILE_NAME__, _building getVariable["FOB_name",""], _suicider], 2, "ied"] call btc_debug_fnc_message;
+	#endif
 
 	[_suicider, _building] spawn {
 		params [

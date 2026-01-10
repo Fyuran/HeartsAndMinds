@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_hideout_fnc_create
 
@@ -72,7 +72,9 @@ _city setVariable ["has_ho", true];
 _city setVariable ["ho_units_spawned", false];
 
 if(isNil "_city" || isNull _city) exitWith {
-    [format["no _city found, args: %1", _this], __FILE__, nil, true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_HIDEOUT
+	[["%1: _city is null with args: %2", __FILE_NAME__, _this], 6, "hideout"] call btc_debug_fnc_message;
+    #endif
 };
 
 _city setVariable ["city_realPos", getPos _city];
@@ -111,10 +113,9 @@ private _markers = [];
 
 _hideout setVariable ["markers", _markers];
 
-if (btc_debug_log) then {
-    [format ["_this = %1 ; POS %2 ID %3", _this, _pos, count btc_hideouts], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_HIDEOUT
+[["%1: _this = %2 ; POS %3 ID %4", __FILE_NAME__, _this, _pos, count btc_hideouts], 2, "hideout"] call btc_debug_fnc_message;
+#endif
 btc_hideouts pushBack _hideout;
 publicVariable "btc_hideouts";
 

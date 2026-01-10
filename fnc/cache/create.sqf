@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_cache_fnc_create
 
@@ -67,10 +67,7 @@ if (_isChem) then {
     };
 };
 
-if (btc_debug_log) then {
-    [format ["ID %1 POS %2", btc_cache_n, _cache_pos], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
-if (btc_debug) then {
-    [format ["in %1", _cache_pos], __FILE__, [btc_debug, false]] call btc_debug_fnc_message;
-};
+#ifdef BTC_DEBUG_CACHE
+    [["%1: ID %2 POS %3", __FILE_NAME__, btc_cache_n, _cache_pos], 2, "cache"] call btc_debug_fnc_message;
+    [["%1: in %2", __FILE_NAME__, _cache_pos], 2, "cache"] call btc_debug_fnc_message;
+#endif

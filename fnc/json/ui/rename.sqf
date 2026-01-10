@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_rename_file
 	
@@ -26,10 +27,9 @@ params[
 	["_custom_hint", "", [""]]
 ];
 
-if (btc_debug) then {
-	[format ["Renaming JSON file for %1 to %2", _path, _name], __FILE__, [btc_debug, btc_debug_log, true]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: Renaming JSON file for %2 to %3", __FILE_NAME__, _path, _name], 2, "json/ui"] call btc_debug_fnc_message;
+#endif
 private _returnString = ("btc_ArmaToJSON" callExtension ["renameFile", [_path, _name]]) select 0;
 
 if(_custom_hint isEqualTo "") then {

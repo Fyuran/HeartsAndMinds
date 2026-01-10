@@ -1,4 +1,4 @@
-
+#include "..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_respawn_fnc_playerConnected
 
@@ -28,8 +28,7 @@ if (_tickets isEqualTo 0) then {
 };
 private _respawnTickets = [_player, _tickets] call BIS_fnc_respawnTickets;
 
-if (btc_debug_log) then {
-    [format ["_respawnTickets %1 _tickets %2 _uid %3", _respawnTickets, _tickets, _uid], __FILE__, [false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_RESPAWN
+[["%1: _respawnTickets %2 _tickets %3 _uid %4", __FILE_NAME__, _respawnTickets, _tickets, _uid], 2, "respawn"] call btc_debug_fnc_message;
+#endif
 _respawnTickets

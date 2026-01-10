@@ -1,4 +1,4 @@
-
+#include "..\..\script_macros.hpp"
 /* ----------------------------------------------------------------------------
 Function: btc_log_fob_fnc_refund
 
@@ -27,13 +27,19 @@ params[
 
 private _flag = _create_obj getVariable ["btc_log_fob_flag", objNull];
 if(isNull _create_obj) exitWith {
-    ["_create_obj is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 if(isNull _obj) exitWith {
-    ["_obj is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _obj is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 if(isNull _flag) exitWith {
-    ["_flag is null", __FILE__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+    #ifdef BTC_DEBUG_LOG
+    [["%1: _flag is null", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    #endif
 };
 
 private _resources = _flag getVariable ["btc_log_resources", -1];
@@ -47,6 +53,6 @@ private _cost = (_tables getOrDefault [typeOf _obj, ["nil", -1], true]) select 1
 private _payment = (_resources + _cost) min btc_log_fob_max_resources;
 _flag setVariable ["btc_log_resources", _payment, true];
 
-if(btc_debug) then {
-    [format["refunded %1 to %2", _payment, _flag getVariable["FOB_name", "UNKNOWN"]], __FILE__, [btc_debug, btc_debug_log, false]] call btc_debug_fnc_message;  
-};
+#ifdef BTC_DEBUG_LOG
+[["%1: refunded %2 to %3", __FILE_NAME__, _payment, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/fob"] call btc_debug_fnc_message;  
+#endif

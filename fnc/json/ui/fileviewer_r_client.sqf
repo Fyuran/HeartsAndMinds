@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 	/* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_fileviewer_r_client
 	
@@ -23,10 +24,9 @@ params[
 ];
 
 private _fileviewer = findDisplay 7001;
-if(btc_debug) then {
-	[format["Refreshing JSON File viewer list with: %1(fileviewer:%2)", _this, _fileviewer], __FILE__, [false, btc_debug_log, false]] call btc_debug_fnc_message;
-};
-
+#ifdef BTC_DEBUG_JSON
+[["%1: Refreshing JSON File viewer list with: %2(fileviewer:%3)", __FILE_NAME__, _this, _fileviewer], 2, "json/ui"] call btc_debug_fnc_message;
+#endif
 //refresh listBox items
 if(!isNull _fileviewer) then {
 	private _listBox = _fileviewer displayCtrl 1500;
