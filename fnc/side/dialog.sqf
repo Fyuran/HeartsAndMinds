@@ -180,7 +180,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
         #ifdef BTC_DEBUG_SIDE
         [["%1: Cancelling taskID: %2", __FILE_NAME__, _taskID], 3, "side"] call btc_debug_fnc_message;
         #endif
-        [_taskID, "CANCELED"] call btc_task_fnc_setState;
+        [_taskID, "CANCELED"] remoteExecCall ["btc_task_fnc_setState", 2];
     };
 
     private _map = createDialog ["RscMap", true];
@@ -222,7 +222,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
         [["%1: clicked on pos %2, side %3", __FILE_NAME__, _pos, _side], 3, "side"] call btc_debug_fnc_message;
         #endif
         
-        [false, _side, _pos] remoteExec ["btc_side_fnc_create", 2];
+        [false, _side, _pos] remoteExecCall ["btc_side_fnc_create", 2];
         removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
         _map closeDisplay 1;
     }, [_map, _side]];

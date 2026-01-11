@@ -1,4 +1,4 @@
-#define BTC_DEBUG_FULL
+//#define BTC_DEBUG_FULL
 
 #ifdef BTC_DEBUG_FULL
     #define BTC_DEBUG_ARSENAL
