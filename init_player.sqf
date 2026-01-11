@@ -50,11 +50,10 @@ if(btc_p_intro) then {
 
     [] call btc_respawn_fnc_screen;
 
-        if(btc_debug) then {
-            [] call btc_debug_fnc_debug_mode;
-            [true, "btc_debug_fnc_cities"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];
-        };
-        [] spawn btc_log_fnc_drawResources3D;
+    if(btc_debug) then {
+        [] call btc_debug_fnc_debug_mode;
+    };
+    [] spawn btc_log_fnc_drawResources3D;
     
     if(btc_db_load > 0) then {
         ["btc_slot_loadPlayer", {_this call btc_slot_fnc_loadPlayer}] call CBA_fnc_addEventHandler;

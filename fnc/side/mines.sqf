@@ -7,12 +7,13 @@ Description:
 
 Parameters:
     _taskID - Unique task ID. [String]
-
+    _selectedPos - Position acquired from side missions menu available to admin only [Array]
+    
 Returns:
 
 Examples:
     (begin example)
-        [] spawn btc_side_fnc_mines;
+        [false, "mines"] spawn btc_side_fnc_create;
     (end)
 
 Author:
@@ -22,7 +23,7 @@ Author:
 
 params [
     ["_taskID", "btc_side", [""]],
-	["_selectedPos", [0, 0, 0], [[]], [2,3]]
+	["_selectedPos", [0, 0, 0], [[]], 3]
 ];
 
 //// Choose a City\\\\
@@ -35,7 +36,10 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
 if (_usefuls isEqualTo []) exitWith {
-	["No valid city found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -44,13 +48,26 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 	_usefuls#0;
 };
 if(isNil "_city") exitWith {
-	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 private _pos = [getPos _city, 0, _city getVariable ["cachingRadius", 100], 30, false] call btc_fnc_findsafepos;
-if (_pos select 2 > 50) exitWith {[] spawn btc_side_fnc_create;};
+if (_pos select 2 > 50) exitWith {
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no _pos under 50m", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+    [] call btc_side_fnc_create;
+};
 
 [_taskID, 4, _pos, _city getVariable "name"] call btc_task_fnc_create;
+btc_side_taskIDs set ["mines", (btc_side_taskIDs getOrDefault ["mines", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
+publicVariable "btc_side_taskIDs";
+#ifdef BTC_DEBUG_SIDE
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+#endif
 
 private _distance_between_fences = 8.1;
 private _number_of_fences = 3 + floor random 4;

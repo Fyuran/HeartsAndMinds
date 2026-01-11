@@ -114,7 +114,7 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 
 	// 	(leader _group) setVariable ["acex_headless_blacklist", true];
 	// } else {
-	// 	#ifdef BTC_DEBUG
+	// 	#ifdef BTC_DEBUG_GARRISON
 	// 	[format["No suitable positions found for static"], __FILE_NAME__, [btc_debug, btc_debug_log, false], false] call btc_debug_fnc_message;
 	// 	#endif// 
 	//};

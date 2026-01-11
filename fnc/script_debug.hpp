@@ -27,6 +27,7 @@
     #define BTC_DEBUG_REP
     #define BTC_DEBUG_RESPAWN
     #define BTC_DEBUG_SIDE
+    #define BTC_DEBUG_TASK
     #define BTC_DEBUG_SLOT
     #define BTC_DEBUG_TAG
     #define BTC_DEBUG_UI

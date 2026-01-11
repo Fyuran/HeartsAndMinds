@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -134,3 +134,51 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
     params ["_unit", "_flag"];
     _flag remoteExecCall ["btc_log_fnc_init", 2];
 }] call CBA_fnc_addEventHandler; 
+
+//Side Missions UI
+["btc_side_ui_refresh_sideLb", {
+    //UI related refresh
+    [{
+        private _dialog = findDisplay 70593;
+        private _sidesLb = _dialog displayCtrl 1500;
+
+        if(isNull _dialog || isNull _sidesLb) exitWith {
+            #ifdef BTC_DEBUG_EH
+            [["%1: null _dialog or _sidesLb", __FILE_NAME__], 2, "side"] call btc_debug_fnc_message;
+            #endif
+        };
+        lbClear _sidesLb;
+        btc_side_list apply {
+            private _side = _x; //just to clarify things
+
+            private _tasksIDs = (btc_side_taskIDs getOrDefault [_side, []]) select { //only pick tasks that are still functioning
+                _x params[
+                    ["_id", "", [""]]
+                ];
+                not(([_id] call BIS_fnc_taskState) in [
+                    "SUCCEEDED",
+                    "FAILED",
+                    "CANCELED"
+                ])
+            };
+
+            #ifdef BTC_DEBUG_EH
+            private _title = localize format["STR_BTC_HAM_SIDE_%1_TITLE_SIMPLE", toUpper _side];
+            private _countTaskIDs = count _tasksIDs;
+            private _string = format["%1  #:%2", _title, _countTaskIDs];
+            private _row = _sidesLb lbAdd _string;
+            #else
+            private _row = _sidesLb lbAdd format["%1  #:%2", localize format["STR_BTC_HAM_SIDE_%1_TITLE_SIMPLE", toUpper _side], count _tasksIDs];
+            #endif
+            private _data = format['["%1", "%2"]',
+                _side,
+                localize format["STR_BTC_HAM_SIDE_%1_DESC_SIMPLE", toUpper _side]
+            ];
+            _sidesLb lbSetData [_row, _data];
+            #ifdef BTC_DEBUG_EH
+            [["%1: REFRESHING '%2'(#%3) row %4 data is %5", __FILE_NAME__, _title, _countTaskIDs, _row, _data], 2, "side"] call btc_debug_fnc_message;
+            #endif
+        };
+    }, []] call CBA_fnc_execNextFrame;
+
+}] call CBA_fnc_addEventHandler;

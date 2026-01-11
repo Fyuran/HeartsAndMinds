@@ -7,13 +7,13 @@ Description:
 
 Parameters:
     _cycle - Cycle side mission. [Boolean]
-    _side_fnc_name - Side mission function name. [String]
+    _side - Side mission name. [String]
 
 Returns:
 
 Examples:
     (begin example)
-        [false, "btc_side_fnc_supply"] call btc_side_fnc_create;
+        [false, "supply"] call btc_side_fnc_create;
     (end)
 
 Author:
@@ -23,7 +23,8 @@ Author:
 
 params [
     ["_cycle", false, [false]],
-    ["_side", "", [""]]
+    ["_side", "", [""]],
+    ["_selectedPos", [0, 0, 0], [[]], 3]
 ];
 
 if (_side isEqualTo "") then {
@@ -37,13 +38,15 @@ if (_side isEqualTo "") then {
     _side = btc_side_list_use deleteAt 0;
 };
 
-private _id = btc_side_ids getOrDefault [_side, 0, true];
-private _tskID = format ["btc_side_%1_task_%2", _side, btc_side_ID];
+private _sideTasks = btc_side_taskIDs getOrDefault [_side, [], true];
+private _tskID = format ["btc_side_%1_%2", _side, count _sideTasks];
 if ([_tskID] call BIS_fnc_taskExists) exitWith {
-    [[]] call btc_debug_fnc_log;
+    #ifdef BTC_DEBUG_SIDE
+    [["%1: %2 already exists", __FILE_NAME__, _tskID], 6, "side"] call btc_debug_fnc_message;
+    #endif
 };
 
-[_tskID] spawn (missionNamespace getVariable [format ["btc_side_fnc_%1", _side], {}]);
+[_tskID, _selectedPos] spawn (missionNamespace getVariable [format ["btc_side_fnc_%1", _side], {}]);
 
 if (_cycle) then {
     [true] call btc_side_fnc_create;

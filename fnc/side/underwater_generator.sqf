@@ -7,12 +7,13 @@ Description:
 
 Parameters:
     _taskID - Unique task ID. [String]
-
+    _selectedPos - Position acquired from side missions menu available to admin only [Array]
+    
 Returns:
 
 Examples:
     (begin example)
-        [] spawn btc_side_fnc_underwater_generator;
+        [false, "underwater_generator"] spawn btc_side_fnc_create;
     (end)
 
 Author:
@@ -22,7 +23,7 @@ Author:
 
 params [
     ["_taskID", "btc_side", [""]],
-	["_selectedPos", [0, 0, 0], [[]], [2,3]]
+	["_selectedPos", [0, 0, 0], [[]], 3]
 ];
 
 //// Choose a Marine location occupied\\\\
@@ -36,7 +37,10 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
 if (_usefuls isEqualTo []) exitWith {
-	["No valid occupied marine location found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -45,7 +49,10 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 	_usefuls#0;
 };
 if(isNil "_city") exitWith {
-	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 //// Choose a random position \\\\
@@ -79,6 +86,11 @@ _pos params ["_x", "_y", "_z"];
 private _storagebladder = (selectRandom btc_type_storagebladder) createVehicle [_x + 5, _y, _z];
 
 [_taskID, 11, _generator, [_city getVariable "name", typeOf _generator]] call btc_task_fnc_create;
+btc_side_taskIDs set ["underwater_generator", (btc_side_taskIDs getOrDefault ["underwater_generator", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
+publicVariable "btc_side_taskIDs";
+#ifdef BTC_DEBUG_SIDE
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+#endif
 
 private _group = [_pos, 8, 1 + round random 5, "PATROL"] call btc_mil_fnc_create_group;
 [_pos, 20, 2 + round random 4, "PATROL"] call btc_mil_fnc_create_group;

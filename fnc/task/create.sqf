@@ -48,8 +48,8 @@ if(_task isEqualType "") then {
     };
 } else {
     if ((count _task) > 2) exitWith {
-        #ifdef BTC_DEBUG_SIDE
-        [["%1: bad task array: %2", __FILE_NAME__, _task], 6, "side"] call btc_debug_fnc_message;
+        #ifdef BTC_DEBUG_TASK
+        [["%1: bad task array: %2", __FILE_NAME__, _task], 6, "task"] call btc_debug_fnc_message;
         #endif
     };
     _task params [
@@ -63,5 +63,7 @@ if(_task isEqualType "") then {
         };
     };
 };
+
+["btc_side_ui_refresh_sideLb"] call CBA_fnc_globalEvent;
 
 _jipID

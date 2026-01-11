@@ -31,9 +31,9 @@ params [
     ["_mode", 0, [123]],
     ["_title", "DEBUG", [""]]
 ];
-if (mode <= 0 || mode > 15) exitWith {
+if (_mode <= 0 || _mode > 15) exitWith {
     #ifdef BTC_DEBUG_DEBUG
-    [["%1: invalid mode: %2 passed to btc_debug_fnc_message", __FILE_NAME__, _mode], 6, "debug"] call btc_debug_fnc_message;  
+    [["%1: invalid _mode: %2 passed to btc_debug_fnc_message", __FILE_NAME__, _mode], 6, "debug"] call btc_debug_fnc_message;  
     #endif
 };
 
@@ -43,13 +43,14 @@ private _isError = [_mode, __ERROR__] call BIS_fnc_bitflagsCheck;
 private _global = [_mode, __GLOBAL__] call BIS_fnc_bitflagsCheck;
 
 if(_title isNotEqualTo "DEBUG") then {
-    _title = format["[BTC] (hem-%1)", toUpper _title];
+    _title = format["[BTC] (H&M-%1)", toUpper _title];
 };
 
 if(!_isError) then {
     [format _message, _title, [_useChat, _useLogs, _global]] call CBA_fnc_debug2;
 } else { //it's an error message
     ["%1", format _message] remoteExecCall ["BIS_fnc_error", 0];
+    _title = format["%1 ERROR", _title];
     [format _message, _title, [_useChat, _useLogs, _global]] call CBA_fnc_debug2;
 };
 

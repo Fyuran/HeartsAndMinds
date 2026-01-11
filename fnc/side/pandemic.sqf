@@ -7,12 +7,13 @@ Description:
 
 Parameters:
     _taskID - Unique task ID. [String]
-
+    _selectedPos - Position acquired from side missions menu available to admin only [Array]
+    
 Returns:
 
 Examples:
     (begin example)
-        [false, "btc_side_fnc_pandemic"] spawn btc_side_fnc_create;
+        [false, "pandemic"] spawn btc_side_fnc_create;
     (end)
 
 Author:
@@ -22,7 +23,7 @@ Author:
 
 params [
     ["_taskID", "btc_side", [""]],
-	["_selectedPos", [0, 0, 0], [[]], [2,3]]
+	["_selectedPos", [0, 0, 0], [[]], 3]
 ];
 
 //// Choose a City\\\\
@@ -53,7 +54,10 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
 if (_usefuls isEqualTo []) exitWith {
-	["No valid city found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -62,7 +66,10 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 	_usefuls#0;
 };
 if(isNil "_city") exitWith {
-	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 private _dataCivilian = (_city getVariable ["data_units", []]) select {
@@ -72,6 +79,11 @@ private _dataCivilian = (_city getVariable ["data_units", []]) select {
 private _extraCiv = round random (((count _dataCivilian) - _minNumberOfSubTask) min 2);
 
 [_taskID, 40, objNull, _city getVariable "name"] call btc_task_fnc_create;
+btc_side_taskIDs set ["pandemic", (btc_side_taskIDs getOrDefault ["pandemic", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
+publicVariable "btc_side_taskIDs";
+#ifdef BTC_DEBUG_SIDE
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+#endif
 
 private _tasksID = [];
 for "_i" from 0 to (_minNumberOfSubTask + _extraCiv - 1) do {

@@ -401,6 +401,11 @@ switch (_description) do {
         ];
         _type = "defend";
     };
+    default {
+        #ifdef BTC_DEBUG_TASK
+        [["%1: bad _description %2", __FILE_NAME__, _description], 6, "task"] call btc_debug_fnc_message;
+        #endif
+    };
 };
 
 [

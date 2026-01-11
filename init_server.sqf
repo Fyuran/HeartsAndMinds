@@ -11,7 +11,7 @@ switch (btc_db_load) do {
 		if (_returnCode isEqualTo _OK_) then {
 			[] call btc_json_fnc_load;
 		} else {
-			#ifdef BTC_DEBUG
+			#ifdef BTC_DEBUG_DEBUG
 			[["%1: JSON load failed, result: %2, returnCode %3", __FILE_NAME__, [_result, -1] select {isNil "_result"}, _returnCode], 2] call btc_debug_fnc_message;
 			#endif[] call btc_db_fnc_initDefault;
 		};

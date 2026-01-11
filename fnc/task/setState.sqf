@@ -38,10 +38,12 @@ if (_subTasks isEqualTo []) then {
     };
 };
 
+["btc_side_ui_refresh_sideLb"] call CBA_fnc_globalEvent;
+
 ([_task] + _subTasks) apply {
     if !(_x call BIS_fnc_taskCompleted) then {
         [_x, _state] call BIS_fnc_taskSetState
     } else {
         false
     };
-}
+};

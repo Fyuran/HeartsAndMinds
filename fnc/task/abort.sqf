@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    Vdauphin
+    Vdauphin, Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -24,7 +24,11 @@ params [
     ["_task_id", "btc_dft", [""]]
 ];
 
-if(!(_task_id call BIS_fnc_taskExists)) exitWith {};
+if(!(_task_id call BIS_fnc_taskExists)) exitWith {
+    #ifdef BTC_DEBUG_TASK
+    [["%1: task %2 does not exist", __FILE_NAME__, _task_id], 6, "task"] call btc_debug_fnc_message;
+    #endif
+};
 
 if (_task_id isEqualTo "") exitWith {
     localize "STR_BTC_HAM_O_TASK_NOSIDE" call CBA_fnc_notify;

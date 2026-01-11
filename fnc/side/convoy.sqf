@@ -7,12 +7,13 @@ Description:
 
 Parameters:
     _taskID - Unique task ID. [String]
-
+    _selectedPos - Position acquired from side missions menu available to admin only [Array]
+    
 Returns:
 
 Examples:
     (begin example)
-        [false, "btc_side_fnc_convoy"] spawn btc_side_fnc_create;
+        [false, "convoy"] spawn btc_side_fnc_create;
     (end)
 
 Author:
@@ -22,7 +23,7 @@ Author:
 
 params [
     ["_taskID", "btc_side", [""]],
-	["_selectedPos", [0, 0, 0], [[]], [2,3]]
+	["_selectedPos", [0, 0, 0], [[]], 3]
 ];
 
 //// Choose two Cities \\\\
@@ -36,30 +37,69 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 	[_temp, [_selectedPos], {_x distance2D _input0}] call BIS_fnc_sortBy;
 };
 if (_usefuls isEqualTo []) exitWith {
-	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no _usefuls for _city2", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+    [] call btc_side_fnc_create;
 };
-
-private _city = if (_selectedPos isEqualTo [0,0,0]) then {
+private _city2 = if (_selectedPos isEqualTo [0,0,0]) then {
 	selectRandom _usefuls;
 } else {
 	_usefuls#0;
 };
-if(isNil "_city") exitWith {
-	["No valid cities found"] remoteExecCall ["hint", remoteExecutedOwner];
+if(isNil "_city2") exitWith {
+	#ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no valid _city2", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
+};
+
+private _area = (getNumber (configFile >> "CfgWorlds" >> worldName >> "MapSize"))/4;
+private _cities = values btc_city_all select {_x distance _city2 > _area};
+_usefuls = _cities select {
+    !((_x getVariable ["type", ""]) in ["NameLocal", "Hill", "NameMarine", "StrongpointArea"]) &&
+    _x getVariable ["occupied", false]
+};
+
+if (_usefuls isEqualTo []) exitWith {
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no _usefuls for _city1", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
+};
+
+private _city1 = if (_selectedPos isEqualTo [0,0,0]) then {
+	selectRandom _usefuls;
+} else {
+	_usefuls#0;
+};
+if(isNil "_city1") exitWith {
+	#ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no valid _city1", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 
 //// Find Road \\\\
-private _worldArea = (getNumber (configFile >> "CfgWorlds" >> worldName >> "MapSize"))/4;
-private _distantCities = values btc_city_all select {(_x distance2D _city) > _worldArea};
-private _roads = (selectRandom _distantCities) nearRoads _S_RADIUS;
+private _radius = (_city1 getVariable ["cachingRadius", 0])/2;
+private _roads = _city1 nearRoads (_radius * 2);
+_roads = _roads select {(_x distance _city1 > _radius) && isOnRoad _x};
 if (_roads isEqualTo []) exitWith {
-	["No valid roads found"] remoteExecCall ["hint", remoteExecutedOwner];
+    #ifdef BTC_DEBUG_SIDE
+	[["%1: %2 found no valid _roads from _city1", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	#endif
+	[] call btc_side_fnc_create;
 };
 private _road = selectRandom _roads;
 private _pos1 = getPosATL _road;
-private _pos2 = getPos _city;
+private _pos2 = getPos _city2;
 
 [_taskID, 12, _pos1, _city1 getVariable "name"] call btc_task_fnc_create;
+btc_side_taskIDs set ["convoy", (btc_side_taskIDs getOrDefault ["convoy", [], true]) + [[_taskID, _city2 getVariable ["name", "Unknown Location"]]]];
+publicVariable "btc_side_taskIDs";
+#ifdef BTC_DEBUG_SIDE
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city2], 2, "side"] call btc_debug_fnc_message;
+#endif
 
 //// Create markers \\\\
 private _marker1 = createMarkerLocal [format ["sm_2_%1", _pos1], _pos1];

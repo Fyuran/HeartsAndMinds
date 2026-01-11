@@ -11,10 +11,10 @@ $[
 ]
 */
 
-class btc_gm_sidesmenu {
-	idd = -1;
+class btc_sides_sidesmenu {
+	idd = 70593;
 	movingEnable = 0;
-	onLoad = "uiNamespace setVariable [""btc_gm_sidesmenu"", _this select 0]; playSound ""button_release"";";
+	onLoad = "uiNamespace setVariable [""btc_sides_sidesmenu"", _this select 0]; playSound ""button_release"";";
 	onUnload = "playSound ""button_cancel""";
 	objects[] = {};
 	class controls {
@@ -27,18 +27,27 @@ class btc_gm_sidesmenu {
 			colorBackground[] = {0.05, 0.29, 0.50, 1}; //rgb(15, 76, 129)
 			soundSelect[] = {"", 1, 1};
 		};
+		class RscListbox_1501: RscListbox {
+			idc = 1501;
+			x = 0.478344 * safezoneW + safezoneX;
+			y = 0.4835 * safezoneH + safezoneY;
+			w = 0.170156 * safezoneW;
+			h = 0.1265 * safezoneH;
+			colorBackground[] = {0.031, 0.149, 0.254, 1}; //rgb(8, 38, 65)
+			soundSelect[] = {"", 1, 1};
+		};
 		class RscText_1000: RscTextMulti {
 			idc = 1000;
 			text = "";
 			x = 0.478344 * safezoneW + safezoneX;
 			y = 0.357 * safezoneH + safezoneY;
 			w = 0.170156 * safezoneW;
-			h = 0.253 * safezoneH;
+			h = 0.1265 * safezoneH;
 			colorBackground[] = {0, 0, 0, 1}; //rgb(0, 0, 0)
 		};
 		class RscButton_1600: RscButton {
 			idc = 1600;
-			text = "CREATE";
+			text = "$STR_BTC_HAM_SIDE_UI_CREATE";
 			x = 0.4922655 * safezoneW + safezoneX;
 			y = 0.6265 * safezoneH + safezoneY;
 			w = 0.144375 * safezoneW;
@@ -61,12 +70,12 @@ class btc_gm_sidesmenu {
 		};
 		class RscText_1002: RscText {
 			idc = -1;
-			text = "SIDE MISSIONS MENU"; //--- ToDo: Localize;
+			text = "$STR_BTC_HAM_SIDE_UI_TITLE";
 			x = 0.345312 * safezoneW + safezoneX; //x = 0.345312 * safezoneW + safezoneX;
 			y = 0.313 * safezoneH + safezoneY;
 			w = 0.304218 * safezoneW;
 			h = 0.044 * safezoneH;
-			colorBackground[] = {0,0,0,1};
+			colorBackground[] = {0.827,0.686,0,215}; //rgb(211, 175, 55)
 			colorBorder[] = {1,1,1,1};
 			style = ST_CENTER; //ST_CENTER
 		};
