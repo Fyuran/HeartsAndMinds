@@ -270,7 +270,6 @@ if (isServer) then {
     btc_side_fnc_EMP = compileScript ["core\fnc\side\EMP.sqf"];
     btc_side_fnc_removeRubbish = compileScript ["core\fnc\side\removeRubbish.sqf"];
     btc_side_fnc_pandemic = compileScript ["core\fnc\side\pandemic.sqf"];
-    btc_side_fnc_dialog = compileScript ["core\fnc\side\dialog.sqf"];
 
     //SPECT
     btc_spect_fnc_checkLoop = compileScript ["core\fnc\spect\checkLoop.sqf"];
@@ -512,6 +511,9 @@ if (!isDedicated) then {
     btc_respawn_fnc_force = compileScript ["core\fnc\respawn\force.sqf"];
     btc_respawn_fnc_intro = compileScript ["core\fnc\respawn\intro.sqf"];
 
+    //SIDE
+    btc_side_fnc_dialog = compileScript ["core\fnc\side\dialog.sqf"];
+    
     //SPECT
     btc_spect_fnc_updateDevice = compileScript ["core\fnc\spect\updateDevice.sqf"];
     btc_spect_fnc_frequencies = compileScript ["core\fnc\spect\frequencies.sqf"];
