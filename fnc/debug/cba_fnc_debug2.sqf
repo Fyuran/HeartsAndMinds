@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
-Function: CBA_fnc_debug2
+Function: CBA_hem_fnc_debug2
 
 Description:
     General Purpose Debug Message Writer
@@ -20,7 +20,7 @@ Returns:
 Examples:
     (begin example)
         // Write the debug message in chat-log of every client
-        ["New Player Joined the Server!", "cba_network", [true, false, true]] call CBA_fnc_debug2;
+        ["New Player Joined the Server!", "cba_network", [true, false, true]] call CBA_hem_fnc_debug2;
     (end)
 
 Edit: 

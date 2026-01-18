@@ -333,7 +333,7 @@ btc_door_fnc_broke = compileScript ["core\fnc\door\broke.sqf"];
 
 //DEBUG
 btc_debug_fnc_message = compileScript ["core\fnc\debug\message.sqf"];
-CBA_fnc_debug2 = compileScript ["core\fnc\debug\cba_fnc_debug2.sqf"];
+CBA_hem_fnc_debug2 = compileScript ["core\fnc\debug\cba_fnc_debug2.sqf"];
 
 //EH
 btc_eh_fnc_trackItem = compileScript ["core\fnc\eh\trackItem.sqf"];

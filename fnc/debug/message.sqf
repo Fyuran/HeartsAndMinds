@@ -47,10 +47,10 @@ if(_title isNotEqualTo "DEBUG") then {
 };
 
 if(!_isError) then {
-    [format _message, _title, [_useChat, _useLogs, _global]] call CBA_fnc_debug2;
+    [format _message, _title, [_useChat, _useLogs, _global]] call CBA_hem_fnc_debug2;
 } else { //it's an error message
     ["%1", format _message] remoteExecCall ["BIS_fnc_error", 0];
     _title = format["%1 ERROR", _title];
-    [format _message, _title, [_useChat, _useLogs, _global]] call CBA_fnc_debug2;
+    [format _message, _title, [_useChat, _useLogs, _global]] call CBA_hem_fnc_debug2;
 };
 
