@@ -1,2 +1,1 @@
-
-[compileScript ["core\init.sqf"]] call CBA_fnc_directCall;
+[compileScript ["core\init_common.sqf"]] call CBA_fnc_directCall;
