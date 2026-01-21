@@ -1,0 +1,92 @@
+loadScreen = "core\img\btc.paa";
+author = "Giallustio";
+onLoadName = $STR_BTC_HAM_DESCR_NAME;
+onLoadMission = $STR_BTC_HAM_DESCR_MISSION;
+enabledebugconsole = 1;
+
+#include "core\sounds\cfgSounds.hpp"
+
+#include "\a3\ui_f\hpp\definecommoncolors.inc"
+#include "\a3\ui_f\hpp\defineResincl.inc"
+#include "\a3\ui_f\hpp\definecommongrids.inc"
+
+//defines for GUI
+import RscTextMulti;
+import RscText;
+import RscPicture;
+import RscEdit;
+import RscFrame;
+import RscButton;
+import RscListBox;
+import RscProgress;
+import ScrollBar;
+import IGUIBack;
+import RscControlsGroup;
+import RscControlsGroupNoScrollbars;
+class RscVProgress: RscProgress {
+    style = ST_VERTICAL;
+};
+import Default from CfgNotifications;
+import RscDynamicText from RscTitles;
+//---
+
+class RscCenterText: RscText {
+    style = 2;
+};
+
+#include "core\fnc\common\dlg.hpp"
+#include "core\fnc\side\dialog.hpp"
+#include "core\fnc\fob\dlg.hpp"
+#include "core\fnc\log\dlg.hpp"
+#include "core\fnc\json\ui\fileviewerRsc.hpp"
+class RscTitles {
+    class Default;
+    #include "core\fnc\lift\rsc.hpp"
+    #include "core\fnc\debug\dlg.hpp"
+    #include "core\fnc\common\rscTitles.hpp"
+};
+
+#include "param.hpp"
+
+#include "core\fnc\mil\aiskill.hpp"
+
+#include "core\fnc\task\taskTypes.hpp"
+
+#include "core\fnc\task\cfgNotifications.hpp"
+
+class CfgFunctions {
+    // add your own functions below
+};
+
+// CBA XEH
+class Extended_PreInit_EventHandlers {
+    #include "core\fnc\eh\xeh_PreInit_EH.hpp"
+};
+
+class Extended_InitPost_EventHandlers {
+    class LandVehicle {
+        #include "core\fnc\eh\xeh_InitPost_EH_Vehicle.hpp"
+    };
+    class Air {
+        #include "core\fnc\eh\xeh_InitPost_EH_Vehicle.hpp"
+    };
+    class Ship {
+        #include "core\fnc\eh\xeh_InitPost_EH_Vehicle.hpp"
+    };
+    class Civilian {
+        #include "core\fnc\eh\xeh_InitPost_EH_Civilian.hpp"
+    };
+};
+
+class mission {
+    #include "mission.sqm"
+};
+respawn = 3;
+respawnDelay = 2;
+respawnDialog = 0;
+respawnOnStart = 0;
+respawnTemplates[] = {"MenuPosition", "Tickets"};
+
+// Disable BI wreck system (H&M handle it internally)
+wreckManagerMode = 0;
+corpseManagerMode = 0;

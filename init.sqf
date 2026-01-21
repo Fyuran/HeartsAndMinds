@@ -1,18 +1,2 @@
-enableSaving [false, false];
 
- call compileScript ["def.sqf"]; 
- call compileScript ["define_mod.sqf"];
-
-if (isServer) then {
-    [] call compileScript ["core\init_server.sqf"];
-};
-
-[] call compileScript ["core\init_common.sqf"];
-
-if (!isDedicated && hasInterface) then {
-    [] call compileScript ["core\init_player.sqf"];
-};
-
-if (!isDedicated && !hasInterface) then {
-    [] call compileScript ["core\init_headless.sqf"];
-};
+[compileScript ["core\init.sqf"]] call CBA_fnc_directCall;
