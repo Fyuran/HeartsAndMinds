@@ -31,7 +31,7 @@ disableSerialization;
 
 if !((alive player && vehicle player != player) && btc_lift_hud) then {
     [_PFH_id] call CBA_fnc_removePerFrameHandler;
-    939996 cutRsc ["Default", "PLAIN"];
+    939996 cutText ["", "PLAIN"];
 };
 
 private _chopper = vehicle player;

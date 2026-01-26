@@ -1,5 +1,5 @@
 //#define BTC_DEBUG_FULL
-
+#define BTC_DEBUG_VEH
 #ifdef BTC_DEBUG_FULL
     #define BTC_DEBUG_ARSENAL
     #define BTC_DEBUG_CACHE

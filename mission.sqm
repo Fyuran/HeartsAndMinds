@@ -8,7 +8,7 @@ class EditorData
 	toggles=517;
 	class ItemIDProvider
 	{
-		nextID=443;
+		nextID=446;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=169;
+		nextID=177;
 	};
 	class Camera
 	{
-		pos[]={8305.5977,83.529221,10084.759};
-		dir[]={0.73260003,-0.55529433,-0.39363629};
-		up[]={0.48915657,0.83165413,-0.26283062};
-		aside[]={-0.47331703,-9.208452e-08,-0.8808949};
+		pos[]={8307.4902,83.139244,10061.563};
+		dir[]={0.74943435,-0.48934263,0.44597316};
+		up[]={0.42051792,0.87209159,0.25024167};
+		aside[]={0.51138335,-1.4901161e-08,-0.85935277};
 	};
 };
 binarizationWanted=0;
@@ -611,7 +611,7 @@ class Mission
 {
 	class Intel
 	{
-		briefingName="=BTC= co 30 HEARTS AND MINDS";
+		briefingName="=BTC= HEARTS AND MINDS";
 		overviewText="by Giallustio";
 		resistanceWest=0;
 		resistanceEast=1;

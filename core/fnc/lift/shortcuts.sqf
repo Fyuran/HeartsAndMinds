@@ -19,6 +19,13 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
+if(isClass (configFile >> "CfgPatches" >> "btc_lift")) exitWith {
+    #ifdef BTC_DEBUG_LIFT
+    [["%1: btc_lift addon is loaded, aborting H&M native lift", __FILE_NAME__], 2, "lift"] call btc_debug_fnc_message;
+    #endif
+};
+
+
 private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
 [
     _menuString,

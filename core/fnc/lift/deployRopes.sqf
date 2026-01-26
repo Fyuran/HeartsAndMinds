@@ -41,7 +41,7 @@ btc_lift_action = player addAction [
     {[] call btc_lift_fnc_hook}, [], 9, true, false, "", "[] call btc_lift_fnc_check"
 ];
 
-waitUntil {sleep 5; (vehicle player isEqualTo player)};
+waitUntil {sleep 5; (isNull objectParent player)};
 
 btc_ropes_deployed = false;
 player removeAction btc_lift_action;

@@ -40,7 +40,6 @@ class RscCenterText: RscText {
 #include "core\fnc\log\dlg.hpp"
 #include "core\fnc\json\ui\fileviewerRsc.hpp"
 class RscTitles {
-    class Default;
     #include "core\fnc\lift\rsc.hpp"
     #include "core\fnc\debug\dlg.hpp"
     #include "core\fnc\common\rscTitles.hpp"

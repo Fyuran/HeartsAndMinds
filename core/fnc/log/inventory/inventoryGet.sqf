@@ -24,6 +24,12 @@ params [
     ["_object", objNull, [objNull, ""]]
 ];
 
+if(isNull _object) exitWith {
+    #ifdef BTC_DEBUG_LOG
+    [["%1: attempted with a null object", __FILE_NAME__], 6, "log"] call btc_debug_fnc_message;
+    #endif
+};
+
 private _inventory = [];
 if (_object isEqualType objNull) then {
     private _everyContainer = everyContainer _object;
@@ -34,6 +40,12 @@ if (_object isEqualType objNull) then {
     private _weaponsItemsCargo = weaponsItemsCargo _object;
     {
         private _magazine = _x select 4 select 0;
+        if(isNil "_magazine") then {
+            #ifdef BTC_DEBUG_LOG
+            [["%1: nil _magazine of object: %2", __FILE_NAME__, _object], 2, "log"] call btc_debug_fnc_message;
+            #endif
+            continue;
+        };
         if (((_magazine call BIS_fnc_itemType) select 1) isEqualTo "UnknownMagazine") then {
             _x set [4, []]; // Remove dummy magazine
         };
@@ -100,5 +112,9 @@ if (_object isEqualType objNull) then {
     } forEach _numberOfItems;
     _inventory pushBack _backpacks;
 };
+
+#ifdef BTC_DEBUG_LOG
+[["%1: retrieved inventory of %2: %3", __FILE_NAME__, _object, _inventory], 2, "log"] call btc_debug_fnc_message;
+#endif
 
 _inventory

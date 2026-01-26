@@ -197,7 +197,7 @@ if (isServer) then {
     //JAIL
     private _base_jail_pos = getMarkerPos "btc_jail_base";
     if(_base_jail_pos isEqualTo [0,0,0]) then {
-        ["btc_jail_base marker is absent or bad", __FILE_NAME__, [btc_debug, btc_debug_log, false], true] call btc_debug_fnc_message;
+        [["%1: btc_jail_base marker is absent or bad", __FILE_NAME__], 2, "mission"] call btc_debug_fnc_message;
     } else {
         private _base_jail = [true] call CBA_fnc_createNamespace;
         _base_jail setDir markerDir "btc_jail_base";
@@ -706,38 +706,6 @@ btc_log_fnc_get_nottowable = {
 };
 
 //Lift
-btc_lift_fnc_getLiftable = {
-    params ["_chopper"];
-
-    private _array = [];
-    switch (typeOf _chopper) do {
-        case "B_SDV_01_F" : {
-            _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5);
-        };
-        default {
-            private _MaxCargoMass = getNumber (configOf _chopper >> "slingLoadMaxCargoMass");
-            switch (true) do {
-                case (_MaxCargoMass <= 510) : {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "Quadbike_01_base_F", "Strategic"];
-                };
-                case (_MaxCargoMass <= 2100) : {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car"];
-                };
-                case (_MaxCargoMass <= 4100) : {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Air", "Ship"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5) + ((btc_construction_array select 1) select 8);
-                };
-                case (_MaxCargoMass <= 14000) : {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5) + ((btc_construction_array select 1) select 8);
-                };
-                default {
-                    _array = ["Motorcycle", "ReammoBox", "ReammoBox_F", "StaticWeapon", "Car", "Truck_F", "Truck", "Wheeled_APC_F", "Tracked_APC", "APC_Tracked_01_base_F", "APC_Tracked_02_base_F", "Air", "Ship", "Tank"] + ((btc_construction_array select 1) select 3) + ((btc_construction_array select 1) select 4) + ((btc_construction_array select 1) select 5) + ((btc_construction_array select 1) select 8);
-                };
-            };
-        };
-    };
-    _array
-};
-
 btc_ropes_deployed = false;
 btc_lift_min_h  = 7;
 btc_lift_max_h  = 12;

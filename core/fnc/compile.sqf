@@ -472,6 +472,8 @@ if (!isDedicated) then {
     btc_lift_fnc_hud = compileScript ["core\fnc\lift\hud.sqf"];
     btc_lift_fnc_hudLoop = compileScript ["core\fnc\lift\hudLoop.sqf"];
     btc_lift_fnc_shortcuts = compileScript ["core\fnc\lift\shortcuts.sqf"];
+    btc_lift_fnc_getLiftable = compileScript ["core\fnc\lift\getLiftable.sqf"];
+    btc_lift_fnc_addActions = compileScript ["core\fnc\lift\addActions.sqf"];
 
     //LOG
     btc_log_dialog_fnc_createDialog = compileScript ["core\fnc\log\dialog\createDialog.sqf"];

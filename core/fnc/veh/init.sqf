@@ -27,7 +27,9 @@ params [
 
 if (isNil "btc_actions_veh") then {btc_actions_veh = [];};
 if ((btc_actions_veh pushBackUnique _type) isEqualTo -1) exitWith {};
-
+#ifdef BTC_DEBUG_VEH
+[["%1: for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call btc_debug_fnc_message;
+#endif
 switch true do {
     case (_type isKindOf "UGV_02_Base_F") : {};
     case (_type isKindOf "StaticWeapon") : {};
@@ -39,21 +41,19 @@ switch true do {
     case (_type isKindOf "Helicopter") : {
         _type call btc_tow_fnc_int;
 
-        //Lift
-        _action = [
-            "Deploy_ropes", localize "STR_ACE_Fastroping_Interaction_deployRopes",
-            "\A3\ui_f\data\igui\cfg\simpleTasks\types\container_ca.paa",
-            {[] spawn btc_lift_fnc_deployRopes;},
-            {!btc_ropes_deployed && {(driver vehicle player) isEqualTo player} && {(getPosATL player) select 2 > 4}}
-        ] call ace_interact_menu_fnc_createAction;
-        [_type, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
-        _action = [
-            "Cut_ropes", localize "STR_ACE_Fastroping_Interaction_cutRopes",
-            "\z\ace\addons\logistics_wirecutter\ui\wirecutter_ca.paa",
-            {[] call btc_lift_fnc_destroyRopes;},
-            {btc_ropes_deployed && {(driver vehicle player) isEqualTo player}}
-        ] call ace_interact_menu_fnc_createAction;
-        [_type, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
+        //Lift Fncs
+        #ifdef BTC_DEBUG_VEH
+        if(!isClass (configFile >> "CfgPatches" >> "btc_lift")) then {
+            [["%1: btc_lift addon is NOT loaded, adding HeM native lift for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call btc_debug_fnc_message;
+            [] call btc_lift_fnc_addActions;
+        } else {
+            [["%1: btc_lift is loaded, aborting HeM native lift for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call btc_debug_fnc_message;
+        };
+        #else
+        if(!isClass (configFile >> "CfgPatches" >> "btc_lift")) then {
+            [] call btc_lift_fnc_addActions;
+        };
+        #endif
 
         _type call btc_flag_fnc_int;
     };

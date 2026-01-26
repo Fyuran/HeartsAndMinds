@@ -53,7 +53,7 @@ private _FOB_Name = _building getVariable["FOB_name",""];
 #endif
  
 //Notification sound
-["WarningDescriptionAudio", ["", format[
+["WarningDescription", ["", format[
     localize "$STR_BTC_HAM_EVENT_FOBUNDERATTACK",
     _FOB_Name
 ]]] call btc_task_fnc_showNotification_s;

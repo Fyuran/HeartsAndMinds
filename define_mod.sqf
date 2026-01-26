@@ -52,6 +52,8 @@ private _KAT = [
     "KAT_Empty_bloodIV_250","KAT_Empty_bloodIV_500","kat_guedel","kat_larynx","kat_suction","kat_pocketBVM",
     "kat_Pulseoximeter","kat_stethoscope","kat_Carbonate","kat_oxygenTank_150","kat_oxygenTank_300", "kat_Armband_Medic_Goggles"
 ];
+private _ace_medical = ["ACE_tourniquet", "ACE_splint", "ACE_morphine", "ACE_fieldDressing",
+"ACE_epinephrine", "ACE_bodyBag", "ACE_bloodIV_500", "ACE_bloodIV_250", "ACE_bloodIV"];
 
 private _weapons = ["arifle_MXC_Holo_pointer_F", "hgun_P07_F"];
 private _magazines = ["30Rnd_65x39_caseless_mag", "16Rnd_9x21_Mag"];
@@ -63,7 +65,9 @@ private _backpacks = ["B_Kitbag_mcamo"];
 if(isClass (configFile >> "CfgPatches" >> "kat_main")) then {
     _items = _items + _KAT;
 };
-
+if(isClass (configFile >> "CfgPatches" >> "ace_medical")) then {
+    _items = _items + _ace_medical;
+};
 
 btc_custom_arsenal = [_weapons, _magazines, _items, _backpacks];
 

@@ -40,6 +40,10 @@ _wreck setPosATL [_pos select 0, _pos select 1, 0];
 _wreck setDir _dir;
 _wreck setVectorUp surfaceNormal _pos;
 
+if !(_active) exitWith {[_wreck, _type, objNull]};
+
+private _ied = createMine [selectRandom btc_type_ieds_ace, [_pos select 0, _pos select 1, btc_ied_offset], [], 2];
+_ied setVectorUp surfaceNormal _pos;
 #ifdef BTC_DEBUG_IED
 [["%1: created IED with %2", __FILE_NAME__, _this], 2, "ied"] call btc_debug_fnc_message;
 private _marker = createMarkerLocal [format ["btc_ied_%1", _pos], _pos];
@@ -47,12 +51,8 @@ _marker setMarkerTypeLocal "hd_warning";
 _marker setMarkerColorLocal (["ColorBlue", "ColorRed"] select _active);
 _marker setMarkerTextLocal (["IED (fake)", "IED"] select _active);
 _marker setMarkerSize [0.8, 0.8];
+private _sphere = createSimpleObject ["\a3\Structures_F_Orange\VR\Helpers\Sign_sphere100cm_Geometry_F.p3d", getPosASL _ied];
 #endif
-if !(_active) exitWith {[_wreck, _type, objNull]};
-
-private _ied = createMine [selectRandom btc_type_ieds_ace, [_pos select 0, _pos select 1, btc_ied_offset], [], 2];
-_ied setVectorUp surfaceNormal _pos;
-
 _pos params ["_xx", "_yy", "_zz"];
 _ied_list pushBack [_ied, _wreck, [_xx, _yy, _zz + 0.5]];
 
