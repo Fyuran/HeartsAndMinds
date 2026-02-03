@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    =BTC= Fyuran
 
 ---------------------------------------------------------------------------- */
 if(isNil "btc_db_missionPlayerSlots") exitWith {

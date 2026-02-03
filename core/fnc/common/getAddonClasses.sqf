@@ -14,7 +14,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    =BTC= Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -27,6 +27,7 @@ private _configs = [];
 if(_cfg isNotEqualTo "all") then {
     _configs = 'getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> _cfg);
 } else {
+    _configs append ('getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> "CfgVehicles"));
     _configs append ('getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> "CfgMagazines"));
     _configs append ('getNumber (_x >> "scope") == 2 && {(configSourceAddonList _x) isEqualTo [_addon]}' configClasses (configFile >> "CfgWeapons"));
 };

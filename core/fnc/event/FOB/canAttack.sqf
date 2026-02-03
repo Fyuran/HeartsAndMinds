@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    =BTC= Fyuran
 
 ---------------------------------------------------------------------------- */
 #include "..\..\script_macros.hpp"

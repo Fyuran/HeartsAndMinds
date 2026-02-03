@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    =BTC= Fyuran
 
 ---------------------------------------------------------------------------- */
 #define _PROGRESS_THRESHOLD_ 61

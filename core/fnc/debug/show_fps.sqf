@@ -14,7 +14,7 @@ Examples:
     (end)
 
 Author:
-    =BTC=Fyuran
+    =BTC= Fyuran
 
 Global marker commands always broadcast the entire marker state over the network. 
 As such, the number of network messages can be reduced by performing all but the last operation using local marker commands, 

@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    =BTC= Fyuran
 
 ---------------------------------------------------------------------------- */
 private _missionCfg = (missionconfigfile >> "mission" >> "Mission" >> "Entities");

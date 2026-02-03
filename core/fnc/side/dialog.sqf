@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    Fyuran
+    =BTC= Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -209,6 +209,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
     _mapCtrl ctrlCommit 0;
     _mapCtrl ctrlSetPosition[safezoneXAbs, safezoneY, safezoneWAbs, safezoneH - _infoTextH];
     _mapCtrl ctrlCommit 0.5;
+    _mapCtrl ctrlMapSetPosition []; //sync
     btc_debug_isUsingMapToPlace = true; //avoid teleportation for map clicks in debug mode
     [true, "btc_debug_fnc_cities"] remoteExecCall ["btc_debug_fnc_request_server_data", [0,2] select isMultiplayer];
 
