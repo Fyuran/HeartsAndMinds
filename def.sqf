@@ -157,11 +157,7 @@ if (isServer) then {
     btc_final_phase = false;
     btc_delay_time = 0;
 
-    //Player side
-    btc_player_side = west;
-
     //City
-    btc_city_blacklist = [];//NAME FROM CFG
     btc_p_city_free_trigger_condition = if (_p_city_free_trigger isEqualTo 0) then {
         "thisList isEqualTo []"
     } else {

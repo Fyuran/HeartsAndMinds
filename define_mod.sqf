@@ -1,3 +1,4 @@
+btc_player_side = west;
 btc_custom_loc = [
 /*
     DESCRIPTION: [POS(Array),TYPE(String),NAME(String),RADIUS (Number),IS OCCUPIED(Bool)]

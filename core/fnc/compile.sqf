@@ -216,7 +216,6 @@ if (isServer) then {
     btc_mil_fnc_createUnits = compileScript ["core\fnc\mil\createUnits.sqf"];
     btc_mil_fnc_unit_killed = compileScript ["core\fnc\mil\unit_killed.sqf"];
     btc_mil_fnc_create_staticOnRoof = compileScript ["core\fnc\mil\create_staticOnRoof.sqf"];
-    btc_mil_fnc_getPlayersClasses = compileScript ["core\fnc\mil\getPlayersClasses.sqf"];
 
     //PATROL
     btc_patrol_fnc_playersInAreaCityGroup = compileScript ["core\fnc\patrol\playersInAreaCityGroup.sqf"];
@@ -354,6 +353,7 @@ btc_log_fnc_inventoryGet = compileScript ["core\fnc\log\inventory\inventoryGet.s
 btc_log_fnc_inventorySet = compileScript ["core\fnc\log\inventory\inventorySet.sqf"];
 
 //MIL
+btc_mil_fnc_getPlayersClasses = compileScript ["core\fnc\mil\getPlayersClasses.sqf"];
 btc_mil_fnc_class = compileScript ["core\fnc\mil\class.sqf"];
 btc_mil_fnc_ammoUsage = compileScript ["core\fnc\mil\ammoUsage.sqf"];
 

@@ -55,7 +55,7 @@ private _cfg = configFile >> "CfgVehicles";
         };
     };
     
-	private _obj = createVehicleLocal [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
+	private _obj = createVehicle [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
 	private _cost = round(sizeOf _x) * btc_p_log_cost_multiplier;
 	deleteVehicle _obj;
 	_tables set [_x, [_displayName, _cost]];
