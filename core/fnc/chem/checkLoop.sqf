@@ -3,11 +3,13 @@
 Function: btc_chem_fnc_checkLoop
 
 Description:
-    Loop over chemical objects, showers and check if player/objects is around. If yes, decontaminate player/objects or set damage to player.
+    Per-frame loop that checks for contaminated units/objects within decontamination shower areas and nearby chemical sources, applying decontamination or damage accordingly.
 
 Parameters:
+    NONE
 
 Returns:
+    NOTHING
 
 Examples:
     (begin example)
@@ -84,7 +86,7 @@ private _bodyParts = ["head","body","hand_l","hand_r","leg_l","leg_r"];
             publicVariable "btc_chem_contaminated";
         };
         if (local _x) then {
-            [btc_chem_fnc_damage, [_x, _notAlready, _bodyParts, _cfgGlasses], _forEachIndex * _periode] call CBA_fnc_waitAndExecute;
+            [FUNC(chem,damage), [_x, _notAlready, _bodyParts, _cfgGlasses], _forEachIndex * _periode] call CBA_fnc_waitAndExecute;
         } else {
             if (_notAlready) then {
                 [_x] remoteExecCall ["btc_chem_fnc_damageLoop", _x];

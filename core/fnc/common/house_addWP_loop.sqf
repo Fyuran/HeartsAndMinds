@@ -30,7 +30,7 @@ params [
 private _allpositions = (_house buildingPos -1) call BIS_fnc_arrayShuffle;
 
 #ifdef BTC_DEBUG_COMMON
-[["%1: count all pos %2 in %3 ", __FILE_NAME__, count _allpositions, _house], 2, "common"] call btc_debug_fnc_message;
+[["%1: count all pos %2 in %3 ", __FILE_NAME__, count _allpositions, _house], 2, "common"] call FUNC(debug,message);
 #endif
 {
     private _wp = [_group, [_x, 0.2] call CBA_fnc_randPos, -1, "MOVE", "UNCHANGED", "NO CHANGE", "UNCHANGED", "NO CHANGE", "", [15, 20, 30]] call CBA_fnc_addWaypoint;

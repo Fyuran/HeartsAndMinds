@@ -28,6 +28,6 @@ private _objects = nearestObjects [_searchLocation, ["AllVehicles", "ThingX"], 3
 
 if (_objects isEqualTo []) exitWith {(localize "STR_BTC_HAM_O_COPY_NOOBJECTS") call CBA_fnc_notify};
 
-btc_copy_inventory = [_objects select 0] call btc_log_fnc_inventoryGet;
+btc_copy_inventory = [_objects select 0] call FUNC(log,inventoryGet);
 
 (localize "str_mission_completed") call CBA_fnc_notify;

@@ -44,7 +44,7 @@ if (_position_evac isEqualTo []) then {
 };
 
 {
-    [group _x, _position_evac, 20] call btc_civ_fnc_addWP;
+    [group _x, _position_evac, 20] call FUNC(civ,addWP);
 } forEach _civilians;
 
 _civilians

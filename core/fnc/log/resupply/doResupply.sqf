@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #define _DIST_ 10
@@ -26,7 +26,7 @@ params[
 
 if(!alive _supply) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _supply is null or not alive", __FILE_NAME__], 6, "log/resupply"] call btc_debug_fnc_message;  
+    [["%1: _supply is null or not alive", __FILE_NAME__], 6, "log/resupply"] call FUNC(debug,message);  
     #endif
 };
 
@@ -75,5 +75,5 @@ _flag setVariable ["btc_log_resources", _fob_resources + _payment, true];
 ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 
 #ifdef BTC_DEBUG_LOG
-[["%1: %2 resupplied to %3", __FILE_NAME__, _payment, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/resupply"] call btc_debug_fnc_message;  
+[["%1: %2 resupplied to %3", __FILE_NAME__, _payment, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/resupply"] call FUNC(debug,message);  
 #endif

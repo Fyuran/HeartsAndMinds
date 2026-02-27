@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 params[
@@ -84,7 +84,7 @@ switch(_fncName) do {
 	};
 	default {
 		#ifdef BTC_DEBUG_DEBUG
-		[["%1: bad switch case: fnc - %2", __FILE_NAME__, _fncName], 6, "debug/server_to_client"] call btc_debug_fnc_message;
+		[["%1: bad switch case: fnc - %2", __FILE_NAME__, _fncName], 6, "debug/server_to_client"] call FUNC(debug,message);
 		#endif
 	};
 };

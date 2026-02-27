@@ -20,23 +20,23 @@ Author:
 ---------------------------------------------------------------------------- */
 
 #ifdef BTC_DEBUG_DB
-[["%1: No save found, initializing to defaults", __FILE_NAME__], 3, "db"] call btc_debug_fnc_message;
+[["%1: No save found, initializing to defaults", __FILE_NAME__], 3, "db"] call FUNC(debug,message);
 #endif
 if (btc_hideout_n > 0) then {
 	for "_i" from 1 to btc_hideout_n do {
-		[] call btc_hideout_fnc_create;
+		[] call FUNC(hideout,create);
 	};
 } else {
-	[] spawn btc_fnc_final_phase;
+	[] spawn FUNC(common,final_phase);
 };
 
-[] call btc_cache_fnc_init;
+[] call FUNC(cache,init);
 
 btc_startDate set [3, btc_p_time];
 setDate btc_startDate;
 
 (getMissionLayerEntities "btc_vehicles" select 0) apply {
-	_x call btc_veh_fnc_add;
+	_x call FUNC(veh,add);
 };
 if (isNil "btc_vehicles") then {
 	btc_vehicles = [];

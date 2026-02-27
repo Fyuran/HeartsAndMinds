@@ -38,7 +38,7 @@ if (_is_real) then {
         private _nearestEnemy = _array select 0 select 1;
         private _dist = player distance ([_nearestEnemy, 100] call CBA_fnc_randPos);
         private _dir = player getDir _nearestEnemy;
-        private _card = [_dir] call btc_fnc_get_cardinal;
+        private _card = [_dir] call FUNC(common,get_cardinal);
         _text = format [localize "STR_BTC_HAM_CON_INFO_TROOPS_TRUE", _card, round _dist];
     };
 } else {
@@ -55,5 +55,5 @@ if (_is_real) then {
 #ifdef BTC_DEBUG_INFO
 _text = _text + " - " + str _is_real;
 #endif
-[name _man, _text] call btc_fnc_showSubtitle;
+[name _man, _text] call FUNC(common,showSubtitle);
 player createDiaryRecord ["btc_diarylog", [str(mapGridPosition player) + " - " + name _man, _text]];

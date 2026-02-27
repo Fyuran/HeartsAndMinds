@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 params[
@@ -43,7 +43,7 @@ private _aceCargo = [];
 {
     _x params["_class", "_ref"];
     if(_ref isEqualType objNull) then {
-	    _aceCargo pushBack [_class, [_ref] call btc_veh_fnc_getCargo];
+	    _aceCargo pushBack [_class, [_ref] call FUNC(veh,getCargo)];
     } else {
         _aceCargo pushBack [_class, createHashMap]; //empty JSON object
     };
@@ -54,7 +54,7 @@ _return set ["ace_containers", _aceCargo];
 private _containers = [];
 {
     _x params["_class", "_refObj"];
-	_containers pushBack [_class, [_refObj] call btc_veh_fnc_getCargo];
+	_containers pushBack [_class, [_refObj] call FUNC(veh,getCargo)];
 }forEach _objectContainers;
 
 _return set ["containers", _containers];

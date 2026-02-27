@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -28,7 +28,7 @@ params[
 
 if(!alive _flag) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "log/fob"] call FUNC(debug,message);  
     #endif
 };
 
@@ -49,6 +49,6 @@ publicVariable "btc_log_fob_create_objects";
 [_create_obj, _log_point] remoteExecCall ["btc_log_fob_fnc_actions", [0, -2] select isDedicated, _create_obj];
 
 #ifdef BTC_DEBUG_LOG
-[["%1: created log_obj at %2", __FILE_NAME__, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/fob"] call btc_debug_fnc_message;  
+[["%1: created log_obj at %2", __FILE_NAME__, _flag getVariable["FOB_name", "UNKNOWN"]], 2, "log/fob"] call FUNC(debug,message);  
 #endif
 _create_obj

@@ -32,14 +32,14 @@ if (_useful isEqualTo []) then {_useful = _city_all;};
 private _city = selectRandom _useful;
 
 if (_city getVariable ["type", ""] in ["NameLocal", "Hill", "NameMarine"]) exitWith {
-    [] call btc_cache_fnc_find_pos;
+    [] call FUNC(cache,find_pos);
 };
 
 private _cachingRadius = _city getVariable ["cachingRadius", 200];
-private _houses = ([getPos _city, _cachingRadius/2] call btc_fnc_getHouses) select 0;
+private _houses = ([getPos _city, _cachingRadius/2] call FUNC(common,getHouses)) select 0;
 
 if (_houses isEqualTo []) then {
-    [] call btc_cache_fnc_find_pos
+    [] call FUNC(cache,find_pos)
 } else {
     ASLToATL AGLToASL selectRandom (selectRandom _houses buildingPos -1)
 }

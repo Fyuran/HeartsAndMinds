@@ -3,17 +3,18 @@
 Function: btc_chem_fnc_damageLoop
 
 Description:
-    Apply chemical damage constantly.
+    Set up a per-frame handler that continuously applies chemical damage to a unit until decontaminated, with damage intensity based on protection gear.
 
 Parameters:
-    _unit - Unit to apply the damage. [Object]
-    _notAlready - false if is already contaminated. [Boolean]
+    _unit[OBJECT]: Unit receiving chemical damage (default: player)
+    _notAlready[BOOLEAN]: Whether this is the unit's first contamination exposure (default: true)
 
 Returns:
+    NOTHING
 
 Examples:
     (begin example)
-        [] call btc_chem_fnc_damageLoop;
+        [soldier1, true] call btc_chem_fnc_damageLoop;
     (end)
 
 Author:
@@ -34,7 +35,7 @@ private _handle = [{
     if !(alive _unit) exitWith {
         ["btc_chem_decontaminated", [_unit]] call CBA_fnc_localEvent;
     };
-    _this set [0, _args call btc_chem_fnc_damage];
+    _this set [0, _args call FUNC(chem,damage)];
 }, 3, [_unit, _notAlready, _bodyParts, configFile >> "CfgGlasses"]] call CBA_fnc_addPerFrameHandler;
 
 ["btc_chem_decontaminated", {
@@ -46,10 +47,10 @@ private _handle = [{
         [_handle] call CBA_fnc_removePerFrameHandler;
 
         #ifdef BTC_DEBUG_CHEM
-        [["%1: Stop: %2", __FILE_NAME__, _handle], 2, "chem"] call btc_debug_fnc_message;
+        [["%1: Stop: %2", __FILE_NAME__, _handle], 2, "chem"] call FUNC(debug,message);
         #endif};
 }, [_handle, _unit]] call CBA_fnc_addEventHandlerArgs;
 
 #ifdef BTC_DEBUG_CHEM
-[["%1: Start: %2", __FILE_NAME__, _handle], 2, "chem"] call btc_debug_fnc_message;
+[["%1: Start: %2", __FILE_NAME__, _handle], 2, "chem"] call FUNC(debug,message);
 #endif

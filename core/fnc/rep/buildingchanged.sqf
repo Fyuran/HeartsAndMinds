@@ -63,6 +63,6 @@ if (!_skipCategories) then {
 };
 
 #ifdef BTC_DEBUG_REP
-[["%1: %2 to %3. Malus: %4", __FILE_NAME__, _classname, typeOf _to, _malus], 2, "rep"] call btc_debug_fnc_message;
+[["%1: %2 to %3. Malus: %4", __FILE_NAME__, _classname, typeOf _to, _malus], 2, "rep"] call FUNC(debug,message);
 #endif
-[objNull, [_BUILDING_DAMAGED_, _BUILDING_DESTROYED_] select _isRuin] call btc_rep_fnc_change;
+[objNull, [_BUILDING_DAMAGED_, _BUILDING_DESTROYED_] select _isRuin] call FUNC(rep,change);

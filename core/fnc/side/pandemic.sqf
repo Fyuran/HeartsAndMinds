@@ -55,9 +55,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -67,9 +67,9 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _dataCivilian = (_city getVariable ["data_units", []]) select {
@@ -78,11 +78,11 @@ private _dataCivilian = (_city getVariable ["data_units", []]) select {
 };
 private _extraCiv = round random (((count _dataCivilian) - _minNumberOfSubTask) min 2);
 
-[_taskID, 40, objNull, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 40, objNull, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["pandemic", (btc_side_taskIDs getOrDefault ["pandemic", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _tasksID = [];
@@ -91,7 +91,7 @@ for "_i" from 0 to (_minNumberOfSubTask + _extraCiv - 1) do {
     _tasksID pushBack _deconta_taskID;
 
     private _selectedCiv = _dataCivilian select _i;
-    [[_deconta_taskID, _taskID], 41, _selectedCiv select 1 select 0, _selectedCiv select 2 select 0, false, false] call btc_task_fnc_create;
+    [[_deconta_taskID, _taskID], 41, _selectedCiv select 1 select 0, _selectedCiv select 2 select 0, false, false] call FUNC(task,create);
  
     [{
         params ["_city", "_civPos", "_civType"];
@@ -131,7 +131,7 @@ if !("SUCCEEDED" in (_tasksID apply {_x call BIS_fnc_taskState})) exitWith {
 
 {
     if (_x call BIS_fnc_taskState isEqualTo "SUCCEEDED") then {
-        [objNull, _SIDE_CIV_DECONTAMINATED_] call btc_rep_fnc_change;
+        [objNull, _SIDE_CIV_DECONTAMINATED_] call FUNC(rep,change);
     };
 } forEach _tasksID;
 

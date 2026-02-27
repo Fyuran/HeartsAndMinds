@@ -31,21 +31,21 @@ params [
 [_group] call CBA_fnc_clearWaypoints;
 [_group, _pos, -1, "MOVE", "SAFE", "NO CHANGE", "LIMITED"] call CBA_fnc_addWaypoint;
 
-private _houses = ([_pos, _radius] call btc_fnc_getHouses) select 0;
+private _houses = ([_pos, _radius] call FUNC(common,getHouses)) select 0;
 if (_houses isNotEqualTo []) then {
     private _house = selectRandom _houses;
-    [_group, _house] call btc_fnc_house_addWP_loop;
+    [_group, _house] call FUNC(common,house_addWP_loop);
     _houses = _houses - [_house];
 };
 
 for "_i" from 1 to 4 do {
-    private _wp_pos = [_pos, _radius] call btc_fnc_randomize_pos;
+    private _wp_pos = [_pos, _radius] call FUNC(common,randomize_pos);
     [_group, _wp_pos, -1, "MOVE"] call CBA_fnc_addWaypoint;
 };
 
 if (_houses isNotEqualTo []) then {
     private _house = selectRandom _houses;
-    [_group, _house] call btc_fnc_house_addWP_loop;
+    [_group, _house] call FUNC(common,house_addWP_loop);
     _houses = _houses - [_house];
 };
 

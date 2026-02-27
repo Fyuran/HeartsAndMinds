@@ -49,11 +49,11 @@ _data_unit params [
 
 private _delay = 0;
 if (_type isEqualTo 5) exitWith {
-    [[_city, _spawningRadius, _array_pos select 0, _array_type select 0], btc_ied_fnc_suicider_create] call btc_delay_fnc_exec;
+    [[_city, _spawningRadius, _array_pos select 0, _array_type select 0], FUNC(ied,suicider_create)] call FUNC(delay,exec);
     _delay + btc_delay_unit
 };
 if (_type isEqualTo 7) exitWith {
-    [[_city, _spawningRadius, _array_pos select 0], btc_ied_fnc_drone_create] call btc_delay_fnc_exec;
+    [[_city, _spawningRadius, _array_pos select 0], FUNC(ied,drone_create)] call FUNC(delay,exec);
     _delay + btc_delay_unit
 };
 if(_side isEqualType "") then {
@@ -71,10 +71,10 @@ private _group = createGroup _side;
 _group setVariable ["btc_city", _city];
 if (_type isEqualTo 1) then {
     _array_veh params ["_typeOf", "_posATL", "_dir", "_fuel", ["_vectorUp", []]];
-    _delay = [_group, _typeOf, _array_type, _posATL, _dir, _fuel, _vectorUp] call btc_delay_fnc_createVehicle;
+    _delay = [_group, _typeOf, _array_type, _posATL, _dir, _fuel, _vectorUp] call FUNC(delay,createVehicle);
 } else {
     for "_i" from 0 to (count _array_pos - 1) do {
-        [_group, _array_type select _i, _array_pos select _i, "CAN_COLLIDE"] call btc_delay_fnc_createUnit;
+        [_group, _array_type select _i, _array_pos select _i, "CAN_COLLIDE"] call FUNC(delay,createUnit);
         //_u setDamage (_array_dam select _i);
     };
 };
@@ -122,14 +122,14 @@ if (_type isEqualTo 1) then {
         };
     };
     if (_type isEqualTo 3) then {
-        [_group, nearestObject [_array_pos select 0, _array_veh]] call btc_fnc_house_addWP;
+        [_group, nearestObject [_array_pos select 0, _array_veh]] call FUNC(common,house_addWP);
         _group setVariable ["btc_inHouse", _array_veh];
     };
-    if (_type isEqualTo 4) then {[[0, 0, 0], 0, units _group] call btc_civ_fnc_get_weapons;};
+    if (_type isEqualTo 4) then {[[0, 0, 0], 0, units _group] call FUNC(civ,get_weapons);};
     if (_type isEqualTo 6) then {
-        [_group, _array_veh select 0] call btc_civ_fnc_addWP;
+        [_group, _array_veh select 0] call FUNC(civ,addWP);
         _group setVariable ["btc_data_inhouse", _array_veh];
     };
-}, [_data_unit, _group], _delay] call btc_delay_fnc_waitAndExecute;
+}, [_data_unit, _group], _delay] call FUNC(delay,waitAndExecute);
 
 _delay

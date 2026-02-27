@@ -26,10 +26,10 @@ params [
 
 private _inventory = _object getVariable ["btc_EDENinventory", []];
 if (_inventory isEqualTo []) then {
-    _inventory = (typeOf _object) call btc_log_fnc_inventoryGet;
+    _inventory = (typeOf _object) call FUNC(log,inventoryGet);
 };
 
 [
     _object,
     _inventory
-] call btc_log_fnc_inventorySet;
+] call FUNC(log,inventorySet);

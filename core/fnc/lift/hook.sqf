@@ -24,7 +24,7 @@ params [
     ["_chopper", vehicle player, [objNull]]
 ];
 
-private _array = [_chopper] call btc_lift_fnc_getLiftable;
+private _array = [_chopper] call FUNC(lift,getLiftable);
 private _cargo_array = nearestObjects [_chopper, _array, 30];
 _cargo_array = _cargo_array - [_chopper];
 _cargo_array = _cargo_array select {!(
@@ -51,7 +51,7 @@ if ((_bbr isEqualTo []) OR (_ropes_check select {!isNull _x} isEqualTo [])) then
     if (abs((_bbr select 0) select 0) > 5) then {
         _rope_length = 10 + abs((_bbr select 0) select 0);
     };
-    ([_cargo] call btc_fnc_get_corner_points) params [
+    ([_cargo] call FUNC(common,get_corner_points)) params [
         "_rearCorner",
         "_rearCorner2",
         "_frontCorner",
@@ -61,7 +61,7 @@ if ((_bbr isEqualTo []) OR (_ropes_check select {!isNull _x} isEqualTo [])) then
     private _support = _cargo;
     private _bbr_z = 0;
     if (!alive _cargo) then {
-        _support = [btc_lift_fnc_hookFake, [_cargo, _chopper]] call CBA_fnc_directCall;
+        _support = [FUNC(lift,hookFake), [_cargo, _chopper]] call CBA_fnc_directCall;
         _bbr_z = _support distance _cargo;
         sleep 0.3;
     };
@@ -73,7 +73,7 @@ if ((_bbr isEqualTo []) OR (_ropes_check select {!isNull _x} isEqualTo [])) then
 };
 
 #ifdef BTC_DEBUG_LIFT
-[["%1: boundingBoxReal : %2 rope length : %3", __FILE_NAME__, _bbr, _rope_length], 2, "lift"] call btc_debug_fnc_message;
+[["%1: boundingBoxReal : %2 rope length : %3", __FILE_NAME__, _bbr, _rope_length], 2, "lift"] call FUNC(debug,message);
 #endif
 private _max_cargo  = getNumber (configOf _chopper >> "slingLoadMaxCargoMass");
 private _mass = getMass _cargo;

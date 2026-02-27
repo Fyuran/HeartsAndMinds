@@ -54,14 +54,14 @@ if (isNull _unit) then {
             private _rep = btc_int_ask_data;
 
             if (_rep >= btc_rep_level_normal) then {
-                [name _unit, localize "STR_BTC_HAM_CON_INT_ORDERS_SHOWMAP"] call btc_fnc_showSubtitle;
+                [name _unit, localize "STR_BTC_HAM_CON_INT_ORDERS_SHOWMAP"] call FUNC(common,showSubtitle);
                 openMap true;
                 addMissionEventHandler ["MapSingleClick", 
                     {
                         params ["_units", "_pos"];
                         private _unit = _thisArgs select 0;
                         if (surfaceIsWater _pos) then {
-                            [name _unit, localize "STR_BTC_HAM_CON_INT_ORDERS_ONLAND"] call btc_fnc_showSubtitle;
+                            [name _unit, localize "STR_BTC_HAM_CON_INT_ORDERS_ONLAND"] call FUNC(common,showSubtitle);
                         } else {
                             [[_unit], 0, 4, _pos] remoteExecCall ["btc_int_fnc_orders_give", _unit];
                             removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
@@ -71,14 +71,14 @@ if (isNull _unit) then {
                                     localize "STR_BTC_HAM_CON_INT_ORDERS_TAXI_OK2",
                                     localize "STR_BTC_HAM_CON_INT_ORDERS_TAXI_OK3"
                             ];
-                            [name _unit, _textMap] call btc_fnc_showSubtitle;
+                            [name _unit, _textMap] call FUNC(common,showSubtitle);
                         };
                     },
                     [_unit]
                 ];
             } else {
                 if !(player getVariable ["interpreter", false]) exitWith {
-                    [name _unit, localize "STR_BTC_HAM_CON_INFO_ASKREP_NOINTER"] call btc_fnc_showSubtitle;
+                    [name _unit, localize "STR_BTC_HAM_CON_INFO_ASKREP_NOINTER"] call FUNC(common,showSubtitle);
                 };
 
                 private _text = selectRandom [
@@ -87,7 +87,7 @@ if (isNull _unit) then {
                     localize "STR_BTC_HAM_CON_INT_ORDERS_NEG3",
                     localize "STR_BTC_HAM_CON_INT_ORDERS_NEG4"
                 ];
-                [name _unit, _text] call btc_fnc_showSubtitle;
+                [name _unit, _text] call FUNC(common,showSubtitle);
             };
         }, [_unit, _pos]] call CBA_fnc_waitUntilAndExecute;
     } else {

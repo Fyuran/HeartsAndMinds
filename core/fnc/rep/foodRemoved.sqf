@@ -34,7 +34,7 @@ if (
 ) then {
     private _repChange = btc_rep_malus_foodRemove * _numberOfItems;
     if (isServer) then {
-        [_repChange, _FOOD_REMOVED_] call btc_rep_fnc_change;
+        [_repChange, _FOOD_REMOVED_] call FUNC(rep,change);
     } else {
         [_repChange, _FOOD_REMOVED_] remoteExecCall ["btc_rep_fnc_change", 2];
     };

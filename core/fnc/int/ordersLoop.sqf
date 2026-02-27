@@ -47,5 +47,5 @@ if (
         objNull,
         ([0, btc_int_sirenRadius] select _sirenStart) + ([0, btc_int_beaconRadius] select _beaconsStart),
         _veh
-    ] call btc_int_fnc_orders;
+    ] call FUNC(int,orders);
 }, 0.5, _veh] call CBA_fnc_addPerFrameHandler;

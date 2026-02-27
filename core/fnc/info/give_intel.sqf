@@ -30,15 +30,15 @@ if (btc_hideouts isEqualTo []) then {_intelType = (btc_info_intel_type select 0)
 
 switch (true) do {
     case (_intelType < (btc_info_intel_type select 0)) : { //cache
-        [true] call btc_info_fnc_cache;
+        [true] call FUNC(info,cache);
     };
     case (_intelType > (btc_info_intel_type select 1) && _intelType < 101) : { //both
-        [true] call btc_info_fnc_cache;
-        [] call btc_info_fnc_hideout;
+        [true] call FUNC(info,cache);
+        [] call FUNC(info,hideout);
         [5] remoteExecCall ["btc_fnc_show_hint", _asker];
     };
     case (_intelType > (btc_info_intel_type select 0) && _intelType < (btc_info_intel_type select 1)) : { //hd
-        [] call btc_info_fnc_hideout;
+        [] call FUNC(info,hideout);
         [5] remoteExecCall ["btc_fnc_show_hint", _asker];
     };
     default {

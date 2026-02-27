@@ -40,22 +40,22 @@ private _group = grpNull;
 private _delay = 0;
 switch (_typeOf_patrol) do {
     case 0 : {
-        _group = ([_pos, 150, 3 + round random 6, "PATROL"] call btc_mil_fnc_create_group) select 0;
+        _group = ([_pos, 150, 3 + round random 6, "PATROL"] call FUNC(mil,create_group)) select 0;
     };
     case 1 : {
         _group = createGroup btc_enemy_side;
 
         if (_veh_type isEqualTo "") then {_veh_type = selectRandom btc_type_motorized};
-        private _return_pos = [_pos, 10, 500, 13, false] call btc_fnc_findsafepos;
+        private _return_pos = [_pos, 10, 500, 13, false] call FUNC(common,findsafepos);
 
-        _delay = [_group, _return_pos, _veh_type] call btc_mil_fnc_createVehicle;
+        _delay = [_group, _return_pos, _veh_type] call FUNC(mil,createVehicle);
     };
     case _FOB_ATTACK_PATROL_TYPE_ : {
         _group = createGroup btc_enemy_side;
 
-        private _return_pos = [_pos, 10, 500, 13, false] call btc_fnc_findsafepos;
+        private _return_pos = [_pos, 10, 500, 13, false] call FUNC(common,findsafepos);
 
-        _delay = [_group, _return_pos, selectRandom btc_type_motorized_transport] call btc_mil_fnc_createVehicle;
+        _delay = [_group, _return_pos, selectRandom btc_type_motorized_transport] call FUNC(mil,createVehicle);
         //btc_type_motorized_armed_ground, still not sure if it should be a troop only attack
     };
 };
@@ -82,6 +82,6 @@ _group setVariable ["lambs_danger_disableGroupAI", true];
 
     _group setVariable ["acex_headless_blacklist", false];
     _group deleteGroupWhenEmpty true;
-}, [_group, _typeOf_patrol, _dest, _infFormation], _delay] call btc_delay_fnc_waitAndExecute;
+}, [_group, _typeOf_patrol, _dest, _infFormation], _delay] call FUNC(delay,waitAndExecute);
 
 _group

@@ -33,20 +33,20 @@ if (_random <= 3) exitWith {};
 
 if (time > (btc_rep_militia_called + btc_rep_militia_call_time)) then {
     if (_random > 3) then { //CALL MILITIA
-        [_pos] call btc_rep_fnc_call_militia;
+        [_pos] call FUNC(rep,call_militia);
     };
 };
 if (btc_global_reputation < (btc_rep_level_low + 100)) then {
     if (_random > 4) then { //GET WEAPONS
-        [btc_civ_fnc_get_weapons, [_pos, 300], 5] call CBA_fnc_waitAndExecute;
+        [FUNC(civ,get_weapons), [_pos, 300], 5] call CBA_fnc_waitAndExecute;
     };
 } else {
     if (_random > 1) then { //GET GRENADE
-        [btc_civ_fnc_get_grenade, [_pos, 300], 5] call CBA_fnc_waitAndExecute;
+        [FUNC(civ,get_grenade), [_pos, 300], 5] call CBA_fnc_waitAndExecute;
     };
 };
 
 #ifdef BTC_DEBUG_REP
 [["%1: REP = %2 - RANDOM = %3 - RINF TIME = %4 - MILITIA/WEAPONS = %5/%6", __FILE_NAME__, 
-_rep, _random, time > (btc_rep_militia_called + btc_rep_militia_call_time), _random > 3, _random > 4], 2, "rep"] call btc_debug_fnc_message;
+_rep, _random, time > (btc_rep_militia_called + btc_rep_militia_call_time), _random > 3, _random > 4], 2, "rep"] call FUNC(debug,message);
 #endif

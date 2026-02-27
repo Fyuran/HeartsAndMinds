@@ -24,7 +24,7 @@ params [
     ["_current_garage", objNull, [objNull]]
 ];
 
-if ([_current_garage] call btc_fnc_isAreaOccupied) exitWith {};
+if ([_current_garage] call FUNC(common,isAreaOccupied)) exitWith {};
 
 disableSerialization;
 uiNamespace setVariable ["current_garage", _current_garage];

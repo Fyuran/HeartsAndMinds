@@ -26,14 +26,14 @@ params[
 ];
 
 #ifdef BTC_DEBUG_JSON
-[["%1: Deleting JSON file for %2", __FILE_NAME__, _path], 2, "json/ui"] call btc_debug_fnc_message;
+[["%1: Deleting JSON file for %2", __FILE_NAME__, _path], 2, "json/ui"] call FUNC(debug,message);
 #endif
 private _returnString = ("btc_ArmaToJSON" callExtension ["deleteFile", [_path]]) select 0;
 
 if(_custom_hint isEqualTo "") then {
-	[[_returnString, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+	[[_returnString, 1, [1, 0, 0, 1]]] call FUNC(common,show_custom_hint);
 } else {
-	[[_custom_hint, 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+	[[_custom_hint, 1, [1, 0, 0, 1]]] call FUNC(common,show_custom_hint);
 };
 
-[] call btc_json_fnc_fileviewer_r_server;
+[] call FUNC(db,fileviewer_r_server);

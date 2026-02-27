@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -29,17 +29,17 @@ params [
 
 if(isNull _jail) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: _jail is null", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    [["%1: _jail is null", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);  
     #endif
 };
 if(!alive _captive) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: _captive dead or null", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    [["%1: _captive dead or null", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);  
     #endif
 };
 if(side _captive == btc_player_side) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: _captive side is equal to player side", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    [["%1: _captive side is equal to player side", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);  
     #endif
 };
 
@@ -50,7 +50,7 @@ if(_captive in _jailed) exitWith {
     ] remoteExecCall ["CBA_fnc_notify", remoteExecutedOwner];
 };
 
-private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] call btc_fnc_circlePosAroundObj];
+private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] call FUNC(common,circlePosAroundObj)];
 _jailPositions pushBack getPosATL _jail; //add center of jail to list of available positions
 
 if(count _jailed >= count _jailPositions) then { //remove all decorative captives and start from beggining
@@ -68,9 +68,9 @@ _captive setVariable ["btc_info_isDetained", true, true]; //for ace_common_fnc_a
 _captive setDir ((direction _jail) + 135); //animation Acts_ExecutionVictim_Loop is offset from origin in pos and dir
 _captive setPos (_jailPositions select (count _jailed % count _jailPositions));
 
-[remoteExecutedOwner, selectRandom[81,96]] call btc_info_fnc_give_intel;
-[_player, _CAPTIVE_DETAINED_] call btc_rep_fnc_change;
+[remoteExecutedOwner, selectRandom[81,96]] call FUNC(info,give_intel);
+[_player, _CAPTIVE_DETAINED_] call FUNC(rep,change);
 
 #ifdef BTC_DEBUG_JAIL
-[["%1: %2 detained %3 to %4", __FILE_NAME__, _player, _captive, getPos _jail], 2, "jail"] call btc_debug_fnc_message;
+[["%1: %2 detained %3 to %4", __FILE_NAME__, _player, _captive, getPos _jail], 2, "jail"] call FUNC(debug,message);
 #endif

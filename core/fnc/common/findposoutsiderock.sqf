@@ -34,7 +34,7 @@ private _object = _objects select 0;
 if (_object in nearestTerrainObjects [_object, ["HIDE", "ROCK", "ROCKS"], 1]) then {
     private _roads = _rpos nearRoads 100;
     if (_roads isEqualTo []) then {
-        _rpos = [_rpos, 5, 50, 10, false] call btc_fnc_findsafepos;
+        _rpos = [_rpos, 5, 50, 10, false] call FUNC(common,findsafepos);
     } else {
         _rpos = getPos (_roads select 0);
     };
@@ -45,7 +45,7 @@ if (_object in nearestTerrainObjects [_object, ["HIDE", "ROCK", "ROCKS"], 1]) th
     if (_objects isNotEqualTo []) then {
         _object = _objects select 0;
         if (_object in nearestTerrainObjects [_object, ["HIDE", "ROCK", "ROCKS"], 1]) then {
-            [["%1: %2 Still inside rock", __FILE_NAME__, _rpos], 6, "common"] call btc_debug_fnc_message;
+            [["%1: %2 Still inside rock", __FILE_NAME__, _rpos], 6, "common"] call FUNC(debug,message);
             private _marker = createMarkerLocal [format ["btc_inrock_%1", _rpos], _rpos];
             _marker setMarkerTypeLocal "mil_unknown";
             _marker setMarkerTextLocal "In rock";

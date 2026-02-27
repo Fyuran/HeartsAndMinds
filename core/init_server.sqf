@@ -9,41 +9,41 @@ switch (btc_db_load) do {
 		private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", worldName], ""];
 		("btc_ArmaToJSON" callExtension ["dataExists", [_saveFile]]) params [["_result", -1], ["_returnCode", -1]];
 		if (_returnCode isEqualTo _OK_) then {
-			[] call btc_json_fnc_load;
+			[] call FUNC(db,load);
 		} else {
 			#ifdef BTC_DEBUG_DEBUG
-			[["%1: JSON load failed, result: %2, returnCode %3", __FILE_NAME__, [_result, -1] select {isNil "_result"}, _returnCode], 2] call btc_debug_fnc_message;
-			#endif[] call btc_db_fnc_initDefault;
+			[["%1: JSON load failed, result: %2, returnCode %3", __FILE_NAME__, [_result, -1] select {isNil "_result"}, _returnCode], 2] call FUNC(debug,message);
+			#endif[] call FUNC(db,initDefault);
 		};
 	};
 	default {
-		[] call btc_db_fnc_initDefault;
+		[] call FUNC(db,initDefault);
 	};
 };
 setTimeMultiplier btc_p_acctime;
 
-["btc_m", -1, objNull, "", false, false] call btc_task_fnc_create;
-[["btc_dft", "btc_m"], 0] call btc_task_fnc_create;
-[["btc_dty", "btc_m"], 1] call btc_task_fnc_create;
+["btc_m", -1, objNull, "", false, false] call FUNC(task,create);
+[["btc_dft", "btc_m"], 0] call FUNC(task,create);
+[["btc_dty", "btc_m"], 1] call FUNC(task,create);
 
-[] call btc_eh_fnc_server;
-[] call btc_log_dialog_fnc_init_tables;
-[btc_ied_list] call btc_ied_fnc_fired_near;
-[] call btc_chem_fnc_checkLoop;
-[] call btc_chem_fnc_handleShower;
-[] call btc_spect_fnc_checkLoop;
-[] call btc_db_fnc_autoRestartLoop;
+[] call FUNC(eh,server);
+[] call FUNC(log_dialog,init_tables);
+[btc_ied_list] call FUNC(ied,fired_near);
+[] call FUNC(chem,checkLoop);
+[] call FUNC(chem,handleShower);
+[] call FUNC(spect,checkLoop);
+[] call FUNC(db,autoRestartLoop);
 
 //Namespace to hold variables for debug
 btc_debug_namespace = [true] call CBA_fnc_createNamespace;
 publicVariable "btc_debug_namespace";
 
 if(btc_p_debug_fps) then {
-    ["Server", [0, -50], 200, 0] call btc_debug_fnc_show_fps;
+    ["Server", [0, -50], 200, 0] call FUNC(debug,show_fps);
 };
 
 {
-    [_x, 30] call btc_veh_fnc_addRespawn;
+    [_x, 30] call FUNC(veh,addRespawn);
     if (_forEachIndex isEqualTo 0) then {
         missionNamespace setVariable ["btc_veh_respawnable_1", _x, true];
     };
@@ -52,7 +52,7 @@ if (isNil "btc_veh_respawnable") then {btc_veh_respawnable = [];};
 
 if (btc_p_side_mission_cycle > 0) then {
     for "_i" from 1 to btc_p_side_mission_cycle do {
-        [true] spawn btc_side_fnc_create;
+        [true] spawn FUNC(side,create);
     };
 };
 

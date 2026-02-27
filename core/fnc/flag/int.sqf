@@ -28,7 +28,7 @@ private _action = ["btc_flag_deployVeh", localize "STR_BTC_HAM_ACTION_VEHINIT_DE
     btc_p_flag > 0 &&
     {getForcedFlagTexture _target isEqualTo ""} &&
     {(driver vehicle player) isEqualTo player}
-}, btc_flag_fnc_deploy] call ace_interact_menu_fnc_createAction;
+}, FUNC(flag,deploy)] call ace_interact_menu_fnc_createAction;
 [_type, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 
 _action = ["btc_flag_cutVeh", localize "STR_BTC_HAM_ACTION_VEHINIT_CUTFLAG", "\A3\ui_f\data\map\markers\handdrawn\flag_CA.paa", {

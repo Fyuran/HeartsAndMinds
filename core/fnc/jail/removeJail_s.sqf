@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -26,7 +26,7 @@ params[
 
 if(!alive _flag) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);  
     #endif
 };
 

@@ -45,7 +45,7 @@ if !(_active) exitWith {[_wreck, _type, objNull]};
 private _ied = createMine [selectRandom btc_type_ieds_ace, [_pos select 0, _pos select 1, btc_ied_offset], [], 2];
 _ied setVectorUp surfaceNormal _pos;
 #ifdef BTC_DEBUG_IED
-[["%1: created IED with %2", __FILE_NAME__, _this], 2, "ied"] call btc_debug_fnc_message;
+[["%1: created IED with %2", __FILE_NAME__, _this], 2, "ied"] call FUNC(debug,message);
 private _marker = createMarkerLocal [format ["btc_ied_%1", _pos], _pos];
 _marker setMarkerTypeLocal "hd_warning";
 _marker setMarkerColorLocal (["ColorBlue", "ColorRed"] select _active);

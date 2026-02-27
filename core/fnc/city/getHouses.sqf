@@ -27,7 +27,7 @@ params [
     ["_radius", 100, [0]]
 ];
 
-([_city, _radius] call btc_fnc_getHouses) params ["_housesEntrerable", "_housesNotEntrerable"];
+([_city, _radius] call FUNC(common,getHouses)) params ["_housesEntrerable", "_housesNotEntrerable"];
 
 _housesEntrerable = _housesEntrerable call BIS_fnc_arrayShuffle;
 _housesNotEntrerable = _housesNotEntrerable call BIS_fnc_arrayShuffle;

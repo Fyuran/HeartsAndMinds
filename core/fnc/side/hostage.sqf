@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,15 +50,15 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 //// Randomise position \\\\
-private _houses = ([getPos _city, 100] call btc_fnc_getHouses) select 0;
+private _houses = ([getPos _city, 100] call FUNC(common,getHouses)) select 0;
 _houses = _houses select {count (_x buildingPos -1) > 1}; // Building with low enterable positions are not interesting
-if (_houses isEqualTo []) exitWith {[] call btc_side_fnc_create;};
+if (_houses isEqualTo []) exitWith {[] call FUNC(side,create);};
 _houses = _houses apply {[count (_x buildingPos -1), _x]};
 _houses sort false;
 private _house = objNull;
@@ -83,11 +83,11 @@ waitUntil {local _captive};
 [_captive, true] call ACE_captives_fnc_setHandcuffed;
 
 //// Data side mission
-[_taskID, 15, _captive, [_city getVariable "name", _civType]] call btc_task_fnc_create;
+[_taskID, 15, _captive, [_city getVariable "name", _civType]] call FUNC(task,create);
 btc_side_taskIDs set ["hostage", (btc_side_taskIDs getOrDefault ["hostage", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _group = [];
@@ -129,13 +129,13 @@ _group_civ setVariable ["no_cache", false];
 } forEach _group;
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {
-    [[], _group + [_group_civ, _trigger, _mine]] call btc_fnc_delete;
+    [[], _group + [_group_civ, _trigger, _mine]] call FUNC(common,delete);
 };
 if !(alive _captive) exitWith {
     [_taskID, "FAILED"] call BIS_fnc_taskSetState;
-    [[], _group + [_group_civ, _trigger, _mine]] call btc_fnc_delete;
+    [[], _group + [_group_civ, _trigger, _mine]] call FUNC(common,delete);
 };
 
-[objNull, _SIDE_HOSTAGE_RESCUED_] call btc_rep_fnc_change;
+[objNull, _SIDE_HOSTAGE_RESCUED_] call FUNC(rep,change);
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

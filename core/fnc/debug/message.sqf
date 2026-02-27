@@ -22,7 +22,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -33,7 +33,7 @@ params [
 ];
 if (_mode <= 0 || _mode > 15) exitWith {
     #ifdef BTC_DEBUG_DEBUG
-    [["%1: invalid _mode: %2 passed to btc_debug_fnc_message", __FILE_NAME__, _mode], 6, "debug"] call btc_debug_fnc_message;  
+    [["%1: invalid _mode: %2 passed to btc_debug_fnc_message", __FILE_NAME__, _mode], 6, "debug"] call FUNC(debug,message);  
     #endif
 };
 

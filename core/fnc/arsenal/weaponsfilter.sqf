@@ -38,7 +38,7 @@ private _weapons = ("true" configClasses (configFile >> "CfgWeapons") select {
 
 private _allowedWeapons = [];
 {
-    _allowedWeapons append ([_weapons, _x] call btc_arsenal_fnc_ammoUsage);
+    _allowedWeapons append ([_weapons, _x] call FUNC(arsenal,ammoUsage));
 } forEach _itemType_ammo_usageAllowed;
 
 private _cfgVehicles = configFile >> "CfgVehicles";

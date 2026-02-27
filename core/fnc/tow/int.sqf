@@ -54,7 +54,7 @@ _action = [
     "log_hook",
     localize "STR_ACE_Towing_attach",
     "\z\ace\addons\attach\UI\attach_ca.paa",
-    {[btc_tow_vehicleTowing, _target] call btc_tow_fnc_ropeCreate;},
+    {[btc_tow_vehicleTowing, _target] call FUNC(tow,ropeCreate);},
     {!isNull btc_tow_vehicleTowing && {btc_tow_vehicleTowing != _target}}
 ] call ace_interact_menu_fnc_createAction;
 [_type, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToClass;
@@ -63,7 +63,7 @@ _action = [
     "log_unhook",
     localize "STR_ACE_Towing_detach",
     "\z\ace\addons\attach\UI\detach_ca.paa",
-    {_target call btc_tow_fnc_unhook;},
+    {_target call FUNC(tow,unhook);},
     {!isNull (_target getVariable ["btc_towing", objNull]);}
 ] call ace_interact_menu_fnc_createAction;
 [_type, 0, ["ACE_MainActions", "Logistic"], _action] call ace_interact_menu_fnc_addActionToClass;

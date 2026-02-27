@@ -37,6 +37,6 @@ if !(_weapon isKindOf ["CarHorn", configFile >> "CfgWeapons"]) exitWith {};
     objNull,
     btc_int_hornRadius,
     _veh
-] call btc_int_fnc_orders;
+] call FUNC(int,orders);
 
 btc_int_hornDelay = time;

@@ -1,4 +1,5 @@
 #include "..\..\script_macros.hpp"
+#include "\x\cba\addons\main\script_macros_mission.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_medical_serializeState
 	

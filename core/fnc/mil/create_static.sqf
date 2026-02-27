@@ -36,12 +36,12 @@ params [
 private _group = createGroup btc_enemy_side;
 _group setVariable ["btc_city", _city];
 [_group] call CBA_fnc_clearWaypoints;
-[_group, _pos, selectRandom _statics_type, _dir, _surfaceNormal] call btc_mil_fnc_createVehicle;
+[_group, _pos, selectRandom _statics_type, _dir, _surfaceNormal] call FUNC(mil,createVehicle);
 
 _group setBehaviour "COMBAT";
 _group setCombatMode "RED";
 
 #ifdef BTC_DEBUG_MIL
-[["%1: POS %2", __FILE_NAME__, _pos], 2, "mil"] call btc_debug_fnc_message;
+[["%1: POS %2", __FILE_NAME__, _pos], 2, "mil"] call FUNC(debug,message);
 #endif
 _group

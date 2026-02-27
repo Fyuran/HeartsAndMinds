@@ -27,16 +27,16 @@
 params[
 	["_name", worldName, [""]]
 ];
-[["Loading Data", 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
+[["Loading Data", 1, [1,0.27,0,1]]] call FUNC(common,show_custom_hint);
 
 private _saveFile = profileNamespace getVariable [format["btc_hm_%1_saveFile", _name], ""];
-btc_JSON = fromJSON([_saveFile] call btc_json_fnc_request_data);
+btc_JSON = fromJSON([_saveFile] call FUNC(db,request_data));
 if(btc_JSON isEqualTo "" || isNil "btc_JSON") then {
-	[[format["%1, attempting to fallback to profileNamespace", _result], 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+	[[format["%1, attempting to fallback to profileNamespace", _result], 1, [1, 0, 0, 1]]] call FUNC(common,show_custom_hint);
 	btc_JSON = profileNamespace getVariable [format["btc_hm_%1_saveJSON", _name], createHashMap];
 };
 if (btc_JSON isEqualTo createHashMap) exitWith {
-	[["Failed to load JSON save", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+	[["Failed to load JSON save", 1, [1, 0, 0, 1]]] call FUNC(common,show_custom_hint);
 };
 
 // METADATA
@@ -95,7 +95,7 @@ if (_cities_status isNotEqualTo createHashMap) then {
 			};
 		};*/
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _city = %2 at %3", __FILE_NAME__, _name, getPosASL _city], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _city = %2 at %3", __FILE_NAME__, _name, getPosASL _city], 2, "json"] call FUNC(debug,message);
 		#endif};
 };
 
@@ -104,9 +104,9 @@ private _array_ho = +(MAPCHECK("array_ho"));
 if (_array_ho isNotEqualTo createHashMap) then {
 	_array_ho apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
-		[_pos, _id_hideout, _rinf_time, _cap_time, _assigned_to, _markers_saved] call btc_hideout_fnc_create;
+		[_pos, _id_hideout, _rinf_time, _cap_time, _assigned_to, _markers_saved] call FUNC(hideout,create);
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _hideout = %2 at %3", __FILE_NAME__, _id_hideout, _pos], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _hideout = %2 at %3", __FILE_NAME__, _id_hideout, _pos], 2, "json"] call FUNC(debug,message);
 		#endif};
 };
 
@@ -120,9 +120,9 @@ if (_select_ho isEqualTo - 1) then {
 };
 
 if (btc_hideouts isEqualTo []) then {
-	[] spawn btc_fnc_final_phase;
+	[] spawn FUNC(common,final_phase);
 	#ifdef BTC_DEBUG_JSON
-	[["%1: activating final phase", __FILE_NAME__], 2, "json"] call btc_debug_fnc_message;
+	[["%1: activating final phase", __FILE_NAME__], 2, "json"] call FUNC(debug,message);
 	#endif};
 
 // CACHE
@@ -134,17 +134,17 @@ if (_array_cache isNotEqualTo createHashMap) then {
 		btc_cache_n = _cache_n;
 		btc_cache_info = _cache_info;
 
-		[_cache_pos, btc_p_chem, [1, 0] select _isChem] call btc_cache_fnc_create;
+		[_cache_pos, btc_p_chem, [1, 0] select _isChem] call FUNC(cache,create);
 		btc_cache_obj setVariable ["btc_cache_unitsSpawned", _cache_unitsSpawned];
 
 		#ifdef BTC_DEBUG_JSON
-		[["%1: %2 _array_cache = %3 at %4", __FILE_NAME__, _cache_n, _cache_pos], 2, "json"] call btc_debug_fnc_message;
+		[["%1: %2 _array_cache = %3 at %4", __FILE_NAME__, _cache_n, _cache_pos], 2, "json"] call FUNC(debug,message);
 		#endif
 		btc_cache_markers = [];
 		_cache_markers apply {
 			_x params ["_pos", "_marker_name"];
 
-			[_pos, 0, _marker_name] call btc_info_fnc_cacheMarker;
+			[_pos, 0, _marker_name] call FUNC(info,cacheMarker);
 		};
 
 		btc_cache_pictures = _cache_pictures;
@@ -165,9 +165,9 @@ if (_fobs isNotEqualTo createHashMap) then {
 	_fobs apply {
 		(values _y) params ((keys _y) apply {"_" + _x});
 
-		[_pos, _direction, _FOB_name, _jailData, _logObjData, _resources] call btc_fob_fnc_create_s;
+		[_pos, _direction, _FOB_name, _jailData, _logObjData, _resources] call FUNC(fob,create_s);
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _fob = %2 at %3", __FILE_NAME__, _FOB_name, _pos], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _fob = %2 at %3", __FILE_NAME__, _FOB_name, _pos], 2, "json"] call FUNC(debug,message);
 		#endif
 	};
 };
@@ -178,10 +178,10 @@ if(btc_fobs_ruins isNotEqualTo createHashMap) then {
         private _ruin = createSimpleObject [_typeOf, _pos, false];
         _ruin setDir _dir;
         _ruin setVariable["FOB_name", _name, true];
-		[objNull, _ruin] call btc_fob_fnc_ruins;
+		[objNull, _ruin] call FUNC(fob,ruins);
 
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _fob_ruins = %2 at %3", __FILE_NAME__, _name, _pos], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _fob_ruins = %2 at %3", __FILE_NAME__, _name, _pos], 2, "json"] call FUNC(debug,message);
 		#endif
 	};
 };
@@ -207,13 +207,13 @@ if (_array_veh isNotEqualTo createHashMap) then {
 		if(_height >= 0) then { _object setPosATL (ASLtoATL _position) } else {
 			_object setPosASL _position;
 		};
-		_object call btc_veh_fnc_add;
+		_object call FUNC(veh,add);
 		_object setVectorDirAndUp (_y get "vectorDirAndUp");
 
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _veh(%2) = %3 at %4", __FILE_NAME__, _x, _typeOf, _position], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _veh(%2) = %3 at %4", __FILE_NAME__, _x, _typeOf, _position], 2, "json"] call FUNC(debug,message);
 		#endif
-		[_object, _y] call btc_veh_fnc_loadData;
+		[_object, _y] call FUNC(veh,loadData);
 	};
 }, _array_veh] call CBA_fnc_execNextFrame;
 
@@ -236,9 +236,9 @@ private _array_obj = +(MAPCHECK("array_obj"));
 		_object setVectorDirAndUp (_y get "vectorDirAndUp");
 
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _obj(%2) = %3 at %4", __FILE_NAME__, _x, _typeOf, _position], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _obj(%2) = %3 at %4", __FILE_NAME__, _x, _typeOf, _position], 2, "json"] call FUNC(debug,message);
 		#endif
-		[_object, _y] call btc_veh_fnc_loadData;
+		[_object, _y] call FUNC(veh,loadData);
 	};
 }, _array_obj] call CBA_fnc_execNextFrame;
 
@@ -250,10 +250,10 @@ if (_array_fob_log_supplies isNotEqualTo createHashMap) then {
 		this apply {
 			(values _y) params ((keys _y) apply {"_" + _x});
 
-			[_pos, _dir, _resources, _class] call btc_log_resupply_fnc_claimed_create;
+			[_pos, _dir, _resources, _class] call FUNC(log_resupply,claimed_create);
 
 			#ifdef BTC_DEBUG_JSON
-			[["%1: _supply = %2 at %3", __FILE_NAME__, _class, _pos], 2, "json"] call btc_debug_fnc_message;
+			[["%1: _supply = %2 at %3", __FILE_NAME__, _class, _pos], 2, "json"] call FUNC(debug,message);
 			#endif
 		};
 	}, _array_fob_log_supplies] call CBA_fnc_execNextFrame;
@@ -282,7 +282,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
     btc_respawn_tickets = +(MAPCHECK("respawn_tickets"));
 
     private _deadBodyPlayers = +(MAPCHECK("deadPlayers"));
-    btc_body_deadPlayers  = [values _deadBodyPlayers] call btc_body_fnc_create;
+    btc_body_deadPlayers  = [values _deadBodyPlayers] call FUNC(body,create);
 };
 
 // PLAYERS
@@ -304,7 +304,7 @@ if (_player_markers isNotEqualTo createHashMap) then {
 		_marker setMarkerDir _markerDir;
 
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _marker = %2 at %3[%4]", __FILE_NAME__, _markerText, _markerPos], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _marker = %2 at %3[%4]", __FILE_NAME__, _markerText, _markerPos], 2, "json"] call FUNC(debug,message);
 		#endif
 		_marker setMarkerShape _markerShape;
 		if (_markerPolyline isNotEqualTo []) then {
@@ -333,7 +333,7 @@ if (_explosives isNotEqualTo createHashMap) then {
 		];
 
 		#ifdef BTC_DEBUG_JSON
-		[["%1: _veh = %2 at %3", __FILE_NAME__, _explosiveType, _pos], 2, "json"] call btc_debug_fnc_message;
+		[["%1: _veh = %2 at %3", __FILE_NAME__, _explosiveType, _pos], 2, "json"] call FUNC(debug,message);
 		#endif
 		};
 };
@@ -343,6 +343,6 @@ if (_explosives isNotEqualTo createHashMap) then {
 btc_scoreboard = +(MAPCHECK("btc_scoreboard"));
 
 
-[["Database loaded", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
+[["Database loaded", 1, [0, 1, 0, 1]]] call FUNC(common,show_custom_hint);
 
 btc_hasLoadedDB = true;

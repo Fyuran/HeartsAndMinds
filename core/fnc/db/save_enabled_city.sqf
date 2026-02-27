@@ -27,7 +27,7 @@ params [
 
 #ifdef BTC_DEBUG_DB
 private _id = _city getVariable "id";
-[["%1: saving active city %2", __FILE_NAME__, str _id], 2, "db"] call btc_debug_fnc_message;
+[["%1: saving active city %2", __FILE_NAME__, str _id], 2, "db"] call FUNC(debug,message);
 #endif
 private _cachingRadius = _city getVariable ["cachingRadius", 0];
 
@@ -41,7 +41,7 @@ allGroups apply {
         {!(_x getVariable ["no_cache", false])} &&
         {_x getVariable ["btc_city", _city] in [_city, objNull]}
     ) then {
-        private _data_group = _x call btc_data_fnc_get_group;
+        private _data_group = _x call FUNC(data,get_group);
         _data_units pushBack _data_group;
 
         if ((_data_group select 0) in [5, 7]) then {_has_suicider = true;};
@@ -79,7 +79,7 @@ private _data_tags = [];
 };
 
 (btc_vehicles inAreaArray [_pos_city, _cachingRadius, _cachingRadius]) apply {
-    [_x] call btc_tag_fnc_vehicle; 
+    [_x] call FUNC(tag,vehicle); 
 };
 
 _city setVariable ["has_suicider", _has_suicider];

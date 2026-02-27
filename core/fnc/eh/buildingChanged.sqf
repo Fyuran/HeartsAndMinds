@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -32,8 +32,8 @@ if(btc_p_fob_disable_destruction) then {
         {typeOf _from isEqualTo btc_fob_structure} && 
         {(_from getVariable["FOB_name", ""]) isNotEqualTo ""}
     ) then {
-        [_from, _to] call btc_fob_fnc_ruins;
+        [_from, _to] call FUNC(fob,ruins);
     };
 };
 
-_this call btc_rep_fnc_buildingchanged;
+_this call FUNC(rep,buildingchanged);

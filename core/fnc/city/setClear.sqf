@@ -35,11 +35,11 @@ if (_remainEnemyUnits isNotEqualTo []) then {
             _x setDamage 1;
         };
     };
-    [_remainEnemyUnits] spawn btc_jail_fnc_setCaptives_s;
+    [_remainEnemyUnits] spawn FUNC(jail,setCaptives_s);
 };
 
 if (btc_final_phase) then {
     btc_city_remaining = btc_city_remaining - [_city];
 };
 
-[_city getVariable ["name", ""], _CITY_LIBERATED_] call btc_rep_fnc_change;
+[_city getVariable ["name", ""], _CITY_LIBERATED_] call FUNC(rep,change);

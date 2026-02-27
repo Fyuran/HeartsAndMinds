@@ -27,7 +27,7 @@ params [
 ];
 
 private _building = objNull;
-([_rpos, 70] call btc_mil_fnc_getStructures) params ["_structures", "_houses"];
+([_rpos, 70] call FUNC(mil,getStructures)) params ["_structures", "_houses"];
 
 if (_structures isEqualTo []) then {
     if (_houses isNotEqualTo []) then {

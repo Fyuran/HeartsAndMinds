@@ -26,7 +26,7 @@ params [
     ["_caller", player, [objNull]]
 ];
 
-[_pos, _caller] spawn btc_ied_fnc_effect_blurEffect;
-[_pos] spawn btc_ied_fnc_effect_smoke;
-[_pos] spawn btc_ied_fnc_effect_rocks;
-[_pos] spawn btc_ied_fnc_effect_shock_wave;
+[_pos, _caller] spawn FUNC(ied,effect_blurEffect);
+[_pos] spawn FUNC(ied,effect_smoke);
+[_pos] spawn FUNC(ied,effect_rocks);
+[_pos] spawn FUNC(ied,effect_shock_wave);

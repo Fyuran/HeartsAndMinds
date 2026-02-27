@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -25,7 +25,7 @@ if(!params [
 
 ]) exitWith {
     #ifdef BTC_DEBUG_SLOT
-    [["%1: bad params", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;  
+    [["%1: bad params", __FILE_NAME__], 6, "slot"] call FUNC(debug,message);  
     #endif
 };
 if(isNull _player) then {
@@ -38,7 +38,7 @@ private _data = createHashMapFromArray [
     ["loadout", getUnitLoadout _player],
     ["flagTexture", getForcedFlagTexture _player],
     ["isContaminated", _player in btc_chem_contaminated],
-    ["medicalState", [_player] call btc_json_fnc_medical_serializeState],
+    ["medicalState", [_player] call FUNC(db,medical_serializeState)],
     ["field_rations", [
         _player getVariable ["acex_field_rations_thirst", 0],
         _player getVariable ["acex_field_rations_hunger", 0]
@@ -52,6 +52,6 @@ btc_slots_serialized set [_uid, _data];
 
 
 #ifdef BTC_DEBUG_SLOT
-[["%1: %2(%3) saving data", __FILE_NAME__, name _player, _uid], 2, "slot"] call btc_debug_fnc_message;
+[["%1: %2(%3) saving data", __FILE_NAME__, name _player, _uid], 2, "slot"] call FUNC(debug,message);
 #endif
 [_uid, _data]

@@ -33,14 +33,14 @@ private _array = _city getVariable ["ieds", []];
 
 {
     for "_i" from 1 to _n do {
-        private _sel_pos = [_pos, _area] call btc_fnc_randomize_pos;
+        private _sel_pos = [_pos, _area] call FUNC(common,randomize_pos);
         private _dir = random 360;
 
         private _roads = _sel_pos nearRoads 50;
         if (_roads isEqualTo []) then {
-            _sel_pos = [_sel_pos, 0, 100, 1, false] call btc_fnc_findsafepos;
+            _sel_pos = [_sel_pos, 0, 100, 1, false] call FUNC(common,findsafepos);
         } else {
-            private _arr = (selectRandom _roads) call btc_ied_fnc_randomRoadPos;
+            private _arr = (selectRandom _roads) call FUNC(ied,randomRoadPos);
             _sel_pos = _arr select 0;
             _dir = _arr select 1;
         };
@@ -48,7 +48,7 @@ private _array = _city getVariable ["ieds", []];
         _array pushBack [_sel_pos, selectRandom btc_model_ieds, _dir, _x];
 
         #ifdef BTC_DEBUG_IED
-        [["%1: ied area _this = %2 POS %3 N %4(%5)", __FILE_NAME__, _this, _sel_pos, _i, _n], 2, "ied"] call btc_debug_fnc_message;
+        [["%1: ied area _this = %2 POS %3 N %4(%5)", __FILE_NAME__, _this, _sel_pos, _i, _n], 2, "ied"] call FUNC(debug,message);
         #endif};
 } forEach [true, false];
 

@@ -25,7 +25,7 @@ params[
 
 private _fileviewer = findDisplay 7001;
 #ifdef BTC_DEBUG_JSON
-[["%1: Refreshing JSON File viewer list with: %2(fileviewer:%3)", __FILE_NAME__, _this, _fileviewer], 2, "json/ui"] call btc_debug_fnc_message;
+[["%1: Refreshing JSON File viewer list with: %2(fileviewer:%3)", __FILE_NAME__, _this, _fileviewer], 2, "json/ui"] call FUNC(debug,message);
 #endif
 //refresh listBox items
 if(!isNull _fileviewer) then {

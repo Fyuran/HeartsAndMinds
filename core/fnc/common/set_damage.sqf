@@ -46,4 +46,4 @@ for "_i" from 0 to (1 + floor random 2) do {
     sleep 1;
 };
 
-if (_unit call ace_medical_status_fnc_isInStableCondition) exitWith {[_unit] call btc_fnc_set_damage;};
+if (_unit call ace_medical_status_fnc_isInStableCondition) exitWith {[_unit] call FUNC(common,set_damage);};

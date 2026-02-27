@@ -26,12 +26,12 @@ params[
 ];
 
 #ifdef BTC_DEBUG_JSON
-[["%1: btc_hm_%2_saveFile JSON set to %3", __FILE_NAME__, worldName, _path], 2, "json/ui"] call btc_debug_fnc_message;
+[["%1: btc_hm_%2_saveFile JSON set to %3", __FILE_NAME__, worldName, _path], 2, "json/ui"] call FUNC(debug,message);
 #endif
 profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
 
 if(_custom_hint isEqualTo "") then {
-	[[format["Restart mission to load %1", _path], 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
+	[[format["Restart mission to load %1", _path], 1, [1,0.27,0,1]]] call FUNC(common,show_custom_hint);
 } else {
-	[[_custom_hint, 1, [1,0.27,0,1]]] call btc_fnc_show_custom_hint;
+	[[_custom_hint, 1, [1,0.27,0,1]]] call FUNC(common,show_custom_hint);
 };

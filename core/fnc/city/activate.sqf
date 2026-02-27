@@ -79,22 +79,22 @@ if (!(_city getVariable ["initialized", false])) then {
     };
 
         #ifdef BTC_DEBUG_CITY
-        [["%1: _numberOfIED %2 - p %3", __FILE_NAME__, _numberOfIED, _numberOfIED * btc_p_ied], 2, "city"] call btc_debug_fnc_message;
+        [["%1: _numberOfIED %2 - p %3", __FILE_NAME__, _numberOfIED, _numberOfIED * btc_p_ied], 2, "city"] call FUNC(debug,message);
     
     #endif
     _numberOfIED = _numberOfIED * btc_p_ied / 2;
     if (_numberOfIED > 0) then {
-        [[_city, _spawningRadius, _numberOfIED + (random _numberOfIED)], btc_ied_fnc_initArea] call btc_delay_fnc_exec;
+        [[_city, _spawningRadius, _numberOfIED + (random _numberOfIED)], FUNC(ied,initArea)] call FUNC(delay,exec);
     };
 
     _city setVariable ["initialized", true];
 };
-[_city, btc_ied_fnc_check] call btc_delay_fnc_exec;
+[_city, FUNC(ied,check)] call FUNC(delay,exec);
 
 //supplies
 if(_has_en && {_data_supplies isNotEqualTo []}) then {
     _supplies = _data_supplies apply {
-        ([_city, _x]) call btc_log_resupply_fnc_city_create;
+        ([_city, _x]) call FUNC(log_resupply,city_create);
     };
     _city setVariable ["supplies", _supplies];
 };
@@ -102,7 +102,7 @@ if(_has_en && {_data_supplies isNotEqualTo []}) then {
 private _delay = 0;
 if (_data_units isNotEqualTo []) then {
     {
-        _delay = _delay + ([_x, _city, _spawningRadius] call btc_data_fnc_spawn_group);
+        _delay = _delay + ([_x, _city, _spawningRadius] call FUNC(data,spawn_group));
     } forEach _data_units;
 } else {
     // Maximum number of enemy group
@@ -129,18 +129,18 @@ if (_data_units isNotEqualTo []) then {
                 [_spawningRadius, _spawningRadius/2] select (_i <= _numberOfHouseGroup),
                 2 + round random 2,
                 [["PATROL", "SENTRY"] selectRandomWeighted [0.7, 0.3], "HOUSE"] select (_i <= _numberOfHouseGroup)
-            ] call btc_mil_fnc_create_group;
+            ] call FUNC(mil,create_group);
         };
         if(_supplies isNotEqualTo []) then {
             _supplies apply {
-                private _groups = [getPosASL _x, 5, 3, "SENTRY"] call btc_mil_fnc_create_group;
+                private _groups = [getPosASL _x, 5, 3, "SENTRY"] call FUNC(mil,create_group);
                 _groups apply {_x setVariable ["btc_city", _city]}; //create_group internally sets btc_city to obj if passed
             };
         };
     };
 
     if !(_type in ["Hill", "NameMarine"]) then {
-        ([_city, _spawningRadius/2] call btc_city_fnc_getHouses) params ["_housesEntrerable", "_housesNotEntrerable"];
+        ([_city, _spawningRadius/2] call FUNC(city,getHouses)) params ["_housesEntrerable", "_housesNotEntrerable"];
 
         if (_has_en) then {
             private _numberOfStatic = (switch _type do {
@@ -154,7 +154,7 @@ if (_data_units isNotEqualTo []) then {
                 case "Airport" : {6};
                 default {0};
             });
-            [_housesEntrerable+_housesNotEntrerable, round (_p_mil_static_group_ratio * _numberOfStatic), _city] call btc_mil_fnc_create_staticOnRoof;
+            [_housesEntrerable+_housesNotEntrerable, round (_p_mil_static_group_ratio * _numberOfStatic), _city] call FUNC(mil,create_staticOnRoof);
         };
 
         // Spawn civilians
@@ -169,14 +169,14 @@ if (_data_units isNotEqualTo []) then {
             case "Airport" : {12};
             default {4};
         });
-        [+_housesEntrerable, round (_p_civ_group_ratio * _numberOfCivi), _city] call btc_civ_fnc_populate;
+        [+_housesEntrerable, round (_p_civ_group_ratio * _numberOfCivi), _city] call FUNC(civ,populate);
     };
 };
 
 if (btc_p_animals_group_ratio > 0) then {
     if (_data_animals isNotEqualTo []) then {
         {
-            (_x + [nil, _city]) call btc_delay_fnc_createAgent;
+            (_x + [nil, _city]) call FUNC(delay,createAgent);
         } forEach _data_animals;
     } else {
         // Spawn animals
@@ -194,7 +194,7 @@ if (btc_p_animals_group_ratio > 0) then {
         for "_i" from 1 to _numberOfAnimalsGroup do {
             private _pos = [_city, _spawningRadius/3] call CBA_fnc_randPos;
             for "_i" from 1 to (round random 3) do {
-                [selectRandom btc_animals_type, [_pos, 6] call CBA_fnc_randPos, nil, _city] call btc_delay_fnc_createAgent;
+                [selectRandom btc_animals_type, [_pos, 6] call CBA_fnc_randPos, nil, _city] call FUNC(delay,createAgent);
             };
         };
     };
@@ -210,10 +210,10 @@ if (_city getVariable ["spawn_more", false]) then {
             [_spawningRadius, _spawningRadius/2] select (_i <= _numberOfHouseGroup),
             4 + round random 3,
             ["PATROL", "HOUSE"] select (_i <= _numberOfHouseGroup)
-        ] call btc_mil_fnc_create_group;
+        ] call FUNC(mil,create_group);
     };
     if (btc_p_veh_armed_spawn_more) then {
-        [[_city, _spawningRadius, 1, btc_type_motorized_armed, 1 + round random 2], btc_city_fnc_send] call btc_delay_fnc_exec;
+        [[_city, _spawningRadius, 1, btc_type_motorized_armed, 1 + round random 2], FUNC(city,send)] call FUNC(delay,exec);
     };
 };
 
@@ -224,41 +224,41 @@ if (
     if (btc_cache_obj getVariable ["btc_cache_unitsSpawned", false]) then {
         [[btc_cache_pos, 5], {
             if (count (btc_cache_pos nearEntities ["Man", 50]) > 3) exitWith {};
-            [btc_cache_pos, 8, 3, "HOUSE"] call btc_mil_fnc_create_group;
-            [btc_cache_pos, 50, 4, "SENTRY"] call btc_mil_fnc_create_group;
-        }] call btc_delay_fnc_exec;
+            [btc_cache_pos, 8, 3, "HOUSE"] call FUNC(mil,create_group);
+            [btc_cache_pos, 50, 4, "SENTRY"] call FUNC(mil,create_group);
+        }] call FUNC(delay,exec);
     } else {
         btc_cache_obj setVariable ["btc_cache_unitsSpawned", true];
 
-        [btc_cache_pos, 8, 3, "HOUSE"] call btc_mil_fnc_create_group;
-        [btc_cache_pos, 50, 4, "SENTRY"] call btc_mil_fnc_create_group;
+        [btc_cache_pos, 8, 3, "HOUSE"] call FUNC(mil,create_group);
+        [btc_cache_pos, 50, 4, "SENTRY"] call FUNC(mil,create_group);
         if (btc_p_veh_armed_spawn_more) then {
-            [[_city, _spawningRadius, 1, btc_type_motorized_armed, 1 + round random 3], btc_city_fnc_send] call btc_delay_fnc_exec;
+            [[_city, _spawningRadius, 1, btc_type_motorized_armed, 1 + round random 3], FUNC(city,send)] call FUNC(delay,exec);
         };
     };
 };
 
 if (_has_ho && {!(_city getVariable ["ho_units_spawned", false])}) then {
     _city setVariable ["ho_units_spawned", true];
-    [_city, 20, 10 + round (_p_mil_group_ratio * random 6), "SENTRY"] call btc_mil_fnc_create_group;
-    [_city, 120, 1 + round random 2, "SENTRY"] call btc_mil_fnc_create_group;
-    [_city, 120, 1 + round random 2, "SENTRY"] call btc_mil_fnc_create_group;
+    [_city, 20, 10 + round (_p_mil_group_ratio * random 6), "SENTRY"] call FUNC(mil,create_group);
+    [_city, 120, 1 + round random 2, "SENTRY"] call FUNC(mil,create_group);
+    [_city, 120, 1 + round random 2, "SENTRY"] call FUNC(mil,create_group);
     private _random = random 1;
     private _pos = getPos _city;
     switch (true) do {
         case (_random <= 0.3) : {};
         case (_random > 0.3 && _random <= 0.75) : {
             private _statics = btc_type_gl + btc_type_mg;
-            [[(_pos select 0) + 7, (_pos select 1) + 7, 0], _statics, 45, [], _city] call btc_mil_fnc_create_static;
+            [[(_pos select 0) + 7, (_pos select 1) + 7, 0], _statics, 45, [], _city] call FUNC(mil,create_static);
         };
         case (_random > 0.75) : {
             private _statics = btc_type_gl + btc_type_mg;
-            [[(_pos select 0) + 7, (_pos select 1) + 7, 0], _statics, 45, [], _city] call btc_mil_fnc_create_static;
-            [[(_pos select 0) - 7, (_pos select 1) - 7, 0], _statics, 225, [], _city] call btc_mil_fnc_create_static;
+            [[(_pos select 0) + 7, (_pos select 1) + 7, 0], _statics, 45, [], _city] call FUNC(mil,create_static);
+            [[(_pos select 0) - 7, (_pos select 1) - 7, 0], _statics, 225, [], _city] call FUNC(mil,create_static);
         };
     };
     if (btc_p_veh_armed_ho) then {
-        [[_city, _spawningRadius, 1, btc_type_motorized_armed, 2 + round random 3], btc_city_fnc_send] call btc_delay_fnc_exec;
+        [[_city, _spawningRadius, 1, btc_type_motorized_armed, 2 + round random 3], FUNC(city,send)] call FUNC(delay,exec);
     };
 };
 
@@ -268,9 +268,9 @@ if !(_city getVariable ["has_suicider", false]) then {
         btc_ied_suic_spawned = time;
         _city setVariable ["has_suicider", true];
         if (selectRandom [false, false, btc_p_ied_drone]) then {
-            [[_city, _spawningRadius, getPosATL _city], btc_ied_fnc_drone_create] call btc_delay_fnc_exec;
+            [[_city, _spawningRadius, getPosATL _city], FUNC(ied,drone_create)] call FUNC(delay,exec);
         } else {
-            [[_city, _spawningRadius], btc_ied_fnc_suicider_create] call btc_delay_fnc_exec;
+            [[_city, _spawningRadius], FUNC(ied,suicider_create)] call FUNC(delay,exec);
         };
         _delay = _delay + btc_delay_unit;
     };
@@ -298,29 +298,29 @@ if (_city getVariable ["data_tags", []] isEqualTo []) then {
     };
 
     if (_tag_number > 0) then {
-        [[_city, _spawningRadius, _tag_number / 2 + random _tag_number / 2], btc_tag_fnc_initArea] call btc_delay_fnc_exec;
+        [[_city, _spawningRadius, _tag_number / 2 + random _tag_number / 2], FUNC(tag,initArea)] call FUNC(delay,exec);
     };
 };
-[_city, btc_tag_fnc_create] call btc_delay_fnc_exec;
+[_city, FUNC(tag,create)] call FUNC(delay,exec);
 
 if (
     !(_type in ["Hill", "NameMarine"]) &&
     _city getVariable ["btc_city_housesEntrerable", []] isEqualTo []
 ) then {
-    [[_city, _spawningRadius/2], btc_city_fnc_getHouses] call btc_delay_fnc_exec;
+    [[_city, _spawningRadius/2], FUNC(city,getHouses)] call FUNC(delay,exec);
 };
 
 if(btc_p_door_locks) then {
-    [_city, btc_door_fnc_lock] call btc_delay_fnc_exec;
+    [_city, FUNC(door,lock)] call FUNC(delay,exec);
 };
 
 if (btc_p_info_houseDensity > 0) then {
-    [_city, btc_info_fnc_createIntels] call btc_delay_fnc_exec;
+    [_city, FUNC(info,createIntels)] call FUNC(delay,exec);
 };   
 
 private _civKilled = _city getVariable ["btc_rep_civKilled", []];
 if (_civKilled isNotEqualTo []) then {
-    [[_city, _civKilled], btc_civ_fnc_createFlower] call btc_delay_fnc_exec;
+    [[_city, _civKilled], FUNC(civ,createFlower)] call FUNC(delay,exec);
 };
 
 [{
@@ -337,7 +337,7 @@ if (_civKilled isNotEqualTo []) then {
     };
 
     _city enableSimulation true;
-}, [_has_en, _city, _cachingRadius], _delay] call btc_delay_fnc_waitAndExecute;
+}, [_has_en, _city, _cachingRadius], _delay] call FUNC(delay,waitAndExecute);
 
 //Patrol
 btc_patrol_active = btc_patrol_active - [grpNull];
@@ -350,7 +350,7 @@ if (_numberOfPatrol < _p_patrol_max) then {
         btc_patrol_active pushBack _group;
         _group setVariable ["no_cache", true];
         _group setVariable ["acex_headless_blacklist", true];
-        [[_group, 1 + round random 1, _city, _cachingRadius + btc_patrol_area], btc_mil_fnc_create_patrol] call btc_delay_fnc_exec;
+        [[_group, 1 + round random 1, _city, _cachingRadius + btc_patrol_area], FUNC(mil,create_patrol)] call FUNC(delay,exec);
     };
 };
 //Traffic
@@ -363,7 +363,7 @@ if (_numberOfCivVeh < _p_civ_max_veh) then {
         btc_civ_veh_active pushBack _group;
         _group setVariable ["no_cache", true];
         _group setVariable ["acex_headless_blacklist", true];
-        [[_group, _city, _cachingRadius + btc_patrol_area], btc_civ_fnc_create_patrol] call btc_delay_fnc_exec;
+        [[_group, _city, _cachingRadius + btc_patrol_area], FUNC(civ,create_patrol)] call FUNC(delay,exec);
     };
 };
 
@@ -381,11 +381,11 @@ if (_HCs isNotEqualTo []) then {
 };
 
 if(_has_en) then {
-    [_city] call btc_event_fnc_attackFOBChance;
+    [_city] call FUNC(event,attackFOBChance);
 };
 
 
 #ifdef BTC_DEBUG_CITY
 private _id = _city getVariable "id";
-[["%1: %2 - %3ms", __FILE_NAME__, _id, (serverTime - (_city getVariable ["serverTime", serverTime])) * 1000] , 3, "city"] call btc_debug_fnc_message;
+[["%1: %2 - %3ms", __FILE_NAME__, _id, (serverTime - (_city getVariable ["serverTime", serverTime])) * 1000] , 3, "city"] call FUNC(debug,message);
 #endif

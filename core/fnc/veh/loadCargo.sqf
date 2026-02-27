@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 params[
@@ -28,7 +28,7 @@ params[
 if(_hash isEqualTo createHashMap) exitWith {};
 if(!alive _object) exitWith {
 	#ifdef BTC_DEBUG_VEH
-	[["%1: _object is dead or null", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	[["%1: _object is dead or null", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);
 	#endif
 };
 /*
@@ -91,7 +91,7 @@ if(_containers isNotEqualTo []) then {
 
 			private _objRef = _matchingContainer select 1; //select the object reference
 			
-			[_objRef, _content] call btc_veh_fnc_loadCargo;	
+			[_objRef, _content] call FUNC(veh,loadCargo);	
 		};
 	}, [_object, _containers], 30] call CBA_fnc_waitUntilAndExecute;
 };
@@ -126,7 +126,7 @@ if(_ace_containers isNotEqualTo []) then {
 			if([_class, _object, true] call ace_cargo_fnc_canLoadItemIn) then {
 				private _ace_cargo = createVehicle [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
 				[_ace_cargo, _object, true] call ace_cargo_fnc_loadItem;
-				[_ace_cargo, _content] call btc_veh_fnc_loadCargo;
+				[_ace_cargo, _content] call FUNC(veh,loadCargo);
 			};
 		};
 		

@@ -21,7 +21,7 @@ Author:
 
 if(isClass (configFile >> "CfgPatches" >> "btc_lift")) exitWith {
     #ifdef BTC_DEBUG_LIFT
-    [["%1: btc_lift addon is loaded, aborting H&M native lift", __FILE_NAME__], 2, "lift"] call btc_debug_fnc_message;
+    [["%1: btc_lift addon is loaded, aborting H&M native lift", __FILE_NAME__], 2, "lift"] call FUNC(debug,message);
     #endif
 };
 
@@ -37,7 +37,7 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
             {(driver vehicle player) isEqualTo player} &&
             {(getPosATL player) select 2 > 4}
         ) then {
-            [] spawn btc_lift_fnc_deployRopes;
+            [] spawn FUNC(lift,deployRopes);
             if (_BTC_PLAY_FBSOUND_) then {
                 playSound _BTC_FBSOUND_;
             };
@@ -54,7 +54,7 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
             btc_ropes_deployed &&
             {(driver vehicle player) isEqualTo player}
         ) then {
-            [] call btc_lift_fnc_destroyRopes;
+            [] call FUNC(lift,destroyRopes);
             if (_BTC_PLAY_FBSOUND_) then {
                 playSound _BTC_FBSOUND_;
             };
@@ -68,7 +68,7 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
     [localize "STR_BTC_HAM_LOG_LDR_ACTIONHUD", "On / Off HUD"],
     {
         if (btc_ropes_deployed) then {
-            [] call btc_lift_fnc_hud;
+            [] call FUNC(lift,hud);
             if (_BTC_PLAY_FBSOUND_) then {
                 playSound _BTC_FBSOUND_;
             };
@@ -82,8 +82,8 @@ private _menuString = "Hearts and Minds " + localize "STR_HOOKCARGO";
     "btc_HaM_lift_hook",
     [localize "STR_BTC_HAM_LOG_HOOK", "Hook a vehicle"],
     {
-        if ([] call btc_lift_fnc_check) then {
-            [] spawn btc_lift_fnc_hook;
+        if ([] call FUNC(lift,check)) then {
+            [] spawn FUNC(lift,hook);
             if (_BTC_PLAY_FBSOUND_) then {
                 playSound _BTC_FBSOUND_;
             };

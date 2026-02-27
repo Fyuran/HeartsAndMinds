@@ -32,4 +32,4 @@ params [
     remoteExecCall ["", _x];
 } forEach _markers;
 
-[_objects] call btc_fnc_deleteEntities;
+[_objects] call FUNC(common,deleteEntities);

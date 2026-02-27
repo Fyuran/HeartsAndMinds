@@ -26,7 +26,7 @@ params [
 
 if(isNull _object) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: attempted with a null object", __FILE_NAME__], 6, "log"] call btc_debug_fnc_message;
+    [["%1: attempted with a null object", __FILE_NAME__], 6, "log"] call FUNC(debug,message);
     #endif
 };
 
@@ -34,7 +34,7 @@ private _inventory = [];
 if (_object isEqualType objNull) then {
     private _everyContainer = everyContainer _object;
     {
-        _x set [1, (_x select 1) call btc_log_fnc_inventoryGet];
+        _x set [1, (_x select 1) call FUNC(log,inventoryGet)];
     } forEach _everyContainer;
 
     private _weaponsItemsCargo = weaponsItemsCargo _object;
@@ -42,7 +42,7 @@ if (_object isEqualType objNull) then {
         private _magazine = _x select 4 select 0;
         if(isNil "_magazine") then {
             #ifdef BTC_DEBUG_LOG
-            [["%1: nil _magazine of object: %2", __FILE_NAME__, _object], 2, "log"] call btc_debug_fnc_message;
+            [["%1: nil _magazine of object: %2", __FILE_NAME__, _object], 2, "log"] call FUNC(debug,message);
             #endif
             continue;
         };
@@ -114,7 +114,7 @@ if (_object isEqualType objNull) then {
 };
 
 #ifdef BTC_DEBUG_LOG
-[["%1: retrieved inventory of %2: %3", __FILE_NAME__, _object, _inventory], 2, "log"] call btc_debug_fnc_message;
+[["%1: retrieved inventory of %2: %3", __FILE_NAME__, _object, _inventory], 2, "log"] call FUNC(debug,message);
 #endif
 
 _inventory

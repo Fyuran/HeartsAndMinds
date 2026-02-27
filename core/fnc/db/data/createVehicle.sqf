@@ -60,7 +60,7 @@ _properties params [
 
 if(_veh_pos isEqualTo [0,0,0]) exitWith {
     #ifdef BTC_DEBUG_JSON
-    [["%1: invalid _veh_pos", __FILE_NAME__], 6, "json/data"] call btc_debug_fnc_message;
+    [["%1: invalid _veh_pos", __FILE_NAME__], 6, "json/data"] call FUNC(debug,message);
     #endif
 };
 
@@ -69,13 +69,13 @@ _veh setDir _veh_dir;
 _veh setPosATL _veh_pos;
 _veh setFuel _veh_fuel;
 _veh setVectorDirAndUp _vectorDirAndUp;
-[_veh, _turretMagazines] call btc_db_fnc_setTurretMagazines;
+[_veh, _turretMagazines] call FUNC(db,setTurretMagazines);
 
-[_veh, _veh_cargo, _veh_inventory] call btc_db_fnc_loadCargo;
+[_veh, _veh_cargo, _veh_inventory] call FUNC(db,loadCargo);
 
 if (_EDENinventory isNotEqualTo []) then {
     _veh setVariable ["btc_EDENinventory", _EDENinventory];
-    [_veh, _EDENinventory] call btc_log_fnc_inventorySet;
+    [_veh, _EDENinventory] call FUNC(log,inventorySet);
 };
 
 if (unitIsUAV _veh) then {
@@ -114,8 +114,8 @@ if (_tagTexture isNotEqualTo "") then {
 
 [_veh, _customization, _isMedicalVehicle,
     _isRepairVehicle, _fuelSource, _pylons,
-        _isContaminated, _supplyVehicle, _objectTexture] call btc_veh_fnc_propertiesSet;
+        _isContaminated, _supplyVehicle, _objectTexture] call FUNC(veh,propertiesSet);
 
-_veh call btc_veh_fnc_add;
+_veh call FUNC(veh,add);
 
 _veh

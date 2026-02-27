@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -26,17 +26,17 @@ params[
 
 if(!canSuspend) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);
     #endif
 };
 if(!alive player) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: player is dead", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    [["%1: player is dead", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);
     #endif
 };
 if(isNull _flag) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: null _flag", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    [["%1: null _flag", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);
     #endif
 };
 
@@ -59,7 +59,7 @@ private _new_pos_ATL = (_pos_ATL vectorAdd (_eyeDir vectorMultiply 14));
 _jail setPosATL _new_pos_ATL;
 
 private _attachedObjects = attachedObjects _jail;
-[_jail] call btc_log_fnc_place;
+[_jail] call FUNC(log,place);
 waitUntil {!btc_log_placing};
 
 private _pos = getPosATL _jail;

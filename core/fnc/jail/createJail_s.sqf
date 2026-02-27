@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -28,12 +28,12 @@ params[
 
 if(!alive _flag) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);
     #endif
 };
 
 #ifdef BTC_DEBUG_JAIL
-[["%1: btc_jail_fnc_createJail_s: %2", __FILE_NAME__, _this], 2, "jail"] call btc_debug_fnc_message;  
+[["%1: btc_jail_fnc_createJail_s: %2", __FILE_NAME__, _this], 2, "jail"] call FUNC(debug,message);  
 #endif
 
 private _jail = createVehicle["CBA_NamespaceDummy", [0,0,0], [], 0, "CAN_COLLIDE"];
@@ -47,7 +47,7 @@ btc_jail_comp apply {
 _jail setPosATL _pos;
 _jail setVectorDirAndUp _vectorDirAndUp;
 
-private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] call btc_fnc_circlePosAroundObj];
+private _jailPositions = _jail getVariable ["btc_jail_positions", [_jail, 45] call FUNC(common,circlePosAroundObj)];
 _jailPositions pushBack getPosATL _jail; //add center of jail to list of available positions
 _jail setVariable ["btc_jail_positions", _jailPositions];
 

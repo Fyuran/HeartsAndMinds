@@ -42,12 +42,12 @@ private _sideTasks = btc_side_taskIDs getOrDefault [_side, [], true];
 private _tskID = format ["btc_side_%1_%2", _side, count _sideTasks];
 if ([_tskID] call BIS_fnc_taskExists) exitWith {
     #ifdef BTC_DEBUG_SIDE
-    [["%1: %2 already exists", __FILE_NAME__, _tskID], 6, "side"] call btc_debug_fnc_message;
+    [["%1: %2 already exists", __FILE_NAME__, _tskID], 6, "side"] call FUNC(debug,message);
     #endif
 };
 
 [_tskID, _selectedPos] spawn (missionNamespace getVariable [format ["btc_side_fnc_%1", _side], {}]);
 
 if (_cycle) then {
-    [true] call btc_side_fnc_create;
+    [true] call FUNC(side,create);
 };

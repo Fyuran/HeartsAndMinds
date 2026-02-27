@@ -26,7 +26,7 @@ params [
 
 if(!(_task_id call BIS_fnc_taskExists)) exitWith {
     #ifdef BTC_DEBUG_TASK
-    [["%1: task %2 does not exist", __FILE_NAME__, _task_id], 6, "task"] call btc_debug_fnc_message;
+    [["%1: task %2 does not exist", __FILE_NAME__, _task_id], 6, "task"] call FUNC(debug,message);
     #endif
 };
 

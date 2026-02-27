@@ -32,7 +32,7 @@ _bodies  = _serializedBodies apply {
     ];
     private _body = _group createUnit [_type, ASLToAGL _pos, [], 0, "CAN_COLLIDE"];
     _body setUnitLoadout _loadout;
-    [_body, _dogtag] call btc_body_fnc_dogtagSet;
+    [_body, _dogtag] call FUNC(body,dogtagSet);
 
     if (_isContaminated) then {
         if ((btc_chem_contaminated pushBackUnique _body) > -1) then {
@@ -50,7 +50,7 @@ _bodies  = _serializedBodies apply {
     }, [_body, _dir, _pos], 3] call CBA_fnc_waitAndExecute;
 
     if (btc_p_body_timeBeforeShowMarker >= 0) then {
-        _body call btc_body_fnc_createMarker;
+        _body call FUNC(body,createMarker);
     };
 
     _body

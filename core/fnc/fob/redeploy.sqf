@@ -33,7 +33,7 @@ private _actions = [];
 private _childStatement = {
     params ["_target", "_player", "_params"]; //_params in the case of FOBs is the flag object
 
-    if (_params call btc_fob_fnc_redeployCheck) then {[_player, _params, false] call BIS_fnc_moveToRespawnPosition};
+    if (_params call FUNC(fob,redeployCheck)) then {[_player, _params, false] call BIS_fnc_moveToRespawnPosition};
 };
 
 if (_params isEqualTo "") then { // Redeploy on marker like rallypoints

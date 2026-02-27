@@ -28,5 +28,5 @@ params [
 
 private _type_ied = typeOf _ied;
 if ((_type_ied select [0, _type_ied find "_"]) in (btc_type_ieds_ace apply {_x select [0, _x find "_"]})) then {
-    [_unit, _EXPLOSIVE_DEFUSED_] call btc_rep_fnc_change;
+    [_unit, _EXPLOSIVE_DEFUSED_] call FUNC(rep,change);
 };

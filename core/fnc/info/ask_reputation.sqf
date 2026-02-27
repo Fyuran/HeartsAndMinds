@@ -25,7 +25,7 @@ params [
 ];
 
 if !(player getVariable ["interpreter", false]) exitWith {
-    [name _man, localize "STR_BTC_HAM_CON_INFO_ASKREP_NOINTER"] call btc_fnc_showSubtitle;
+    [name _man, localize "STR_BTC_HAM_CON_INFO_ASKREP_NOINTER"] call FUNC(common,showSubtitle);
 };
 
 btc_int_ask_data = nil;
@@ -53,4 +53,4 @@ private _text = selectRandom [
     localize "STR_BTC_HAM_CON_INFO_ASKREP_ASK3"
 ];
 
-[name _man, format ["%1 %2. %3", _text, _info_type, _ho_left]] call btc_fnc_showSubtitle;
+[name _man, format ["%1 %2. %3", _text, _info_type, _ho_left]] call FUNC(common,showSubtitle);

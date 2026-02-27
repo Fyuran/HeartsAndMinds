@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
 	#ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,9 +50,9 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
 	#ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 //// Find Road \\\\
@@ -61,19 +61,19 @@ private _distantCities = values btc_city_all select {(_x distance2D _city) > _wo
 private _roads = (selectRandom _distantCities) nearRoads _S_RADIUS;
 if (_roads isEqualTo []) exitWith {
 	#ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _roads", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _roads", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 private _road = selectRandom _roads;
 private _pos1 = getPosATL _road;
 private _pos2 = getPos _city;
 
-[_taskID, 14, _city, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 14, _city, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["capture_officer", (btc_side_taskIDs getOrDefault ["capture_officer", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 //// Create markers \\\\
@@ -98,7 +98,7 @@ private _markers = [_marker1, _marker2, _area];
 
 /// Show info path\\\
 private _veh_types = btc_civ_type_veh select {!(_x isKindOf "air")};
-private _agent = [btc_info_fnc_path, [_pos1, _pos2, _taskID, _veh_types select 0]] call CBA_fnc_directCall;
+private _agent = [FUNC(info,path), [_pos1, _pos2, _taskID, _veh_types select 0]] call CBA_fnc_directCall;
 private _startingPath = time;
 
 waitUntil {
@@ -109,7 +109,7 @@ waitUntil {
 private _path = _agent getVariable ["btc_path", []];
 if (count _path <= 35) exitWith {
 	_markers append (allMapMarkers select {(_x select [0, count _taskID]) isEqualTo _taskID});
-	[_markers, [_agent]]  call btc_fnc_delete;
+	[_markers, [_agent]]  call FUNC(common,delete);
 	[_taskID, "CANCELED"] call BIS_fnc_taskSetState;
 };
 
@@ -125,7 +125,7 @@ reverse _listPositions;
 private _delay = 0;
 for "_i" from 1 to _convoyLength do {
 	private _pos = _listPositions deleteAt 0;
-	_delay = _delay + ([_group, ASLToAGL _pos, selectRandom _veh_types, (_listPositions select 0) getDir _pos] call btc_mil_fnc_createVehicle);
+	_delay = _delay + ([_group, ASLToAGL _pos, selectRandom _veh_types, (_listPositions select 0) getDir _pos] call FUNC(mil,createVehicle));
 };
 
 [{
@@ -142,7 +142,7 @@ for "_i" from 1 to _convoyLength do {
 }, [
 	_group, _pos2, -1, "MOVE", "SAFE", "RED", "LIMITED", "COLUMN",
 	format ["['%1', 'FAILED'] call BIS_fnc_taskSetState;", _taskID], [0, 0, 0], _S_RADIUS/2
-], _delay] call btc_delay_fnc_waitAndExecute;
+], _delay] call FUNC(delay,waitAndExecute);
 
 [{
 	params ["_group", "_taskID", "_trigger"];
@@ -155,7 +155,7 @@ for "_i" from 1 to _convoyLength do {
 	} forEach allCurators;
 
 	private _surrender_taskID = _taskID + "su";
-	[[_surrender_taskID, _taskID], 24, objNull, typeOf _captive] call btc_task_fnc_create;
+	[[_surrender_taskID, _taskID], 24, objNull, typeOf _captive] call FUNC(task,create);
 	private _handcuff_taskID = _taskID + "hc";
 	private _back_taskID = _taskID + "bk";
 
@@ -185,7 +185,7 @@ for "_i" from 1 to _convoyLength do {
 		!alive (_this select 0) ||
 		isNull (_this select 0)
 	}, {
-		[_this select 1, "FAILED"] call btc_task_fnc_setState;
+		[_this select 1, "FAILED"] call FUNC(task,setState);
 		deleteVehicle (_this select 2);
 	}, [_captive, _taskID, _trigger]] call CBA_fnc_waitUntilAndExecute;
 
@@ -193,12 +193,12 @@ for "_i" from 1 to _convoyLength do {
 		(_this select 0) inArea [getPosWorld btc_log_point_obj, 100, 100, 0, false] ||
 		isNull (_this select 0)
 	}, {
-		[_this select 1, "SUCCEEDED"] call btc_task_fnc_setState;
+		[_this select 1, "SUCCEEDED"] call FUNC(task,setState);
 	}, [_captive, _taskID]] call CBA_fnc_waitUntilAndExecute;
 }, [
 	_group,
 	_taskID
-], _delay] call btc_delay_fnc_waitAndExecute;
+], _delay] call FUNC(delay,waitAndExecute);
 
 waitUntil {sleep 5; _taskID call BIS_fnc_taskCompleted};
 
@@ -207,7 +207,7 @@ private _vehs = (units _group) apply {assignedVehicle _x};
 _vehs = (_vehs arrayIntersect _vehs);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {
-	[_markers, _vehs + [_group]] call btc_fnc_delete;
+	[_markers, _vehs + [_group]] call FUNC(common,delete);
 };
 
 if (_taskID call BIS_fnc_taskState isEqualTo "FAILED") exitWith {
@@ -215,13 +215,13 @@ if (_taskID call BIS_fnc_taskState isEqualTo "FAILED") exitWith {
 	{
 		private _group = createGroup btc_enemy_side;
 		(crew _x) joinSilent _group;
-		[btc_data_fnc_add_group, _group] call CBA_fnc_directCall;
+		[FUNC(data,add_group), _group] call CBA_fnc_directCall;
 	} forEach _vehs;
-	[_markers] call btc_fnc_delete;
+	[_markers] call FUNC(common,delete);
 };
 
-[_markers, _vehs + [_group]]  call btc_fnc_delete;
+[_markers, _vehs + [_group]]  call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-[objNull, _SIDE_OFFICER_CAPTURED_] call btc_rep_fnc_change;
+[objNull, _SIDE_OFFICER_CAPTURED_] call FUNC(rep,change);

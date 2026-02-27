@@ -62,10 +62,10 @@ if (_flagTexture isNotEqualTo "") then {
 };
 
 if (_turretMagazines isNotEqualTo []) then {
-    [_obj, _turretMagazines] call btc_db_fnc_setTurretMagazines;
+    [_obj, _turretMagazines] call FUNC(db,setTurretMagazines);
 };
 
-[_obj, _dogtagDataTaken] call btc_body_fnc_dogtagSet;
+[_obj, _dogtagDataTaken] call FUNC(body,dogtagSet);
 
 if (_customName isNotEqualTo "") then {
     _obj setVariable ["ace_cargo_customName", _customName, true];
@@ -76,8 +76,8 @@ if (_tagTexture isNotEqualTo "") then {
 };
 
 if (_properties isNotEqualTo []) then {
-    ([_obj] + _properties) call btc_veh_fnc_propertiesSet;
+    ([_obj] + _properties) call FUNC(veh,propertiesSet);
 };
 
-[_obj] call btc_log_fnc_init;
-[_obj, _cargo, _inventory] call btc_db_fnc_loadCargo;
+[_obj] call FUNC(log,init);
+[_obj, _cargo, _inventory] call FUNC(db,loadCargo);

@@ -36,22 +36,22 @@ Author:
         ];
 
         private _l = createVehicle [_type, getPosATL _obj, [], 0, "CAN_COLLIDE"];
-        [_l] call btc_log_fnc_init;
+        [_l] call FUNC(log,init);
         private _isloaded = [_l, _obj, false] call ace_cargo_fnc_loadItem;
         #ifdef BTC_DEBUG_DB
-        [["%1: Object loaded: %2 in veh/container %3 IsLoaded: %4", __FILE_NAME__, _l, _obj, _isloaded], 2, "db"] call btc_debug_fnc_message;
+        [["%1: Object loaded: %2 in veh/container %3 IsLoaded: %4", __FILE_NAME__, _l, _obj, _isloaded], 2, "db"] call FUNC(debug,message);
         #endif
-        [_l, _inventory] call btc_log_fnc_inventorySet;
+        [_l, _inventory] call FUNC(log,inventorySet);
 
         if (_isContaminated) then {
             btc_chem_contaminated pushBack _l;
             publicVariable "btc_chem_contaminated";
         };
 
-        [_l, _dogtagDataTaken] call btc_body_fnc_dogtagSet;
+        [_l, _dogtagDataTaken] call FUNC(body,dogtagSet);
 
         if (_turretMagazines isNotEqualTo []) then {
-            [_l, _turretMagazines] call btc_db_fnc_setTurretMagazines;
+            [_l, _turretMagazines] call FUNC(db,setTurretMagazines);
         };
 
         if (_customName isNotEqualTo "") then {
@@ -63,10 +63,10 @@ Author:
         };
 
         if (_properties isNotEqualTo []) then {
-            ([_l] + _properties) call btc_veh_fnc_propertiesSet;
+            ([_l] + _properties) call FUNC(veh,propertiesSet);
         };
     } forEach _cargo;
 
     //set inventory content for weapons, magazines and items
-    [_obj, _inventory] call btc_log_fnc_inventorySet;
+    [_obj, _inventory] call FUNC(log,inventorySet);
 }, _this] call CBA_fnc_execNextFrame;

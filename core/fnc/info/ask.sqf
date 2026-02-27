@@ -27,7 +27,7 @@ params [
 ];
 
 if !(player getVariable ["interpreter", false]) exitWith {
-    [name _man, localize "STR_BTC_HAM_CON_INFO_ASKREP_NOINTER"] call btc_fnc_showSubtitle;
+    [name _man, localize "STR_BTC_HAM_CON_INFO_ASKREP_NOINTER"] call FUNC(common,showSubtitle);
 };
 
 if !(_man call ace_medical_status_fnc_isInStableCondition) exitWith {
@@ -37,14 +37,14 @@ if !(_man call ace_medical_status_fnc_isInStableCondition) exitWith {
         localize "STR_BTC_HAM_CON_INFO_ASK_WOUNDED3",
         localize "STR_BTC_HAM_CON_INFO_ASK_WOUNDED4"
     ];
-    [name _man, _complain] call btc_fnc_showSubtitle;
+    [name _man, _complain] call FUNC(common,showSubtitle);
 };
 
 if (
     _man getVariable ["btc_already_asked", false] ||
     _man getVariable ["btc_already_interrogated", false]
 ) exitWith {
-    [name _man, localize "STR_BTC_HAM_CON_INFO_ASK_ALLREADYANS"] call btc_fnc_showSubtitle;
+    [name _man, localize "STR_BTC_HAM_CON_INFO_ASK_ALLREADYANS"] call FUNC(common,showSubtitle);
 };
 
 if ((round random 3) >= 2 || !_isInterrogate) then {
@@ -70,7 +70,7 @@ switch !(_isInterrogate) do {
 };
 if (_isInterrogate) then {_info_type = "REAL";};
 if (_info_type isEqualTo "NO") exitWith {
-    [name _man, localize "STR_BTC_HAM_CON_INFO_ASK_NOINFO"] call btc_fnc_showSubtitle;
+    [name _man, localize "STR_BTC_HAM_CON_INFO_ASK_NOINFO"] call FUNC(common,showSubtitle);
 };
 
 private _final_phase = (count btc_hideouts) isEqualTo 0;
@@ -83,13 +83,13 @@ private _info = selectRandomWeighted [
 _info_type = _info_type isEqualTo "REAL";
 switch (_info) do {
     case "TROOPS" : {
-        [_man, _info_type] call btc_info_fnc_troops;
+        [_man, _info_type] call FUNC(info,troops);
     };
     case "HIDEOUT" : {
-        [name _man, _info_type] call btc_info_fnc_hideout_asked;
+        [name _man, _info_type] call FUNC(info,hideout_asked);
     };
     case "CACHE" : {
-        [name _man, localize "STR_BTC_HAM_CON_INFO_ASK_CACHEMAP"] call btc_fnc_showSubtitle;
+        [name _man, localize "STR_BTC_HAM_CON_INFO_ASK_CACHEMAP"] call FUNC(common,showSubtitle);
         sleep 2;
         [_info_type] remoteExecCall ["btc_info_fnc_cache", 2];
     };

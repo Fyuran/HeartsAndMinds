@@ -65,11 +65,11 @@ if (_roads isEqualTo []) then {
 _group setVariable ["btc_patrol_id", btc_civilian_id, btc_debug];
 btc_civilian_id = btc_civilian_id - 1;
 
-private _delay = [_group, _veh_type, [selectRandom btc_civ_type_units], _safe_pos] call btc_delay_fnc_createVehicle;
+private _delay = [_group, _veh_type, [selectRandom btc_civ_type_units], _safe_pos] call FUNC(delay,createVehicle);
 
 [{
-    _this call btc_patrol_fnc_init;
+    _this call FUNC(patrol,init);
     (_this select 0) setVariable ["acex_headless_blacklist", false];
-}, [_group, [_start_city, _active_city], _area, _pos_isWater], _delay] call btc_delay_fnc_waitAndExecute;
+}, [_group, [_start_city, _active_city], _area, _pos_isWater], _delay] call FUNC(delay,waitAndExecute);
 
 true

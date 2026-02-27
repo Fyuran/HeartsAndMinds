@@ -73,11 +73,11 @@ switch (typeName _object) do {
                 private _name = _x;
                 private _value = [_object, _name] call CBA_fnc_hashGet;
 
-                str formatText ["%1: %2", [_name] call btc_json_fnc_encodeJSON, [_value] call btc_json_fnc_encodeJSON]
+                str formatText ["%1: %2", [_name] call FUNC(db,encodeJSON), [_value] call FUNC(db,encodeJSON)]
             }) joinString ", ";
             "{" + _json + "}"
         } else {
-            private _json = (_object apply {[_x] call btc_json_fnc_encodeJSON}) joinString ", ";
+            private _json = (_object apply {[_x] call FUNC(db,encodeJSON)}) joinString ", ";
             "[" + _json + "]"
         };
     };
@@ -90,14 +90,14 @@ switch (typeName _object) do {
                 _key = str _key;
             };
 
-            str formatText ["%1: %2", [_key] call btc_json_fnc_encodeJSON, [_value] call btc_json_fnc_encodeJSON]
+            str formatText ["%1: %2", [_key] call FUNC(db,encodeJSON), [_value] call FUNC(db,encodeJSON)]
         }) joinString ", ";
         "{" + _json + "}"
     };
 
     default {
         if !(typeName _object in (supportInfo "u:allVariables*" apply {_x splitString " " select 1})) exitWith {
-            [str _object] call btc_json_fnc_encodeJSON
+            [str _object] call FUNC(db,encodeJSON)
         };
 
         if (isNull _object) exitWith { "null" };
@@ -106,7 +106,7 @@ switch (typeName _object) do {
             private _name = _x;
             private _value = _object getVariable [_name, objNull];
 
-            str formatText ["%1: %2", [_name] call btc_json_fnc_encodeJSON, [_value] call btc_json_fnc_encodeJSON]
+            str formatText ["%1: %2", [_name] call FUNC(db,encodeJSON), [_value] call FUNC(db,encodeJSON)]
         }) joinString ", ";
         "{" + _json + "}"
     };

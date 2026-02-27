@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,14 +50,14 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 //// Randomise position \\\\
-private _pos = [getPos _city, (_city getVariable ["cachingRadius", 0])/2 - 100] call btc_fnc_randomize_pos;
-_pos = [_pos, 0, 50, 13, 0, 60 * (pi / 180), 0] call btc_fnc_findsafepos;
+private _pos = [getPos _city, (_city getVariable ["cachingRadius", 0])/2 - 100] call FUNC(common,randomize_pos);
+_pos = [_pos, 0, 50, 13, 0, 60 * (pi / 180), 0] call FUNC(common,findsafepos);
 
 _city setVariable ["spawn_more", true];
 
@@ -91,15 +91,15 @@ _group setVariable ["no_cache", true];
 private _crew = getText (configfile >> "CfgVehicles" >> _heli_type >> "crew");
 _crew createUnit [_pos, _group];
 
-[_taskID, 13, _city, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 13, _city, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["rescue", (btc_side_taskIDs getOrDefault ["rescue", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _find_taskID = _taskID + "mv";
-[[_find_taskID, _taskID], 20, objNull, _crew] call btc_task_fnc_create;
+[[_find_taskID, _taskID], 20, objNull, _crew] call FUNC(task,create);
 private _back_taskID = _taskID + "bk";
 
 private _units = [];
@@ -139,11 +139,11 @@ if (_units select {alive _x} isEqualTo []) then {
             _thisArgs params ["_taskID"];
 
             if (_unit inArea [[-5000, -5000, 0], 10, 10, 0, false]) exitWith {}; // Detect if the body is inside a bodybag (https://github.com/acemod/ACE3/blob/44050df98b00e579e5b5a79c0d76d4d1138b4baa/addons/medical_treatment/functions/fnc_placeInBodyBag.sqf#L40)
-            [_taskID, "FAILED"] call btc_task_fnc_setState;
+            [_taskID, "FAILED"] call FUNC(task,setState);
         }, [_taskID]] call CBA_fnc_addBISEventHandler;
 
         private _unitBodyBag_taskID = _bodyBag_taskID + str(_forEachIndex);
-        [[_unitBodyBag_taskID, _taskID], 34, _x, [([_x] call ace_dogtags_fnc_getDogtagData) select 0, typeOf _x]] call btc_task_fnc_create;
+        [[_unitBodyBag_taskID, _taskID], 34, _x, [([_x] call ace_dogtags_fnc_getDogtagData) select 0, typeOf _x]] call FUNC(task,create);
         ["ace_placedInBodyBag", {
             params ["_patient", "_bodyBag"];
             _thisArgs params ["_unit", "_unitBodyBag_taskID", "_taskID", "_IDDeleted"];
@@ -155,7 +155,7 @@ if (_units select {alive _x} isEqualTo []) then {
                 [_unitBodyBag_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
 
                 private _base_taskID = _taskID + "bs";
-                [[_base_taskID, _taskID], 35, btc_log_point_obj, [([_patient] call ace_dogtags_fnc_getDogtagData) select 0, typeOf btc_log_point_obj]] call btc_task_fnc_create;
+                [[_base_taskID, _taskID], 35, btc_log_point_obj, [([_patient] call ace_dogtags_fnc_getDogtagData) select 0, typeOf btc_log_point_obj]] call FUNC(task,create);
 
                 [_bodyBag, "Deleted", {
                     params [
@@ -164,7 +164,7 @@ if (_units select {alive _x} isEqualTo []) then {
                     _thisArgs params ["_taskID"];
 
                     if (_taskID call BIS_fnc_taskCompleted) exitWith {};
-                    [_taskID, "FAILED"] call btc_task_fnc_setState;
+                    [_taskID, "FAILED"] call FUNC(task,setState);
                 }, [_taskID]] call CBA_fnc_addBISEventHandler;
             };
             _this
@@ -185,10 +185,10 @@ if (_units select {alive _x} isEqualTo []) then {
 _triggers apply {
     deleteVehicle _x;
 };
-[[], [_heli, _fx, _group] + _units] call btc_fnc_delete;
+[[], [_heli, _fx, _group] + _units] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState in ["CANCELED", "FAILED"]) exitWith {};
 
-[_rep, _SIDE_CIV_RESCUED_] call btc_rep_fnc_change;
+[_rep, _SIDE_CIV_RESCUED_] call FUNC(rep,change);
 
-[_taskID, "SUCCEEDED"] call btc_task_fnc_setState;
+[_taskID, "SUCCEEDED"] call FUNC(task,setState);

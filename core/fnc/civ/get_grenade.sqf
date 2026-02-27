@@ -41,9 +41,9 @@ if (_units isEqualTo []) exitWith {};
 
 {
     #ifdef BTC_DEBUG_CIV
-    [["%1: %2 - %3", __FILE_NAME__, _x, side _x], 2, "civ"] call btc_debug_fnc_message;
+    [["%1: %2 - %3", __FILE_NAME__, _x, side _x], 2, "civ"] call FUNC(debug,message);
     #endif
-    [_x] call btc_civ_fnc_add_grenade;
+    [_x] call FUNC(civ,add_grenade);
 
     private _group = createGroup [btc_enemy_side, true];
     _group setVariable ["btc_city", group _x getVariable ["btc_city", objNull]];

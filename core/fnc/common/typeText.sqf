@@ -37,7 +37,7 @@ Author:
 ---------------------------------------------------------------------------- */
 if(!canSuspend) exitWith {
 #ifdef BTC_DEBUG_COMMON
-[["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+[["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "common"] call FUNC(debug,message);
 #endif
 };
 

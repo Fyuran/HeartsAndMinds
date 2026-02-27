@@ -29,7 +29,7 @@ params [
     ["_road", objNull, [objNull]],
     ["_p_ied_placement", btc_p_ied_placement, [0]]
 ];
-private _roadDir = _road call btc_fnc_road_direction;
+private _roadDir = _road call FUNC(common,road_direction);
 private _roadRadius = ((0 boundingBoxReal _road) select 2) * 0.4;
 
 switch (floor random _p_ied_placement) do {

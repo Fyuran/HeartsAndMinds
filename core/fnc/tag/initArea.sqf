@@ -48,7 +48,7 @@ for "_i" from 1 to _n do {
         } else {
             private _connected = roadsConnectedTo _road;
             if (_connected isEqualTo []) then {
-                _sel_pos = ([_road, -1] call btc_ied_fnc_randomRoadPos) select 0;
+                _sel_pos = ([_road, -1] call FUNC(ied,randomRoadPos)) select 0;
                 _road = objNull;
             } else {
                 _sel_dir = _road getDir (_connected select 0);

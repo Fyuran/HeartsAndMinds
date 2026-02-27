@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -25,13 +25,13 @@ params [
 
 if(!canSuspend) exitWith {
 	#ifdef BTC_DEBUG_SLOT
-    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "slot"] call FUNC(debug,message);
 	#endif
 };
 
 if(_uid isEqualTo "") exitWith {
     #ifdef BTC_DEBUG_SLOT
-    [["%1: invalid _uid", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    [["%1: invalid _uid", __FILE_NAME__], 6, "slot"] call FUNC(debug,message);
     #endif
 };
 
@@ -46,7 +46,7 @@ if(remoteExecutedOwner isNotEqualTo 0) then { //relay back data to requesting cl
     if(_retries >= 10) exitWith {
         #ifdef BTC_DEBUG_SLOT
         private _unit = _uid call BIS_fnc_getUnitByUID;
-        [["%1: %2(%3) failed to retrieve data after %4 retries", __FILE_NAME__, name _unit, _uid, _retries], 6, "slot"] call btc_debug_fnc_message;
+        [["%1: %2(%3) failed to retrieve data after %4 retries", __FILE_NAME__, name _unit, _uid, _retries], 6, "slot"] call FUNC(debug,message);
         #endif
         };
     
@@ -55,6 +55,6 @@ if(remoteExecutedOwner isNotEqualTo 0) then { //relay back data to requesting cl
 
         #ifdef BTC_DEBUG_SLOT
         private _unit = _uid call BIS_fnc_getUnitByUID;
-        [["%1: %2(%3) retrieving data", __FILE_NAME__, name _unit, _uid], 2, "slot"] call btc_debug_fnc_message;
+        [["%1: %2(%3) retrieving data", __FILE_NAME__, name _unit, _uid], 2, "slot"] call FUNC(debug,message);
         #endif
 };

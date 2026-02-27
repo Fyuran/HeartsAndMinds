@@ -37,9 +37,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -49,22 +49,22 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
-private _pos = [getPos _city, 100] call btc_fnc_randomize_pos;
-_pos = [_pos, 0, _city getVariable ["cachingRadius", 100], 20, false] call btc_fnc_findsafepos;
+private _pos = [getPos _city, 100] call FUNC(common,randomize_pos);
+_pos = [_pos, 0, _city getVariable ["cachingRadius", 100], 20, false] call FUNC(common,findsafepos);
 
-[_taskID, 3, _city, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 3, _city, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["supply", (btc_side_taskIDs getOrDefault ["supply", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 
 private _move_taskID = _taskID + "mv";
-[[_move_taskID, _taskID], 18, _pos, btc_supplies_cargo] call btc_task_fnc_create;
+[[_move_taskID, _taskID], 18, _pos, btc_supplies_cargo] call FUNC(task,create);
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _area = createMarkerLocal [format ["sm_%1", _pos], _pos];
@@ -119,7 +119,7 @@ private _composition = [
     [selectRandom btc_type_cargo_ruins,300,[-10.0488,-12.1152,0]]
 ];
 private _direction_composition = random 360;
-private _composition_objects = [_pos, _direction_composition, _composition] call btc_fnc_create_composition;
+private _composition_objects = [_pos, _direction_composition, _composition] call FUNC(common,create_composition);
 
 btc_supplies_mat params ["_food", "_water"];
 waitUntil {sleep 5; (_move_taskID call BIS_fnc_taskCompleted || (nearestObjects [_pos, [btc_supplies_cargo] + _food + _water, 30]) isNotEqualTo [])};
@@ -131,10 +131,10 @@ if (_move_taskID call BIS_fnc_taskState isNotEqualTo "CANCELED") then {
         [_drop_taskID, _taskID], 19,
         (nearestObjects [_pos, [btc_supplies_cargo] + _food + _water, 30]) select 0,
         selectRandom(_food + _water), true
-    ] call btc_task_fnc_create;
+    ] call FUNC(task,create);
 };
 
-[getPos _city, _pos getPos [10, _direction_composition]] call btc_civ_fnc_evacuate;
+[getPos _city, _pos getPos [10, _direction_composition]] call FUNC(civ,evacuate);
 
 waitUntil {sleep 5; 
     _taskID call BIS_fnc_taskCompleted ||
@@ -142,11 +142,11 @@ waitUntil {sleep 5;
 };
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {
-    [[_area], _composition_objects] call btc_fnc_delete;
+    [[_area], _composition_objects] call FUNC(common,delete);
 };
 
-[objNull, _SIDE_SUPPLIES_DELIVERED_] call btc_rep_fnc_change;
+[objNull, _SIDE_SUPPLIES_DELIVERED_] call FUNC(rep,change);
 
-[_taskID, "SUCCEEDED"] call btc_task_fnc_setState;
+[_taskID, "SUCCEEDED"] call FUNC(task,setState);
 
-[[_area], _composition_objects + nearestObjects [_pos, _food + _water + [btc_supplies_cargo], 30]] call btc_fnc_delete;
+[[_area], _composition_objects + nearestObjects [_pos, _food + _water + [btc_supplies_cargo], 30]] call FUNC(common,delete);

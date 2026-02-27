@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -34,7 +34,7 @@ if(_isSunrise isEqualType 0) then {
 };
 
 #ifdef BTC_DEBUG_EH
-[["%1: Added CBA PFH %2 preserver", __FILE_NAME__, ["Night", "Day"] select _isSunrise], 2, "eh"] call btc_debug_fnc_message;
+[["%1: Added CBA PFH %2 preserver", __FILE_NAME__, ["Night", "Day"] select _isSunrise], 2, "eh"] call FUNC(debug,message);
 #endif
 btc_sunrise_nightfall_handle = [{
 
@@ -53,7 +53,7 @@ btc_sunrise_nightfall_handle = [{
 
 		setDate _nextDate;		
 		#ifdef BTC_DEBUG_EH
-		[["%1: Date: %2 has been changed to %3", __FILE_NAME__, _currentDate, _nextDate], 2, "eh"] call btc_debug_fnc_message;
+		[["%1: Date: %2 has been changed to %3", __FILE_NAME__, _currentDate, _nextDate], 2, "eh"] call FUNC(debug,message);
 		#endif
 	};
 }, [60, 1] select btc_debug, _isSunrise] call CBA_fnc_addPerFrameHandler;

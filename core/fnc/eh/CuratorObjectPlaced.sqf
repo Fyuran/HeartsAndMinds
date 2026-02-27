@@ -29,6 +29,6 @@ params [
 if !((_object_placed isKindOf "allVehicles") || (_object_placed isKindOf "Module_F")) then {
     [_object_placed] remoteExecCall ["btc_log_fnc_init", 2];
     #ifdef BTC_DEBUG_EH
-    [["%1: CURATOR OBJECT PLACED %2 INIT", __FILE_NAME__, _object_placed], 2, "eh"] call btc_debug_fnc_message;    
+    [["%1: CURATOR OBJECT PLACED %2 INIT", __FILE_NAME__, _object_placed], 2, "eh"] call FUNC(debug,message);    
     #endif
 };

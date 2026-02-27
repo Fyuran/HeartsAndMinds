@@ -39,10 +39,10 @@ while {
         {!(_house isKindOf "Church")} &&
         {!("Chapel" in typeOf _house)}
     ) then {
-        ([_house] call btc_fnc_roof) params ["_spawnPos", "_surfaceNormal"];
+        ([_house] call FUNC(common,roof)) params ["_spawnPos", "_surfaceNormal"];
 
         if (acos (_surfaceNormal vectorCos [0, 0, 1]) < 37) then {
-            [ASLToATL _spawnPos, btc_type_mg + btc_type_gl, (_house getDir _spawnPos) + (random [-15, 0, 15]), _surfaceNormal, _city] call btc_mil_fnc_create_static;
+            [ASLToATL _spawnPos, btc_type_mg + btc_type_gl, (_house getDir _spawnPos) + (random [-15, 0, 15]), _surfaceNormal, _city] call FUNC(mil,create_static);
             _i = _i + 1;
         };
     };

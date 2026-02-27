@@ -38,7 +38,7 @@ if !(isGroupDeletedWhenEmpty _group) then {
     _group deleteGroupWhenEmpty true;
 };
 
-private _useful = [[_start_city, _active_city], _area, _isBoat] call btc_patrol_fnc_usefulCity;
+private _useful = [[_start_city, _active_city], _area, _isBoat] call FUNC(patrol,usefulCity);
 if (_useful isEqualTo [] || objNull in _useful) exitWith {
     _group call CBA_fnc_deleteEntity;
 };
@@ -55,10 +55,10 @@ private _active_cityID = _active_city getVariable ["id", 0];
 private _end_cityID = _end_city getVariable ["id", 0];
 private _waypointStatements = format ["[group this, %1, %2, %3, %4] call btc_patrol_fnc_WPCheck;", _area, _pos, [_start_cityID, _active_cityID, _end_cityID], _isBoat];
 
-[_group, _pos, _waypointStatements, _isBoat] call btc_patrol_fnc_addWP;
+[_group, _pos, _waypointStatements, _isBoat] call FUNC(patrol,addWP);
 
 #ifdef BTC_DEBUG_PATROL
 if (!isNil {_group getVariable "btc_patrol_id"}) then {
-    [["%1: ID: %2, End city ID: %3", __FILE_NAME__, _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_cityID], 2, "patrol"] call btc_debug_fnc_message;
+    [["%1: ID: %2, End city ID: %3", __FILE_NAME__, _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_cityID], 2, "patrol"] call FUNC(debug,message);
 };
 #endif

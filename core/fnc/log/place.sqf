@@ -62,8 +62,8 @@ private _currentWeapon = currentWeapon player;
 
 //add actions to keys
 private _leftActionEH = [player, "DefaultAction", {btc_log_placing}, {btc_log_placing = false;}] call ace_common_fnc_addActionEventHandler;
-private _keyDownEH = (findDisplay 46) displayAddEventHandler ["KeyDown", btc_log_fnc_place_key_down];
-private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChanged", btc_log_fnc_place_mouse_zchanged];
+private _keyDownEH = (findDisplay 46) displayAddEventHandler ["KeyDown", FUNC(log,place_key_down)];
+private _MouseZChangedEH = (findDisplay 46) displayAddEventHandler ["MouseZChanged", FUNC(log,place_mouse_zchanged)];
 
 ["btc_log_place_pickedUp", [_placing_obj, player]] call CBA_fnc_serverEvent;
 [{

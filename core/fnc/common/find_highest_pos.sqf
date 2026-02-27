@@ -18,7 +18,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -31,7 +31,7 @@ params[
 
 if(isNull _building) exitWith {
     #ifdef BTC_DEBUG_COMMON
-    [["%1: Invalid _building param", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    [["%1: Invalid _building param", __FILE_NAME__], 6, "common"] call FUNC(debug,message);
     #endif
 };
 
@@ -42,13 +42,13 @@ if(isNull _building) exitWith {
 // 3 - ClipGeneral (same type that is used in the main syntax)
 if(_LOD < 0 || _LOD > 3) exitWith {
     #ifdef BTC_DEBUG_COMMON
-    [["%1: Invalid _LOD: %2, must be between 0 and 3 (included)", __FILE_NAME__, _LOD], 6, "common"] call btc_debug_fnc_message;
+    [["%1: Invalid _LOD: %2, must be between 0 and 3 (included)", __FILE_NAME__, _LOD], 6, "common"] call FUNC(debug,message);
     #endif
 };
 
 if(_detail <= 0) exitWith {
     #ifdef BTC_DEBUG_COMMON
-    [["%1: Invalid _detail: %2, must be above zero", __FILE_NAME__, _detail], 6, "common"] call btc_debug_fnc_message;
+    [["%1: Invalid _detail: %2, must be above zero", __FILE_NAME__, _detail], 6, "common"] call FUNC(debug,message);
     #endif
 };
 

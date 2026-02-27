@@ -3,16 +3,17 @@
 Function: btc_chem_fnc_handleShower
 
 Description:
-    Loop over shower and activate or desactivate them if objects are around.
+    Continuously monitor decontamination showers and activate/deactivate them based on proximity of vehicles, units, or cargo within specified distance.
 
 Parameters:
-    _minDistance - Minimal distance of shower triggered. [Number]
+    _minDistance[NUMBER]: Minimum distance to trigger shower activation (default: 5)
 
 Returns:
+    NOTHING
 
 Examples:
     (begin example)
-        [] call btc_chem_fnc_handleShower;
+        [10] call btc_chem_fnc_handleShower;
     (end)
 
 Author:

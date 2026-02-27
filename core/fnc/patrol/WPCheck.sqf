@@ -53,14 +53,14 @@ private _active_city = btc_city_all get _active_cityID;
 private _end_city = btc_city_all get _end_cityID;
 
 //Remove if too far from player
-if ([_active_city, _group, _area] call btc_patrol_fnc_playersInAreaCityGroup) exitWith {
-    [_group] call btc_patrol_fnc_eh;
+if ([_active_city, _group, _area] call FUNC(patrol,playersInAreaCityGroup)) exitWith {
+    [_group] call FUNC(patrol,eh);
 };
 
 //Sometimes the waypoint is completed but too far due to obstacle (water for island etc)
 if ((leader _group) distance _last_wp_pos > 100) then {
     #ifdef BTC_DEBUG_PATROL
-    [["%1: Patrol ID: %2, %3 inaccessible (end city ID: %4)", __FILE_NAME__, _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_city getVariable ["name", "no name"], _end_city getVariable ["id", 0]], 2, "patrol"] call btc_debug_fnc_message;
+    [["%1: Patrol ID: %2, %3 inaccessible (end city ID: %4)", __FILE_NAME__, _group getVariable ["btc_patrol_id", "Missing patrol ID"], _end_city getVariable ["name", "no name"], _end_city getVariable ["id", 0]], 2, "patrol"] call FUNC(debug,message);
     #endif
     //Dynamically create a balcklist of cities inaccessible from the starting city
     private _cities_inaccessible = _start_city getVariable ["btc_cities_inaccessible", []];
@@ -70,4 +70,4 @@ if ((leader _group) distance _last_wp_pos > 100) then {
     _end_city = _start_city;
 };
 
-[_group, [_end_city, _active_city], _area, _isBoat] call btc_patrol_fnc_init;
+[_group, [_end_city, _active_city], _area, _isBoat] call FUNC(patrol,init);

@@ -31,7 +31,7 @@ if(!isNull _fob) then { //validates calls from db_load
 };
 if(isNull _ruins) exitWith {
     #ifdef BTC_DEBUG_FOB
-    [["%1: _ruins is null", __FILE_NAME__], 6, "fob/ruins"] call btc_debug_fnc_message;
+    [["%1: _ruins is null", __FILE_NAME__], 6, "fob/ruins"] call FUNC(debug,message);
     #endif
 };
 
@@ -42,7 +42,7 @@ _marker setMarkerTextLocal format[localize "STR_BTC_HAM_ACTION_FOB_RUINS", _name
 _marker setMarkerColorLocal "ColorCIV";
 _marker setMarkerShape "ICON";
 
-private _flagPos = [_ruins] call btc_fnc_getBoundingCornersPos;
+private _flagPos = [_ruins] call FUNC(common,getBoundingCornersPos);
 _flagPos = selectRandom _flagPos;
 _flagPos set [2, 0];
 private _flag = createVehicle ["Flag_White_F", _flagPos, [], 0, "NONE"];

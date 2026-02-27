@@ -24,7 +24,7 @@ private _log_point = btc_log_dialog_namespace getVariable ["btc_log_point_obj", 
 
 if(isNull _log_point) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _log_point is null", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;  
+    [["%1: _log_point is null", __FILE_NAME__], 6, "log/dialog"] call FUNC(debug,message);  
     #endif
 };
 

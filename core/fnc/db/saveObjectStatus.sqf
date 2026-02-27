@@ -33,12 +33,12 @@ private _cargo = (_object getVariable ["ace_cargo_loaded", []]) apply {
         [
             typeOf _x,
             nil,
-            _x call btc_log_fnc_inventoryGet,
+            _x call FUNC(log,inventoryGet),
             _x in btc_chem_contaminated,
-            _x call btc_body_fnc_dogtagGet,
+            _x call FUNC(body,dogtagGet),
             magazinesAllTurrets _x,
             _x getVariable ["ace_cargo_customName", ""],
-            [_x] call btc_veh_fnc_propertiesGet
+            [_x] call FUNC(veh,propertiesGet)
         ]
     };    
 };
@@ -49,13 +49,13 @@ private _cargo = (_object getVariable ["ace_cargo_loaded", []]) apply {
     getDir _object,
     "",
     _cargo,
-    _object call btc_log_fnc_inventoryGet,
+    _object call FUNC(log,inventoryGet),
     [vectorDir _object, vectorUp _object],
     _object in btc_chem_contaminated,
-    _object call btc_body_fnc_dogtagGet,
+    _object call FUNC(body,dogtagGet),
     getForcedFlagTexture _object,
     magazinesAllTurrets _object,
     _object getVariable ["ace_cargo_customName", ""],
     _object getVariable ["btc_tag_vehicle", ""],
-    [_object] call btc_veh_fnc_propertiesGet
+    [_object] call FUNC(veh,propertiesGet)
 ]

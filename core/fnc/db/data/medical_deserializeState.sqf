@@ -1,4 +1,5 @@
 #include "..\..\script_macros.hpp"
+#include "\x\cba\addons\main\script_macros_mission.hpp"
 /* ----------------------------------------------------------------------------
 	Function: btc_json_fnc_medical_deserializeState
 	
@@ -38,7 +39,7 @@ if !(_unit getVariable [QGVAR(initialized), false]) exitWith {
         _thisArgs params ["_target"];
 
         if (_unit == _target) then {
-            _thisArgs call btc_json_fnc_medical_deserializeState;
+            _thisArgs call FUNC(db,medical_deserializeState);
             [_thisType, _thisId] call CBA_fnc_removeEventHandler;
         };
     }, _this] call CBA_fnc_addEventHandlerArgs;

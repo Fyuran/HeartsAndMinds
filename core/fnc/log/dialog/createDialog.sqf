@@ -31,7 +31,7 @@ btc_log_dialog_namespace setVariable ["btc_construction_array", _construction_ar
 btc_log_dialog_namespace setVariable ["btc_log_point_obj", _log_point];
 
 closeDialog 0;
-if ([_log_point] call btc_fnc_isAreaOccupied) exitWith {};
+if ([_log_point] call FUNC(common,isAreaOccupied)) exitWith {};
 private _display = createDialog ["btc_log_dlg_create", false];
 private _main_class_ctrl = _display displayCtrl 71;
 private _sub_class_ctrl = _display displayCtrl 72;

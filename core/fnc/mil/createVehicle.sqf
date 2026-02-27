@@ -31,7 +31,7 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-if (canSuspend) exitWith {[btc_mil_fnc_createVehicle, _this] call CBA_fnc_directCall};
+if (canSuspend) exitWith {[FUNC(mil,createVehicle), _this] call CBA_fnc_directCall};
 
 params [
     ["_group", grpNull, [grpNull]],
@@ -57,4 +57,4 @@ for "_i" from _crewSeats to (_totalSeats - 1) do {
     _units_type pushBack selectRandom _type_units;
 };
 
-[_group, _veh_type, _units_type, _pos, _dir, 1, _surfaceNormal] call btc_delay_fnc_createVehicle
+[_group, _veh_type, _units_type, _pos, _dir, 1, _surfaceNormal] call FUNC(delay,createVehicle)

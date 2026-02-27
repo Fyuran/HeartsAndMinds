@@ -39,7 +39,7 @@ if (_player isNotEqualTo objNull) then {
     [24, _ticketValue] remoteExecCall ["btc_fnc_show_hint", _player];
 
     #ifdef BTC_DEBUG_RESPAWN
-    [["%1: _ticketValue %2 _ticket %3 _uid %4", __FILE_NAME__, _ticketValue, _ticket, _uid], 2, "respawn"] call btc_debug_fnc_message;
+    [["%1: _ticketValue %2 _ticket %3 _uid %4", __FILE_NAME__, _ticketValue, _ticket, _uid], 2, "respawn"] call FUNC(debug,message);
     #endif
 };
 

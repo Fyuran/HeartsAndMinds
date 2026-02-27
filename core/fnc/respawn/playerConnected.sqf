@@ -29,6 +29,6 @@ if (_tickets isEqualTo 0) then {
 private _respawnTickets = [_player, _tickets] call BIS_fnc_respawnTickets;
 
 #ifdef BTC_DEBUG_RESPAWN
-[["%1: _respawnTickets %2 _tickets %3 _uid %4", __FILE_NAME__, _respawnTickets, _tickets, _uid], 2, "respawn"] call btc_debug_fnc_message;
+[["%1: _respawnTickets %2 _tickets %3 _uid %4", __FILE_NAME__, _respawnTickets, _tickets, _uid], 2, "respawn"] call FUNC(debug,message);
 #endif
 _respawnTickets

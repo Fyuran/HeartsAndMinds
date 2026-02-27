@@ -27,7 +27,7 @@ params [
 ];
 
 #ifdef BTC_DEBUG_INFO
-[["%1: body intel check for %2", __FILE_NAME__, _body getVariable "intel"], 2, "info"] call btc_debug_fnc_message;
+[["%1: body intel check for %2", __FILE_NAME__, _body getVariable "intel"], 2, "info"] call FUNC(debug,message);
 #endif
 if (
     _body isKindOf "Items_base_F" || (
@@ -39,7 +39,7 @@ if (
         _body call CBA_fnc_deleteEntity;
     };
     if (isServer) then {
-        [_asker] call btc_info_fnc_give_intel;
+        [_asker] call FUNC(info,give_intel);
     } else {
         [_asker] remoteExecCall ["btc_info_fnc_give_intel", 2];
     };

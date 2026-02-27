@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 params[
@@ -24,7 +24,7 @@ params[
 ];
 if(!alive _object) exitWith {
 	#ifdef BTC_DEBUG_VEH
-	[["%1: _object is dead or null", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	[["%1: _object is dead or null", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);
 	#endif
 };
 
@@ -51,7 +51,7 @@ createHashMapFromArray[
 	["fuel", fuel _object],
 	["turretsMagazines", _turretsHash], //remove from return useless data
 	["lock", locked _object],
-	["cargo", [_object] call btc_veh_fnc_getCargo],
+	["cargo", [_object] call FUNC(veh,getCargo)],
 	["customization", _object call BIS_fnc_getVehicleCustomization],
 	["objectTextures", getObjectTextures _object], 
 	["name", vehicleVarName _object],
@@ -71,5 +71,5 @@ createHashMapFromArray[
 	],
 	["btc_tag_vehicle", _object getVariable ["btc_tag_vehicle", ""]],
 	["forcedFlagTexture", getForcedFlagTexture _object],
-    ["dogtags", _object call btc_body_fnc_dogtagGet]
+    ["dogtags", _object call FUNC(body,dogtagGet)]
 ]

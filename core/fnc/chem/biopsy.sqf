@@ -3,13 +3,14 @@
 Function: btc_chem_fnc_biopsy
 
 Description:
-    Do a biopsy to determine if the object is contaminated.
+    Perform chemical contamination analysis on a unit and display notification of contamination status. Only processes on successful biopsy completion.
 
 Parameters:
-    _data - Data collected. [Array]
-    _success - Does the biopsy has been correctly done. [Boolean]
+    _data[ARRAY]: Biopsy data array containing [unit, body_part, health_value] (default: [])
+    _success[BOOLEAN]: Whether the biopsy procedure completed successfully (default: false)
 
 Returns:
+    ARRAY: Input parameters
 
 Examples:
     (begin example)

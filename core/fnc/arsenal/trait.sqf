@@ -35,16 +35,16 @@ switch (true) do {
     case (_player getUnitTrait "explosiveSpecialist"): {
         [3, [["AssaultRifle"]]]
     };
-    case ([typeOf _player, ["MissileLauncher", "128 + 512"]] call btc_mil_fnc_ammoUsage): {
+    case ([typeOf _player, ["MissileLauncher", "128 + 512"]] call FUNC(mil,ammoUsage)): {
         [4, [["AssaultRifle"], ["RocketLauncher"], ["MissileLauncher", "128 + 512"]]]
     };
-    case ([typeOf _player, ["MissileLauncher", "256"]] call btc_mil_fnc_ammoUsage): {
+    case ([typeOf _player, ["MissileLauncher", "256"]] call FUNC(mil,ammoUsage)): {
         [5, [["AssaultRifle"], ["MissileLauncher", "256"]]]
     };
-    case ([typeOf _player, ["SniperRifle"]] call btc_mil_fnc_ammoUsage): {
+    case ([typeOf _player, ["SniperRifle"]] call FUNC(mil,ammoUsage)): {
         [6, [["SniperRifle"]]]
     };
-    case ([typeOf _player, ["MachineGun"]] call btc_mil_fnc_ammoUsage): {
+    case ([typeOf _player, ["MachineGun"]] call FUNC(mil,ammoUsage)): {
         [7, [["MachineGun"]]]
     };
     case ("cbrn" in toLower uniform _player): {

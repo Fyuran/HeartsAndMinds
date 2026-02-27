@@ -20,7 +20,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #define _TRG_RANGE 150
@@ -87,10 +87,10 @@ _suicider addEventHandler ["Killed", {
 	};
 
 	(attachedObjects _unit) call CBA_fnc_deleteEntity;
-	[_pos] call btc_deaf_fnc_earringing;
+	[_pos] call FUNC(deaf,earringing);
 	[_pos] remoteExecCall ["btc_ied_fnc_effects", [0, -2] select isDedicated];
 	#ifdef BTC_DEBUG_IED
-	[["%1: FOB suicider %2 blew sky fucking high", __FILE_NAME__, _suicider], 2, "ied"] call btc_debug_fnc_message;
+	[["%1: FOB suicider %2 blew sky fucking high", __FILE_NAME__, _suicider], 2, "ied"] call FUNC(debug,message);
 	#endif
 }];
 

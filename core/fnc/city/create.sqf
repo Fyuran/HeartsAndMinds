@@ -58,7 +58,7 @@ if (btc_p_sea) then {
     (_this select 0) findEmptyPositionReady (_this select 1)
 }, {}, [_position, [0, _cachingRadius]], 5 * 60] call CBA_fnc_waitUntilAndExecute;
 
-[_city, _cachingRadius] call btc_city_fnc_setPlayerTrigger;
+[_city, _cachingRadius] call FUNC(city,setPlayerTrigger);
 
 //fob supplies
 private _data_supplies = [];
@@ -76,7 +76,7 @@ private _supplyChance = (switch _type do {
     default {0};
 });
 if(_supplyChance > (random 1)) then {
-    private _pos = [[_position select 0, _position select 1, getTerrainHeightASL _position], _cachingRadius/2, false, true] call btc_fnc_randomize_pos;
+    private _pos = [[_position select 0, _position select 1, getTerrainHeightASL _position], _cachingRadius/2, false, true] call FUNC(common,randomize_pos);
     if(_pos isNotEqualTo []) then {
         _data_supplies pushBack [_pos, random 360, btc_log_fob_max_resources, []];
     };

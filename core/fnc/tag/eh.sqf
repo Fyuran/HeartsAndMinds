@@ -40,7 +40,7 @@ if (_unit in values btc_city_all) then {
                 [
                     _unit,
                     [_TAG_LETTER_REMOVED_, _TAG_REMOVED_] select (_tagToRemove isKindOf "Graffiti_base_F")
-                ] call btc_rep_fnc_change;
+                ] call FUNC(rep,change);
             };
             deleteVehicle _tagToRemove;
         };

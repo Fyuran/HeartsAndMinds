@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #define _DIST_ 10
@@ -26,7 +26,7 @@ params [
 ];
 
 if(!canSuspend) exitWith {
-  [["%1: must be called with spawn", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+  [["%1: must be called with spawn", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);  
 };
 
 if(_remainEnemyUnits isEqualTo []) exitWith {};
@@ -38,7 +38,7 @@ private _groups = [];
 _remainEnemyUnits apply {_groups pushBackUnique group _x};
 if (_groups isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_JAIL
-    [["%1: no groups found", __FILE_NAME__], 6, "jail"] call btc_debug_fnc_message;  
+    [["%1: no groups found", __FILE_NAME__], 6, "jail"] call FUNC(debug,message);  
     #endif
 };
 _groups apply {
@@ -83,5 +83,5 @@ _remainEnemyUnits apply {
 };
 
 #ifdef BTC_DEBUG_JAIL
-[["%1: setting captive to %2", __FILE_NAME__, _remainEnemyUnits], 2, "jail"] call btc_debug_fnc_message;
+[["%1: setting captive to %2", __FILE_NAME__, _remainEnemyUnits], 2, "jail"] call FUNC(debug,message);
 #endif

@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #define _PROGRESS_THRESHOLD_ 61
@@ -28,7 +28,7 @@ if(!params[
 	["_max_cap_time", 1, [0]]
 ]) exitWith {
 	#ifdef BTC_DEBUG_UI
-	[["%1: bad params", __FILE_NAME__], 6, "ui"] call btc_debug_fnc_message;  
+	[["%1: bad params", __FILE_NAME__], 6, "ui"] call FUNC(debug,message);  
 	#endif
 };
 
@@ -39,7 +39,7 @@ BTC_UI_PROGRESS_DISPLAY_INDEX = missionNamespace getVariable ["BTC_UI_PROGRESS_D
 private _handle = _object getVariable ["btc_ui_progressionHandle", scriptNull];
 if(!scriptDone _handle) exitWith {
 	#ifdef BTC_DEBUG_UI
-	[["%1: progress bar on %2 is already active", __FILE_NAME__, _barName], 2, "ui"] call btc_debug_fnc_message;
+	[["%1: progress bar on %2 is already active", __FILE_NAME__, _barName], 2, "ui"] call FUNC(debug,message);
 	#endif
 };
 
@@ -55,7 +55,7 @@ private _handle = [_object, _barName, _showProgress, _max_cap_time] spawn {
 
 	if(isNull _display) exitWith {
 		#ifdef BTC_DEBUG_UI
-		[["%1: display 46 is null", __FILE_NAME__], 6, "ui"] call btc_debug_fnc_message;
+		[["%1: display 46 is null", __FILE_NAME__], 6, "ui"] call FUNC(debug,message);
 		#endif
 	};
 	_bar =  _display ctrlCreate ["btc_UI_RscProgress", -1];

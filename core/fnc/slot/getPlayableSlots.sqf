@@ -16,19 +16,19 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 if(isNil "btc_db_missionPlayerSlots") exitWith {
     #ifdef BTC_DEBUG_SLOT
-    [["%1: btc_db_missionPlayerSlots has not been defined in mission.sqf", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    [["%1: btc_db_missionPlayerSlots has not been defined in mission.sqf", __FILE_NAME__], 6, "slot"] call FUNC(debug,message);
     #endif
 };
 
 private _cfg = (missionconfigfile >> "mission" >> "Mission" >> "Entities");
 if(!isClass _cfg) exitWith {
     #ifdef BTC_DEBUG_SLOT
-    [["%1: mission.sqm was not included in description.ext", __FILE_NAME__], 6, "slot"] call btc_debug_fnc_message;
+    [["%1: mission.sqm was not included in description.ext", __FILE_NAME__], 6, "slot"] call FUNC(debug,message);
     #endif
 };
 private _subClasses = _cfg call BIS_fnc_getCfgSubClasses;

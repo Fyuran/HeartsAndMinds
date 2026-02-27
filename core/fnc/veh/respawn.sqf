@@ -28,7 +28,7 @@ params [
 
 btc_veh_respawnable deleteAt (btc_veh_respawnable find _vehicle);
 
-crew _vehicle call btc_fnc_moveOut;
+crew _vehicle call FUNC(common,moveOut);
 [{
     crew (_this select 0) isEqualTo []
 }, {
@@ -63,12 +63,12 @@ crew _vehicle call btc_fnc_moveOut;
             createVehicleCrew _vehicle;
         };
 
-        [_vehicle, _customization, _isMedicalVehicle, _isRepairVehicle, _fuelSource, _pylons, _isContaminated, _supplyVehicle, _objectTexture] call btc_veh_fnc_propertiesSet;
+        [_vehicle, _customization, _isMedicalVehicle, _isRepairVehicle, _fuelSource, _pylons, _isContaminated, _supplyVehicle, _objectTexture] call FUNC(veh,propertiesSet);
         if (_EDENinventory isNotEqualTo []) then {
             _vehicle setVariable ["btc_EDENinventory", _EDENinventory];
-            [_vehicle, _EDENinventory] call btc_log_fnc_inventorySet;
+            [_vehicle, _EDENinventory] call FUNC(log,inventorySet);
         };
 
-        [_vehicle, _time] call btc_veh_fnc_addRespawn;
+        [_vehicle, _time] call FUNC(veh,addRespawn);
     }, _serialisedVeh, 2] call CBA_fnc_waitAndExecute;
 }, [_vehicle, _serialisedVeh]] call CBA_fnc_waitUntilAndExecute;

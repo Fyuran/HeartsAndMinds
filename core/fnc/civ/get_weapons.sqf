@@ -38,14 +38,14 @@ if (_units isEqualTo []) then {
 
 {
     #ifdef BTC_DEBUG_CIV
-    [["%1: %2 - %3", __FILE_NAME__, _x, side _x], 2, "civ"] call btc_debug_fnc_message;
+    [["%1: %2 - %3", __FILE_NAME__, _x, side _x], 2, "civ"] call FUNC(debug,message);
     #endif
     private _unit = _x;
 
     [_unit, "", 2] call ace_common_fnc_doAnimation;
 
     private _playableUnits = playableUnits inAreaArray [getPosWorld _unit, 50, 50];
-    private _hgun = _playableUnits findIf {[_x, _unit] call btc_fnc_check_los} != -1;
+    private _hgun = _playableUnits findIf {[_x, _unit] call FUNC(common,check_los)} != -1;
 
     private _weapon = selectRandom ([btc_w_civs select 0, btc_w_civs select 1] select _hgun);
     private _magazine = (getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines")) select 0;

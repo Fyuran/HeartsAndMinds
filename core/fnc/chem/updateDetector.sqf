@@ -3,12 +3,13 @@
 Function: btc_chem_fnc_updateDetector
 
 Description:
-    Refresh chemical level on the chemical detector screen when it is open.
+    Per-frame update loop that continuously monitors chemical contamination and updates the detector screen display showing threat level based on distance to nearest contaminated object. Exits when detector view is closed.
 
 Parameters:
-    _objt - Screen control. [Control]
+    _obj[CONTROL]: Screen control object for the chemical detector display (default: controlNull)
 
 Returns:
+    NOTHING
 
 Examples:
     (begin example)

@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #include "..\..\script_macros.hpp"
@@ -26,7 +26,7 @@ if(!params[
 	["_building", ObjNull, [ObjNull]]
 ]) exitWith {
     #ifdef BTC_DEBUG_EVENT
-    [["%1: _building is null", __FILE_NAME__], 6, "event/FOB"] call btc_debug_fnc_message; 
+    [["%1: _building is null", __FILE_NAME__], 6, "event/FOB"] call FUNC(debug,message); 
     #endif
     false
 };
@@ -35,7 +35,7 @@ private _return = false; //used to tell eventmanager event is not being handled 
 private _isUnderAttack = _building getVariable ["FOB_Event", false];
 if(_isUnderAttack) exitWith { //avoids multiple FOB events
     #ifdef BTC_DEBUG_EVENT
-    [["%1: event fob attack already active on %2", __FILE_NAME__, _building getVariable["FOB_name", ""]], 2, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: event fob attack already active on %2", __FILE_NAME__, _building getVariable["FOB_name", ""]], 2, "event/FOB"] call FUNC(debug,message);
     #endif
     _return
 };
@@ -46,7 +46,7 @@ private _nearCities = values btc_city_all select {
 }; 
 if (_nearCities isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_EVENT
-    [["%1: _nearCities is empty, skipping FOB: %2", __FILE_NAME__, _building getVariable["FOB_name", ""]], 2, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: _nearCities is empty, skipping FOB: %2", __FILE_NAME__, _building getVariable["FOB_name", ""]], 2, "event/FOB"] call FUNC(debug,message);
     #endif
     false
 };
@@ -67,15 +67,15 @@ Notifications or task based on reputation(default values)
 */
 switch true do {
     case (btc_global_reputation >= btc_rep_level_high): {
-        ["WarningDescriptionAudio", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call btc_task_fnc_showNotification_s;
+        ["WarningDescriptionAudio", ["", localize "$STR_BTC_HAM_EVENT_FOBATTACK_DESC"]] call FUNC(task,showNotification_s);
         _fob_task_name = format["btc_task_%1", _building getVariable ["FOB_name", ""]];
-        [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _building, btc_fob_structure, true, true] call btc_task_fnc_create;
+        [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _building, btc_fob_structure, true, true] call FUNC(task,create);
     };
     case (btc_global_reputation < btc_rep_level_high && {btc_global_reputation >= btc_rep_level_veryLow}): {
         ["FOBlowRepWarningDescriptionAudio", ["", format[
             localize "$STR_BTC_HAM_EVENT_EASTWIND",
             _building getVariable ["FOB_name", ""]
-        ]]] call btc_task_fnc_showNotification_s;
+        ]]] call FUNC(task,showNotification_s);
     };
 };
 
@@ -83,12 +83,12 @@ switch true do {
 //Group spawning and victory condition manager
 [[_building, _flag, _nearCities], {
     #ifdef BTC_DEBUG_EVENT
-    [["%1: %2 victory manager is on", __FILE_NAME__, (_this select 0) getVariable["FOB_name", ""]], 2, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: %2 victory manager is on", __FILE_NAME__, (_this select 0) getVariable["FOB_name", ""]], 2, "event/FOB"] call FUNC(debug,message);
     #endif
     params["_building", "_flag", "_nearCities"];
 
     _units = [];
-    _groups = [_building, _nearCities] call btc_event_fnc_attackFOBspawn;
+    _groups = [_building, _nearCities] call FUNC(event,attackFOBspawn);
     _groups apply {_units append units _x};
 
     _statement = {
@@ -97,10 +97,10 @@ switch true do {
         _building setVariable ["FOB_Event", false];
         
         _fob_task_name = format["btc_task_%1", _building getVariable ["FOB_name", ""]];
-        [_fob_task_name, "SUCCEEDED"] call btc_task_fnc_setState;
+        [_fob_task_name, "SUCCEEDED"] call FUNC(task,setState);
         [_fob_task_name, btc_player_side, true] call BIS_fnc_deleteTask;
         
-        _groups apply {_x call btc_data_fnc_add_group;};
+        _groups apply {_x call FUNC(data,add_group);};
 
         _FOB_name = _building getVariable["FOB_name", ""];
         _BISEH_return = [btc_player_side, _flag, _FOB_name] call BIS_fnc_addRespawnPosition;
@@ -116,7 +116,7 @@ switch true do {
         300*(count _groups), _statement
     ] call CBA_fnc_waitUntilAndExecute;
 
-}] call btc_delay_fnc_exec;
+}] call FUNC(delay,exec);
 
 btc_event_activeEvents = btc_event_activeEvents + 1;
 btc_event_cooldown = (CBA_missionTime + _EVENT_COOLDOWN_) * ((ceil((count _nearCities) / 2)) max 1);

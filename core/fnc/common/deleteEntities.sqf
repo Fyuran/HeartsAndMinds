@@ -41,6 +41,6 @@ Author:
     };
 
     if (_entities isNotEqualTo []) exitWith {
-        _this call btc_fnc_deleteEntities;
+        _this call FUNC(common,deleteEntities);
     };
 }, _this, 1] call CBA_fnc_waitAndExecute;

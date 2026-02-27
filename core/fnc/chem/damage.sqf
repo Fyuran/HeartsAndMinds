@@ -3,19 +3,20 @@
 Function: btc_chem_fnc_damage
 
 Description:
-    Apply chemical damage.
+    Calculate and apply chemical damage to a unit based on protective equipment (goggles, backpack, uniform) and randomly select affected body parts. Damage application depends on whether unit has prior contamination and protection level.
 
 Parameters:
-    _unit - Unit to apply the damage. [Object]
-    _firstDamage - If no CBRN protection, true: Always apply damage, false: Damage are applied randomly. [Boolean]
-    _bodyParts - List of body part. [Array]
-    _cfgGlasses - Glasses config. [Config]
+    _unit[OBJECT]: Unit receiving chemical damage (default: objNull)
+    _firstDamage[BOOLEAN]: Always apply damage on first exposure; on subsequent exposure apply randomly based on protection level (default: true)
+    _bodyParts[ARRAY]: Array of body part names eligible for damage application (default: [])
+    _cfgGlasses[CONFIG]: Config reference to CfgGlasses for protection equipment checking (default: configNull)
 
 Returns:
+    ARRAY: Modified parameters with _firstDamage set to false
 
 Examples:
     (begin example)
-        [cursorObject, true, ["head","body","hand_l","hand_r","leg_l","leg_r"], configFile >> "CfgGlasses"] call btc_chem_fnc_damage;
+        [unit1, true, ["head","body","hand_l","hand_r","leg_l","leg_r"], configFile >> "CfgGlasses"] call btc_chem_fnc_damage;
     (end)
 
 Author:

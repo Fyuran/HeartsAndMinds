@@ -6,19 +6,14 @@ Description:
     Add respawn tickets when a body bag or an alive enemy is provided.
 
 Parameters:
-    _bodyBag - Body bag or alive enemy. [Object]
-    _player - Player interacting. [Object]
+    _bodyBag [OBJECT]: Body bag or alive enemy
+    _player [OBJECT]: Player interacting
 
 Returns:
-
-Examples:
-    (begin example)
-        [cursorObject, player] remoteExecCall ["btc_body_fnc_bagRecover_s", 2];
-    (end)
+    NOTHING
 
 Author:
     Vdauphin
-
 ---------------------------------------------------------------------------- */
 
 params [
@@ -71,15 +66,15 @@ if (_UID isEqualTo "" && _players isEqualTo []) exitWith {
 [22] remoteExecCall ["btc_fnc_show_hint", remoteExecutedOwner];
 
 if (btc_p_respawn_ticketsShare) then {
-    [btc_player_side, _ticket, btc_player_side] call btc_respawn_fnc_addTicket;
+    [btc_player_side, _ticket, btc_player_side] call FUNC(respawn,addTicket);
 } else {
     if (_UID isEqualTo "") then {
         {
-            [_x, _ticket, getPlayerUID _x] call btc_respawn_fnc_addTicket;
+            [_x, _ticket, getPlayerUID _x] call FUNC(respawn,addTicket);
         } forEach _players;
     } else {
         private _player = _UID call BIS_fnc_getUnitByUID;
-        [_player, _ticket, _UID] call btc_respawn_fnc_addTicket;
+        [_player, _ticket, _UID] call FUNC(respawn,addTicket);
     };
 };
 

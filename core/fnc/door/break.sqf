@@ -29,5 +29,5 @@ if (_door isEqualTo "") exitWith {
 }, {
     params ["_args"];
     playSound3D ["\z\ace\addons\logistics_wirecutter\sound\wirecut.ogg", player];
-    _args call btc_door_fnc_broke;
+    _args call FUNC(door,broke);
 }, {}, [_house, _door, player, 0.2]] call CBA_fnc_progressBar;

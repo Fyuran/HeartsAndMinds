@@ -24,7 +24,7 @@ disableSerialization;
 private _display = [] call BIS_fnc_displayMission;
 if(isNull _display) exitWith {
 	#ifdef BTC_DEBUG_JSON
-	[["%1: Could not find display 46", __FILE_NAME__], 6, "json/ui"] call btc_debug_fnc_message;
+	[["%1: Could not find display 46", __FILE_NAME__], 6, "json/ui"] call FUNC(debug,message);
 	#endif
 };
 

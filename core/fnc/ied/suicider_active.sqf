@@ -65,5 +65,5 @@ _suicider addEventHandler ["Killed", {
 (group _suicider) setSpeedMode "FULL";
 
 #ifdef BTC_DEBUG_IED
-[["%1: _suicider = %2 POS %3 START LOOP", __FILE_NAME__, _suicider, getPos _suicider], 2, "ied"] call btc_debug_fnc_message;
-#endif[_suicider, _trigger] call btc_ied_fnc_suicider_activeLoop;
+[["%1: _suicider = %2 POS %3 START LOOP", __FILE_NAME__, _suicider, getPos _suicider], 2, "ied"] call FUNC(debug,message);
+#endif[_suicider, _trigger] call FUNC(ied,suicider_activeLoop);

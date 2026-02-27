@@ -34,11 +34,11 @@ ropeCreate [_heli, "slingload0", 10, []];
 
 btc_lift_action_hud = player addAction [
     "<t color=""#ED2744"">" + (localize "STR_BTC_HAM_LOG_LDR_ACTIONHUD") + "</t>", // Hud On\Off
-    btc_lift_fnc_hud, [], -8, false, false, "", "btc_ropes_deployed"
+    FUNC(lift,hud), [], -8, false, false, "", "btc_ropes_deployed"
 ];
 btc_lift_action = player addAction [
     "<t color=""#ED2744"">" + (localize "STR_BTC_HAM_LOG_HOOK") + "</t>", // Hook
-    {[] call btc_lift_fnc_hook}, [], 9, true, false, "", "[] call btc_lift_fnc_check"
+    {[] call FUNC(lift,hook)}, [], 9, true, false, "", "[] call btc_lift_fnc_check"
 ];
 
 waitUntil {sleep 5; (isNull objectParent player)};

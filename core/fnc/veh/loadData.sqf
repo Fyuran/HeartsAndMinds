@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 if(!params[
@@ -25,12 +25,12 @@ if(!params[
 	["_hash", createHashMap, [createHashMap]]
 ]) exitWith {
 	#ifdef BTC_DEBUG_VEH
-	[["%1: bad params", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;	
+	[["%1: bad params", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);	
 	#endif
 };
 if(!alive _object) exitWith {
 	#ifdef BTC_DEBUG_VEH
-	[["_object is dead or null", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	[["_object is dead or null", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);
 	#endif
 };
 
@@ -61,12 +61,12 @@ if(!alive _object) exitWith {
 
 if((typeOf _object) isNotEqualTo _typeOf) exitWith {
 	#ifdef BTC_DEBUG_VEH
-	[["%1: _object type not same type as data", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+	[["%1: _object type not same type as data", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);
 	#endif
 };
 
 _object forceFlagTexture _forcedFlagTexture;
-[_object, _dogtagDataTaken] call btc_body_fnc_dogtagSet;
+[_object, _dogtagDataTaken] call FUNC(body,dogtagSet);
 _object setFuel _fuel;
 _object lock _lock;
 
@@ -74,8 +74,8 @@ _object lock _lock;
     _object, _customization, _isMedicalVehicle,
     _isRepairVehicle, _fuelSource, _pylons,
     _isContaminated, _supplyVehicle, _objectTextures
-] call btc_veh_fnc_propertiesSet;
-[_object] call btc_veh_fnc_propertiesSet;
+] call FUNC(veh,propertiesSet);
+[_object] call FUNC(veh,propertiesSet);
 
 if (_name != "") then {
     [_object, _name] remoteExecCall["setVehicleVarName", 0, _object];
@@ -118,5 +118,5 @@ if(_allHitPointsDamage isNotEqualTo []) then {
 };
 
 if (_cargo isNotEqualTo []) then {
-    [_object, _cargo] call btc_veh_fnc_loadCargo;
+    [_object, _cargo] call FUNC(veh,loadCargo);
 };

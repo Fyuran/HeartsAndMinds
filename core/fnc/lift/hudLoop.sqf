@@ -35,7 +35,7 @@ if !((alive player && vehicle player != player) && btc_lift_hud) then {
 };
 
 private _chopper = vehicle player;
-private _array = [_chopper] call btc_lift_fnc_getLiftable;
+private _array = [_chopper] call FUNC(lift,getLiftable);
 private _cargo_array = nearestObjects [_chopper, _array, 30];
 if (_array isEqualTo []) then {_cargo_array = [];};
 _cargo_array = _cargo_array - [_chopper];

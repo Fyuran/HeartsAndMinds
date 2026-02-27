@@ -49,7 +49,7 @@ if (
     btc_hideouts deleteAt (btc_hideouts find _hideout);
     publicVariable "btc_hideouts";
 
-    [_instigator, _HIDEOUT_DESTROYED_] call btc_rep_fnc_change;
+    [_instigator, _HIDEOUT_DESTROYED_] call FUNC(rep,change);
 
     private _id = _hideout getVariable "id";
     private _marker = createMarkerLocal [format ["btc_hideout_%1_destroyed", _id], getPos _hideout];
@@ -69,12 +69,12 @@ if (
     {deleteMarker _x} forEach _array;
 
     if (btc_hq isEqualTo _hideout) then {btc_hq = objNull};
-    if (btc_hideouts isEqualTo []) then {[] spawn btc_fnc_final_phase;};
+    if (btc_hideouts isEqualTo []) then {[] spawn FUNC(common,final_phase);};
 
     //Notification
     [2, count btc_hideouts] remoteExecCall ["btc_fnc_show_hint", 0];
     #ifdef BTC_DEBUG_HIDEOUT
-    [["%1: _this = %2 ; POS %3 ID %4", __FILE_NAME__, _this, getPosASL _hideout, _id], 2, "hideout"] call btc_debug_fnc_message;
+    [["%1: _this = %2 ; POS %3 ID %4", __FILE_NAME__, _this, getPosASL _hideout, _id], 2, "hideout"] call FUNC(debug,message);
     #endif
 } else {
     0

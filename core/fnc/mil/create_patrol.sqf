@@ -37,10 +37,10 @@ if (_random isEqualTo 0) then {
 };
 
 #ifdef BTC_DEBUG_MIL
-[["%1: _random = %2 _active_city %3 _area %4 btc_patrol_active = %5", __FILE_NAME__, _random, _active_city, _area, count btc_patrol_active], 2, "mil"] call btc_debug_fnc_message;
+[["%1: _random = %2 _active_city %3 _area %4 btc_patrol_active = %5", __FILE_NAME__, _random, _active_city, _area, count btc_patrol_active], 2, "mil"] call FUNC(debug,message);
 #endif
 //Remove if too far from player
-if ([_active_city, grpNull, _area] call btc_patrol_fnc_playersInAreaCityGroup) exitWith {
+if ([_active_city, grpNull, _area] call FUNC(patrol,playersInAreaCityGroup)) exitWith {
     _group call CBA_fnc_deleteEntity;
     false
 };
@@ -57,7 +57,7 @@ if (_usefuls isEqualTo []) exitWith {
 private _start_city = selectRandom _usefuls;
 private _pos = [];
 if (_start_city getVariable ["hasbeach", false]) then {
-    _pos = [getPos _start_city, _start_city getVariable ["cachingRadius", 100], btc_p_sea] call btc_fnc_randomize_pos;
+    _pos = [getPos _start_city, _start_city getVariable ["cachingRadius", 100], btc_p_sea] call FUNC(common,randomize_pos);
 } else {
     _pos = getPos _start_city;
 };
@@ -73,9 +73,9 @@ btc_military_id = btc_military_id + 1;
 
 private _delay = switch (_random) do {
     case 1 : {
-        _pos = [_pos, 0, 150, 10, false] call btc_fnc_findsafepos;
+        _pos = [_pos, 0, 150, 10, false] call FUNC(common,findsafepos);
 
-        [_group, _pos, 5 + (round random 4)] call btc_mil_fnc_createUnits;
+        [_group, _pos, 5 + (round random 4)] call FUNC(mil,createUnits);
         0
     };
     case 2 : {
@@ -88,18 +88,18 @@ private _delay = switch (_random) do {
             private _roads = _pos nearRoads 150;
             _roads = _roads select {isOnRoad _x};
             if (_roads isEqualTo []) then {
-                _pos = [_pos, 0, 500, 13, false] call btc_fnc_findsafepos;
+                _pos = [_pos, 0, 500, 13, false] call FUNC(common,findsafepos);
             } else {
                 _pos = getPos selectRandom _roads;
             };
         };
-        [_group, _pos, _veh_type] call btc_mil_fnc_createVehicle
+        [_group, _pos, _veh_type] call FUNC(mil,createVehicle)
     };
 };
 
 [{
-    _this call btc_patrol_fnc_init;
+    _this call FUNC(patrol,init);
     (_this select 0) setVariable ["acex_headless_blacklist", false];
-}, [_group, [_start_city, _active_city], _area, _pos_isWater], _delay] call btc_delay_fnc_waitAndExecute;
+}, [_group, [_start_city, _active_city], _area, _pos_isWater], _delay] call FUNC(delay,waitAndExecute);
 
 true

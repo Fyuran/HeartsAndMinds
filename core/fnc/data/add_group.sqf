@@ -26,12 +26,12 @@ params [
 ];
 
 #ifdef BTC_DEBUG_DATA
-[["%1: %2", __FILE_NAME__, _group], 2, "data"] call btc_debug_fnc_message;
+[["%1: %2", __FILE_NAME__, _group], 2, "data"] call FUNC(debug,message);
 #endif
 _group setVariable ["no_cache", nil];
 [_group] call CBA_fnc_clearWaypoints;
 
-private _city = [leader _group, values btc_city_all, false] call btc_fnc_find_closecity;
+private _city = [leader _group, values btc_city_all, false] call FUNC(common,find_closecity);
 _city setVariable ["occupied", true];
 
 private _wp = if (vehicle leader _group isEqualTo leader _group) then {
@@ -44,18 +44,18 @@ private _wp = if (vehicle leader _group isEqualTo leader _group) then {
     };
 };
 
-[_group, _city, 200, _wp] call btc_mil_fnc_addWP;
+[_group, _city, 200, _wp] call FUNC(mil,addWP);
 
 if (_city getVariable ["active", false]) then {
     _group setVariable ["btc_city", _city];
 } else {
     private _data_units = _city getVariable ["data_units", []];
-    private _data_group = _group call btc_data_fnc_get_group;
+    private _data_group = _group call FUNC(data,get_group);
 
     _data_units pushBack _data_group;
     _city setVariable ["data_units", _data_units];
         #ifdef BTC_DEBUG_DATA
-        [["%1: PUSHBACK = %2", __FILE_NAME__, _data_group], 2, "data"] call btc_debug_fnc_message;
+        [["%1: PUSHBACK = %2", __FILE_NAME__, _data_group], 2, "data"] call FUNC(debug,message);
     
     #endif};
 

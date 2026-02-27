@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,25 +50,25 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
-private _pos = [getPos _city, 100] call btc_fnc_randomize_pos;
+private _pos = [getPos _city, 100] call FUNC(common,randomize_pos);
 private _roads = _pos nearRoads 100;
 _roads = _roads select {isOnRoad _x};
 if (_roads isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _roads", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _roads", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-    [] call btc_side_fnc_create;
+    [] call FUNC(side,create);
 };
 
 private _road = selectRandom _roads;
 _pos = getPos _road;
 
-private _direction = [_road] call btc_fnc_road_direction;
+private _direction = [_road] call FUNC(common,road_direction);
 
 _city setVariable ["spawn_more", true];
 
@@ -84,17 +84,17 @@ private _btc_composition_tower = [
 
 //// Create tower with static at _pos \\\\
 private _statics = btc_type_gl + btc_type_mg;
-[_pos getPos [5, _direction], _statics, _direction, [], _city] call btc_mil_fnc_create_static;
-[_pos getPos [- 5, _direction], _statics, _direction + 180, [], _city] call btc_mil_fnc_create_static;
+[_pos getPos [5, _direction], _statics, _direction, [], _city] call FUNC(mil,create_static);
+[_pos getPos [- 5, _direction], _statics, _direction + 180, [], _city] call FUNC(mil,create_static);
 
-private _btc_composition = [_pos, _direction, _btc_composition_tower] call btc_fnc_create_composition;
+private _btc_composition = [_pos, _direction, _btc_composition_tower] call FUNC(common,create_composition);
 private _tower = _btc_composition select ((_btc_composition apply {typeOf _x}) find _tower_type);
 
-[_taskID, 7, _tower, [_city getVariable "name", _tower_type]] call btc_task_fnc_create;
+[_taskID, 7, _tower, [_city getVariable "name", _tower_type]] call FUNC(task,create);
 btc_side_taskIDs set ["tower", (btc_side_taskIDs getOrDefault ["tower", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 waitUntil {sleep 5;
@@ -102,10 +102,10 @@ waitUntil {sleep 5;
     _taskID call BIS_fnc_taskCompleted
 };
 
-[[], _btc_composition] call btc_fnc_delete;
+[[], _btc_composition] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-[objNull, _SIDE_TOWER_DESTROYED_] call btc_rep_fnc_change;
+[objNull, _SIDE_TOWER_DESTROYED_] call FUNC(rep,change);
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

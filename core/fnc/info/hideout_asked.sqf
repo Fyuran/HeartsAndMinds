@@ -37,7 +37,7 @@ if (_is_real) then {
         private _hideout = btc_hideouts select _index;
         private _dist = (player distance _hideout) + (random 500) - (random 500);
         private _dir = player getDir _hideout;
-        private _card = [_dir] call btc_fnc_get_cardinal;
+        private _card = [_dir] call FUNC(common,get_cardinal);
         _text = format [localize "STR_BTC_HAM_CON_INFO_ASKHIDEOUT_TRUE", _card, round _dist];
     } else {
         _text = localize "STR_BTC_HAM_CON_INFO_ASKHIDEOUT_FALSE";
@@ -55,5 +55,5 @@ if (_is_real) then {
 #ifdef BTC_DEBUG_INFO
 _text = _text + " - " + str _is_real;
 #endif
-[_name, _text] call btc_fnc_showSubtitle;
+[_name, _text] call FUNC(common,showSubtitle);
 player createDiaryRecord ["btc_diarylog", [str(mapGridPosition player) + " - " + _name, _text]];

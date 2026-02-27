@@ -37,9 +37,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -49,24 +49,24 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
-private _pos = [getPos _city, 0, _city getVariable ["cachingRadius", 100], 30, false] call btc_fnc_findsafepos;
+private _pos = [getPos _city, 0, _city getVariable ["cachingRadius", 100], 30, false] call FUNC(common,findsafepos);
 if (_pos select 2 > 50) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _pos under 50m", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _pos under 50m", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-    [] call btc_side_fnc_create;
+    [] call FUNC(side,create);
 };
 
-[_taskID, 4, _pos, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 4, _pos, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["mines", (btc_side_taskIDs getOrDefault ["mines", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _distance_between_fences = 8.1;
@@ -124,17 +124,17 @@ for "_i" from -_number_of_fences to _number_of_fences do {
     };
 };
 
-private _composition_objects = [_pos, selectRandom [0, 90, 180, 270], _composition_pattern] call btc_fnc_create_composition;
+private _composition_objects = [_pos, selectRandom [0, 90, 180, 270], _composition_pattern] call FUNC(common,create_composition);
 
 private _mines = [];
 for "_i" from 1 to (5 + round random 5) do {
     private _type = "ATMine";
     if (random 1 > 0.6) then {_type = selectRandom btc_type_mines;};
-    private _m_pos = [_pos, _area_size - 10] call btc_fnc_randomize_pos;
+    private _m_pos = [_pos, _area_size - 10] call FUNC(common,randomize_pos);
     _mines pushBack createMine [_type, _m_pos, [], 0];
 
     if (random 1 > 0.8) then {
-        _m_pos = [_pos, _area_size - 10] call btc_fnc_randomize_pos;
+        _m_pos = [_pos, _area_size - 10] call FUNC(common,randomize_pos);
         private _s = createVehicle [selectRandom btc_type_signs, _m_pos, [], 10, "CAN_COLLIDE"];
         _s setDir random 360;
         _composition_objects pushBack _s;
@@ -146,9 +146,9 @@ waitUntil {sleep 5;
     playableUnits inAreaArray [_pos, 100, 100] isNotEqualTo []
 };
 
-private _closest = [_city, values btc_city_all select {!(_x getVariable ["active", false])}, false] call btc_fnc_find_closecity;
+private _closest = [_city, values btc_city_all select {!(_x getVariable ["active", false])}, false] call FUNC(common,find_closecity);
 for "_i" from 1 to (round random 2) do {
-    [btc_mil_fnc_send, [_closest, _pos, 1, selectRandom btc_type_motorized]] call CBA_fnc_directCall;
+    [FUNC(mil,send), [_closest, _pos, 1, selectRandom btc_type_motorized]] call CBA_fnc_directCall;
 };
 
 waitUntil {sleep 5; 
@@ -156,10 +156,10 @@ waitUntil {sleep 5;
     _mines select {!isNull _x} isEqualTo []
 };
 
-[[_area], _mines + _composition_objects] call btc_fnc_delete;
+[[_area], _mines + _composition_objects] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-[objNull, _SIDE_MINEFIELD_DEFUSED_] call btc_rep_fnc_change;
+[objNull, _SIDE_MINEFIELD_DEFUSED_] call FUNC(rep,change);
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

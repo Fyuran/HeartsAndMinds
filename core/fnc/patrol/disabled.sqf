@@ -31,7 +31,7 @@ if (_veh getVariable ["btc_patrol_fnc_disabled_fired", false]) exitWith {};
 if (_damage > 0.1) then {
     _veh setVariable ["btc_patrol_fnc_disabled_fired", true, true];
     if (isServer) then {
-        [_veh] call btc_patrol_fnc_eh;
+        [_veh] call FUNC(patrol,eh);
     } else {
         [_veh] remoteExecCall ["btc_patrol_fnc_eh", 2];
     };

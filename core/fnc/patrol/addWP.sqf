@@ -31,7 +31,7 @@ params [
 
 if (isNull _group) exitWith {
     #ifdef BTC_DEBUG_PATROL
-    [["%1: _group isNull %2, waypointStatements = %3 ", __FILE_NAME__, isNull _group, _waypointStatements], 6, "patrol"] call btc_debug_fnc_message;
+    [["%1: _group isNull %2, waypointStatements = %3 ", __FILE_NAME__, isNull _group, _waypointStatements], 6, "patrol"] call FUNC(debug,message);
     #endif
 };
 

@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,19 +50,19 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 //// Randomise position \\\\
-private _houses = ([getPos _city, 100] call btc_fnc_getHouses) select 0;
+private _houses = ([getPos _city, 100] call FUNC(common,getHouses)) select 0;
 _houses = _houses select {count (_x buildingPos -1) > 1}; // Building with low enterable positions are not interesting
 if (_houses isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _houses", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _houses", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-    [] call btc_side_fnc_create;
+    [] call FUNC(side,create);
 };
 
 _houses = _houses apply {[count (_x buildingPos -1), _x]};
@@ -88,13 +88,13 @@ private _officer = _group_officer createUnit [_officerType, _pos, [], 0, "CAN_CO
 
 //// Data side mission
 private _officerName = name _officer;
-[_taskID, 25, objNull, [_officerName, _city getVariable "name"]] call btc_task_fnc_create;
+[_taskID, 25, objNull, [_officerName, _city getVariable "name"]] call FUNC(task,create);
 private _kill_taskID = _taskID + "ki";
-[[_kill_taskID, _taskID], 26, _officer, [_officerName, _city getVariable "name", _officerType]] call btc_task_fnc_create;
+[[_kill_taskID, _taskID], 26, _officer, [_officerName, _city getVariable "name", _officerType]] call FUNC(task,create);
 btc_side_taskIDs set ["kill", (btc_side_taskIDs getOrDefault ["kill", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _ehDeleted = [_officer, "Deleted", {
@@ -104,7 +104,7 @@ private _ehDeleted = [_officer, "Deleted", {
     _thisArgs params ["_taskID"];
 
     _officer removeEventHandler [_thisType, _thisID];
-    [_taskID, "FAILED"] call btc_task_fnc_setState;
+    [_taskID, "FAILED"] call FUNC(task,setState);
 }, [_taskID]] call CBA_fnc_addBISEventHandler;
 
 private _group = [];
@@ -130,12 +130,12 @@ waitUntil {sleep 5;
     !alive _officer
 };
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {
-    [[], _toDelete] call btc_fnc_delete;
+    [[], _toDelete] call FUNC(common,delete);
 };
 
 [_kill_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
 private _dogTag_taskID = _taskID + "dt";
-[[_dogTag_taskID, _taskID], 27, _officer, _officerName] call btc_task_fnc_create;
+[[_dogTag_taskID, _taskID], 27, _officer, _officerName] call FUNC(task,create);
 private _officer_dogtagData = [_officer] call ace_dogtags_fnc_getDogtagData;
 private _globalVariableName = format ["btc_%1", _dogTag_taskID];
 
@@ -148,7 +148,7 @@ private _globalVariableName = format ["btc_%1", _dogTag_taskID];
         _officer removeEventHandler ["Deleted", _ehDeleted];
 
         [_dogTag_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
-        [[_taskID + "bs", _taskID], 28, btc_log_point_obj, [_officer_dogtagData select 0, typeOf btc_log_point_obj]] call btc_task_fnc_create;
+        [[_taskID + "bs", _taskID], 28, btc_log_point_obj, [_officer_dogtagData select 0, typeOf btc_log_point_obj]] call FUNC(task,create);
         missionNamespace setVariable [_globalVariableName, _dogTag];
         [_dogTag, _taskID] remoteExecCall ["btc_eh_fnc_trackItem", [0, -2] select isDedicated, _officer];
      };
@@ -173,7 +173,7 @@ private _IDEH_HandleDisconnect = [missionNamespace, "HandleDisconnect", {
 
     if ((missionNamespace getVariable [_globalVariableName, ""]) in items _player) then {
         removeMissionEventHandler [_thisType, _thisID];
-        [_taskID, "FAILED"] call btc_task_fnc_setState;
+        [_taskID, "FAILED"] call FUNC(task,setState);
     };
 }, [_globalVariableName, _taskID]] call CBA_fnc_addBISEventHandler;
 
@@ -191,10 +191,10 @@ _group_officer setVariable ["no_cache", false];
     _x setVariable ["no_cache", false];
 } forEach _group;
 
-[[], _toDelete] call btc_fnc_delete;
+[[], _toDelete] call FUNC(common,delete);
 removeMissionEventHandler ["HandleDisconnect", _IDEH_HandleDisconnect];
-if ((_taskID call BIS_fnc_taskState) in ["CANCELED", "FAILED"]) exitWith {[_taskID, _taskID call BIS_fnc_taskState] call btc_task_fnc_setState};
+if ((_taskID call BIS_fnc_taskState) in ["CANCELED", "FAILED"]) exitWith {[_taskID, _taskID call BIS_fnc_taskState] call FUNC(task,setState)};
 
-[objNull, _SIDE_TARGET_KILLED_] call btc_rep_fnc_change;
+[objNull, _SIDE_TARGET_KILLED_] call FUNC(rep,change);
 
-[_taskID, "SUCCEEDED"] call btc_task_fnc_setState;
+[_taskID, "SUCCEEDED"] call FUNC(task,setState);

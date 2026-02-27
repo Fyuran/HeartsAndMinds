@@ -31,7 +31,7 @@ if (isNil "btc_veh_respawnable") then {
     btc_veh_respawnable = [];
 };
 if (isNil {_vehicle getVariable "btc_EDENinventory"}) then {
-    _vehicle setVariable ["btc_EDENinventory", _vehicle call btc_log_fnc_inventoryGet];
+    _vehicle setVariable ["btc_EDENinventory", _vehicle call FUNC(log,inventoryGet)];
 };
 [{ace_common_settingsInitFinished}, {
     if (isNull _this) exitwith {};
@@ -45,7 +45,7 @@ if (isNil {_vehicle getVariable "btc_EDENinventory"}) then {
 
 if (btc_veh_respawnable pushBackUnique _vehicle isEqualTo -1) exitWith {
     #ifdef BTC_DEBUG_VEH
-    [["%1: Vehicle added more than once in btc_veh_respawnable", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+    [["%1: Vehicle added more than once in btc_veh_respawnable", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);
     #endif
 };
 
@@ -63,7 +63,7 @@ _vehicle addMPEventHandler ["MPKilled", {
         params ["_vehicle", "_killer", "_instigator"];
 
         private _data = _vehicle getVariable ["data_respawn", []];
-        private _vehProperties = _vehicle call btc_veh_fnc_propertiesGet;
+        private _vehProperties = _vehicle call FUNC(veh,propertiesGet);
 
         // Reset properties
         _vehProperties set [5, false];
@@ -72,9 +72,9 @@ _vehicle addMPEventHandler ["MPKilled", {
 
         _data append _vehProperties;
         _data pushBack (_vehicle getVariable ["btc_EDENinventory", []]);
-        [btc_veh_fnc_respawn, [_vehicle, _data], _data select 3] call CBA_fnc_waitAndExecute;
+        [FUNC(veh,respawn), [_vehicle, _data], _data select 3] call CBA_fnc_waitAndExecute;
 
-        [_instigator, _VEHICLE_LOST_] call btc_rep_fnc_change;
+        [_instigator, _VEHICLE_LOST_] call FUNC(rep,change);
     };
 }];
 if (btc_p_respawn_location > 0) then {

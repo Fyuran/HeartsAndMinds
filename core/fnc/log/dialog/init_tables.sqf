@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -26,12 +26,12 @@ Author:
 ];
 if(btc_construction_array isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: btc_construction_array is empty no cost table initialized", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;
+    [["%1: btc_construction_array is empty no cost table initialized", __FILE_NAME__], 6, "log/dialog"] call FUNC(debug,message);
     #endif
 };
 if(count _main_classes isNotEqualTo count _sub_classes) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: btc_construction_array: different sizes of main_classes and sub_classes", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;
+    [["%1: btc_construction_array: different sizes of main_classes and sub_classes", __FILE_NAME__], 6, "log/dialog"] call FUNC(debug,message);
     #endif
 };
 
@@ -55,13 +55,15 @@ private _cfg = configFile >> "CfgVehicles";
         };
     };
     
-	private _obj = createVehicle [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
-	private _cost = round(sizeOf _x) * btc_p_log_cost_multiplier;
-	deleteVehicle _obj;
-	_tables set [_x, [_displayName, _cost]];
+	if(isClass (_cfg >> _class)) then {
+		private _obj = createVehicle [_class, [0,0,0], [], 0, "CAN_COLLIDE"];
+		private _cost = round(sizeOf _x) * btc_p_log_cost_multiplier;
+		deleteVehicle _obj;
+		_tables set [_x, [_displayName, _cost]];
+	};
 };
 
 #ifdef BTC_DEBUG_LOG
-[["%1: btc_log_dialog_tables initialized", __FILE_NAME__], 2, "log/dialog"] call btc_debug_fnc_message;
+[["%1: btc_log_dialog_tables initialized", __FILE_NAME__], 2, "log/dialog"] call FUNC(debug,message);
 #endif
 missionNamespace setVariable ["btc_log_dialog_tables", _tables];

@@ -27,7 +27,7 @@ params [
 ];
 
 #ifdef BTC_DEBUG_CIV
-[["%1: %2 fired with %3", typeOf _uav, _weapon], 2, "civ"] call btc_debug_fnc_message;
+[["%1: %2 fired with %3", typeOf _uav, _weapon], 2, "civ"] call FUNC(debug,message);
 #endif
 if (_weapon isEqualTo "Bomb_Leaflets") then {
     [getPos _uav] remoteExecCall ["btc_civ_fnc_evacuate", 2];

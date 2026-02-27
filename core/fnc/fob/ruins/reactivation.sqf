@@ -30,7 +30,7 @@ _toRemove append (_toRemove apply {
 });
 _toRemove call CBA_fnc_deleteEntity;
 
-private _fob = [getPosATL _ruins, getDir _ruins, _name] call btc_fob_fnc_create_s;
+private _fob = [getPosATL _ruins, getDir _ruins, _name] call FUNC(fob,create_s);
 
 btc_fobs_ruins deleteAt _name;
 deleteVehicle _ruins;
@@ -38,6 +38,6 @@ deleteVehicle _ruins;
 ["WarningDescriptionRepaired", ["", format[
     localize "$STR_BTC_HAM_REP_FOB_REPAIRED",
     _name
-]]] call btc_task_fnc_showNotification_s;
+]]] call FUNC(task,showNotification_s);
 
 _fob

@@ -33,7 +33,7 @@ private _type = typeOf _veh;
 (getPosASL _veh) params ["_x", "_y", "_z"];
 private _dir = getDir _veh;
 private _marker = _veh getVariable ["marker", ""];
-private _vehProperties = _veh call btc_veh_fnc_propertiesGet;
+private _vehProperties = _veh call FUNC(veh,propertiesGet);
 
 // Reset properties
 _vehProperties set [5, false];
@@ -54,7 +54,7 @@ if ((getVehicleCargo _veh) isNotEqualTo []) then {
 };
 
 {
-    _x call btc_body_fnc_bagRecover_s;
+    _x call FUNC(body,bagRecover_s);
 } forEach crew _veh;
 
 [{
@@ -62,4 +62,4 @@ if ((getVehicleCargo _veh) isNotEqualTo []) then {
 }, _veh] call CBA_fnc_execNextFrame;
 
 private _serialisedVeh = [_type, [_x, _y, 0.5 + _z], _dir] + _vehProperties + [_EDENinventory];
-[btc_log_fnc_createVehicle, _serialisedVeh, 1] call CBA_fnc_waitAndExecute;
+[FUNC(log,createVehicle), _serialisedVeh, 1] call CBA_fnc_waitAndExecute;

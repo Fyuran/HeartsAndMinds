@@ -55,7 +55,7 @@ if (_cities_dirTo isNotEqualTo []) then {
 
 //Check if end city has been found, if not take the closer city
 if (_cities isEqualTo []) then {
-    _cities = [[_active_city, _useful, false] call btc_fnc_find_closecity];
+    _cities = [[_active_city, _useful, false] call FUNC(common,find_closecity)];
 };
 
 _cities

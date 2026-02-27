@@ -38,7 +38,7 @@ Author:
             };
         } else {
             if (_trigger isEqualTo []) then {
-                _trigger pushBack ([_driver_drone] call btc_ied_fnc_drone_active);
+                _trigger pushBack ([_driver_drone] call FUNC(ied,drone_active));
             };
 
             #ifdef BTC_DEBUG_IED
@@ -46,13 +46,13 @@ Author:
             #endif
             (vehicle _driver_drone) doMove (ASLtoAGL getPosASL (_array select 0));
         };
-        _this call btc_ied_fnc_droneLoop;
+        _this call FUNC(ied,droneLoop);
     } else {
         deleteVehicle (_trigger deleteAt 0);
         _group setVariable ["btc_ied_drone", false];
 
         #ifdef BTC_DEBUG_IED
-        [["%1: _driver_drone = %2 POS %3 END LOOP", __FILE_NAME__, _driver_drone, getPos _driver_drone], 2, "ied"] call btc_debug_fnc_message;
+        [["%1: _driver_drone = %2 POS %3 END LOOP", __FILE_NAME__, _driver_drone, getPos _driver_drone], 2, "ied"] call FUNC(debug,message);
         #endif
     };
 }, _this, 5] call CBA_fnc_waitAndExecute;

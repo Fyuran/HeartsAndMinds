@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,9 +50,9 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 private _pos = getPos _city;
 
@@ -63,17 +63,17 @@ if ( _r < 1) then {
     private _roads = _pos nearRoads 200;
     _objects = _roads select {isOnRoad _x};
 } else {
-    _objects = ([[_pos select 0, _pos select 1, 0], 200] call btc_fnc_getHouses) select 0;
+    _objects = ([[_pos select 0, _pos select 1, 0], 200] call FUNC(common,getHouses)) select 0;
 };
 
-if (_objects isEqualTo []) exitWith {[] call btc_side_fnc_create;};
+if (_objects isEqualTo []) exitWith {[] call FUNC(side,create);};
 
 //// Create civ on _pos \\\\
 private _veh = objNull;
 private _fx = objNull;
 if (_r < 1) then {
     _pos = getPos (selectRandom _objects);
-    private _vehPos = [_pos, 10] call btc_fnc_randomize_pos;
+    private _vehPos = [_pos, 10] call FUNC(common,randomize_pos);
 
     private _veh_type = selectRandom btc_civ_type_veh;
     _veh = createVehicle [_veh_type, _vehPos, [], 0, "NONE"];
@@ -100,11 +100,11 @@ _unit setBehaviour "CARELESS";
 _unit setDir (random 360);
 _unit setUnitPos "DOWN";
 
-[_taskID, 8, _unit, [_city getVariable "name", _unit_type]] call btc_task_fnc_create;
+[_taskID, 8, _unit, [_city getVariable "name", _unit_type]] call FUNC(task,create);
 btc_side_taskIDs set ["civtreatment", (btc_side_taskIDs getOrDefault ["civtreatment", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 sleep 1;
@@ -114,7 +114,7 @@ waitUntil {sleep 5;
     playableUnits inAreaArray [getPosWorld _unit, 5000, 5000] isNotEqualTo []
 };
 
-[_unit] call btc_fnc_set_damage;
+[_unit] call FUNC(common,set_damage);
 
 waitUntil {sleep 5; 
     _taskID call BIS_fnc_taskCompleted ||
@@ -125,14 +125,14 @@ waitUntil {sleep 5;
     }
 };
 
-[[], [_veh, _fx, _group]] call btc_fnc_delete;
+[[], [_veh, _fx, _group]] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 if !(alive _unit) exitWith {
     [_taskID, "FAILED"] call BIS_fnc_taskSetState;
 };
 
-[objNull, _SIDE_CIV_TREATED_] call btc_rep_fnc_change;
+[objNull, _SIDE_CIV_TREATED_] call FUNC(rep,change);
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
 

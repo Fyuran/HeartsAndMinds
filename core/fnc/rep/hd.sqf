@@ -59,9 +59,9 @@ if !(isServer) exitWith {
 };
 
 //[_instigator, [_CIV_HURT_, _ANIMAL_HURT_] select _isAgent] call btc_rep_fnc_change;
-if (btc_global_reputation < btc_rep_level_normal + 100) then {[getPos _unit] call btc_rep_fnc_eh_effects;};
+if (btc_global_reputation < btc_rep_level_normal + 100) then {[getPos _unit] call FUNC(rep,eh_effects);};
 
 #ifdef BTC_DEBUG_REP
-[["%1: REP HD = GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+[["%1: REP HD = GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call FUNC(debug,message);
 #endif
 _dam

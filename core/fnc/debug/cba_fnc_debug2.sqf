@@ -1,30 +1,16 @@
 /* ----------------------------------------------------------------------------
-Function: CBA_hem_fnc_debug2
+Function: btc_debug_fnc_cba_fnc_debug2
 
 Description:
-    General Purpose Debug Message Writer
-
-    Handles very long messages without losing text.
+    General Purpose Debug Message Writer. Handles very long messages without losing text.
 
 Parameters:
-    _message - Message to write <STRING, ARRAY>
-    _title   - Message title (optional, default: "cba_diagnostic") <STRING>
-    _type    - Type of message <ARRAY>
-        0: _useChat - Write to chat (optional, default: true) <BOOLEAN>
-        1: _useLog  - Log to arma.rpt (optional, default: true) <BOOLEAN>
-        2: _global  - true: execute global (optional, default: false) <BOOLEAN>
+    _message[STRING or ARRAY]: Message to write
+    _title[STRING]: Message title (optional, default: "cba_diagnostic")
+    _type[ARRAY]: Type of message array with flags for useChat, useLog, and global execution
 
 Returns:
-    nil
-
-Examples:
-    (begin example)
-        // Write the debug message in chat-log of every client
-        ["New Player Joined the Server!", "cba_network", [true, false, true]] call CBA_hem_fnc_debug2;
-    (end)
-
-Edit: 
-    Removed the timestamp
+    NOTHING
 
 Author:
     Sickboy, commy2, Fyuran

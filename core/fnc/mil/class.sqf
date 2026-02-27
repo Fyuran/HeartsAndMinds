@@ -84,7 +84,7 @@ _side = [east, west, independent, civilian] select getNumber (_cfgFactionClasses
     };
 
     //Units
-    _divers = _allclass_f select {[_x, ["AssaultRifle", "64 + 32"]] call btc_mil_fnc_ammoUsage};
+    _divers = _allclass_f select {[_x, ["AssaultRifle", "64 + 32"]] call FUNC(mil,ammoUsage)};
     _type_divers append _divers;
     _type_units append ((_allclass_f select {_x isKindOf "Man"}) - _divers);
 
@@ -153,7 +153,7 @@ if (_type_gl isEqualTo []) then {
 //Final filter unwanted units type
 if !(_en_AA) then {
     //Remove Anti-Air Units
-    _type_units = _type_units select {!([_x, ["MissileLauncher", "256"]] call btc_mil_fnc_ammoUsage)};
+    _type_units = _type_units select {!([_x, ["MissileLauncher", "256"]] call FUNC(mil,ammoUsage))};
 };
 
 _type_units = _type_units select {

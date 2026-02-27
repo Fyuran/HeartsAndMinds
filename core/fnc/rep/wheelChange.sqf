@@ -39,8 +39,8 @@ private _instigator = nearestObject [_object, btc_player_type];
 [
     _instigator,
     _CIV_WHEEL_CHANGED_
-] call btc_rep_fnc_change;
+] call FUNC(rep,change);
 
 #ifdef BTC_DEBUG_REP
-[["%1: THIS = %2 _instigator = %3", __FILE_NAME__, _this, _instigator], 2, "rep"] call btc_debug_fnc_message;
+[["%1: THIS = %2 _instigator = %3", __FILE_NAME__, _this, _instigator], 2, "rep"] call FUNC(debug,message);
 #endif

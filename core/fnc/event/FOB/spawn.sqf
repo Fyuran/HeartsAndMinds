@@ -27,7 +27,7 @@ if(!params[
     ["_nearCities", [], [[]]]
 ]) exitWith {
     #ifdef BTC_DEBUG_EVENT
-    [["%1: Bad params", __FILE_NAME__], 6, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: Bad params", __FILE_NAME__], 6, "event/FOB"] call FUNC(debug,message);
     #endif
     false
 };
@@ -41,26 +41,26 @@ for "_i" from 0 to _maxGrps do {
     private _city = _nearCities select (_i % _countCities); //modulo % forbids from selecting out of range elements by looping back when it exceeds _countCities
     if(count _groups >= _FOB_MAX_GROUPS_) then {break;};
 
-    _grp = [_city, _building, _FOB_ATTACK_PATROL_TYPE_] call btc_mil_fnc_send;
+    _grp = [_city, _building, _FOB_ATTACK_PATROL_TYPE_] call FUNC(mil,send);
     _groups pushBack _grp;
     #ifdef BTC_DEBUG_EVENT
-    [["%1: %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call FUNC(debug,message);
     #endif 
     if(count _groups >= _FOB_MAX_GROUPS_) then {break;};
-    _grp = [_city, _building, _FOB_ATTACK_PATROL_TYPE_] call btc_mil_fnc_send;
+    _grp = [_city, _building, _FOB_ATTACK_PATROL_TYPE_] call FUNC(mil,send);
     _groups pushBack _grp;
    #ifdef BTC_DEBUG_EVENT
-   [["%1: %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call btc_debug_fnc_message;
+   [["%1: %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call FUNC(debug,message);
     #endif
     if(count _groups >= _FOB_MAX_GROUPS_) then {break;};
 };
 
 if (btc_global_reputation < btc_rep_level_veryLow) then {
     private _city = selectRandom _nearCities;
-    _grp = [_city, _building] call btc_ied_fnc_suicider_fob_create;
+    _grp = [_city, _building] call FUNC(ied,suicider_fob_create);
     _groups pushBack _grp;
     #ifdef BTC_DEBUG_EVENT
-    [["%1: SUICIDER %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: SUICIDER %2 is being sent to %3, distance: %4", __FILE_NAME__, _grp, _building getVariable["FOB_name", ""], _city distance2D _building], 2, "event/FOB"] call FUNC(debug,message);
     #endif
 };
 

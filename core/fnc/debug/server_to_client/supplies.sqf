@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 params[
@@ -25,7 +25,7 @@ params[
 
 if(isNil "btc_debug_namespace") exitWith {
 	#ifdef BTC_DEBUG_DEBUG
-	[["%1: btc_debug_namespace isNil something went wrong with PublicVariableClient in request_server_data", __FILE_NAME__], 6, "debug/server_to_client"] call btc_debug_fnc_message;
+	[["%1: btc_debug_namespace isNil something went wrong with PublicVariableClient in request_server_data", __FILE_NAME__], 6, "debug/server_to_client"] call FUNC(debug,message);
     #endif
 };
 

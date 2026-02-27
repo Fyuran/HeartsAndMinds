@@ -15,14 +15,14 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #define CONSTANT_K 10
 
 if(!canSuspend) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log"] call btc_debug_fnc_message;
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log"] call FUNC(debug,message);
     #endif
 };
 

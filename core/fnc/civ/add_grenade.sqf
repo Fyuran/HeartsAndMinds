@@ -39,7 +39,7 @@ _unit addEventHandler ["Fired", {
         [{
             params ["_unit"];
 
-            [group _unit] call btc_civ_fnc_addWP;
+            [group _unit] call FUNC(civ,addWP);
         }, [_unit], 20] call CBA_fnc_waitAndExecute;
     };
 }];

@@ -52,7 +52,7 @@ _weapons select {
 
         #ifdef BTC_DEBUG_ARSENAL
         if ("" in _aiAmmoUsage_magazines) then {
-            [["Weapons: %1 AiAmmoUsage Magazines: %2", __FILE_NAME__, _weapon, _aiAmmoUsage_magazines], 2, "arsenal"] call btc_debug_fnc_message;
+            [["Weapons: %1 AiAmmoUsage Magazines: %2", __FILE_NAME__, _weapon, _aiAmmoUsage_magazines], 2, "arsenal"] call FUNC(debug,message);
         };
         #endif
         _isAllowed = _ammo_usageAllowed in _aiAmmoUsage_magazines;

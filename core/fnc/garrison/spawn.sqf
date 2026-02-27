@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -29,17 +29,17 @@ params [
 ];
 if(isNull _building) exitWith {
 	#ifdef BTC_DEBUG_GARRISON
-	[["%1: Invalid _building param", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+	[["%1: Invalid _building param", __FILE_NAME__], 6, "garrison"] call FUNC(debug,message);
 	#endif};
 if(_type_units isEqualTo []) exitWith {
 	#ifdef BTC_DEBUG_GARRISON
-	[["%1: _type_units is empty", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+	[["%1: _type_units is empty", __FILE_NAME__], 6, "garrison"] call FUNC(debug,message);
 	#endif
 };
 
 if ((count (_building buildingPos -1)) <= 0) exitWith {
 	#ifdef BTC_DEBUG_GARRISON
-	[["%1: no suitable positions found for garrison", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+	[["%1: no suitable positions found for garrison", __FILE_NAME__], 6, "garrison"] call FUNC(debug,message);
 	#endif
 };
 
@@ -55,7 +55,7 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 		};
 		#ifdef BTC_DEBUG_GARRISON
 		if(_buildingPositions isEqualTo []) then {
-			[["%1: no suitable positions found for outside only garrison", __FILE_NAME__], 6, "garrison"] call btc_debug_fnc_message;
+			[["%1: no suitable positions found for outside only garrison", __FILE_NAME__], 6, "garrison"] call FUNC(debug,message);
 		};
 		#endif
 	};
@@ -121,7 +121,7 @@ if ((count (_building buildingPos -1)) <= 0) exitWith {
 
 	(leader _group) setVariable ["acex_headless_blacklist", true];
 
-}] call btc_delay_fnc_exec;
+}] call FUNC(delay,exec);
 
 
 

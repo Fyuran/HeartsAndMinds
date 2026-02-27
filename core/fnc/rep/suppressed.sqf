@@ -52,13 +52,13 @@ if (
 ) then {
     if (isServer)  then {
         //[_shooter, _CIV_SUPPRESSED_] call btc_rep_fnc_change;
-        [getPos _civ] call btc_rep_fnc_eh_effects;
+        [getPos _civ] call FUNC(rep,eh_effects);
     } else {
         //[_shooter, _CIV_SUPPRESSED_] remoteExecCall ["btc_rep_fnc_change", 2];
         [getPos _civ] remoteExecCall ["btc_rep_fnc_eh_effects", 2];
     };
 
     #ifdef BTC_DEBUG_REP
-    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call FUNC(debug,message);
     #endif
 };

@@ -85,5 +85,5 @@ _unit enableAI "PATH";
 _unit doMove getPos _unit;
 
 if (_unit isEqualTo vehicle _unit) then {
-    [_group] call btc_civ_fnc_addWP;
+    [_group] call FUNC(civ,addWP);
 };

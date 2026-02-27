@@ -17,7 +17,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -29,12 +29,12 @@ params[
 
 if(isNull _object) exitWith {
     #ifdef BTC_DEBUG_COMMON
-    [["%1: _object is null", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    [["%1: _object is null", __FILE_NAME__], 6, "common"] call FUNC(debug,message);
     #endif[]
 };
 if(_radius <= 0) then {
     #ifdef BTC_DEBUG_COMMON
-    [["%1: invalid _radius equal or below zero", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;
+    [["%1: invalid _radius equal or below zero", __FILE_NAME__], 6, "common"] call FUNC(debug,message);
     #endif
     _radius = 2;
 };

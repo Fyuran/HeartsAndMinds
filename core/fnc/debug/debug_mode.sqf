@@ -44,7 +44,7 @@ if (_isEnable) then {
 			["btc_delay_time", objNull, "btc_delay_timeDebug"] remoteExecCall ["btc_int_fnc_ask_var", 2];
 		}, 1, []] call CBA_fnc_addPerFrameHandler;
 
-		_mapOnDraw = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ["Draw", btc_debug_fnc_marker];
+		_mapOnDraw = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ["Draw", FUNC(debug,marker)];
 
 		btc_debug_namespace setVariable ["btc_debug_perFrameHandler", _perFrameHandler];
 		btc_debug_namespace setVariable ["btc_debug_mapOnDraw", _mapOnDraw];
@@ -61,7 +61,7 @@ if (_isEnable) then {
 	
 	removeMissionEventHandler ["MapSingleClick", _mapSingleClick];
 	if(!([_perFrameHandler] call CBA_fnc_removePerFrameHandler)) then {
-			[["%1: Couldn't remove a CBA_perFrameHandler",__FILE_NAME__], 6, "debug"] call btc_debug_fnc_message;
+			[["%1: Couldn't remove a CBA_perFrameHandler",__FILE_NAME__], 6, "debug"] call FUNC(debug,message);
 	};
 	((findDisplay 12) displayCtrl 51) ctrlRemoveEventHandler ["Draw", _mapOnDraw];
 

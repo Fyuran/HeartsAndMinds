@@ -1,5 +1,4 @@
 #include "script_debug.hpp"
-#include "\x\cba\addons\main\script_macros_mission.hpp"
 #include "\a3\editor_f\Data\Scripts\dikCodes.h"
 
 //btc_fnc_showSubtitle
@@ -77,3 +76,13 @@
 
 //Sides
 #define _S_RADIUS 800
+
+#ifdef FUNC
+#undef FUNC
+#endif
+#ifdef PREP
+#undef PREP
+#endif
+
+#define FUNC(COMPONENT,FUNC) btc_##COMPONENT##_fnc_##FUNC
+#define PREP(COMPONENT,FUNC) FUNC(COMPONENT,FUNC) = compileScript[QUOTE(core\fnc\##COMPONENT##\##FUNC##.sqf)]

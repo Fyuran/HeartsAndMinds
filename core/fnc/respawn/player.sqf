@@ -32,4 +32,4 @@ if (btc_p_respawn_ticketsShare) then {
 };
 
 if (btc_p_body_timeBeforeShowMarker < 0) exitwith {};
-[btc_body_fnc_createMarker, _unit, btc_p_body_timeBeforeShowMarker] call CBA_fnc_waitAndExecute;
+[FUNC(body,createMarker), _unit, btc_p_body_timeBeforeShowMarker] call CBA_fnc_waitAndExecute;

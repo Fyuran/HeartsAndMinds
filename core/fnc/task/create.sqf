@@ -49,7 +49,7 @@ if(_task isEqualType "") then {
 } else {
     if ((count _task) > 2) exitWith {
         #ifdef BTC_DEBUG_TASK
-        [["%1: bad task array: %2", __FILE_NAME__, _task], 6, "task"] call btc_debug_fnc_message;
+        [["%1: bad task array: %2", __FILE_NAME__, _task], 6, "task"] call FUNC(debug,message);
         #endif
     };
     _task params [

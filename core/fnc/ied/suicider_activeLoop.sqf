@@ -30,12 +30,12 @@ Author:
         if (_array isNotEqualTo []) then {
             _suicider doMove (position (_array select 0));
         };
-        _this call btc_ied_fnc_suicider_activeLoop;
+        _this call FUNC(ied,suicider_activeLoop);
     } else {
         deleteVehicle _trigger;
         group _suicider setVariable ["suicider", false];
 
         #ifdef BTC_DEBUG_IED
-        [["%1: _suicider = %2 POS %3 END LOOP", __FILE_NAME__, _suicider, getPos _suicider], 2, "ied"] call btc_debug_fnc_message;
+        [["%1: _suicider = %2 POS %3 END LOOP", __FILE_NAME__, _suicider, getPos _suicider], 2, "ied"] call FUNC(debug,message);
         #endif};
 }, _this, 0.5] call CBA_fnc_waitAndExecute;

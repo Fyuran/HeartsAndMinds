@@ -28,7 +28,7 @@ params [
 disableSerialization;
 if(isNull _sub_class_ctrl) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _sub_class_ctrl is null", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;  
+    [["%1: _sub_class_ctrl is null", __FILE_NAME__], 6, "log/dialog"] call FUNC(debug,message);  
     #endif
 };
 

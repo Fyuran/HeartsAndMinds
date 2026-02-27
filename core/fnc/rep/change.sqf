@@ -39,47 +39,47 @@ if(_instigator isEqualType "") then {
 private _change = switch (_reason) do {
     //BASIC
     case _CITY_LIBERATED_ : {
-        ["Cities Liberated"] call btc_rep_fnc_addToScoreboard;
+        ["Cities Liberated"] call FUNC(rep,addToScoreboard);
         [0, format[localize"STR_BTC_HAM_REP_CITY_LIBERATED", _name]]
     };
     case _CACHE_DESTROYED_ : { 
-        ["Caches Destroyed"] call btc_rep_fnc_addToScoreboard;
+        ["Caches Destroyed"] call FUNC(rep,addToScoreboard);
         [btc_rep_bonus_cache, format[localize"STR_BTC_HAM_REP_CACHE_DESTROYED", _name]] 
     };
     case _DOOR_FORCED_ : { [btc_rep_malus_breakDoor, format[localize"STR_BTC_HAM_REP_DOOR_FORCED", _name]] };
     case _PLAYER_RESPAWNED_ : { 
-        ["Ally K.I.A.", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        ["Ally K.I.A.", 1, _instigator] call FUNC(rep,addToScoreboard);
         [btc_rep_malus_player_respawn, format[localize"STR_BTC_HAM_REP_PLAYER_RESPAWNED", _name]] 
     };
     case _FOB_LOST_ : {
-        ["FOBs lost"] call btc_rep_fnc_addToScoreboard;
+        ["FOBs lost"] call FUNC(rep,addToScoreboard);
         [btc_rep_malus_fob_lost, format[localize"STR_BTC_HAM_REP_FOB_LOST", _name]]
     };
     case _HIDEOUT_DESTROYED_ : {
-        ["Hideouts destroyed"] call btc_rep_fnc_addToScoreboard;
+        ["Hideouts destroyed"] call FUNC(rep,addToScoreboard);
         [btc_rep_bonus_hideout, localize"STR_BTC_HAM_REP_HIDEOUT_DESTROYED"]
     };
     case _IED_REMOVED_ : {
-        ["IEDs dismantled"] call btc_rep_fnc_addToScoreboard;
+        ["IEDs dismantled"] call FUNC(rep,addToScoreboard);
         [btc_rep_bonus_IEDCleanUp, localize"STR_BTC_HAM_REP_IED_REMOVED", true]
     };
     case _CAPTIVE_DETAINED_ : {
-        ["Detained Captives"] call btc_rep_fnc_addToScoreboard;
+        ["Detained Captives"] call FUNC(rep,addToScoreboard);
         [btc_rep_bonus_captive_detained, localize"STR_BTC_HAM_REP_CAPTIVE_DETAINED", true]
     };
     case _FOOD_GIVEN_ : {[btc_rep_bonus_foodGive, localize"STR_BTC_HAM_REP_FOOD_GIVEN", true]};
     case _CIV_KILLED_ : {
-        ["Civilian casualties", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        ["Civilian casualties", 1, _instigator] call FUNC(rep,addToScoreboard);
         [btc_rep_malus_civ_killed, localize"STR_BTC_HAM_REP_CIV_KILLED", true]
     };
     case _HOSTILE_KILLED_ : {
-        ["Hostiles pacified", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        ["Hostiles pacified", 1, _instigator] call FUNC(rep,addToScoreboard);
         [btc_rep_bonus_mil_killed, localize"STR_BTC_HAM_REP_HOSTILE_KILLED", true]
     };
     case _BUILDING_DAMAGED_ : {[btc_rep_malus_building_damaged, localize"STR_BTC_HAM_REP_BUILDING_DAMAGED"]};
     case _BUILDING_DESTROYED_ : {[btc_rep_malus_building_destroyed, localize"STR_BTC_HAM_REP_BUILDING_DESTROYED"]};
     case _EXPLOSIVE_DEFUSED_ : {
-        ["IEDs dismantled", 1, _instigator] call btc_rep_fnc_addToScoreboard;
+        ["IEDs dismantled", 1, _instigator] call FUNC(rep,addToScoreboard);
         [btc_rep_bonus_disarm, localize"STR_BTC_HAM_REP_EXPLOSIVE_DEFUSED", true]
     };
     case _FOOD_REMOVED_ : {[btc_rep_malus_foodRemove * _instigator, localize"STR_BTC_HAM_REP_FOOD_REMOVED"]}; //_instigator is a multiplier in this case
@@ -92,7 +92,7 @@ private _change = switch (_reason) do {
     case _TAG_LETTER_REMOVED_ : {[btc_rep_bonus_removeTagLetter, localize"STR_BTC_HAM_REP_TAG_REMOVED"]};
     case _TAG_REMOVED_ : {[btc_rep_bonus_removeTag, localize"STR_BTC_HAM_REP_TAG_REMOVED", true]};
     case _VEHICLE_LOST_: {
-        ["Vehicles lost"] call btc_rep_fnc_addToScoreboard;
+        ["Vehicles lost"] call FUNC(rep,addToScoreboard);
         [btc_rep_malus_veh_killed, localize"STR_BTC_HAM_REP_VEHICLE_LOST", [true, false] select isNull _instigator]
     };
     case _FRIENDLY_KILLED_ : {[btc_rep_malus_civ_killed, localize"STR_BTC_HAM_REP_FRIENDLY_KILLED", true]};
@@ -130,7 +130,7 @@ _change params [
 btc_global_reputation = btc_global_reputation + _rep_amount;
 
 #ifdef BTC_DEBUG_REP
-[["%1: GLOBAL %2 - CHANGE %3 - REASON %4 - INSTIGATOR %5", __FILE_NAME__, btc_global_reputation, _rep_amount, _reason, _name], 3, "rep"] call btc_debug_fnc_message;
+[["%1: GLOBAL %2 - CHANGE %3 - REASON %4 - INSTIGATOR %5", __FILE_NAME__, btc_global_reputation, _rep_amount, _reason, _name], 3, "rep"] call FUNC(debug,message);
 #endif
 //abs rep var to make sure even negative changes are displayed
 if(_showNotification) then {

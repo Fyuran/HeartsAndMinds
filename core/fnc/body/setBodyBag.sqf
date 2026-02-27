@@ -26,4 +26,4 @@ if (_patient getVariable ["btc_UID", ""] isEqualTo "") exitWith {};
 deleteMarker (_patient getVariable ["btc_body_deadMarker", ""]);
 _bodyBag setVariable ["btc_UID", _patient getVariable ["btc_UID", ""]];
 
-[_bodyBag] call btc_log_fnc_init;
+[_bodyBag] call FUNC(log,init);

@@ -34,7 +34,7 @@ _posASL = [_x, _y, getTerrainHeightASL _pos];
     private _smokePlu = selectRandom [6, 8, 10];
     for "_i" from 0 to (_smokePlu -1) do {
         private _selection = selectRandom ["sand", "gray", "brown"];
-        [_pos, _posASL, _selection] spawn btc_ied_fnc_effect_color_smoke;
+        [_pos, _posASL, _selection] spawn FUNC(ied,effect_color_smoke);
     };
 };
 

@@ -29,7 +29,7 @@ if (isNil "btc_vehicles") then {
     btc_vehicles = [];
 };
 if (isNil {_veh getVariable "btc_EDENinventory"}) then {
-    _veh setVariable ["btc_EDENinventory", _veh call btc_log_fnc_inventoryGet];
+    _veh setVariable ["btc_EDENinventory", _veh call FUNC(log,inventoryGet)];
 };
 [{ace_common_settingsInitFinished}, {
     if (isNull _this) exitwith {};
@@ -43,7 +43,7 @@ if (isNil {_veh getVariable "btc_EDENinventory"}) then {
 
 if (btc_vehicles pushBackUnique _veh isEqualTo -1) exitWith {
     #ifdef BTC_DEBUG_VEH
-    [["%1: Vehicle added more than once in btc_vehicles", __FILE_NAME__], 6, "veh"] call btc_debug_fnc_message;
+    [["%1: Vehicle added more than once in btc_vehicles", __FILE_NAME__], 6, "veh"] call FUNC(debug,message);
     #endif
 };
 
@@ -51,7 +51,7 @@ _veh setVariable ["btc_dont_delete", true];
 
 _veh addMPEventHandler ["MPKilled", {
     if (isServer) then {
-        _this call btc_veh_fnc_killed;
+        _this call FUNC(veh,killed);
     };
 }];
 if ((isNumber (configOf _veh >> "ace_fastroping_enabled")) && (typeOf _veh isNotEqualTo "RHS_UH1Y_d")) then {

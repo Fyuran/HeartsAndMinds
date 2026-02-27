@@ -26,7 +26,7 @@ params [
 
 if(!canSuspend) exitWith {
     #ifdef BTC_DEBUG_FOB
-    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "fob"] call FUNC(debug,message);
     #endif
 };
 
@@ -57,7 +57,7 @@ while {!btc_fob_dlg} do {
 if (ctrlText 777 == "") exitWith {
     closeDialog 0;
     (localize "STR_BTC_HAM_O_FOB_CREATE_H_NAME") call CBA_fnc_notify;
-    _mat spawn btc_fob_fnc_create;
+    _mat spawn FUNC(fob,create);
 };
 
 private _name = ctrlText 777;
@@ -72,7 +72,7 @@ private _array_markers = allMapMarkers apply {toUpper _x};
 if (_name_to_check in _array_markers) exitWith {
     closeDialog 0;
     (localize "STR_BTC_HAM_O_FOB_CREATE_H_NAMENOTA") call CBA_fnc_notify;
-    _mat spawn btc_fob_fnc_create;
+    _mat spawn FUNC(fob,create);
 };
 
 //(localize "STR_BTC_HAM_O_FOB_CREATE_H_WIP") call CBA_fnc_notify;
@@ -84,7 +84,7 @@ deleteVehicle _mat;
 
 private _building = createVehicleLocal[btc_fob_structure, getPosATL _mat, [], 0, "CAN_COLLIDE"];
 
-[_building] call btc_log_fnc_place;
+[_building] call FUNC(log,place);
 waitUntil {!btc_log_placing};
 
 private _pos = getPosATL _building;

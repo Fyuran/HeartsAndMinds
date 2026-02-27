@@ -21,7 +21,7 @@ Author:
 ---------------------------------------------------------------------------- */
 #define _PROGRESS_DURATION_ 20
 #ifdef BTC_DEBUG_FOB
-[["%1: added %2 fob ruins actions", __FILE_NAME__, _this], 2, "fob/ruins"] call btc_debug_fnc_message;
+[["%1: added %2 fob ruins actions", __FILE_NAME__, _this], 2, "fob/ruins"] call FUNC(debug,message);
 
 #endif
 private _action = ["btc_fob_reactivate", localize "STR_BTC_HAM_ACTION_REPAIR_FOB", "\A3\ui_f\data\igui\cfg\simpleTasks\types\repair_ca.paa", {

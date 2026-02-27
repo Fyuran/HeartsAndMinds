@@ -16,13 +16,13 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 private _missionCfg = (missionconfigfile >> "mission" >> "Mission" >> "Entities");
 if(!isClass _missionCfg) exitWith {
     #ifdef BTC_DEBUG_MIL
-    [["%1: mission.sqm was not included in description.ext", __FILE_NAME__], 6, "mil"] call btc_debug_fnc_message;
+    [["%1: mission.sqm was not included in description.ext", __FILE_NAME__], 6, "mil"] call FUNC(debug,message);
     #endif
 };
 
@@ -43,4 +43,4 @@ _playerUnitsClasses apply {
     _playerUnitsFactions pushBackUnique getText(_cfg >> _x >> "faction");
 };
 
-([_playerUnitsFactions] call btc_mil_fnc_class) select 1;
+([_playerUnitsFactions] call FUNC(mil,class)) select 1;

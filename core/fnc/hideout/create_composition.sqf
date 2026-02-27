@@ -55,6 +55,6 @@ if (
     _composition_hideout pushBack [selectRandom (btc_type_camonet - ["Land_IRMaskingCover_02_F","CamoNet_BLUFOR_F","CamoNet_OPFOR_F","CamoNet_INDP_F","CamoNet_ghex_F","CamoNet_wdl_F"]),0,[-0.84668,-2.16113,0]];
 };
 
-private _composition = [_pos, random 360, _composition_hideout] call btc_fnc_create_composition;
+private _composition = [_pos, random 360, _composition_hideout] call FUNC(common,create_composition);
 
 _composition select ((_composition apply {typeOf _x}) find _type_bigbox);

@@ -3,13 +3,14 @@
 Function: btc_chem_fnc_propagate
 
 Description:
-    Propagate from the item or vehicle contaminated to the item or vehicle not contaminated.
+    Cross-contaminate items and vehicles when transferred between contaminated and non-contaminated objects, propagating chemical status across inventory and mounted cargo.
 
 Parameters:
-    _item - Item. [Object]
-    _vehicle - Vehicle. [Object]
+    _item[OBJECT or STRING]: Item or object to transfer
+    _vehicle[OBJECT]: Destination vehicle or container
 
 Returns:
+    ARRAY: Input parameters as array
 
 Examples:
     (begin example)

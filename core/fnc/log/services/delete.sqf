@@ -28,12 +28,12 @@ params [
 
 if(isNull _create_obj) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/services"] call FUNC(debug,message);  
     #endif
 };
 if(isNull _log_point) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _log_point is null", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    [["%1: _log_point is null", __FILE_NAME__], 6, "log/services"] call FUNC(debug,message);  
     #endif
 };
 
@@ -58,7 +58,7 @@ if (_array isEqualTo []) exitWith {
 
 private _obj = _array#0; //delete first object found
 if(_create_obj in btc_log_fob_create_objects) then {
-    [_create_obj, _obj] call btc_log_fob_fnc_refund;
+    [_create_obj, _obj] call FUNC(log_fob,refund);
 };
 
 [_obj getVariable ["ace_cargo_loaded", []], attachedObjects _obj, _obj] call CBA_fnc_deleteEntity;

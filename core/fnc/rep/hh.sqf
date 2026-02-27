@@ -25,9 +25,9 @@ params [
 ];
 
 if (isPlayer _healer) then {
-    [_healer, _CIV_HEALED_] call btc_rep_fnc_change;
+    [_healer, _CIV_HEALED_] call FUNC(rep,change);
 
     #ifdef BTC_DEBUG_REP
-    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call FUNC(debug,message);
     #endif
 };

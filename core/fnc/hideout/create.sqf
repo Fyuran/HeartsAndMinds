@@ -60,8 +60,8 @@ if (_pos isEqualTo []) then {
     };
 
     private _cachingRadius = _city getVariable ["cachingRadius", 0];
-    private _random_pos = [getPos _city, _cachingRadius/2] call btc_fnc_randomize_pos;
-    _pos = [_random_pos, 0, 100, 2, false] call btc_fnc_findsafepos;
+    private _random_pos = [getPos _city, _cachingRadius/2] call FUNC(common,randomize_pos);
+    _pos = [_random_pos, 0, 100, 2, false] call FUNC(common,findsafepos);
 
     _id = _city getVariable ["id", 0];
 } else {
@@ -73,19 +73,19 @@ _city setVariable ["ho_units_spawned", false];
 
 if(isNil "_city" || isNull _city) exitWith {
     #ifdef BTC_DEBUG_HIDEOUT
-	[["%1: _city is null with args: %2", __FILE_NAME__, _this], 6, "hideout"] call btc_debug_fnc_message;
+	[["%1: _city is null with args: %2", __FILE_NAME__, _this], 6, "hideout"] call FUNC(debug,message);
     #endif
 };
 
 _city setVariable ["city_realPos", getPos _city];
 _city setPos _pos;
 
-[_city, btc_hideouts_radius] call btc_city_fnc_setPlayerTrigger;
+[_city, btc_hideouts_radius] call FUNC(city,setPlayerTrigger);
 [{
     (_this select 0) findEmptyPositionReady (_this select 1)
 }, {}, [_pos, [0, _city getVariable ["cachingRadius", 100]]], 5 * 60] call CBA_fnc_waitUntilAndExecute;
 
-private _hideout = [_pos] call btc_hideout_fnc_create_composition;
+private _hideout = [_pos] call FUNC(hideout,create_composition);
 clearWeaponCargoGlobal _hideout;
 clearItemCargoGlobal _hideout;
 clearMagazineCargoGlobal _hideout;
@@ -96,7 +96,7 @@ _hideout setVariable ["rinf_time", _rinf_time];
 _hideout setVariable ["cap_time", _cap_time];
 _hideout setVariable ["assigned_to", _city];
 
-_hideout addEventHandler ["HandleDamage", btc_hideout_fnc_hd];
+_hideout addEventHandler ["HandleDamage", FUNC(hideout,hd)];
 _hideout setVariable ["ace_cookoff_enable", false, true];
 
 private _markers = [];
@@ -114,7 +114,7 @@ private _markers = [];
 _hideout setVariable ["markers", _markers];
 
 #ifdef BTC_DEBUG_HIDEOUT
-[["%1: _this = %2 ; POS %3 ID %4", __FILE_NAME__, _this, _pos, count btc_hideouts], 2, "hideout"] call btc_debug_fnc_message;
+[["%1: _this = %2 ; POS %3 ID %4", __FILE_NAME__, _this, _pos, count btc_hideouts], 2, "hideout"] call FUNC(debug,message);
 #endif
 btc_hideouts pushBack _hideout;
 publicVariable "btc_hideouts";

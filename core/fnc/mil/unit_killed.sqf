@@ -36,12 +36,12 @@ if (_unitSide isEqualTo btc_enemy_side) then {
 if (isPlayer _instigator) then {
     private _isSurrendering = _unit getVariable ["ace_captives_isSurrendering", false];
     if(_isSurrendering) then {
-        [_instigator, _CAPTIVE_KILLED_] call btc_rep_fnc_change;
+        [_instigator, _CAPTIVE_KILLED_] call FUNC(rep,change);
     } else {
         if((_unitSide isEqualTo btc_player_side) && (!isPlayer _unit)) then {  
-            [_instigator, _FRIENDLY_KILLED_] call btc_rep_fnc_change;
+            [_instigator, _FRIENDLY_KILLED_] call FUNC(rep,change);
         } else {
-            [_instigator, _HOSTILE_KILLED_] call btc_rep_fnc_change;
+            [_instigator, _HOSTILE_KILLED_] call FUNC(rep,change);
         };
     };
 };

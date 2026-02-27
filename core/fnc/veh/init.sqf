@@ -28,37 +28,37 @@ params [
 if (isNil "btc_actions_veh") then {btc_actions_veh = [];};
 if ((btc_actions_veh pushBackUnique _type) isEqualTo -1) exitWith {};
 #ifdef BTC_DEBUG_VEH
-[["%1: for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call btc_debug_fnc_message;
+[["%1: for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call FUNC(debug,message);
 #endif
 switch true do {
     case (_type isKindOf "UGV_02_Base_F") : {};
     case (_type isKindOf "StaticWeapon") : {};
     case (_type isKindOf "LandVehicle" || {_type isKindOf "Ship"}) : {
-        _type call btc_tow_fnc_int;
+        _type call FUNC(tow,int);
 
-        _type call btc_flag_fnc_int;
+        _type call FUNC(flag,int);
     };
     case (_type isKindOf "Helicopter") : {
-        _type call btc_tow_fnc_int;
+        _type call FUNC(tow,int);
 
         //Lift Fncs
         #ifdef BTC_DEBUG_VEH
         if(!isClass (configFile >> "CfgPatches" >> "btc_lift")) then {
-            [["%1: btc_lift addon is NOT loaded, adding HeM native lift for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call btc_debug_fnc_message;
-            [] call btc_lift_fnc_addActions;
+            [["%1: btc_lift addon is NOT loaded, adding HeM native lift for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call FUNC(debug,message);
+            [] call FUNC(lift,addActions);
         } else {
-            [["%1: btc_lift is loaded, aborting HeM native lift for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call btc_debug_fnc_message;
+            [["%1: btc_lift is loaded, aborting HeM native lift for %2 at %3", __FILE_NAME__, _vehicle, getPosASL _vehicle], 2, "veh"] call FUNC(debug,message);
         };
         #else
         if(!isClass (configFile >> "CfgPatches" >> "btc_lift")) then {
-            [] call btc_lift_fnc_addActions;
+            [] call FUNC(lift,addActions);
         };
         #endif
 
-        _type call btc_flag_fnc_int;
+        _type call FUNC(flag,int);
     };
     case (_type isKindOf "Plane") : {
-        _type call btc_tow_fnc_int;
+        _type call FUNC(tow,int);
     };
 };
 

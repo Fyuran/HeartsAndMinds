@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
 	#ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,18 +50,18 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
 	#ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _pos = getPos _city;
 
-[_taskID, 9, objNull, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 9, objNull, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["checkpoint", (btc_side_taskIDs getOrDefault ["checkpoint", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 _city setVariable ["spawn_more", true];
@@ -75,7 +75,7 @@ private _blacklist = [];
 private _groups = [];
 for "_i" from 1 to (2 + round random 2) do {
 	//// Choose a road \\\\
-	private _pos = [getPos _city, _radius/4] call btc_fnc_randomize_pos;
+	private _pos = [getPos _city, _radius/4] call FUNC(common,randomize_pos);
 	private _roads = _pos nearRoads 200;
 	_roads = (_roads select {isOnRoad _x}) - _blacklist;
 	if (_roads isEqualTo []) then {continue};
@@ -83,7 +83,7 @@ for "_i" from 1 to (2 + round random 2) do {
 	_blacklist pushBack _road;
 	_pos = getPos _road;
 
-	private _direction = [_road] call btc_fnc_road_direction;
+	private _direction = [_road] call FUNC(common,road_direction);
 
 	//// Randomise composition \\\\
 	private _type_barrel = selectRandom btc_type_barrel;
@@ -114,20 +114,20 @@ for "_i" from 1 to (2 + round random 2) do {
 	//// Create checkpoint with static at _pos \\\\
 	_pos params ["_x", "_y", "_z"];
 	private _posStatic = [_x -2.39185*cos(-_direction) - 2.33984*sin(-_direction), _y  + 2.33984 *cos(-_direction) -2.39185*sin(-_direction), _z];
-	private _group = [_posStatic, _statics, _direction + 180, [], _city] call btc_mil_fnc_create_static;
+	private _group = [_posStatic, _statics, _direction + 180, [], _city] call FUNC(mil,create_static);
 	_groups pushBack _group;
 
 	private _posStatic = [_x + 2.72949*cos(-_direction) - -2.03857*sin(-_direction), _y -2.03857*cos(-_direction) +2.72949*sin(-_direction), _z];
-	private _group = [_posStatic, _statics, _direction, [], _city] call btc_mil_fnc_create_static;
+	private _group = [_posStatic, _statics, _direction, [], _city] call FUNC(mil,create_static);
 	_groups pushBack _group;
 
-	_composition append ([_pos, _direction, _composition_checkpoint] call btc_fnc_create_composition);
+	_composition append ([_pos, _direction, _composition_checkpoint] call FUNC(common,create_composition));
 
 	private _boxe = nearestObject [_pos, _type_box];
 	_boxe setVariable ["ace_cookoff_enable", false, true];
 	_boxe setVariable ["ace_cookoff_enableAmmoCookoff", false, true];
 	private _destroy_taskID = _taskID + "dt" + str _i;
-	[[_destroy_taskID, _taskID], 23, _boxe, _type_box, false, false] call btc_task_fnc_create;
+	[[_destroy_taskID, _taskID], 23, _boxe, _type_box, false, false] call FUNC(task,create);
 	[_boxe, _destroy_taskID] spawn {
 		params ["_boxe", "_destroy_taskID"];
 
@@ -144,19 +144,19 @@ for "_i" from 1 to (2 + round random 2) do {
 	_boxes pushBack _boxe;
 };
 
-if (_boxes isEqualTo []) then {[_taskID, "CANCELED"] call btc_task_fnc_setState;};
+if (_boxes isEqualTo []) then {[_taskID, "CANCELED"] call FUNC(task,setState);};
 
 waitUntil {sleep 5; 
 	_taskID call BIS_fnc_taskCompleted ||
 	_boxes select {alive _x} isEqualTo []
 };
 
-[[], _boxes + _composition] call btc_fnc_delete;
+[[], _boxes + _composition] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {
-	[[], _groups apply {vehicle leader _x}] call btc_fnc_delete;
+	[[], _groups apply {vehicle leader _x}] call FUNC(common,delete);
 };
 
-[objNull, _SIDE_CHECKPOINT_DESTROYED_] call btc_rep_fnc_change;
+[objNull, _SIDE_CHECKPOINT_DESTROYED_] call FUNC(rep,change);
 
-[_taskID, "SUCCEEDED"] call btc_task_fnc_setState;
+[_taskID, "SUCCEEDED"] call FUNC(task,setState);

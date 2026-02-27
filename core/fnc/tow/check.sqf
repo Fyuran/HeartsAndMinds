@@ -27,20 +27,20 @@ params [
     ["_towed", objNull, [objNull]]
 ];
 
-private _array = [_tower] call btc_log_fnc_get_nottowable;
+private _array = [_tower] call FUNC(log,get_nottowable);
 
 if ((_array findIf {_towed isKindOf _x}) != -1) exitWith {
     private _string_array = "";
     {
         _string_array = _string_array + ", " + _x;
-    } forEach (([_tower] call btc_log_fnc_get_nottowable) - ["Truck_F"]);
+    } forEach (([_tower] call FUNC(log,get_nottowable)) - ["Truck_F"]);
 
     (format [localize "STR_BTC_HAM_TOW_CANT", _string_array]) call CBA_fnc_notify;
     false
 };
 
-private _model_rear_tower = ([_tower] call btc_tow_fnc_hitch_points) select 1;
-private _model_front_towed = ([_towed] call btc_tow_fnc_hitch_points) select 0;
+private _model_rear_tower = ([_tower] call FUNC(tow,hitch_points)) select 1;
+private _model_front_towed = ([_towed] call FUNC(tow,hitch_points)) select 0;
 private _pos_rearTower = _tower modelToWorld _model_rear_tower;
 private _pos_frontTowed = _towed modelToWorld _model_front_towed;
 

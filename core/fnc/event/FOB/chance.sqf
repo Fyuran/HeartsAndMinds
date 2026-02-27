@@ -14,7 +14,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #include "..\..\script_macros.hpp"
@@ -26,7 +26,7 @@ params[
 private _fobs = btc_fobs param [1, [], [[]]]; //btc_fobs syntax is [[markers...],[fob_structures..]...]
 if(_fobs isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_EVENT
-    [["%1: btc_fobs is empty", __FILE_NAME__], 2, "event/FOB"] call btc_debug_fnc_message;
+    [["%1: btc_fobs is empty", __FILE_NAME__], 2, "event/FOB"] call FUNC(debug,message);
     #endif
 };
 
@@ -51,5 +51,5 @@ private _cities = linearConversion[0, count values btc_city_all, count _nearCiti
 
 if(random[0, _cities, 1] > random[0, _rep, 1]) then {
     private _building = [_fobs, _city] call BIS_fnc_nearestPosition;
-    [_EVENT_FOB_ATTACK_, _building] call btc_event_fnc_eventManager;
+    [_EVENT_FOB_ATTACK_, _building] call FUNC(event,eventManager);
 };

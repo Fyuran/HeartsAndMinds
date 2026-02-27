@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,9 +50,9 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 //// Choose a random position \\\\
@@ -85,15 +85,15 @@ private _generator = (selectRandom btc_type_generator) createVehicle _pos;
 _pos params ["_x", "_y", "_z"];
 private _storagebladder = (selectRandom btc_type_storagebladder) createVehicle [_x + 5, _y, _z];
 
-[_taskID, 11, _generator, [_city getVariable "name", typeOf _generator]] call btc_task_fnc_create;
+[_taskID, 11, _generator, [_city getVariable "name", typeOf _generator]] call FUNC(task,create);
 btc_side_taskIDs set ["underwater_generator", (btc_side_taskIDs getOrDefault ["underwater_generator", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
-private _group = [_pos, 8, 1 + round random 5, "PATROL"] call btc_mil_fnc_create_group;
-[_pos, 20, 2 + round random 4, "PATROL"] call btc_mil_fnc_create_group;
+private _group = [_pos, 8, 1 + round random 5, "PATROL"] call FUNC(mil,create_group);
+[_pos, 20, 2 + round random 4, "PATROL"] call FUNC(mil,create_group);
 
 _pos = getPosASL _generator;
 (leader (_group select 0)) setPosASL [_x, _y, _z + 1 + random 1];
@@ -103,10 +103,10 @@ waitUntil {sleep 5;
     !alive _generator
 };
 
-[[], [_generator, _storagebladder]] call btc_fnc_delete;
+[[], [_generator, _storagebladder]] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-[objNull, _SIDE_UNDERWATER_GENERATOR_DESTROYED_] call btc_rep_fnc_change;
+[objNull, _SIDE_UNDERWATER_GENERATOR_DESTROYED_] call FUNC(rep,change);
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

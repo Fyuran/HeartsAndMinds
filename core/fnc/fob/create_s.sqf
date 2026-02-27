@@ -34,7 +34,7 @@ params [
 ];
 
 #ifdef BTC_DEBUG_FOB
-[["%1: %2", _this], 2, "fob"] call btc_debug_fnc_message;  
+[["%1: %2", _this], 2, "fob"] call FUNC(debug,message);  
 #endif
 private _building = createVehicle [btc_fob_structure, _pos, [], 0, "CAN_COLLIDE"];
 _building setDir _direction;
@@ -48,7 +48,7 @@ if(_jailData isNotEqualTo []) then {
         ["_pos", [0,0,0], [], 3],
         ["_vectorDirAndUp", [[0,1,0],[0,0,1]], [[]], 2]
     ];
-    _jail = [_flag, _pos, _vectorDirAndUp] call btc_jail_fnc_createJail_s;
+    _jail = [_flag, _pos, _vectorDirAndUp] call FUNC(jail,createJail_s);
 };
 
 //LOG OBJ
@@ -58,7 +58,7 @@ if(_logObjData isNotEqualTo []) then {
         ["_pos", [0,0,0], [], 3],
         ["_vectorDirAndUp", [[0,1,0],[0,0,1]], [[]], 2]
     ];
-    [_flag, _pos, _vectorDirAndUp] call btc_log_fob_fnc_create_s;
+    [_flag, _pos, _vectorDirAndUp] call FUNC(log_fob,create_s);
 };
 
 (btc_fobs select 1) pushBack _building;
@@ -74,7 +74,7 @@ _flag setVariable["FOB", _building];
 _flag setVariable["FOB_name", _FOB_name, true];
 
 [_flag, "Deleted", {[_thisArgs select 0, _thisArgs select 1] call BIS_fnc_removeRespawnPosition}, _BISEH_return] call CBA_fnc_addBISEventHandler;
-_building addEventHandler ["Killed", btc_fob_fnc_killed];
+_building addEventHandler ["Killed", FUNC(fob,killed)];
 
 private _marker = createMarkerLocal [_FOB_name, _pos];
 _marker setMarkerSizeLocal [1, 1];
@@ -88,10 +88,10 @@ _marker setMarkerShape "ICON";
 if(btc_p_fob_garrison) then {
     if (btc_type_friendly_units isEqualTo []) exitWith {
         #ifdef BTC_DEBUG_FOB
-        [["%1: no suitable classes found for fob garrison"], 6, "fob"] call btc_debug_fnc_message;
+        [["%1: no suitable classes found for fob garrison"], 6, "fob"] call FUNC(debug,message);
         #endif
     };
-    [{[_this, btc_player_side, btc_type_friendly_units, true] call btc_garrison_fnc_spawn;}, _building] call CBA_fnc_execNextFrame;
+    [{[_this, btc_player_side, btc_type_friendly_units, true] call FUNC(garrison,spawn);}, _building] call CBA_fnc_execNextFrame;
 };
 
 //Alarm FOB Trigger
@@ -104,7 +104,7 @@ _alarmTrg setTriggerArea [_alertRadius, _alertRadius, 0, false];
 _alarmTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", true];
 
 private _alarmTrgStatementOn = "
-    [thisTrigger, thisList] call btc_fob_fnc_alarmTrg;
+    [thisTrigger, thisList] call FUNC(fob,alarmTrg);
 ";
 _alarmTrg setTriggerStatements ["this", _alarmTrgStatementOn, ""];
 
@@ -133,7 +133,7 @@ _destroyTrg setTriggerArea [_conquestRadius, _conquestRadius, 0, false];
 _destroyTrg setTriggerActivation [format["%1",btc_enemy_side], "PRESENT", true];
 
 private _destroyTrgStatementOn = "
-    [thisTrigger] call btc_fob_fnc_destroyTrg;
+    [thisTrigger] call FUNC(fob,destroyTrg);
 ";
 _destroyTrg setTriggerStatements ["this && {round (CBA_missionTime % 1) == 0}", _destroyTrgStatementOn, ""];
 _destroyTrg setTriggerInterval 0.2;

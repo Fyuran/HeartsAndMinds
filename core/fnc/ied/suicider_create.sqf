@@ -32,10 +32,10 @@ params [
 ];
 
 #ifdef BTC_DEBUG_IED
-[["%1: _name = %2 _area %3", __FILE_NAME__, _city getVariable ["name", "name"], _area], 2, "ied"] call btc_debug_fnc_message;
+[["%1: _name = %2 _area %3", __FILE_NAME__, _city getVariable ["name", "name"], _area], 2, "ied"] call FUNC(debug,message);
 #endif
 if (_rpos isEqualTo []) then {
-    _rpos = [position _city, _area] call btc_fnc_randomize_pos;
+    _rpos = [position _city, _area] call FUNC(common,randomize_pos);
 };
 if (_type_units isEqualTo "") then {
     _type_units = selectRandom btc_civ_type_units;
@@ -46,9 +46,9 @@ _group setVariable ["btc_city", _city];
 _group setVariable ["acex_headless_blacklist", true];
 private _suicider = _group createUnit [_type_units, _rpos, [], 0, "CAN_COLLIDE"];
 
-[_group, btc_civ_fnc_addWP] call btc_delay_fnc_exec;
+[_group, FUNC(civ,addWP)] call FUNC(delay,exec);
 _group setVariable ["suicider", true];
 
-[_suicider] call btc_ied_fnc_suiciderLoop;
+[_suicider] call FUNC(ied,suiciderLoop);
 
 _suicider

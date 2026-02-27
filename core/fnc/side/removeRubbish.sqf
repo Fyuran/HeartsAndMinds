@@ -53,9 +53,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -65,9 +65,9 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
 private _ieds = (_city getVariable ["ieds", []]) select {
@@ -76,11 +76,11 @@ private _ieds = (_city getVariable ["ieds", []]) select {
 };
 private _extra_ied = round random (((count _ieds) - _minNumberOfSubTask) min 2);
 
-[_taskID, 38, objNull, _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 38, objNull, _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["removeRubbish", (btc_side_taskIDs getOrDefault ["removeRubbish", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 private _tasksID = [];
@@ -89,7 +89,7 @@ for "_i" from 0 to (_minNumberOfSubTask + _extra_ied - 1) do {
     _tasksID pushBack _clear_taskID;
 
     private _selectedIED = _ieds select _i;
-    [[_clear_taskID, _taskID], 39, _selectedIED select 0, btc_type_ieds select (btc_model_ieds find (_selectedIED select 1)), false, false] call btc_task_fnc_create;
+    [[_clear_taskID, _taskID], 39, _selectedIED select 0, btc_type_ieds select (btc_model_ieds find (_selectedIED select 1)), false, false] call FUNC(task,create);
 
     ["btc_ied_deleted", {
         params ["_posDeleted_ied"];
@@ -98,7 +98,7 @@ for "_i" from 0 to (_minNumberOfSubTask + _extra_ied - 1) do {
         if (!(_clear_taskID call BIS_fnc_taskCompleted) && {_pos_ied distance _posDeleted_ied < 5}) then {
             [_clear_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;
             if (0.5 < random 1) then {
-                [_posDeleted_ied] call btc_rep_fnc_call_militia;
+                [_posDeleted_ied] call FUNC(rep,call_militia);
             };
         };
     }, [_clear_taskID, _selectedIED select 0]] call CBA_fnc_addEventHandlerArgs;
@@ -122,6 +122,6 @@ if !("SUCCEEDED" in (_tasksID apply {_x call BIS_fnc_taskState})) exitWith {
     [_taskID, "FAILED"] call BIS_fnc_taskSetState;
 };
 
-[objNull, _SIDE_RUBBISH_REMOVED_] call btc_rep_fnc_change;
+[objNull, _SIDE_RUBBISH_REMOVED_] call FUNC(rep,change);
 
 [_taskID, "SUCCEEDED"] call BIS_fnc_taskSetState;

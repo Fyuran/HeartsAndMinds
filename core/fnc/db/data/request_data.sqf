@@ -23,14 +23,14 @@
 if(!params[
 	["_saveFile", "", [""]]
 ]) exitWith {
-	[["%1: Invalid _saveFile", __FILE_NAME__], 6, "json/data"] call btc_debug_fnc_message;
+	[["%1: Invalid _saveFile", __FILE_NAME__], 6, "json/data"] call FUNC(debug,message);
 };
 
 //check if valid data inside JSON exists
 ("btc_ArmaToJSON" callExtension ["getPieces", [_saveFile]]) params [["_pieces", -1, ["", 123]], "_returnCode", "_errorCode"];
 private _piecesExist = (_returnCode == _OK_) && {(_errorCode == _OK_)};
 #ifdef BTC_DEBUG_JSON
-[["%1: %2", _pieces, __FILE_NAME__], 2, "json/data"] call btc_debug_fnc_message;
+[["%1: %2", _pieces, __FILE_NAME__], 2, "json/data"] call FUNC(debug,message);
 #endif
 if(!_piecesExist) exitWith {
 	""
@@ -40,7 +40,7 @@ if(!_piecesExist) exitWith {
 _pieces = parseNumber _pieces;
 if(_pieces <= -1) exitWith {
 	#ifdef BTC_DEBUG_JSON
-	[["%1: for %2, bad _pieces var, should be >= 1", __FILE_NAME__, _pieces], 6, "json/data"] call btc_debug_fnc_message;
+	[["%1: for %2, bad _pieces var, should be >= 1", __FILE_NAME__, _pieces], 6, "json/data"] call FUNC(debug,message);
 	#endif
 	""
 };

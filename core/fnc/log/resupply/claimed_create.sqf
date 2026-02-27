@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 #define _DIST_ 10
@@ -47,7 +47,7 @@ playSound3D ["a3\missions_f_bootcamp\data\sounds\assemble_target.wss", _obj, fal
     params["_obj"];
     //place
     private _action = ["Place", localize "STR_ACE_Dragging_Carry", "\z\ace\addons\dragging\UI\icons\box_carry.paa", {
-        [_target] call btc_log_fnc_place;
+        [_target] call FUNC(log,place);
     }, {
         !btc_log_placing && !(player getVariable ["ace_dragging_isCarrying", false])
     }, {}, [], [0,0,0], 5] call ace_interact_menu_fnc_createAction;
@@ -72,6 +72,6 @@ playSound3D ["a3\missions_f_bootcamp\data\sounds\assemble_target.wss", _obj, fal
 }] remoteExecCall ["call", [0, -2] select isDedicated, _obj];
 
 #ifdef BTC_DEBUG_LOG
-[["%1: created CLAIMED supply at [%2]r:%3", __FILE_NAME__, _pos, _resources], 2, "log/resupply"] call btc_debug_fnc_message;  
+[["%1: created CLAIMED supply at [%2]r:%3", __FILE_NAME__, _pos, _resources], 2, "log/resupply"] call FUNC(debug,message);  
 #endif
 _obj

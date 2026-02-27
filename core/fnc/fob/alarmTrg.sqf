@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -27,14 +27,14 @@ params[
 //hint format["%1", _thisList];
 if (isNull _fob_trg) exitWith {
     #ifdef BTC_DEBUG_FOB
-	[["%1: _fob_trg is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+	[["%1: _fob_trg is ObjNull", __FILE_NAME__], 6, "fob"] call FUNC(debug,message);
     #endif
 };
 
 private _building = _fob_trg getVariable ["btc_fob_structure", ObjNull];
 if (isNull _building) exitWith {
     #ifdef BTC_DEBUG_FOB
-    [["%1: _building is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    [["%1: _building is ObjNull", __FILE_NAME__], 6, "fob"] call FUNC(debug,message);
     #endif
 };
 
@@ -42,21 +42,21 @@ private _cooldown = _building getVariable["btc_fob_cooldown", -1];
 if(_cooldown > CBA_missionTime) exitWith {
     #ifdef BTC_DEBUG_FOB
     [["%1: Not ready yet: CD:%2, CBA_missionTime: %3, Remaining: %4", 
-        _cooldown, CBA_missionTime, _cooldown - CBA_missionTime], 2, "fob"] call btc_debug_fnc_message;    
+        _cooldown, CBA_missionTime, _cooldown - CBA_missionTime], 2, "fob"] call FUNC(debug,message);    
     #endif
 };
 
 private _FOB_Event = _building getVariable ["FOB_Event", false];
 private _FOB_Name = _building getVariable["FOB_name",""];
 #ifdef BTC_DEBUG_FOB
-[["%1: %2 alarm triggered", __FILE_NAME__, _FOB_name], 2, "fob"] call btc_debug_fnc_message;
+[["%1: %2 alarm triggered", __FILE_NAME__, _FOB_name], 2, "fob"] call FUNC(debug,message);
 #endif
  
 //Notification sound
 ["WarningDescription", ["", format[
     localize "$STR_BTC_HAM_EVENT_FOBUNDERATTACK",
     _FOB_Name
-]]] call btc_task_fnc_showNotification_s;
+]]] call FUNC(task,showNotification_s);
 
 if(_FOB_Event) then {
     _building spawn {
@@ -70,7 +70,7 @@ if(_FOB_Event) then {
         sleep 5;
 
         _fob_task_name = format["btc_task_%1", _building getVariable ["FOB_name", ""]];
-        [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _building, btc_fob_structure, true, true] call btc_task_fnc_create;
+        [_fob_task_name, _FOB_ATTACK_TASK_TYPE_, _building, btc_fob_structure, true, true] call FUNC(task,create);
         
         playSound3d [getMissionPath "core\sounds\btc_event_FOB_Alert.ogg", _loudspeaker, false, _pos, 5];
         sleep 4;

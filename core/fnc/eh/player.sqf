@@ -41,18 +41,18 @@ params [
     ["btc_respawn_player", [_unit, player]] call CBA_fnc_serverEvent;
 }] call CBA_fnc_addEventHandler;
 {
-    _x addEventHandler ["CuratorObjectPlaced", btc_eh_fnc_CuratorObjectPlaced];
+    _x addEventHandler ["CuratorObjectPlaced", FUNC(eh,CuratorObjectPlaced)];
 } forEach allCurators;
-["ace_treatmentSucceded", btc_rep_fnc_treatment] call CBA_fnc_addEventHandler;
+["ace_treatmentSucceded", FUNC(rep,treatment)] call CBA_fnc_addEventHandler;
 if !(isServer) then { // Don't add twice the event in player host
     ["ace_repair_setWheelHitPointDamage", {
         _this remoteExecCall ["btc_rep_fnc_wheelChange", 2];
     }] call CBA_fnc_addEventHandler;
 };
-_player addEventHandler ["WeaponAssembled", btc_civ_fnc_add_leaflets];
-[_player, "WeaponAssembled", {[_thisType, _this] call btc_fob_fnc_rallypointAssemble;}] call CBA_fnc_addBISEventHandler;
-[_player, "WeaponDisassembled", {[_thisType, _this] call btc_fob_fnc_rallypointAssemble;}] call CBA_fnc_addBISEventHandler;
-_player addEventHandler ["GetInMan", btc_ied_fnc_deleteLoop];
+_player addEventHandler ["WeaponAssembled", FUNC(civ,add_leaflets)];
+[_player, "WeaponAssembled", {[_thisType, _this] call FUNC(fob,rallypointAssemble);}] call CBA_fnc_addBISEventHandler;
+[_player, "WeaponDisassembled", {[_thisType, _this] call FUNC(fob,rallypointAssemble);}] call CBA_fnc_addBISEventHandler;
+_player addEventHandler ["GetInMan", FUNC(ied,deleteLoop)];
 _player addEventHandler ["GetOutMan", {
     if (btc_ied_deleteOn > -1) then {
         [btc_ied_deleteOn] call CBA_fnc_removePerFrameHandler;
@@ -71,21 +71,21 @@ _player addEventHandler ["WeaponAssembled", {
 
 if (btc_p_chem) then {
     // Add biopsy
-    [missionNamespace, "probingEnded", btc_chem_fnc_biopsy] call BIS_fnc_addScriptedEventHandler;
+    [missionNamespace, "probingEnded", FUNC(chem,biopsy)] call BIS_fnc_addScriptedEventHandler;
 
     // Disable BI shower
     ["DeconShower_01_F", "init", {(_this select 0) setVariable ['bin_deconshower_disableAction', true];}, true, [], true] call CBA_fnc_addClassEventHandler;
     ["DeconShower_02_F", "init", {(_this select 0) setVariable ['bin_deconshower_disableAction', true];}, true, [], true] call CBA_fnc_addClassEventHandler;
 
-    [] call btc_chem_fnc_ehDetector;
+    [] call FUNC(chem,ehDetector);
 };
 
 if (btc_p_spect) then {
-    ["weapon", btc_spect_fnc_updateDevice] call CBA_fnc_addPlayerEventHandler;
+    ["weapon", FUNC(spect,updateDevice)] call CBA_fnc_addPlayerEventHandler;
     ["vehicle", {
         params ["_unit", "_newVehicle"];
-        [] call btc_spect_fnc_disableDevice;
-        [_unit, currentWeapon _unit] call btc_spect_fnc_updateDevice;
+        [] call FUNC(spect,disableDevice);
+        [_unit, currentWeapon _unit] call FUNC(spect,updateDevice);
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
@@ -108,16 +108,16 @@ if (btc_p_respawn_location >= 4) then {
 
 ["btc_inGameUISetEventHandler", {
     params ["_target", "", "", "", "_text"];
-    [_target, _text, ["siren_Start", "siren_stop"], "btc_int_sirenStart"] call btc_int_fnc_checkSirenBeacons;
+    [_target, _text, ["siren_Start", "siren_stop"], "btc_int_sirenStart"] call FUNC(int,checkSirenBeacons);
 }] call CBA_fnc_addEventHandler;
 ["btc_inGameUISetEventHandler", {
     params ["_target", "", "", "", "_text"];
-    [_target, _text, ["beacons_start", "beacons_stop"], "btc_int_beaconsStart"] call btc_int_fnc_checkSirenBeacons;
+    [_target, _text, ["beacons_start", "beacons_stop"], "btc_int_beaconsStart"] call FUNC(int,checkSirenBeacons);
 }] call CBA_fnc_addEventHandler;
 inGameUISetEventHandler ["Action", '["btc_inGameUISetEventHandler", _this] call CBA_fnc_localEvent; false'];
 
 [{!isNull (findDisplay 46)}, {
-    (findDisplay 46) displayAddEventHandler ["MouseButtonDown", btc_int_fnc_horn];
+    (findDisplay 46) displayAddEventHandler ["MouseButtonDown", FUNC(int,horn)];
 }] call CBA_fnc_waitUntilAndExecute;
 
 if (btc_p_respawn_ticketsAtStart >= 0) then {
@@ -144,7 +144,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
 
         if(isNull _dialog || isNull _sidesLb) exitWith {
             #ifdef BTC_DEBUG_EH
-            [["%1: null _dialog or _sidesLb", __FILE_NAME__], 2, "side"] call btc_debug_fnc_message;
+            [["%1: null _dialog or _sidesLb", __FILE_NAME__], 2, "side"] call FUNC(debug,message);
             #endif
         };
         lbClear _sidesLb;
@@ -176,7 +176,7 @@ if (btc_p_respawn_ticketsAtStart >= 0) then {
             ];
             _sidesLb lbSetData [_row, _data];
             #ifdef BTC_DEBUG_EH
-            [["%1: REFRESHING '%2'(#%3) row %4 data is %5", __FILE_NAME__, _title, _countTaskIDs, _row, _data], 2, "side"] call btc_debug_fnc_message;
+            [["%1: REFRESHING '%2'(#%3) row %4 data is %5", __FILE_NAME__, _title, _countTaskIDs, _row, _data], 2, "side"] call FUNC(debug,message);
             #endif
         };
     }, []] call CBA_fnc_execNextFrame;

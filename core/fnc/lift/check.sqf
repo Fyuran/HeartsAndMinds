@@ -30,7 +30,7 @@ if (
     !btc_ropes_deployed
 ) exitWith {false};
 
-private _array = [_chopper] call btc_lift_fnc_getLiftable;
+private _array = [_chopper] call FUNC(lift,getLiftable);
 if (_array isEqualTo []) exitWith {false};
 
 private _cargo_array = nearestObjects [_chopper, _array, 30];

@@ -35,7 +35,7 @@ private _userActions = configOf _veh >> "UserActions";
 if (
     getText (_userActions >> _start >> "displayName") isEqualTo _text
 ) exitWith {
-    _veh call btc_int_fnc_ordersLoop;
+    _veh call FUNC(int,ordersLoop);
     _veh setVariable [_typeVariable, true, true];
 };
 if (

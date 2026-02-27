@@ -42,7 +42,7 @@ params [
     };
 
     #ifdef BTC_DEBUG_EH
-    [["%1: _thisArgs %2, items %3", __FILE_NAME__, _thisArgs, items _unit], 2, "eh"] call btc_debug_fnc_message;
+    [["%1: _thisArgs %2, items %3", __FILE_NAME__, _thisArgs, items _unit], 2, "eh"] call FUNC(debug,message);
     #endif}, [_dogTag, _taskID]] call CBA_fnc_addBISEventHandler;
 
 [_objt, "Deleted", {

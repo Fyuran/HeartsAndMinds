@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -34,7 +34,7 @@ _data params [
 
 if(isNull _city) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _city is null", __FILE_NAME__], 6, "log/resupply"] call btc_debug_fnc_message;  
+    [["%1: _city is null", __FILE_NAME__], 6, "log/resupply"] call FUNC(debug,message);  
     #endif
 };
 
@@ -78,6 +78,6 @@ _marker_flag attachTo [_obj, [0,0,1]];
 }] remoteExecCall ["call", [0, -2] select isDedicated, _obj];
 
 #ifdef BTC_DEBUG_LOG
-[["%1: created UNCLAIMED supply at %2[%3]", __FILE_NAME__, _city getVariable["id", -1], _pos], 2, "log/resupply"] call btc_debug_fnc_message;  
+[["%1: created UNCLAIMED supply at %2[%3]", __FILE_NAME__, _city getVariable["id", -1], _pos], 2, "log/resupply"] call FUNC(debug,message);  
 #endif
 _obj

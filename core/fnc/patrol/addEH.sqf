@@ -29,7 +29,7 @@ if (
 ) exitWith {};
 
 _veh setVariable ["btc_crews", _group];
-[_veh, "Fuel", btc_patrol_fnc_eh] call CBA_fnc_addBISEventHandler;
+[_veh, "Fuel", FUNC(patrol,eh)] call CBA_fnc_addBISEventHandler;
 if (side _group isEqualTo civilian) then {
-    [_veh, "GetOut", btc_patrol_fnc_eh] call CBA_fnc_addBISEventHandler;
+    [_veh, "GetOut", FUNC(patrol,eh)] call CBA_fnc_addBISEventHandler;
 };

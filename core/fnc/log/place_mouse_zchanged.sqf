@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -40,6 +40,6 @@ btc_log_placing_obj attachTo [player, [0, btc_log_placing_d, btc_log_placing_h]]
 
 #ifdef BTC_DEBUG_LOG
 [["%1: scrolled %2 moving by [0, %3, %4]", __FILE_NAME__, _scroll, btc_log_placing_d, btc_log_placing_h
-], 2, "log"] call btc_debug_fnc_message;
+], 2, "log"] call FUNC(debug,message);
 #endif
 _scroll

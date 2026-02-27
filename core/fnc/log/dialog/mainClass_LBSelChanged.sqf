@@ -27,7 +27,7 @@ params [
 ];
 if(!canSuspend) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log/dialog"] call btc_debug_fnc_message;
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log/dialog"] call FUNC(debug,message);
     #endif
 };
 
@@ -39,7 +39,7 @@ waitUntil {!isNil "btc_log_dialog_tables"};
 disableSerialization;
 if(isNull _main_class_ctrl) exitWith {
     #ifdef BTC_DEBUG_LOG
-    ["_main_class_ctrl is null", __FILE_NAME__, 6] call btc_debug_fnc_message;  
+    ["_main_class_ctrl is null", __FILE_NAME__, 6] call FUNC(debug,message);  
     #endif
 };
 

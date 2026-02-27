@@ -45,15 +45,15 @@ Author:
                         _threshold = _threshold + 0.5;
                         _ied setVariable["btc_ied_threshold", _threshold];
                         #ifdef BTC_DEBUG_IED
-                        [["%1: IED at %2 is threatened, increasing threshold to %3", __FILE_NAME__, getPosASL _ied, _threshold], 3, "ied"] call btc_debug_fnc_message;
+                        [["%1: IED at %2 is threatened, increasing threshold to %3", __FILE_NAME__, getPosASL _ied, _threshold], 3, "ied"] call FUNC(debug,message);
                         #endif
                         if (_threshold >= 1) then {
                             #ifdef BTC_DEBUG_IED
-                            [["%1: IED at %2 blew up", __FILE_NAME__, getPosASL _ied], 2, "ied"] call btc_debug_fnc_message;
+                            [["%1: IED at %2 blew up", __FILE_NAME__, getPosASL _ied], 2, "ied"] call FUNC(debug,message);
                             #endif
-                            [_wreck, _ied] call btc_ied_fnc_boom;
+                            [_wreck, _ied] call FUNC(ied,boom);
                             if (0.5 < random 1) then {
-                                [getPos _wreck] call btc_rep_fnc_call_militia;
+                                [getPos _wreck] call FUNC(rep,call_militia);
                             };
                         }
                     } else {
@@ -64,7 +64,7 @@ Author:
                         _threshold = _threshold - 0.5;
                         _ied setVariable["btc_ied_threshold", _threshold];
                         #ifdef BTC_DEBUG_IED
-                        [["%1: IED at %2 isn't threatened anymore, lowering threshold to %3", __FILE_NAME__, getPosASL _ied, _threshold], 3, "ied"] call btc_debug_fnc_message;
+                        [["%1: IED at %2 isn't threatened anymore, lowering threshold to %3", __FILE_NAME__, getPosASL _ied, _threshold], 3, "ied"] call FUNC(debug,message);
                         #endif
                     };
                 } forEach (_ied nearEntities ["allVehicles", btc_ied_range]);
@@ -72,7 +72,7 @@ Author:
                 _ieds_check = _ieds_check - [_ied];
             };
         } forEach _ieds_check;
-        [_city, _ieds, _ieds_check] call btc_ied_fnc_checkLoop;
+        [_city, _ieds, _ieds_check] call FUNC(ied,checkLoop);
     };
 
     private _data = [];
@@ -90,6 +90,6 @@ Author:
     _city setVariable ["ieds", _data];
 
     #ifdef BTC_DEBUG_IED
-    [["%1: IED LOOP OF CITY ID %2", __FILE_NAME__, _city getVariable "id"], 2, "ied"] call btc_debug_fnc_message;
+    [["%1: IED LOOP OF CITY ID %2", __FILE_NAME__, _city getVariable "id"], 2, "ied"] call FUNC(debug,message);
     #endif
 }, _this, 1] call CBA_fnc_waitAndExecute;

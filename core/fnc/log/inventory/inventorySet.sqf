@@ -59,7 +59,7 @@ _inventory params [
     };
 
     private _newContainer = everyContainer _object;
-    [(_newContainer select (count _newContainer -1)) select 1, _x select 1] call btc_log_fnc_inventorySet;
+    [(_newContainer select (count _newContainer -1)) select 1, _x select 1] call FUNC(log,inventorySet);
 } forEach _everyContainer;
 
 {

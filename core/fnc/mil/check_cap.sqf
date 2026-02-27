@@ -29,14 +29,14 @@ if (_cap_to isEqualTo []) exitWith {};
     private _city_inRange = values btc_city_all inAreaArray [getPosWorld _hideout, btc_hideout_range, btc_hideout_range];
     if (_city_inRange isEqualTo []) then {continue};
 
-    private _closest = [_hideout, _city_inRange, true] call btc_fnc_find_closecity;
+    private _closest = [_hideout, _city_inRange, true] call FUNC(common,find_closecity);
     if (_closest isEqualTo []) then {continue};
 
     _hideout setVariable ["cap_time", time];
 
     if (_closest getVariable ["initialized", false]) then {
         for "_i" from 0 to (2 + (round random 3)) do {
-            [btc_mil_fnc_send, [_hideout, _closest, 0], _i * 2 + 1] call CBA_fnc_waitAndExecute;
+            [FUNC(mil,send), [_hideout, _closest, 0], _i * 2 + 1] call CBA_fnc_waitAndExecute;
         };
     } else {
         _closest setVariable ["occupied", true];

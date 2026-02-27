@@ -81,7 +81,7 @@ btc_delay_time = btc_delay_time + btc_delay_vehicle;
 
     private _crews_and_turret = _crews + _turretCount + _cargoCount;
     for "_i" from _crews to ((_crews_and_turret min _numberOfUnits) - 1) do {
-        [_group, _units_type select _i, _position, "CAN_COLLIDE", _veh] call btc_delay_fnc_createUnit;
+        [_group, _units_type select _i, _position, "CAN_COLLIDE", _veh] call FUNC(delay,createUnit);
     };
 
     ["btc_delay_vehicleInit", [_veh, _group]] call CBA_fnc_localEvent;

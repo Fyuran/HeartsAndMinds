@@ -29,7 +29,7 @@ params [
 ];
 
 private _data = switch (_id) do {
-    case 9 : {[_target] call btc_db_fnc_saveObjectStatus;};
+    case 9 : {[_target] call FUNC(db,saveObjectStatus);};
     case 10 : {
         private _units = allUnits select {alive _x};
         _units append entities [["Car", "Tank", "Ship", "Air"], []];

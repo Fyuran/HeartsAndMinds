@@ -3,11 +3,13 @@
 Function: btc_chem_fnc_ehDetector
 
 Description:
-    Trigger the screen update of the chemical detector when it is opened.
+    Attach event handlers to detect chemical detector key presses and trigger screen updates with contamination levels.
 
 Parameters:
+    NONE
 
 Returns:
+    NOTHING
 
 Examples:
     (begin example)
@@ -33,7 +35,7 @@ Author:
             private _ui = uiNamespace getVariable "RscWeaponChemicalDetector";
             private _obj = _ui displayCtrl 101;
 
-            [{visibleWatch}, btc_chem_fnc_updateDetector, [_obj]] call CBA_fnc_waitUntilAndExecute;
+            [{visibleWatch}, FUNC(chem,updateDetector), [_obj]] call CBA_fnc_waitUntilAndExecute;
         };
     }];
 }] call CBA_fnc_waitUntilAndExecute;

@@ -10,13 +10,13 @@ if !(isNil "btc_custom_loc") then {
 
 btc_intro_done = false;
 if(btc_p_intro) then {
-    [] spawn btc_respawn_fnc_intro;
+    [] spawn FUNC(respawn,intro);
 } else {
     btc_intro_done = true;
 };
 
-[] call btc_int_fnc_shortcuts;
-[] call btc_lift_fnc_shortcuts;
+[] call FUNC(int,shortcuts);
+[] call FUNC(lift,shortcuts);
 
 [{!isNull player}, {
     [] call compileScript ["core\doc.sqf"];
@@ -25,15 +25,15 @@ if(btc_p_intro) then {
     player addRating 9999;
     ["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups;
 
-    [player] call btc_eh_fnc_player;
+    [player] call FUNC(eh,player);
 
-    private _arsenal_trait = player call btc_arsenal_fnc_trait;
+    private _arsenal_trait = player call FUNC(arsenal,trait);
     if (btc_p_arsenal_Restrict isEqualTo 3) then {
-        [_arsenal_trait select 1] call btc_arsenal_fnc_weaponsFilter;
+        [_arsenal_trait select 1] call FUNC(arsenal,weaponsFilter);
     };
     switch (btc_p_autoloadout) do {
         case 1: {
-            player setUnitLoadout ([_arsenal_trait select 0] call btc_arsenal_fnc_loadout);
+            player setUnitLoadout ([_arsenal_trait select 0] call FUNC(arsenal,loadout));
         };
         case 2: {
             (weapons player) apply {          
@@ -42,21 +42,21 @@ if(btc_p_intro) then {
         };
         default {};
     };
-    [] call btc_int_fnc_add_actions;
+    [] call FUNC(int,add_actions);
 
     if (player getVariable ["interpreter", false]) then {
         player createDiarySubject ["btc_diarylog", localize "STR_BTC_HAM_CON_INFO_ASKHIDEOUT_DIARYLOG", '\A3\ui_f\data\igui\cfg\simpleTasks\types\talk_ca.paa'];
     };
 
-    [] call btc_respawn_fnc_screen;
+    [] call FUNC(respawn,screen);
 
     if(btc_debug) then {
-        [] call btc_debug_fnc_debug_mode;
+        [] call FUNC(debug,debug_mode);
     };
-    [] spawn btc_log_fnc_drawResources3D;
+    [] spawn FUNC(log,drawResources3D);
     
     if(btc_db_load > 0) then {
-        ["btc_slot_loadPlayer", {_this call btc_slot_fnc_loadPlayer}] call CBA_fnc_addEventHandler;
+        ["btc_slot_loadPlayer", {_this call FUNC(slot,loadPlayer)}] call CBA_fnc_addEventHandler;
         [getPlayerUID player] remoteExec ["btc_slot_fnc_getData", 2];
     };
 }] call CBA_fnc_waitUntilAndExecute;

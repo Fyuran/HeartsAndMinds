@@ -17,14 +17,14 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
 private _dialog = createDialog ["btc_sides_sidesmenu", true];
 if(isNull _dialog) exitWith {
     #ifdef BTC_DEBUG_SIDE
-    [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call btc_debug_fnc_message;
+    [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call FUNC(debug,message);
     #endif
 };
 private _sidesLb = _dialog displayCtrl 1500;
@@ -38,7 +38,7 @@ _sidesLb ctrlAddEventHandler ["LBSelChanged", {
     params["_sidesLb", "_lbCurSel"];
     if(_lbCurSel isEqualTo -1) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: _sidesLb %2 selected -1, exiting event", __FILE_NAME__, _sidesLb], 2, "side"] call btc_debug_fnc_message;
+        [["%1: _sidesLb %2 selected -1, exiting event", __FILE_NAME__, _sidesLb], 2, "side"] call FUNC(debug,message);
         #endif
     };
     (call compile(_sidesLb lbData _lbCurSel)) params[
@@ -47,13 +47,13 @@ _sidesLb ctrlAddEventHandler ["LBSelChanged", {
     ];
     if(_side isEqualTo "") exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: invalid _side", __FILE_NAME__], 6, "side"] call btc_debug_fnc_message;
+        [["%1: invalid _side", __FILE_NAME__], 6, "side"] call FUNC(debug,message);
         #endif
     };
     private _dialog = ctrlParent _sidesLb;
     if(isNull _dialog) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call btc_debug_fnc_message;
+        [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call FUNC(debug,message);
         #endif
     };
     playSound "button_rollover";
@@ -68,7 +68,7 @@ _sidesLb ctrlAddEventHandler ["LBSelChanged", {
 
     if (isNull _multiText) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: _multiText is null", __FILE_NAME__, _taskID, _tasksIDs], 6, "side"] call btc_debug_fnc_message;
+        [["%1: _multiText is null", __FILE_NAME__, _taskID, _tasksIDs], 6, "side"] call FUNC(debug,message);
         #endif
     };
     _multiText ctrlSetText _desc;
@@ -85,7 +85,7 @@ _sidesLb ctrlAddEventHandler ["LBSelChanged", {
         ])
     };
     #ifdef BTC_DEBUG_SIDE
-    [["%1: btc_side_%2 adding elements to tasks sub-menu: %3", __FILE_NAME__, _side, _tasksIDs], 2, "side"] call btc_debug_fnc_message;
+    [["%1: btc_side_%2 adding elements to tasks sub-menu: %3", __FILE_NAME__, _side, _tasksIDs], 2, "side"] call FUNC(debug,message);
     #endif
     lbClear _sidesTasksLb;
     _sidesTasksLb lbAdd localize "STR_BTC_HAM_SIDE_UI_NEW_TASK";
@@ -108,14 +108,14 @@ _sidesTasksLb ctrlAddEventHandler ["LBSelChanged", {
     params["_sidesTasksLb", "_lbCurSel"];
     if(_lbCurSel isEqualTo -1) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: _sidesTasksLb %2 selected -1, exiting event", __FILE_NAME__, _sidesTasksLb], 2, "side"] call btc_debug_fnc_message;
+        [["%1: _sidesTasksLb %2 selected -1, exiting event", __FILE_NAME__, _sidesTasksLb], 2, "side"] call FUNC(debug,message);
         #endif
     };
 
     private _dialog = ctrlParent _sidesTasksLb;
     if(isNull _dialog) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call btc_debug_fnc_message;
+        [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call FUNC(debug,message);
         #endif
     };
     playSound "button_rollover";
@@ -137,7 +137,7 @@ _sidesTasksLb ctrlAddEventHandler ["LBSelChanged", {
         ["_side", "", [""]],
         ["_desc", "", [""]]
     ];
-    [["%1: _side %2, _sidesTasksLb selected %3 with data %4", __FILE_NAME__, _side, _lbCurSel, _taskID], 3, "side"] call btc_debug_fnc_message;
+    [["%1: _side %2, _sidesTasksLb selected %3 with data %4", __FILE_NAME__, _side, _lbCurSel, _taskID], 3, "side"] call FUNC(debug,message);
     #endif
 }];
 
@@ -149,7 +149,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
     private _dialog = ctrlParent _button;
     if(isNull _dialog) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call btc_debug_fnc_message;
+        [["%1: _dialog is null", __FILE_NAME__], 6, "side"] call FUNC(debug,message);
         #endif
     };
     private _sidesLb = _dialog displayCtrl 1500;
@@ -162,14 +162,14 @@ _button ctrlAddEventHandler ["ButtonClick", {
 
     if(not(_side in btc_side_list)) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: invalid _side: %2", __FILE_NAME__, _side], 6, "side"] call btc_debug_fnc_message;
+        [["%1: invalid _side: %2", __FILE_NAME__, _side], 6, "side"] call FUNC(debug,message);
         #endif
     };
 
     private _taskID = _sidesTasksLb lbData (lbCurSel _sidesTasksLb);
     #ifdef BTC_DEBUG_SIDE
     [["%1: button pressed with _button: %2, _dialog: %3, _sidesLb: %4, _sidesTasksLb: %5, _side: %6, _taskID: %7", 
-    __FILE_NAME__, _button, _dialog, _sidesLb, _sidesTasksLb, _side, _taskID], 2, "side"] call btc_debug_fnc_message;
+    __FILE_NAME__, _button, _dialog, _sidesLb, _sidesTasksLb, _side, _taskID], 2, "side"] call FUNC(debug,message);
     #endif
     _button ctrlEnable false;
     _sidesLb lbSetCurSel -1;
@@ -178,7 +178,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
 
     if([_taskID] call BIS_fnc_taskExists) exitWith {
         #ifdef BTC_DEBUG_SIDE
-        [["%1: Cancelling taskID: %2", __FILE_NAME__, _taskID], 3, "side"] call btc_debug_fnc_message;
+        [["%1: Cancelling taskID: %2", __FILE_NAME__, _taskID], 3, "side"] call FUNC(debug,message);
         #endif
         [_taskID, "CANCELED"] remoteExecCall ["btc_task_fnc_setState", 2];
     };
@@ -186,9 +186,9 @@ _button ctrlAddEventHandler ["ButtonClick", {
     private _map = createDialog ["RscMap", true];
 
     #ifdef BTC_DEBUG_SIDE
-    [["%1: %2 map loaded, lbCurSel: %3", __FILE_NAME__, _map, (lbCurSel _sidesLb)], 3, "side"] call btc_debug_fnc_message;
+    [["%1: %2 map loaded, lbCurSel: %3", __FILE_NAME__, _map, (lbCurSel _sidesLb)], 3, "side"] call FUNC(debug,message);
     #endif
-    [false] call btc_debug_fnc_cities; //remove if preexisting in order to avoid conflicts
+    [false] call FUNC(debug,cities); //remove if preexisting in order to avoid conflicts
     private _infoText = _map ctrlCreate ["RscCenterText", 1001];
     //private _infoTextW = 0.37125 * safezoneW;
     private _infoTextH = 0.044 * safezoneH;
@@ -220,7 +220,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
             ["_side", "", [""]]
         ];
         #ifdef BTC_DEBUG_SIDE
-        [["%1: clicked on pos %2, side %3", __FILE_NAME__, _pos, _side], 3, "side"] call btc_debug_fnc_message;
+        [["%1: clicked on pos %2, side %3", __FILE_NAME__, _pos, _side], 3, "side"] call FUNC(debug,message);
         #endif
         
         [false, _side, _pos] remoteExecCall ["btc_side_fnc_create", 2];
@@ -232,7 +232,7 @@ _button ctrlAddEventHandler ["ButtonClick", {
     _map displayAddEventHandler ["Unload", {
         playSound "button_cancel";
         btc_debug_isUsingMapToPlace = false;
-        [false] call btc_debug_fnc_cities;
+        [false] call FUNC(debug,cities);
         private _handle = uiNamespace getVariable["btc_side_menu_MapSingleClick_handle", -1];
         removeMissionEventHandler ["MapSingleClick", _handle];
     }];

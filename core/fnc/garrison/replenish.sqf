@@ -28,14 +28,14 @@ params[
 _buildingPos = _building getVariable ["btc_mil_garrison_pos", []];
 if(_buildingPos isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_GARRISON
-    [["%1: %2(%3) has no positions available", __FILE_NAME__, _building, getPosASL _building], 7, "garrison"] call btc_debug_fnc_message;
+    [["%1: %2(%3) has no positions available", __FILE_NAME__, _building, getPosASL _building], 7, "garrison"] call FUNC(debug,message);
     #endif
 };
 
 _garrisonUnits = (units(_building getVariable["btc_mil_garrison_group", []])) select {alive _x};
 _emptyPos = [];
 if(_garrisonUnits isEqualTo []) then {
-    _this call btc_garrison_fnc_spawn; 
+    _this call FUNC(garrison,spawn); 
 } else {
     _buildingPos apply {
         _soldiers = _x nearEntities ["Man", 1];

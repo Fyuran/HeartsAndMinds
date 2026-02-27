@@ -20,7 +20,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -67,7 +67,7 @@ if (_keyPressed) then {
 
     #ifdef BTC_DEBUG_LOG
     [["%1: key %2(turbo:%3) pressed, rotating by [%4, %5, %6], height set to [%7]", __FILE_NAME__, 
-    _key, _turbo isEqualTo 1, btc_log_yaw, btc_log_pitch, btc_log_roll, btc_log_placing_h], 2, "log"] call btc_debug_fnc_message;
+    _key, _turbo isEqualTo 1, btc_log_yaw, btc_log_pitch, btc_log_roll, btc_log_placing_h], 2, "log"] call FUNC(debug,message);
     #endif
 };
 

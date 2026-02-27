@@ -33,5 +33,5 @@ if !(btc_p_spect) exitWith {};
         _vehiclesAround append (_vehiclesOn inAreaArray [getPosWorld _x, _range, _range]);
     } forEach _emp;
 
-    [_vehiclesAround] call btc_spect_fnc_electronicFailure;
+    [_vehiclesAround] call FUNC(spect,electronicFailure);
 }, 10, [btc_spect_emp, btc_spect_range / 2]] call CBA_fnc_addPerFrameHandler;

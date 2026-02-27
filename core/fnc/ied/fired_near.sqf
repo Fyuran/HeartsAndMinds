@@ -54,9 +54,9 @@ private _cfgAmmo = configFile >> "cfgAmmo";
                             params ["_wreck", "_ied", "_bullet", "_detected_grenade"];
 
                             if (alive _ied) then {
-                                [_wreck, _ied] call btc_ied_fnc_boom;
+                                [_wreck, _ied] call FUNC(ied,boom);
                                 if (0.5 < random 1) then {
-                                    [getPos _wreck] call btc_rep_fnc_call_militia;
+                                    [getPos _wreck] call FUNC(rep,call_militia);
                                 };
                             };
                             {
@@ -72,9 +72,9 @@ private _cfgAmmo = configFile >> "cfgAmmo";
                     private _caliber = getNumber (_cfgAmmo >> _bullet_type >> "caliber") > 1.6;
                     if (_explosive || _caliber) then {
                         if (alive _ied) then {
-                            [_wreck, _ied] call btc_ied_fnc_boom;
+                            [_wreck, _ied] call FUNC(ied,boom);
                             if (0.5 < random 1) then {
-                                [getPos _wreck] call btc_rep_fnc_call_militia;
+                                [getPos _wreck] call FUNC(rep,call_militia);
                             };
                         };
                     };

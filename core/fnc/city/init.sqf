@@ -71,10 +71,10 @@ _locationsNames apply {
         };
 
         if(!_hasFound) then {
-            [_position, _type, _name, _cachingRadius, false] call btc_city_fnc_create;
+            [_position, _type, _name, _cachingRadius, false] call FUNC(city,create);
         } else {
             #ifdef BTC_DEBUG_CITY
-            [["%1: %2 has been blacklisted", __FILE_NAME__, _name], 2, "city"] call btc_debug_fnc_message;
+            [["%1: %2 has been blacklisted", __FILE_NAME__, _name], 2, "city"] call FUNC(debug,message);
             #endif
         };
     };
@@ -90,12 +90,12 @@ if(_cities isNotEqualTo []) then {
 };
 
 if !(isNil "btc_custom_loc") then {
-    {_x call btc_city_fnc_create;} forEach btc_custom_loc;
+    {_x call FUNC(city,create);} forEach btc_custom_loc;
 };
 
 #ifdef BTC_DEBUG_CITY
     if(btc_city_all isEqualTo []) then {
-        [["%1: btc_city_all is empty", __FILE_NAME__], 7, "city"] call btc_debug_fnc_message;
+        [["%1: btc_city_all is empty", __FILE_NAME__], 7, "city"] call FUNC(debug,message);
     };
 #endif
 

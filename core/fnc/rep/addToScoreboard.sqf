@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 params[
@@ -44,10 +44,10 @@ if(!isNull _instigator) then {
     _instigator setVariable["btc_scoreboard", _scoreboard]; //getData is server side, so no broadcasting necessary
 
     #ifdef BTC_DEBUG_REP
-    [["%1: adding %2 to %3 for %4", _numb, _key, _instigator], 2, "rep"] call btc_debug_fnc_message;
+    [["%1: adding %2 to %3 for %4", _numb, _key, _instigator], 2, "rep"] call FUNC(debug,message);
     #endif
 } else {
     #ifdef BTC_DEBUG_REP
-    [["%1: adding %2 to %3", _numb, _key], 2, "rep"] call btc_debug_fnc_message;
+    [["%1: adding %2 to %3", _numb, _key], 2, "rep"] call FUNC(debug,message);
     #endif
 };

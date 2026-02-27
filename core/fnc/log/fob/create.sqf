@@ -16,7 +16,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -26,12 +26,12 @@ params[
 
 if(!alive _flag) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    [["%1: _flag is null or not alive", __FILE_NAME__], 6, "log/fob"] call FUNC(debug,message);  
     #endif
 };
 if(!canSuspend) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log/fob"] call btc_debug_fnc_message;  
+    [["%1: Called in a non suspended envinronment", __FILE_NAME__], 6, "log/fob"] call FUNC(debug,message);  
     #endif
 };
 
@@ -44,7 +44,7 @@ private _eyeDir = eyeDirection player;
 private _pos_ATL = getPosATL _create_obj;
 _create_obj setPosATL (_pos_ATL vectorAdd (_eyeDir vectorMultiply 2));
 
-[_create_obj] call btc_log_fnc_place;
+[_create_obj] call FUNC(log,place);
 
 waitUntil {!btc_log_placing};
 

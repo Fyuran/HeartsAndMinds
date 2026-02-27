@@ -43,13 +43,13 @@ if !(_isReal) then {
 private _intelId = [1];
 if (_cache_info < _info_cache_ratio) then {
     private _building_with_the_cache = typeOf nearestBuilding _cache_obj;
-    private _classnames = [nearestTerrainObjects [_cache_obj, [], 10, false]] call btc_fnc_typeOf;
+    private _classnames = [nearestTerrainObjects [_cache_obj, [], 10, false]] call FUNC(common,typeOf);
     _classnames = _classnames select {isText (configfile >> "CfgVehicles" >> _x >> "editorPreview")};
     _classnames pushBackUnique _building_with_the_cache;
     _classnames = _classnames - (btc_cache_pictures select 0);
 
     if (_classnames isEqualTo []) exitWith {
-        [[_cache_obj, _info_cache_ratio] call CBA_fnc_randPos, _info_cache_ratio] call btc_info_fnc_cacheMarker;
+        [[_cache_obj, _info_cache_ratio] call CBA_fnc_randPos, _info_cache_ratio] call FUNC(info,cacheMarker);
     };
     private _classname_object = selectRandom _classnames;
 
@@ -68,7 +68,7 @@ if (_cache_info < _info_cache_ratio) then {
         _classname_object
     ]
 } else {
-    btc_cache_info = [[_cache_obj, _cache_info] call CBA_fnc_randPos, _cache_info] call btc_info_fnc_cacheMarker;
+    btc_cache_info = [[_cache_obj, _cache_info] call CBA_fnc_randPos, _cache_info] call FUNC(info,cacheMarker);
 };
 
 _intelId remoteExecCall ["btc_fnc_show_hint", [0, -2] select isDedicated];

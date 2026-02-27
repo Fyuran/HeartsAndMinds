@@ -58,7 +58,7 @@ if (
             "M_PG_AT" createVehicle _this;
         }, _this, random [0.5, 2, 3]] call CBA_fnc_waitAndExecute;
     }, _pos, random [0.5, 2, 3]] call CBA_fnc_waitAndExecute;
-    [_pos] call btc_deaf_fnc_earringing;
+    [_pos] call FUNC(deaf,earringing);
     [attachedObjects _cache, btc_cache_obj, btc_cache_markers] call CBA_fnc_deleteEntity;
 
     private _marker = createMarkerLocal [format ["btc_cache_%1", btc_cache_n], btc_cache_pos];
@@ -68,11 +68,11 @@ if (
     _marker setMarkerColor "ColorRed";
 
     #ifdef BTC_DEBUG_CACHE
-    [["%1: DESTROYED: ID %2 POS %3", __FILE_NAME__, btc_cache_n, btc_cache_pos], 2, "cache"] call btc_debug_fnc_message;
+    [["%1: DESTROYED: ID %2 POS %3", __FILE_NAME__, btc_cache_n, btc_cache_pos], 2, "cache"] call FUNC(debug,message);
     #endif
-    [_instigator, _CACHE_DESTROYED_] call btc_rep_fnc_change;
+    [_instigator, _CACHE_DESTROYED_] call FUNC(rep,change);
 
-    [btc_cache_n + 1, btc_cache_pictures] call btc_cache_fnc_init;
+    [btc_cache_n + 1, btc_cache_pictures] call FUNC(cache,init);
 } else {
     0
 };

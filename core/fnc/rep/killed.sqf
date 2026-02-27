@@ -40,9 +40,9 @@ if (
     [
         _instigator,
         [_CIV_KILLED_, _ANIMAL_KILLED_] select _isAgent
-    ] call btc_rep_fnc_change;
+    ] call FUNC(rep,change);
     if (btc_global_reputation < btc_rep_level_normal + 100) then {
-        [getPos _unit] call btc_rep_fnc_eh_effects;
+        [getPos _unit] call FUNC(rep,eh_effects);
     };
 
     if !(_isAgent) then {
@@ -55,6 +55,6 @@ if (
     };
 
     #ifdef BTC_DEBUG_REP
-    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call btc_debug_fnc_message;
+    [["%1: GREP %2 THIS = %3", __FILE_NAME__, btc_global_reputation, _this], 2, "rep"] call FUNC(debug,message);
     #endif
 };

@@ -32,7 +32,7 @@ params [
     private _element = (btc_fobs select 2) find _flag;
     private _fob = (btc_fobs select 1) select _element;
 
-    [_fob, objNull, objNull, true, true] call btc_fob_fnc_killed;
+    [_fob, objNull, objNull, true, true] call FUNC(fob,killed);
 
-    [btc_fob_mat, _flag] call btc_log_fnc_create_s;
+    [btc_fob_mat, _flag] call FUNC(log,create_s);
 }, [_flag], 10] call CBA_fnc_waitAndExecute;

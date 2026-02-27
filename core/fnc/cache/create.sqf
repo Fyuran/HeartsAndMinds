@@ -46,13 +46,13 @@ clearItemCargoGlobal btc_cache_obj;
 clearMagazineCargoGlobal btc_cache_obj;
 clearBackpackCargoGlobal btc_cache_obj;
 
-[btc_cache_obj, "HandleDamage", btc_cache_fnc_hd] remoteExecCall ["CBA_fnc_addBISEventHandler", 0, true];
+[btc_cache_obj, "HandleDamage", FUNC(cache,hd)] remoteExecCall ["CBA_fnc_addBISEventHandler", 0, true];
 
 if (_isChem) then {
     btc_chem_contaminated pushBack btc_cache_obj;
     publicVariable "btc_chem_contaminated";
     private _holder = createSimpleObject [selectRandom (btc_cache_type select 1), _cache_pos];
-    [btc_cache_obj, _holder, "TOP", 0.1] call btc_cache_fnc_create_attachto;
+    [btc_cache_obj, _holder, "TOP", 0.1] call FUNC(cache,create_attachto);
     _holder setVectorDirAndUp [[0, 1, 0], [0, 0, 1]];
 } else {
     private _pos_type_array = ["TOP", "FRONT", "CORNER_L", "CORNER_R"];
@@ -62,12 +62,12 @@ if (_isChem) then {
 
         private _pos_type = selectRandom _pos_type_array;
         _pos_type_array = _pos_type_array - [_pos_type];
-        [btc_cache_obj, _holder, _pos_type] call btc_cache_fnc_create_attachto;
+        [btc_cache_obj, _holder, _pos_type] call FUNC(cache,create_attachto);
         _holder hideSelection ["zasleh", true];
     };
 };
 
 #ifdef BTC_DEBUG_CACHE
-    [["%1: ID %2 POS %3", __FILE_NAME__, btc_cache_n, _cache_pos], 2, "cache"] call btc_debug_fnc_message;
-    [["%1: in %2", __FILE_NAME__, _cache_pos], 2, "cache"] call btc_debug_fnc_message;
+    [["%1: ID %2 POS %3", __FILE_NAME__, btc_cache_n, _cache_pos], 2, "cache"] call FUNC(debug,message);
+    [["%1: in %2", __FILE_NAME__, _cache_pos], 2, "cache"] call FUNC(debug,message);
 #endif

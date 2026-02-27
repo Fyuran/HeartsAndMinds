@@ -29,7 +29,7 @@ params [
 
 #ifdef BTC_DEBUG_COMMON
 if(_pos isEqualTo []) then {
-    [["%1: _pos is invalid", __FILE_NAME__], 6, "common"] call btc_debug_fnc_message;  
+    [["%1: _pos is invalid", __FILE_NAME__], 6, "common"] call FUNC(debug,message);  
 };
 #endif
 

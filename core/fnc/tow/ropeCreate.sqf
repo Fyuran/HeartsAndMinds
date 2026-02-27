@@ -26,7 +26,7 @@ params [
     ["_vehicleSelected", objNull, [objNull]]
 ];
 
-if !([_tower, _vehicleSelected] call btc_tow_fnc_check) exitWith {};
+if !([_tower, _vehicleSelected] call FUNC(tow,check)) exitWith {};
 private _alreadyLoaded = (getVehicleCargo _tower) findIf {isObjectHidden _x} isEqualTo -1;
 if (
     _alreadyLoaded &&
@@ -55,15 +55,15 @@ private _attachTo = [
 ];
 _vehicleSelected attachTo [_tower, _attachTo];
 
-private _model_rear_tower = ([_tower] call btc_tow_fnc_hitch_points) select 1;
-private _model_front_selected = ([_vehicleSelected] call btc_tow_fnc_hitch_points) select 0;
+private _model_rear_tower = ([_tower] call FUNC(tow,hitch_points)) select 1;
+private _model_front_selected = ([_vehicleSelected] call FUNC(tow,hitch_points)) select 0;
 private _selected_front_relativeToTower = _tower worldToModel (_vehicleSelected modelToWorld _model_front_selected);
 private _rope1 = ropeCreate [_tower, _model_rear_tower, _tower, _selected_front_relativeToTower vectorAdd [-0.4, 0, 0]];
 private _rope2 = ropeCreate [_tower, _model_rear_tower, _tower, _selected_front_relativeToTower vectorAdd [0.4, 0, 0]];
 
 [
     _tower, "RopeBreak",
-    {[_this, _thisArgs] call btc_tow_fnc_ropeBreak},
+    {[_this, _thisArgs] call FUNC(tow,ropeBreak)},
     [_vehicleSelected, [_rope1, _rope2]]
 ] remoteExecCall ["CBA_fnc_addBISEventHandler", 2];
 

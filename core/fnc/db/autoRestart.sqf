@@ -33,9 +33,9 @@ private _serverCommand = if (_p_autoRestartType in [1, 3]) then {
 };
 
 if (_p_autoRestartType > 2) then {
-    [] call btc_json_fnc_save;
+    [] call FUNC(db,save);
 };
 
 if !(_serverCommandPassword serverCommand _serverCommand) then {
-    [["%1: Invalid password", __FILE_NAME__], 2, "db"] call btc_debug_fnc_message;
+    [["%1: Invalid password", __FILE_NAME__], 2, "db"] call FUNC(debug,message);
 };

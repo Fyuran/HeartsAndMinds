@@ -30,10 +30,10 @@ params [
 ];
 
 #ifdef BTC_DEBUG_IED
-[["%1: _name = %2 _area %3", __FILE_NAME__, _city getVariable ["name", "name"], _area], 2, "ied"] call btc_debug_fnc_message;
+[["%1: _name = %2 _area %3", __FILE_NAME__, _city getVariable ["name", "name"], _area], 2, "ied"] call FUNC(debug,message);
 #endif
 if (_rpos isEqualTo []) then {
-    _rpos = [position _city, _area] call btc_fnc_randomize_pos;
+    _rpos = [position _city, _area] call FUNC(common,randomize_pos);
 };
 
 private _group = createGroup [btc_enemy_side, true];
@@ -48,9 +48,9 @@ createVehicleCrew _drone;
 [driver _drone] joinSilent _group;
 _group setVariable ["btc_ied_drone", true];
 
-[[_group, _rpos, _area, 4], CBA_fnc_taskPatrol] call btc_delay_fnc_exec;
+[[_group, _rpos, _area, 4], CBA_fnc_taskPatrol] call FUNC(delay,exec);
 _drone flyInHeight 10;
 
-[driver _drone, _rpos, _area, []] call btc_ied_fnc_droneLoop;
+[driver _drone, _rpos, _area, []] call FUNC(ied,droneLoop);
 
 leader _group

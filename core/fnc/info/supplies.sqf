@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -25,7 +25,7 @@ private _cities = (values btc_city_all) select {
 };
 _cities = [_cities, (round((count _cities)/4)) max 2] call CBA_fnc_selectRandomArray;
 if(_cities isEqualTo []) exitWith { //give next intel instead
-    [objNull, 31] call btc_info_fnc_give_intel;
+    [objNull, 31] call FUNC(info,give_intel);
 };
 
 //get markers data out of data supplies, add intel markers then save it back to _city

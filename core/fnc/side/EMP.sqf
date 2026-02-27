@@ -38,9 +38,9 @@ private _usefuls = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if (_usefuls isEqualTo []) exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no _usefuls", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-    [] call btc_side_fnc_create;
+    [] call FUNC(side,create);
 };
 
 private _city = if (_selectedPos isEqualTo [0,0,0]) then {
@@ -50,16 +50,16 @@ private _city = if (_selectedPos isEqualTo [0,0,0]) then {
 };
 if(isNil "_city") exitWith {
     #ifdef BTC_DEBUG_SIDE
-	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call btc_debug_fnc_message;
+	[["%1: %2 found no valid _city", __FILE_NAME__, _taskID], 2, "side"] call FUNC(debug,message);
 	#endif
-	[] call btc_side_fnc_create;
+	[] call FUNC(side,create);
 };
 
-[_taskID, 36, [objNull, _city] select (btc_p_spect), _city getVariable "name"] call btc_task_fnc_create;
+[_taskID, 36, [objNull, _city] select (btc_p_spect), _city getVariable "name"] call FUNC(task,create);
 btc_side_taskIDs set ["EMP", (btc_side_taskIDs getOrDefault ["EMP", [], true]) + [[_taskID, _city getVariable ["name", "Unknown Location"]]]];
 publicVariable "btc_side_taskIDs";
 #ifdef BTC_DEBUG_SIDE
-[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call btc_debug_fnc_message;
+[["%1: %2 at %3", __FILE_NAME__, _taskID, getPos _city], 2, "side"] call FUNC(debug,message);
 #endif
 
 _city setVariable ["spawn_more", true];
@@ -69,8 +69,8 @@ private _composition = [];
 private _tasksID = [];
 
 for "_i" from 0 to (1 + round random 2) do {
-    private _pos = [getPos _city, _radius] call btc_fnc_randomize_pos;
-    _pos = [_pos, 0, 300, 15, false] call btc_fnc_findsafepos;
+    private _pos = [getPos _city, _radius] call FUNC(common,randomize_pos);
+    _pos = [_pos, 0, 300, 15, false] call FUNC(common,findsafepos);
 
     private _antenna = btc_type_satelliteAntenna + btc_type_antenna;
     private _boxType = selectRandom (btc_cache_type select 0);
@@ -92,7 +92,7 @@ for "_i" from 0 to (1 + round random 2) do {
         ]
     };
 
-    private _station = [_pos, random 360, _composition_station] call btc_fnc_create_composition;
+    private _station = [_pos, random 360, _composition_station] call FUNC(common,create_composition);
     _composition append _station;
     private _box = _station select ((_station apply {typeOf _x}) find _boxType);
     btc_spect_emp pushBack _box;
@@ -104,13 +104,13 @@ for "_i" from 0 to (1 + round random 2) do {
         if (random 1 > 0.5) then {
             private _direction = random 360;
             private _statics = btc_type_gl + btc_type_mg;
-            [_pos getPos [5, _direction], _statics, _direction, [], _city] call btc_mil_fnc_create_static;
+            [_pos getPos [5, _direction], _statics, _direction, [], _city] call FUNC(mil,create_static);
         };
     };
 
     private _destroy_taskID = _taskID + "dt" + str _i;
     _tasksID pushBack _destroy_taskID;
-    [[_destroy_taskID, _taskID], 37, [_box, objNull] select (btc_p_spect), _composition_station select 0 select 0, false, false] call btc_task_fnc_create;
+    [[_destroy_taskID, _taskID], 37, [_box, objNull] select (btc_p_spect), _composition_station select 0 select 0, false, false] call FUNC(task,create);
 
     [_box, "HandleDamage", {
         params [
@@ -148,10 +148,10 @@ waitUntil {sleep 5;
     !(false in (_tasksID apply {_x call BIS_fnc_taskCompleted}))
 };
 
-[[], _composition] call btc_fnc_delete;
+[[], _composition] call FUNC(common,delete);
 
 if (_taskID call BIS_fnc_taskState isEqualTo "CANCELED") exitWith {};
 
-[objNull, _SIDE_EMP_DESTROYED_] call btc_rep_fnc_change;
+[objNull, _SIDE_EMP_DESTROYED_] call FUNC(rep,change);
 
-[_taskID, "SUCCEEDED"] call btc_task_fnc_setState;
+[_taskID, "SUCCEEDED"] call FUNC(task,setState);

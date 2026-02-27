@@ -25,9 +25,9 @@ params [
 ];
 
 #ifdef BTC_DEBUG_JSON
-[["%1: Saving btc_JSON_save data for %2", __FILE_NAME__, _name], 2, "json"] call btc_debug_fnc_message;
+[["%1: Saving btc_JSON_save data for %2", __FILE_NAME__, _name], 2, "json"] call FUNC(debug,message);
 #endif
-[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_8", 1, [0.03, 0.28, 0.03, 1]]] call btc_fnc_show_custom_hint;
+[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_8", 1, [0.03, 0.28, 0.03, 1]]] call FUNC(common,show_custom_hint);
 
 //METADATA
 private _simpleData = createHashMapFromArray[
@@ -45,7 +45,7 @@ private _simpleData = createHashMapFromArray[
 private _cities_status = createHashMap;
 {
 	if (_y getVariable ["active", false]) then {
-        [_y] call btc_db_fnc_save_enabled_city; //activated cities won't record any new data until deactivation.
+        [_y] call FUNC(db,save_enabled_city); //activated cities won't record any new data until deactivation.
     };
 	private _name = _y getVariable ["name", ""];
 	if (_name isEqualTo "") then {
@@ -157,7 +157,7 @@ btc_fobs_ruins apply {
 private _array_veh = createHashMap;
 private _vehicles = btc_vehicles - [objNull];
 {
-	private _hash = [_x] call btc_veh_fnc_getData;
+	private _hash = [_x] call FUNC(veh,getData);
 	_array_veh set[_forEachIndex, _hash];
 } forEach _vehicles;
 
@@ -165,7 +165,7 @@ private _vehicles = btc_vehicles - [objNull];
 private _array_obj = createHashMap;
 {
 	if !(!alive _x || isNull _x) then {
-		private _hash = [_x] call btc_veh_fnc_getData;
+		private _hash = [_x] call FUNC(veh,getData);
 		_array_obj set[_forEachIndex, _hash];
 	};
 } forEach (btc_log_obj_created select {
@@ -212,7 +212,7 @@ _tags apply {
 private _respawn_tickets = +btc_respawn_tickets;
 private _deadPlayers = createHashMap;
 if (btc_p_respawn_ticketsAtStart >= 0) then {
-    private _deadBodyPlayers = [btc_body_deadPlayers] call btc_body_fnc_get;    
+    private _deadBodyPlayers = [btc_body_deadPlayers] call FUNC(body,get);    
 	_deadBodyPlayers apply {
 		private _hash = [ 
 			"type", "pos", "dir", "loadout", "dogtag", "isContaminated", "flagTexture" 
@@ -228,7 +228,7 @@ btc_slots_serialized = createHashMap;
     if (!isNull _x) then {
 		private _uid = getPlayerUID _x;
 		if(_uid isEqualTo "_SP_PLAYER_") then { continue };
-        [_uid, _x] call btc_slot_fnc_saveData;
+        [_uid, _x] call FUNC(slot,saveData);
     };
 };
 private _slots_serialized = +btc_slots_serialized;
@@ -287,7 +287,7 @@ private _JSON_data = [
 	_array_ho, _array_cache, _fobs, _fobs_ruins,
 	_array_obj, _array_fob_log_supplies, _tags_properties, _respawn_tickets, 
 	_deadPlayers, _slots_serialized, _array_veh, _explosives, _scoreboard] apply {
-		[_x] call btc_json_fnc_encodeJSON;// CBA_fnc_encodeJSON uses "format" which has a hard limit of 2048 chars
+		[_x] call FUNC(db,encodeJSON);// CBA_fnc_encodeJSON uses "format" which has a hard limit of 2048 chars
 	};
 
 btc_JSON_save =
@@ -315,16 +315,16 @@ format["btc_hm_%1", _name] + " " +// _JSON_data fileName
 
 private _path = "btc_ArmaToJSON" callExtension btc_JSON_save;
 if(_path isEqualTo "" || isNil "_path") exitWith {
-	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [1, 0, 0, 1]]] call btc_fnc_show_custom_hint;
+	[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_16", 1, [1, 0, 0, 1]]] call FUNC(common,show_custom_hint);
 	#ifdef BTC_DEBUG_JSON
-	[["%1: Invalid _path, could not save file.", __FILE_NAME__], 6, "json"] call btc_debug_fnc_message;
+	[["%1: Invalid _path, could not save file.", __FILE_NAME__], 6, "json"] call FUNC(debug,message);
 	#endif
 };
 profileNamespace setVariable [format["btc_hm_%1_saveFile", worldName], _path];
 profileNamespace setVariable [format["btc_hm_%1_saveJSON", worldName], btc_JSON_save];
 
-[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_9", 1, [0, 1, 0, 1]]] call btc_fnc_show_custom_hint;
-[] call btc_json_fnc_fileviewer_r_server;
+[[localize "STR_BTC_HAM_O_COMMON_SHOWHINTS_9", 1, [0, 1, 0, 1]]] call FUNC(common,show_custom_hint);
+[] call FUNC(db,fileviewer_r_server);
 
 saveProfileNamespace;
 

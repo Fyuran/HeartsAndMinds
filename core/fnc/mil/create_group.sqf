@@ -38,10 +38,10 @@ params [
     ["_enemy_side", btc_enemy_side, [east]]
 ];
 
-private _pos = [_city call CBA_fnc_getPos, _area, _p_sea] call btc_fnc_randomize_pos;
+private _pos = [_city call CBA_fnc_getPos, _area, _p_sea] call FUNC(common,randomize_pos);
 private _group_structure = [1, objNull];
 if (_wp isEqualTo "HOUSE") then { // Find building
-    ([_pos, _n] call btc_mil_fnc_getBuilding) params ["_numberOfGroup", "_building"];
+    ([_pos, _n] call FUNC(mil,getBuilding)) params ["_numberOfGroup", "_building"];
     if (_building isNotEqualTo objNull) then {
         _group_structure = [_numberOfGroup, _building];
     } else {
@@ -63,9 +63,9 @@ if (
         if (_newPos isNotEqualTo []) then {
             _pos = _newPos;
         };
-        _pos = [_pos] call btc_fnc_findPosOutsideRock;
+        _pos = [_pos] call FUNC(common,findPosOutsideRock);
         _this set ["_pos", _pos];
-    }] call btc_delay_fnc_exec;
+    }] call FUNC(delay,exec);
 };
 
 private _groups = [];
@@ -79,7 +79,7 @@ for "_i" from 1 to _numberOfGroup do {
     switch (_wp) do {
         case ("HOUSE") : {
             _n = 1;
-            [[_group, _building], btc_fnc_house_addWP] call btc_delay_fnc_exec;
+            [[_group, _building], FUNC(common,house_addWP)] call FUNC(delay,exec);
             _group setVariable ["btc_inHouse", typeOf _building];
         };
         case ("PATROL") : {
@@ -100,10 +100,10 @@ for "_i" from 1 to _numberOfGroup do {
             }, [_group, _hashMapGroup], btc_delay_time] call CBA_fnc_waitAndExecute;            
         };
     };
-    [_group, _hashMapGroup, _n, _pos_iswater] call btc_mil_fnc_createUnits;
+    [_group, _hashMapGroup, _n, _pos_iswater] call FUNC(mil,createUnits);
 };
 
 #ifdef BTC_DEBUG_MIL
-[["%1: _this = %2 ; POS %3 UNITS N %4", __FILE_NAME__, _this, _pos, _n], 2, "mil"] call btc_debug_fnc_message;
+[["%1: _this = %2 ; POS %3 UNITS N %4", __FILE_NAME__, _this, _pos, _n], 2, "mil"] call FUNC(debug,message);
 #endif
 _groups

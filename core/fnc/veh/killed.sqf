@@ -40,7 +40,7 @@ _marker setMarkerColor "ColorRed";
 _vehicle setVariable ["marker", _marker];
 if (_allowRepChange) then {
     if (isServer) then {
-        [_killer, _VEHICLE_LOST_] call btc_rep_fnc_change;
+        [_killer, _VEHICLE_LOST_] call FUNC(rep,change);
     } else {
         [_killer, _VEHICLE_LOST_] remoteExecCall ["btc_rep_fnc_change", 2];
     };

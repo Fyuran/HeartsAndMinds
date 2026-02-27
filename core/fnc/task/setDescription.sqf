@@ -89,7 +89,7 @@ switch (_description) do {
     case 5 : {
         _location params ["_loc", "_vehicleType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_VEHICLE_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
+            (format [localize "STR_BTC_HAM_SIDE_VEHICLE_DESC", _loc]) + ([_vehicleType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_VEHICLE_TITLE", _loc],
             format [localize "STR_BTC_HAM_SIDE_VEHICLE_TITLE", _loc]
         ];
@@ -106,7 +106,7 @@ switch (_description) do {
     case 7 : {
         _location params ["_loc", "_towerType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_TOWER_DESC", _loc]) + ([_towerType] call btc_fnc_typeOfPreview),
+            (format [localize "STR_BTC_HAM_SIDE_TOWER_DESC", _loc]) + ([_towerType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_TOWER_TITLE", _loc],
             format [localize "STR_BTC_HAM_SIDE_TOWER_TITLE", _loc]
         ];
@@ -115,7 +115,7 @@ switch (_description) do {
     case 8 : {
         _location params ["_loc", "_unitType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_DESC", _loc]) + ([_unitType] call btc_fnc_typeOfPreview),
+            (format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_DESC", _loc]) + ([_unitType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_TITLE", _loc],
             format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_TITLE", _loc]
         ];
@@ -132,7 +132,7 @@ switch (_description) do {
     case 10 : {
         _location params ["_loc", "_vehicleType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
+            (format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_DESC", _loc]) + ([_vehicleType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_TITLE", _loc],
             format [localize "STR_BTC_HAM_SIDE_CIVTREATMENT_BOAT_TITLE", _loc]
         ];
@@ -141,7 +141,7 @@ switch (_description) do {
     case 11 : {
         _location params ["_loc", "_vehicleType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_DESC", _loc]) + ([_vehicleType] call btc_fnc_typeOfPreview),
+            (format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_DESC", _loc]) + ([_vehicleType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_TITLE", _loc],
             format [localize "STR_BTC_HAM_SIDE_UNDERWATER_GENERATOR_TITLE", _loc]
         ];
@@ -174,7 +174,7 @@ switch (_description) do {
     case 15 : {
         _location params ["_loc", "_hostageType"];
         _description = [
-            (format [localize "STR_BTC_HAM_SIDE_HOSTAGE_DESC", _loc]) + ([_hostageType] call btc_fnc_typeOfPreview),
+            (format [localize "STR_BTC_HAM_SIDE_HOSTAGE_DESC", _loc]) + ([_hostageType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_HOSTAGE_TITLE", _loc],
             format [localize "STR_BTC_HAM_SIDE_HOSTAGE_TITLE", _loc]
         ];
@@ -190,7 +190,7 @@ switch (_description) do {
     };
     case 17 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_HACK_OPEN_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_HACK_OPEN_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_HACK_OPEN_TITLE",
             localize "STR_BTC_HAM_SIDE_HACK_OPEN_TITLE"
         ];
@@ -198,7 +198,7 @@ switch (_description) do {
     };
     case 18 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_TITLE",
             localize "STR_BTC_HAM_SIDE_SUPPLY_MOVE_TITLE"
         ];
@@ -206,7 +206,7 @@ switch (_description) do {
     };
     case 19 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_TITLE",
             localize "STR_BTC_HAM_SIDE_SUPPLY_UNLOAD_TITLE"
         ];
@@ -214,7 +214,7 @@ switch (_description) do {
     };
     case 20 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_RESCUE_FIND_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_RESCUE_FIND_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_RESCUE_FIND_TITLE",
             localize "STR_BTC_HAM_SIDE_RESCUE_FIND_TITLE"
         ];
@@ -222,7 +222,7 @@ switch (_description) do {
     };
     case 21 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_RESCUE_BACK_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_RESCUE_BACK_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_RESCUE_BACK_TITLE",
             localize "STR_BTC_HAM_SIDE_RESCUE_BACK_TITLE"
         ];
@@ -230,7 +230,7 @@ switch (_description) do {
     };
     case 22 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_HACK_STARTHACK" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_HACK_STARTHACK" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_HACK_DEFEND_TITLE",
             localize "STR_BTC_HAM_SIDE_HACK_DEFEND_TITLE"
         ];
@@ -238,7 +238,7 @@ switch (_description) do {
     };
     case 23 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_CHECKPOINT_DESTROY_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_CHECKPOINT_DESTROY_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_CHECKPOINT_DESTROY_TITLE",
             localize "STR_BTC_HAM_SIDE_CHECKPOINT_DESTROY_TITLE"
         ];
@@ -246,7 +246,7 @@ switch (_description) do {
     };
     case 24 : {
         _description = [
-            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_DESC" + ([_location] call btc_fnc_typeOfPreview),
+            localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_DESC" + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_TITLE",
             localize "STR_BTC_HAM_SIDE_CAPTURE_OFFICER_SURRENDER_TITLE"
         ];
@@ -264,7 +264,7 @@ switch (_description) do {
     case 26 : {
         _location params ["_officerName", "_loc", "_officerType"];
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_KILL_IN_DESC", _officerName, _loc] + ([_officerType] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_KILL_IN_DESC", _officerName, _loc] + ([_officerType] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_KILL_IN_TITLE", _officerName],
             format [localize "STR_BTC_HAM_SIDE_KILL_IN_TITLE", _officerName]
         ];
@@ -281,7 +281,7 @@ switch (_description) do {
     case 28 : {
         _location params ["_officerName", "_base"];
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_KILL_BRING_DESC", _officerName] + ([_base] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_KILL_BRING_DESC", _officerName] + ([_base] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_KILL_BRING_TITLE",
             localize "STR_BTC_HAM_SIDE_KILL_BRING_TITLE"
         ];
@@ -297,7 +297,7 @@ switch (_description) do {
     };
     case 30 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_DESC", _location] + (["B_W_Soldier_CBRN_F"] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_DESC", _location] + (["B_W_Soldier_CBRN_F"] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_TITLE", _location],
             format [localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_TITLE", _location]
         ];
@@ -305,7 +305,7 @@ switch (_description) do {
     };
     case 31 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_TITLE",
             localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_BRING_TITLE"
         ];
@@ -313,7 +313,7 @@ switch (_description) do {
     };
     case 32 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_TITLE",
             localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_LOCATE_TITLE"
         ];
@@ -321,7 +321,7 @@ switch (_description) do {
     };
     case 33 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_TITLE",
             localize "STR_BTC_HAM_SIDE_CHEMICALLEAK_MOVE_TITLE"
         ];
@@ -330,7 +330,7 @@ switch (_description) do {
     case 34 : {
         _location params ["_pilotName", "_typeOf_pilot"];
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_DESC", _pilotName] + ([_typeOf_pilot] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_DESC", _pilotName] + ([_typeOf_pilot] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_TITLE",
             localize "STR_BTC_HAM_SIDE_RESCUE_BODYBAG_TITLE"
         ];
@@ -339,7 +339,7 @@ switch (_description) do {
     case 35 : {
         _location params ["_pilotName", "_base"];
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_RESCUE_BRING_DESC", _pilotName] + ([_base] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_RESCUE_BRING_DESC", _pilotName] + ([_base] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_RESCUE_BRING_TITLE",
             localize "STR_BTC_HAM_SIDE_RESCUE_BRING_TITLE"
         ];
@@ -355,7 +355,7 @@ switch (_description) do {
     };
     case 37 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_EMP_DESTROY_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_SIDE_EMP_DESTROY_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_EMP_DESTROY_TITLE",
             localize "STR_BTC_HAM_SIDE_EMP_DESTROY_TITLE"
         ];
@@ -363,7 +363,7 @@ switch (_description) do {
     };
     case 38 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_DESC", _location] + (["B_APC_Tracked_01_CRV_F"] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_DESC", _location] + (["B_APC_Tracked_01_CRV_F"] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_TITLE", _location],
             format [localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_TITLE", _location]
         ];
@@ -371,7 +371,7 @@ switch (_description) do {
     };
     case 39 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_TITLE",
             localize "STR_BTC_HAM_SIDE_REMOVERUBBISH_SPOT_TITLE"
         ];
@@ -379,7 +379,7 @@ switch (_description) do {
     };
     case 40 : {
         _description = [
-            format [localize "STR_BTC_HAM_SIDE_PANDEMIC_DESC", _location] + (["DeconShower_01_F"] call btc_fnc_typeOfPreview),
+            format [localize "STR_BTC_HAM_SIDE_PANDEMIC_DESC", _location] + (["DeconShower_01_F"] call FUNC(common,typeOfPreview)),
             format [localize "STR_BTC_HAM_SIDE_PANDEMIC_TITLE", _location],
             format [localize "STR_BTC_HAM_SIDE_PANDEMIC_TITLE", _location]
         ];
@@ -387,7 +387,7 @@ switch (_description) do {
     };
     case 41 : {
         _description = [
-            (localize "STR_BTC_HAM_SIDE_PANDEMIC_DECON_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_SIDE_PANDEMIC_DECON_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_SIDE_PANDEMIC_DECON_TITLE",
             localize "STR_BTC_HAM_SIDE_PANDEMIC_DECON_TITLE"
         ];
@@ -395,7 +395,7 @@ switch (_description) do {
     };
     case 42 : { // FOB_attack defend task
             _description = [
-            (localize "STR_BTC_HAM_EVENT_FOBATTACK_DESC") + ([_location] call btc_fnc_typeOfPreview),
+            (localize "STR_BTC_HAM_EVENT_FOBATTACK_DESC") + ([_location] call FUNC(common,typeOfPreview)),
             localize "STR_BTC_HAM_EVENT_FOBATTACK_TITLE",
             localize "STR_BTC_HAM_EVENT_FOBATTACK_TITLE"
         ];
@@ -403,7 +403,7 @@ switch (_description) do {
     };
     default {
         #ifdef BTC_DEBUG_TASK
-        [["%1: bad _description %2", __FILE_NAME__, _description], 6, "task"] call btc_debug_fnc_message;
+        [["%1: bad _description %2", __FILE_NAME__, _description], 6, "task"] call FUNC(debug,message);
         #endif
     };
 };

@@ -15,7 +15,7 @@ Examples:
     (end)
 
 Author:
-    =BTC= Fyuran
+    Fyuran
 
 ---------------------------------------------------------------------------- */
 
@@ -25,13 +25,13 @@ params[
 
 if (isNull _fob_trg) exitWith {
     #ifdef BTC_DEBUG_FOB
-    [["%1: _fob_trg is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+    [["%1: _fob_trg is ObjNull", __FILE_NAME__], 6, "fob"] call FUNC(debug,message);
     #endif
 };
 private _building = _fob_trg getVariable ["btc_fob_structure", ObjNull];
 if (isNull _building) exitWith {
     #ifdef BTC_DEBUG_FOB
-	[["%1: _building is ObjNull", __FILE_NAME__], 6, "fob"] call btc_debug_fnc_message;
+	[["%1: _building is ObjNull", __FILE_NAME__], 6, "fob"] call FUNC(debug,message);
     #endif
 };
 
@@ -46,7 +46,7 @@ if(_fob_conquest_time < 0) then { //use _fob_conquest_time: -1 as a flag to run 
     ["WarningDescriptionAudio", ["", format[
         localize "$STR_BTC_HAM_EVENT_FOBBEINGCAPPED",
         _building getVariable["FOB_name", "UNKNOWN"]
-    ]]] call btc_task_fnc_showNotification_s;
+    ]]] call FUNC(task,showNotification_s);
 
     _building setVariable["cap_time", 0, true]; //unsetting the -1 flag
     [_building, _building getVariable ["FOB_name", "UNKNOWN"], false, btc_p_fob_cap_time] 

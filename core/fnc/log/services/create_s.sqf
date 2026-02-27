@@ -30,23 +30,23 @@ params [
 
 if(_class isEqualTo "") exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _class is invalid", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    [["%1: _class is invalid", __FILE_NAME__], 6, "log/services"] call FUNC(debug,message);  
     #endif
 };
 if(isNull _log_point) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _log_point is null", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    [["%1: _log_point is null", __FILE_NAME__], 6, "log/services"] call FUNC(debug,message);  
     #endif
 };
 if(isNull _create_obj) exitWith {
     #ifdef BTC_DEBUG_LOG
-    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/services"] call btc_debug_fnc_message;  
+    [["%1: _create_obj is null", __FILE_NAME__], 6, "log/services"] call FUNC(debug,message);  
     #endif
 };
 
 private _canAfford = true;
 if(_create_obj in btc_log_fob_create_objects) then {
-    _canAfford = [_create_obj, _cost] call btc_log_fob_fnc_payment;
+    _canAfford = [_create_obj, _cost] call FUNC(log_fob,payment);
 };
 if(!_canAfford) exitWith {};
 
@@ -60,5 +60,5 @@ if (unitIsUAV _obj) then {
     createVehicleCrew _obj;
 };
 
-[_obj] call btc_log_fnc_init;
+[_obj] call FUNC(log,init);
 

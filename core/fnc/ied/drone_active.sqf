@@ -36,7 +36,7 @@ _trigger setVariable ["btc_ied_drone", _driver_drone];
 _trigger attachTo [vehicle _driver_drone, [0, 0, 0]];
 
 #ifdef BTC_DEBUG_IED
-[["%1: _driver_drone = %2 POS %3 START LOOP", __FILE_NAME__, _driver_drone, getPos _driver_drone], 2, "ied"] call btc_debug_fnc_message;
+[["%1: _driver_drone = %2 POS %3 START LOOP", __FILE_NAME__, _driver_drone, getPos _driver_drone], 2, "ied"] call FUNC(debug,message);
 #endif
 (group _driver_drone) setBehaviour "CARELESS";
 (group _driver_drone) setSpeedMode "LIMITED";
